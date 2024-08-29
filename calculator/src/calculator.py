@@ -1,6 +1,9 @@
+from calculator.src import operations
+
+
 def calculate(a, b, op):
     if op == "+":
-        print("Sin implementar")
+        return operations.suma(a,b)
     elif op == "-":
         print("Sin implementar")
     elif op == "*":
