@@ -7,6 +7,6 @@ def calculate(a, b, op):
     elif op == "*":
         return (operations.multiplicacion(a,b))
     elif op == "/":
-        print("Sin implementar")
+        return operations.division(a,b)
     else:
         raise(ValueError(f"Operador no valido: {op}"))
