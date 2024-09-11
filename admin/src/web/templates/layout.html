@@ -3,11 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    {% block head %}{% endblock %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    {% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <title>{% block title %}{% endblock %}</title>
+    {% endblock %}
 </head>
 <body>
-    {% block body%}
-    {% endblock %}
+    <div>{% block navbar %} {% endblock %}</div>
+    <div id="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <div>{% block footer %} {% endblock %}</div>
 </body>
 </html>
