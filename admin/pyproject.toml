@@ -2,7 +2,9 @@
 name = "web"
 version = "0.1.0"
 description = ""
-authors = ["Matias Cuacci <matiascuacci7@gmail.com>","Andres Kessler <andresgabriel.kessler@gmail.com>"]
+authors = ["Andres Kessler <andresgabriel.kessler@gmail.com>",
+"Matias Cuacci <matiascuacci7@gmail.com>",
+"Agustina Cabello <cabelloagus000@gmail.com>"]
 readme = "README.md"
 packages = [{include = "web", from = "src"}]
 
@@ -12,7 +14,7 @@ flask = "^3.0.3"
 
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^8.3.2"
+pytest = "^8.3.3"
 
 [build-system]
 requires = ["poetry-core"]
