@@ -4,7 +4,8 @@ version = "0.1.0"
 description = ""
 authors = ["Andres Kessler <andresgabriel.kessler@gmail.com>",
 "Matias Cuacci <matiascuacci7@gmail.com>",
-"Agustina Cabello <cabelloagus000@gmail.com>"]
+"Agustina Cabello <cabelloagus000@gmail.com>",
+"Augusto Conti <contiaugusto07@gmail.com>"]
 readme = "README.md"
 packages = [{include = "web", from = "src"}]
 
