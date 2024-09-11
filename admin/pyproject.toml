@@ -12,6 +12,7 @@ packages = [{include = "web", from = "src"}]
 [tool.poetry.dependencies]
 python = "^3.12.3"
 flask = "^3.0.3"
+pytest = "^8.3.3"
 
 
 [tool.poetry.group.dev.dependencies]
