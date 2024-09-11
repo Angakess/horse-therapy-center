@@ -1,9 +1,7 @@
 from flask import Flask
 from flask import render_template
 from src.web.helpers import handler
-from src.web.controllers.issue import issue_blueprint
 from flask import request
-from src.core.issue import issues
 
 def create_app(env="development", static_folder="../../static"):
     app = Flask(__name__)
@@ -11,12 +9,11 @@ def create_app(env="development", static_folder="../../static"):
     def home():
         return "Bueeeenas"
 
-    @app.route("/issues/")
-    def issues_index():
-        return render_template("issues/index.html", issues=issues)
+    # Manejo del error 404
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template('error.html'), 404
     
-    app.register_blueprint(issue_blueprint)
-
     # Error handlers
     app.register_error_handler(404, handler.not_found_error)
 
