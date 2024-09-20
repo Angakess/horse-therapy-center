@@ -2,10 +2,13 @@ from flask import Flask
 from flask import render_template
 from flask import url_for
 from src.web.helpers import handler
+from src.web.config import config
 from src.web.controllers.issues import bprint as issues_bp
 
 def create_app(env="development", static_folder="../../static, template_folder=../../templates"):
     app = Flask(__name__)
+    app.config.from_object(config[env])
+    print(app.config)
     
     @app.route("/")
     def home():
