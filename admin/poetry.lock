@@ -195,13 +195,10 @@ testing = ["pytest", "pytest-benchmark"]
 [[package]]
 name = "pytest"
 version = "8.3.3"
-version = "8.3.3"
 description = "pytest: simple powerful testing with Python"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pytest-8.3.3-py3-none-any.whl", hash = "sha256:a6853c7375b2663155079443d2e45de913a911a11d669df02a50814944db57b2"},
-    {file = "pytest-8.3.3.tar.gz", hash = "sha256:70b98107bd648308a7952b06e6ca9a50bc660be218d53c257cc1fc94fda10181"},
     {file = "pytest-8.3.3-py3-none-any.whl", hash = "sha256:a6853c7375b2663155079443d2e45de913a911a11d669df02a50814944db57b2"},
     {file = "pytest-8.3.3.tar.gz", hash = "sha256:70b98107bd648308a7952b06e6ca9a50bc660be218d53c257cc1fc94fda10181"},
 ]
@@ -235,5 +232,4 @@ watchdog = ["watchdog (>=2.3)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12.3"
-content-hash = "360f6e87bdc0f8cad41ad79b80dbd6ab56d6028596b29191ab7cf5ee83829b2c"
-content-hash = "e2d26e7bd8107ad5618194c351226ae9c6842f6c37aa4edd76e9f0728d0daa11"
+content-hash = "ed65021e3d723debe530c9831e77c7ac87b8a9ea9b0b545406ffe200c3558684"
