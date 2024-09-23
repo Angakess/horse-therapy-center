@@ -4,6 +4,11 @@ from flask import url_for
 from src.web.helpers import handler
 from src.web.config import config
 from src.web.controllers.issues import bprint as issues_bp
+from src.web.controllers.auth import bp as auth_bp
+from src.web.controllers import auth
+
+from flask import request, redirect, session, flash
+
 
 def create_app(env="development",  static_folder="../../static"):
     app = Flask(__name__, static_folder=static_folder)
@@ -20,6 +25,7 @@ def create_app(env="development",  static_folder="../../static"):
         return render_template('error.html'), 404
     
     app.register_blueprint(issues_bp)
+    app.register_blueprint(auth_bp)
     
     # Error handlers
     app.register_error_handler(404, handler.not_found_error)

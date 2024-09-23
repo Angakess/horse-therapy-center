@@ -1,7 +1,7 @@
 class Config(object):
     """BaseConfiguration."""
 
-    SECRET_KEY = "secret"
+    SECRET_KEY = "proyecto2024"
     TESTING = False
     SESSION_TYPE = "filesystem"
 
