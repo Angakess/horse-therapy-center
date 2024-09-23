@@ -1,13 +1,26 @@
-{%extends "layout.html"%}
+{% extends "layout.html" %}
 
 {% block title %} Home {% endblock %}
 
 {% block head %}  
-    {{ super () }}
+    {{ super() }}
 {% endblock %}
 
 {% block content %}
-    <h1> Home </h1>
-    <p> Página de inicio </p>
-    <a href="{{url_for('issues.index')}}">Consultas</a>
+<main role="main" class="container">
+    <section class="row g-0 mb-4">
+        <div class="col-md-6 d-flex align-items-center">
+            <div class="content-body">
+                <h5 class="my-4">Bienvenidos a Cedica</h5>
+                <h1 class="mb-3">Transformando vidas a través de la equinoterapia</h1>
+                <a href="#" class="btn btn-secondary btn-sm" aria-label="Botón: Encontrar un terapeuta">Encontrar un terapeuta</a>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <img src="{{ url_for('static', filename='img/horse-logo.png') }}" class="img-fluid" alt="Imagen de caballo" style="object-fit: cover; height: 100%; width: 100%;">
+        </div>
+    </section>
+
+   <!-- <a href="{{ url_for('issues.index') }}" class="btn btn-primary">Consultas</a>-->
+</main>
 {% endblock %}

@@ -5,8 +5,8 @@ from src.web.helpers import handler
 from src.web.config import config
 from src.web.controllers.issues import bprint as issues_bp
 
-def create_app(env="development", static_folder="../../static, template_folder=../../templates"):
-    app = Flask(__name__)
+def create_app(env="development",  static_folder="../../static"):
+    app = Flask(__name__, static_folder=static_folder)
     app.config.from_object(config[env])
     print(app.config)
     
