@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('home') }}">
+            <img src="{{ url_for('static', filename='img/cedica.png') }}" class="logo-navbar" alt="Logo Cedica">
+        </a>        
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0" aria-label="Secciones principales del sitio">
+            <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Jinetes/Amazonas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Ecuestre</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Equipo</a>
+          </li>
+        </ul>
+        <form class="d-flex" role="search">
+          <label for="search-bar" class="visually-hidden">Buscar en el sitio</label>
+
+          <input id="search-bar" class="form-control me-2" type="search" placeholder="Buscar" aria-label="Barra de búsqueda">
+          <button class="btn btn-outline-success" type="submit" aria-label="Botón de buscar">Buscar</button>
+        </form>
+      </div>
+    </div>
+  </nav>
