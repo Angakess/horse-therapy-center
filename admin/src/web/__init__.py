@@ -6,6 +6,7 @@ from src.web.config import config
 from src.web.controllers.issues import bprint as issues_bp
 from src.web.controllers.auth import bp as auth_bp
 from flask_session import Session
+from src.core.bcrypt import bcrypt
 
 session = Session()
 
@@ -15,6 +16,7 @@ def create_app(env="development",  static_folder="../../static"):
     print(app.config)
 
     session.init_app(app)
+    bcrypt.init_app(app)
     
     @app.route("/")
     def home():

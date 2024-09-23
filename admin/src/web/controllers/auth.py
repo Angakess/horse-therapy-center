@@ -4,7 +4,7 @@ from flask import request
 from flask import flash
 from flask import redirect
 from flask import session
-from . import find_user_by_email_and_password
+from . import check_user
 
 bp = Blueprint("auth", __name__, url_prefix= "/auth")
 
@@ -17,7 +17,7 @@ def login():
 def authenticate():
     params = request.form
 
-    user = find_user_by_email_and_password(params["usermail"], params["password"])
+    user = check_user(params["usermail"], params["password"])
 
     if not user:
         flash("Usuario o contraseña incorrecta", "error")
