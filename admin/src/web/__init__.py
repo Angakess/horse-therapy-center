@@ -5,15 +5,16 @@ from src.web.helpers import handler
 from src.web.config import config
 from src.web.controllers.issues import bprint as issues_bp
 from src.web.controllers.auth import bp as auth_bp
-from src.web.controllers import auth
+from flask_session import Session
 
-from flask import request, redirect, session, flash
-
+session = Session()
 
 def create_app(env="development",  static_folder="../../static"):
     app = Flask(__name__, static_folder=static_folder)
     app.config.from_object(config[env])
     print(app.config)
+
+    session.init_app(app)
     
     @app.route("/")
     def home():
