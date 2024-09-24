@@ -1,5 +1,7 @@
 class Config(object):
+    SECRET_KEY = "secret"
     TESTING = False
+    SESSION_TYPE = "filesystem"
 
 class ProductionConfig(Config):
     pass

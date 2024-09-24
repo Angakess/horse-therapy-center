@@ -2,7 +2,7 @@ from flask import Flask
 from flask import render_template
 from flask import url_for
 from web.helpers import handler
-from web.config import config
+# from web.config import config
 from web.controllers.issues import bprint as issues_bp
 from core import database
 from core import seeds
