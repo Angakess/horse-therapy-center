@@ -1,24 +1,31 @@
 from flask import Flask
 from flask import render_template
 from flask import url_for
-from src.web.helpers import handler
-from src.web.config import config
-from src.web.controllers.issues import bprint as issues_bp
+from web.helpers import handler
+from web.config import config
+from web.controllers.issues import bprint as issues_bp
 from src.web.controllers.auth import bp as auth_bp
 from flask_session import Session
 from src.core.bcrypt import bcrypt
 from src.web.helpers.auth import is_authenticated
 
 session = Session()
+from core import database
+from core import seeds
+from core.config import config
+
 
 def create_app(env="development",  static_folder="../../static"):
     app = Flask(__name__, static_folder=static_folder)
+
     app.config.from_object(config[env])
     print(app.config)
 
     session.init_app(app)
     bcrypt.init_app(app)
     
+    database.init_app(app)
+
     @app.route("/")
     def home():
         return render_template("home.html")
@@ -43,5 +50,15 @@ def create_app(env="development",  static_folder="../../static"):
     # Error handlers
     app.register_error_handler(404, handler.not_found_error)
     app.register_error_handler(401, handler.unauthorized)
+
+
+    # Comandos personalizados
+    @app.cli.command(name="reset-db")
+    def reset_db():
+        database.reset()
+
+    @app.cli.command(name="seeds-db")
+    def seeds_db():
+        seeds.run()
 
     return app

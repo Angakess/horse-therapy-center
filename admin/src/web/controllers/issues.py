@@ -1,5 +1,5 @@
 from flask import render_template
-from src.core import board
+from core import board
 from flask import Blueprint
 
 bprint = Blueprint("issues", __name__, url_prefix="/consultas")
