@@ -1,4 +1,5 @@
 from core import board
+from core import ecuestre
 from datetime import datetime
 
 def run():
@@ -55,3 +56,22 @@ def run():
         condicion='Personal Rentado',
         activo=False
     )
+    ecuestre1 = ecuestre.create_ecuestre(
+        nombre = 'Ecuestre 1',
+        fecha_nacimiento = datetime(2004,2,20),
+        sexo = 'Macho',
+        raza = 'Warmblood Westfaliano',
+        pelaje = 'Marron',
+        sede_asignada = 'Club hipico'
+    )
+    ecuestre2 = ecuestre.create_ecuestre(
+        nombre = 'Ecuestre 2',
+        fecha_nacimiento = datetime(2008,5,14),
+        sexo = 'Hembra',
+        raza = 'Warmblood Oldenburgo',
+        pelaje = 'Blanco',
+        sede_asignada = 'Club hipico Jujuy'
+    )
+
+    ecuestre.assing_equipo(ecuestre1,equipo1)
+    ecuestre.assing_equipo(ecuestre2,equipo2)
