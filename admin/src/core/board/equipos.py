@@ -21,6 +21,7 @@ class Equipo(db.Model):
     num_afiliado = db.Column(db.Text, nullable=False)
     condicion = db.Column(db.Text, nullable=False)
     activo = db.Column(db.Boolean, nullable=False)
+    equipos = db.relationship("Ecuestre", back_populates="equipo")
 
     def __repr__(self):
         return f'<Equipo #{self.id} nombre="{self.nombre} {self.apellido}">'

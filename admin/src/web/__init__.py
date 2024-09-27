@@ -4,10 +4,10 @@ from flask import url_for
 from web.helpers import handler
 from web.config import config
 from web.controllers.issues import bprint as issues_bp
-from src.web.controllers.auth import bp as auth_bp
+from web.controllers.auth import bp as auth_bp
 from flask_session import Session
-from src.core.bcrypt import bcrypt
-from src.web.helpers.auth import is_authenticated
+from core.bcrypt import bcrypt
+from web.helpers.auth import is_authenticated
 
 session = Session()
 from core import database
@@ -60,5 +60,4 @@ def create_app(env="development",  static_folder="../../static"):
     @app.cli.command(name="seeds-db")
     def seeds_db():
         seeds.run()
-
     return app
