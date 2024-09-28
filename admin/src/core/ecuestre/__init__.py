@@ -37,7 +37,7 @@ def ecuestre_by_name(nombre_ecuestre):
     ecuestre = db.select(Ecuestre).filter_by(nombre = nombre_ecuestre)
     return ecuestre
 
-def assing_equipo(equipo, ecuestre):
+def assing_equipo(ecuestre, equipo):
     ecuestre.equipo = equipo
     db.session.add(ecuestre)
     db.session.commit()
