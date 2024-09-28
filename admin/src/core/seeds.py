@@ -55,3 +55,7 @@ def run():
         condicion='Personal Rentado',
         activo=False
     )
+
+   
+    
+ 
