@@ -6,7 +6,9 @@ class Role(db.Model):
     __tablename__ = 'roles'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
-    user = db.relationship("User", secondary="role")
+    users = db.relationship("User", back_populates="role")
     
     def __repr__(self):
-        return f'<User #{self.id} email="{self.email}">'
+        return f'<Role #{self.id} name="{self.name}">'
+
+

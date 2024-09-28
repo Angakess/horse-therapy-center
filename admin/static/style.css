@@ -53,9 +53,8 @@ h5 {
     z-index: -1;
 }
 
-.logo-navbar {
-    width: fit-content; 
-    height: fit-content; 
-    display: block; 
-    max-height: 50px; 
+.logo-cedica {
+    max-height: 60px;    
+    height: auto;      
+    width: auto;        
 }

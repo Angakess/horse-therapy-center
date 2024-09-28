@@ -1,5 +1,9 @@
 from core import board
+from core import ecuestre
+from core import user
+
 from datetime import datetime
+from core import jya
 
 def run():
     equipo1 = board.create_equipo(
@@ -55,7 +59,85 @@ def run():
         condicion='Personal Rentado',
         activo=False
     )
+    ecuestre1 = ecuestre.create_ecuestre(
+        nombre = 'Ecuestre 1',
+        fecha_nacimiento = datetime(2004,2,20),
+        sexo = 'Macho',
+        raza = 'Warmblood Westfaliano',
+        pelaje = 'Marron',
+        sede_asignada = 'Club hipico'
+    )
+    ecuestre2 = ecuestre.create_ecuestre(
+        nombre = 'Ecuestre 2',
+        fecha_nacimiento = datetime(2008,5,14),
+        sexo = 'Hembra',
+        raza = 'Warmblood Oldenburgo',
+        pelaje = 'Blanco',
+        sede_asignada = 'Club hipico Jujuy'
+    )
+    jya1 = jya.create_jinetes_amazonas(
+        nombre = 'jya1',
+        apellido = 'Gonzalez',
+        dni = 44444441,
+        edad = 23,
+        fecha_nacimiento = datetime(2001,2,23),
+        lugar_nacimiento = 'La Plata, Buenos Aires',
+        domicilio_actual = 'Calle 3, 111, La Plata, La Plata, Buenos Aires',
+        telefono_actual = '221221221',
+        contacto_emergencia = '911',
+        tel = '111222333',
+        becado = True,
+        porcentaje_beca = 0.7,
+        profesionales_atienden = 'Aaa, Bbb'   
+    )
+    jya2 = jya.create_jinetes_amazonas(
+        nombre = 'jya2',
+        apellido = 'Ramirez',
+        dni = 44444442,
+        edad = 21,
+        fecha_nacimiento = datetime(2003,1,30),
+        lugar_nacimiento = 'Bahia Blanca, Buenos Aires',
+        domicilio_actual = 'Calle Sarmiento, 111, Bahia Blanca, Bahia Blanca, Buenos Aires',
+        telefono_actual = '291221221',
+        contacto_emergencia = '911',
+        tel = '111222444',
+        becado = True,
+        porcentaje_beca = 0.9,
+        profesionales_atienden = 'Aaa, Bbb'   
+    )
 
-   
-    
- 
+    # Crear roles
+    role_admin = user.create_role(name="Admin")
+    role_user = user.create_role(name="User")
+
+    # Crear usuarios
+    user1 = user.create_user(
+        alias='JuanAdmin',
+        email='juan.admin@example.com',
+        password='adminpassword',
+        role_id=role_admin.id,
+        system_admin=True,
+        enabled=True,
+        inserted_at=datetime.now()
+    )
+
+    #Prueba de que funciona mail único
+    user2 = user.create_user(
+        alias='MariaUser',
+        email='juan.admin@example.com',
+        password='userpassword',
+        role_id=role_user.id,
+        system_admin=False,
+        enabled=True,
+        inserted_at=datetime.now()
+    )
+
+    user.assign_role(user1, role_admin)
+    user.assign_role(user2,role_user)
+
+    ecuestre.assing_equipo(ecuestre1,equipo1)
+    ecuestre.assing_equipo(ecuestre2,equipo2)
+    ecuestre.assing_j_y_a(ecuestre1,jya1)
+    ecuestre.assing_j_y_a(ecuestre2,jya2)
+
+

@@ -17,3 +17,22 @@ class User(db.Model):
     
     def __repr__(self):
         return f'<User #{self.id} email="{self.email}">'
+ 
+
+    #no depende del estado de la instancia:
+    @staticmethod
+    def validate_unique_email(email):
+        if User.query.filter_by(email=email).first() is not None:
+            raise ValueError("El correo electrónico ya está registrado")
+
+    def activate_user(self):
+        if self.system_admin:
+            raise ValueError("El usuario System Admin no puede ser bloqueado.")
+        self.enabled = True
+        db.session.commit()
+
+    def deactivate_user(self):
+        if self.system_admin:
+            raise ValueError("El usuario System Admin no puede ser bloqueado.")
+        self.enabled = False
+        db.session.commit()
