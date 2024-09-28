@@ -12,7 +12,8 @@ class Ecuestre(db.Model):
     sede_asignada = db.Column(db.String(40), nullable=False)
     equipo_id = db.Column(db.Integer, db.ForeignKey("equipos.id"))
     equipo = db.relationship("Equipo", back_populates=("equipos"))
-    #tipo_j&a_asignados
+    j_y_a_id = db.Column(db.Integer, db.ForeignKey("JinetesYAmazonas.id"))
+    j_y_a = db.relationship("JinetesAmazonas", back_populates=("j_y_a"))
     inserted_at = db.Column(db.DateTime, default = datetime.now)
     updated_at = db.Column(db.DateTime, default = datetime.now, onupdate = datetime.now)
 
@@ -39,6 +40,12 @@ def ecuestre_by_name(nombre_ecuestre):
 
 def assing_equipo(ecuestre, equipo):
     ecuestre.equipo = equipo
+    db.session.add(ecuestre)
+    db.session.commit()
+    return ecuestre
+
+def assing_j_y_a(ecuestre, j_y_a):
+    ecuestre.j_y_a = j_y_a
     db.session.add(ecuestre)
     db.session.commit()
     return ecuestre
