@@ -1,6 +1,7 @@
 from core import board
 from core import ecuestre
 from datetime import datetime
+from core import jya
 
 def run():
     equipo1 = board.create_equipo(
@@ -72,6 +73,38 @@ def run():
         pelaje = 'Blanco',
         sede_asignada = 'Club hipico Jujuy'
     )
+    jya1 = jya.create_jinetes_amazonas(
+        nombre = 'jya1',
+        apellido = 'Gonzalez',
+        dni = 44444441,
+        edad = 23,
+        fecha_nacimiento = datetime(2001,2,23),
+        lugar_nacimiento = 'La Plata, Buenos Aires',
+        domicilio_actual = 'Calle 3, 111, La Plata, La Plata, Buenos Aires',
+        telefono_actual = '221221221',
+        contacto_emergencia = '911',
+        tel = '111222333',
+        becado = True,
+        porcentaje_beca = 0.7,
+        profesionales_atienden = 'Aaa, Bbb'   
+    )
+    jya2 = jya.create_jinetes_amazonas(
+        nombre = 'jya2',
+        apellido = 'Ramirez',
+        dni = 44444442,
+        edad = 21,
+        fecha_nacimiento = datetime(2003,1,30),
+        lugar_nacimiento = 'Bahia Blanca, Buenos Aires',
+        domicilio_actual = 'Calle Sarmiento, 111, Bahia Blanca, Bahia Blanca, Buenos Aires',
+        telefono_actual = '291221221',
+        contacto_emergencia = '911',
+        tel = '111222444',
+        becado = True,
+        porcentaje_beca = 0.9,
+        profesionales_atienden = 'Aaa, Bbb'   
+    )
 
     ecuestre.assing_equipo(ecuestre1,equipo1)
     ecuestre.assing_equipo(ecuestre2,equipo2)
+    ecuestre.assing_j_y_a(ecuestre1,jya1)
+    ecuestre.assing_j_y_a(ecuestre2,jya2)
