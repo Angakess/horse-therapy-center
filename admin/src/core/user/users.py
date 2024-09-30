@@ -19,20 +19,22 @@ class User(db.Model):
         return f'<User #{self.id} email="{self.email}">'
  
 
-    #no depende del estado de la instancia:
     @staticmethod
     def validate_unique_email(email):
+        '''valida que el mail no este reprtido'''
         if User.query.filter_by(email=email).first() is not None:
             raise ValueError("El correo electrónico ya está registrado")
 
     def activate_user(self):
         if self.system_admin:
-            raise ValueError("El usuario System Admin no puede ser bloqueado.")
+            raise ValueError("El usuario System Admin no puede ser desactivado.")
         self.enabled = True
         db.session.commit()
 
     def deactivate_user(self):
         if self.system_admin:
-            raise ValueError("El usuario System Admin no puede ser bloqueado.")
+            raise ValueError("El usuario System Admin no puede ser desactivado.")
         self.enabled = False
         db.session.commit()
+
+

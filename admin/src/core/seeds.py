@@ -106,11 +106,9 @@ def run():
         profesionales_atienden = 'Aaa, Bbb'   
     )
 
-    # Crear roles
-    role_admin = user.create_role(name="Admin")
+    role_admin = user.create_role(name="Administración")
     role_user = user.create_role(name="User")
 
-    # Crear usuarios
     user1 = user.create_user(
         alias='JuanAdmin',
         email='juan.admin@example.com',
