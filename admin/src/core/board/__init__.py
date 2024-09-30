@@ -23,3 +23,5 @@ def create_equipo(**kwargs):
     db.session.commit()
 
     return equipo
+
+
