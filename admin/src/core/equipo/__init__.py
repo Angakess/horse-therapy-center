@@ -1,6 +1,4 @@
-from datetime import datetime
 from core.database import db
-
 
 class Equipo(db.Model):
     __tablename__ = 'equipos'
@@ -25,3 +23,18 @@ class Equipo(db.Model):
 
     def __repr__(self):
         return f'<Equipo #{self.id} nombre="{self.nombre} {self.apellido}">'
+
+
+def list_equipos():
+    equipos = Equipo.query.all()
+
+    return equipos
+
+def create_equipo(**kwargs):
+    equipo = Equipo(**kwargs)
+    db.session.add(equipo)
+    db.session.commit()
+
+    return equipo
+
+

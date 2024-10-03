@@ -1,4 +1,4 @@
-from core import board
+from core import equipo
 from core import ecuestre
 from core import user
 
@@ -6,7 +6,7 @@ from datetime import datetime
 from core import jya
 
 def run():
-    equipo1 = board.create_equipo(
+    equipo1 = equipo.create_equipo(
         nombre='Juan',
         apellido='Pérez',
         dni=12345678,
@@ -23,7 +23,7 @@ def run():
         condicion='Personal Rentado',
         activo=True
     )
-    equipo2 = board.create_equipo(
+    equipo2 = equipo.create_equipo(
         nombre='María',
         apellido='Gómez',
         dni=87654321,
@@ -41,7 +41,7 @@ def run():
         condicion='Voluntario',
         activo=True
     )
-    equipo3 = board.create_equipo(
+    equipo3 = equipo.create_equipo(
         nombre='Carlos',
         apellido='López',
         dni=34567890,
