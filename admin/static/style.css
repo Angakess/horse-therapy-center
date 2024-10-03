@@ -95,3 +95,6 @@ h5 {
   .col-equipo-acciones {
     width: 100px; /* Ancho para la columna de Acciones */
   }
+  .col-equipo-estado {
+    width: 100px;
+  }
