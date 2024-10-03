@@ -1,3 +1,4 @@
+from datetime import datetime
 from core.database import db
 
 class Equipo(db.Model):
@@ -20,6 +21,7 @@ class Equipo(db.Model):
     condicion = db.Column(db.Text, nullable=False)
     activo = db.Column(db.Boolean, nullable=False, default=True)
     equipos = db.relationship("Ecuestre", back_populates="equipo")
+    inserted_at = db.Column(db.DateTime, nullable=True, default=datetime.now)
 
     def __repr__(self):
         return f'<Equipo #{self.id} nombre="{self.nombre} {self.apellido}">'
