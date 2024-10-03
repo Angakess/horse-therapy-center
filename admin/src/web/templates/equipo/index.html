@@ -109,6 +109,7 @@
                     method="POST"
                   >
                   <input type="hidden" name="id" value="{{ equipo.id }}">
+                  <input type="hidden" name="query" value="{{ parametro or '' }}">
                     {% if equipo.activo %}
                     <button
                       class="btn btn-sm btn-outline-danger"

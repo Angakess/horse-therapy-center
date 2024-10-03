@@ -19,12 +19,16 @@ def index():
                 query.lower() in equipo.puesto.lower()
             )
         ]
+    
+    #probablemente borrar despues
+    equipos.sort(key=lambda x: x.id)
 
     return render_template("equipo/index.html", equipos=equipos, parametro=query)
 
 @bprint.post("/toggle-active")
 def toggle_activate():
     chosen_id = request.form['id']
+    query = request.form['query']   #guardo lo que haya en la barra de busqueda para no resetearla
     equipo.toggle_a(chosen_id)
 
-    return redirect(url_for('equipo.index'))
+    return redirect(url_for('equipo.index', query=query))
