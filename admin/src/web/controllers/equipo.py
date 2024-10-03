@@ -1,4 +1,4 @@
-from flask import render_template, request
+from flask import redirect, render_template, request, url_for
 from core import equipo
 from flask import Blueprint
 
@@ -21,3 +21,10 @@ def index():
         ]
 
     return render_template("equipo/index.html", equipos=equipos, parametro=query)
+
+@bprint.post("/toggle-active")
+def toggle_activate():
+    chosen_id = request.form['id']
+    equipo.toggle_a(chosen_id)
+
+    return redirect(url_for('equipo.index'))

@@ -18,7 +18,7 @@ class Equipo(db.Model):
     obra_social = db.Column(db.Text, nullable=False)
     num_afiliado = db.Column(db.Text, nullable=False)
     condicion = db.Column(db.Text, nullable=False)
-    activo = db.Column(db.Boolean, nullable=False)
+    activo = db.Column(db.Boolean, nullable=False, default=True)
     equipos = db.relationship("Ecuestre", back_populates="equipo")
 
     def __repr__(self):
@@ -36,5 +36,10 @@ def create_equipo(**kwargs):
     db.session.commit()
 
     return equipo
+
+def toggle_a(id):
+    chosen_equipo = Equipo.query.get(id)
+    chosen_equipo.activo = not (chosen_equipo.activo)
+    db.session.commit()
 
 
