@@ -1,130 +1,157 @@
 <div class="table-responsive">
   <table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col" class="col-equipo-id">#</th>
-        <th scope="col" class="col-equipo-nombre">
-          <button class="btn container" style="padding: 0%">
-            <div class="row align-items-center">
-              <div class="col-md-auto" style="padding: 0%; font-weight: bold">
-                Nombre
-              </div>
-              <div class="col-4">
-                <div class="row">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="12"
-                    height="12"
-                    fill="currentColor"
-                    class="bi bi-caret-up"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      d="M3.204 11h9.592L8 5.519zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659"
-                    />
-                  </svg>
+    <form action="{{ url_for('equipo.index') }}" method="GET">
+      <input type="hidden" name="query" value="{{ parametro or '' }}" />
+      <input
+        type="hidden"
+        id="sort_order"
+        name="order"
+        value="{% if order=='asc' %}desc{% else %}asc{% endif %}"
+      />
+      <input type="hidden" id="sort_field" name="by" value="{{ by or ''}}" />
+      <thead>
+        <tr>
+          <th scope="col" class="col-equipo-id">#</th>
+          <th scope="col" class="col-equipo-nombre">
+            <button
+              class="btn btn-outline-primary container"
+              style="padding: 0%"
+              type="submit"
+              onclick="document.getElementById('sort_field').value='nombre';"
+            >
+              <div class="row align-items-center">
+                <div class="col-md-auto" style="padding: 0%; font-weight: bold">
+                  Nombre
                 </div>
-                <div class="row">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="12"
-                    height="12"
-                    fill="currentColor"
-                    class="bi bi-caret-down"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      d="M3.204 5h9.592L8 10.481zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </button>
-        </th>
-        <th scope="col" class="col-equipo-apellido">
-          <div class="container">
-            <div class="row align-items-center">
-              <div class="col-md-auto" style="padding: 0%">Apellido</div>
-              <div class="col-4">
-                <div class="row">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="12"
-                    height="12"
-                    fill="currentColor"
-                    class="bi bi-caret-up"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      d="M3.204 11h9.592L8 5.519zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659"
-                    />
-                  </svg>
-                </div>
-                <div class="row">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="12"
-                    height="12"
-                    fill="currentColor"
-                    class="bi bi-caret-down"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      d="M3.204 5h9.592L8 10.481zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659"
-                    />
-                  </svg>
+                <div class="col-4">
+                  <div class="row">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="12"
+                      height="12"
+                      fill="currentColor"
+                      class="bi bi-caret-up"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M3.204 11h9.592L8 5.519zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659"
+                      />
+                    </svg>
+                  </div>
+                  <div class="row">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="12"
+                      height="12"
+                      fill="currentColor"
+                      class="bi bi-caret-down"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M3.204 5h9.592L8 10.481zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659"
+                      />
+                    </svg>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </th>
-        <th scope="col" class="col-equipo-dni">DNI</th>
-        <th scope="col" class="col-equipo-email">E-Mail</th>
-        <th scope="col" class="col-equipo-puesto">Puesto</th>
-        <th scope="col" class="col-equipo-fecha">
-          <div class="container">
-            <div class="row align-items-center">
-              <div class="col-md-auto" style="padding: 0%">
-                Fecha de creación
-              </div>
-              <div class="col">
-                <div class="row">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="12"
-                    height="12"
-                    fill="currentColor"
-                    class="bi bi-caret-up"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      d="M3.204 11h9.592L8 5.519zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659"
-                    />
-                  </svg>
+            </button>
+          </th>
+          <th scope="col" class="col-equipo-apellido">
+            <button
+              class="btn btn-outline-primary container"
+              style="padding: 0%"
+              type="submit"
+              onclick="document.getElementById('sort_field').value='apellido';"
+            >
+              <div class="row align-items-center">
+                <div class="col-md-auto" style="padding: 0%; font-weight: bold">
+                  Apellido
                 </div>
-                <div class="row">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="12"
-                    height="12"
-                    fill="currentColor"
-                    class="bi bi-caret-down"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      d="M3.204 5h9.592L8 10.481zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659"
-                    />
-                  </svg>
+                <div class="col-4">
+                  <div class="row">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="12"
+                      height="12"
+                      fill="currentColor"
+                      class="bi bi-caret-up"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M3.204 11h9.592L8 5.519zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659"
+                      />
+                    </svg>
+                  </div>
+                  <div class="row">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="12"
+                      height="12"
+                      fill="currentColor"
+                      class="bi bi-caret-down"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M3.204 5h9.592L8 10.481zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659"
+                      />
+                    </svg>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </th>
-        <th scope="col" class="col-equipo-estado">Estado</th>
-        <th scope="col" class="col-equipo-acciones">Acciones</th>
-      </tr>
-    </thead>
+            </button>
+          </th>
+          <th scope="col" class="col-equipo-dni">DNI</th>
+          <th scope="col" class="col-equipo-email">E-Mail</th>
+          <th scope="col" class="col-equipo-puesto">Puesto</th>
+          <th scope="col" class="col-equipo-fecha">
+            <button
+              class="btn btn-outline-primary container"
+              style="padding: 0%; font-weight: bold"
+              type="submit"
+              onclick="document.getElementById('sort_field').value='fecha';"
+            >
+              <div class="row align-items-center">
+                <div class="col-md-auto" style="padding: 0%">
+                  Fecha de creación
+                </div>
+                <div class="col">
+                  <div class="row">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="12"
+                      height="12"
+                      fill="currentColor"
+                      class="bi bi-caret-up"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M3.204 11h9.592L8 5.519zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659"
+                      />
+                    </svg>
+                  </div>
+                  <div class="row">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="12"
+                      height="12"
+                      fill="currentColor"
+                      class="bi bi-caret-down"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M3.204 5h9.592L8 10.481zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </button>
+          </th>
+          <th scope="col" class="col-equipo-estado">Estado</th>
+          <th scope="col" class="col-equipo-acciones">Acciones</th>
+        </tr>
+      </thead>
+    </form>
 
     <tbody>
       {% for equipo in equipos %}
@@ -170,6 +197,18 @@
                   type="hidden"
                   name="query"
                   value="{{ parametro or '' }}"
+                />
+                <input
+                  type="hidden"
+                  id="sort_order"
+                  name="order"
+                  value="{{ order }}"
+                />
+                <input
+                  type="hidden"
+                  id="sort_field"
+                  name="by"
+                  value="{{ by or ''}}"
                 />
                 {% if equipo.activo %}
                 <button
