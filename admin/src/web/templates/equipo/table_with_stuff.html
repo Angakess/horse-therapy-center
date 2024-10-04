@@ -1,6 +1,6 @@
 <div class="table-responsive">
   <table class="table table-striped">
-    <form action="{{ url_for('equipo.index') }}" method="GET">
+    <form id="sort_form" action="{{ url_for('equipo.index') }}" method="GET">
       <input type="hidden" name="query" value="{{ parametro or '' }}" />
       <input
         type="hidden"
@@ -9,146 +9,47 @@
         value="{% if order=='asc' %}desc{% else %}asc{% endif %}"
       />
       <input type="hidden" id="sort_field" name="by" value="{{ by or ''}}" />
-      <thead>
-        <tr>
-          <th scope="col" class="col-equipo-id">#</th>
-          <th scope="col" class="col-equipo-nombre">
-            <button
-              class="btn btn-outline-primary container"
-              style="padding: 0%"
-              type="submit"
-              onclick="document.getElementById('sort_field').value='nombre';"
+      <thead class="container-fluid">
+        <tr class="align-items-center">
+          <th scope="col" class="col-md-1 col-equipo-nombre">
+            <div
+              class="row d-flex align-items-center hover-underline"
+              onclick="document.getElementById('sort_field').value='nombre'; document.getElementById('sort_form').submit();"
+              style="display: flex; cursor: pointer"
             >
-              <div class="row align-items-center">
-                <div class="col-md-auto" style="padding: 0%; font-weight: bold">
-                  Nombre
-                </div>
-                <div class="col-4">
-                  <div class="row">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      fill="currentColor"
-                      class="bi bi-caret-up"
-                      viewBox="0 0 16 16"
-                    >
-                      <path
-                        d="M3.204 11h9.592L8 5.519zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659"
-                      />
-                    </svg>
-                  </div>
-                  <div class="row">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      fill="currentColor"
-                      class="bi bi-caret-down"
-                      viewBox="0 0 16 16"
-                    >
-                      <path
-                        d="M3.204 5h9.592L8 10.481zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </button>
+              <div id="column_name_nombre" class="col-auto">Nombre</div>
+
+              {% set sort_by = 'nombre' %} {% include
+              "equipo/filter_arrows.html" %}
+            </div>
           </th>
-          <th scope="col" class="col-equipo-apellido">
-            <button
-              class="btn btn-outline-primary container"
-              style="padding: 0%"
-              type="submit"
-              onclick="document.getElementById('sort_field').value='apellido';"
+          <th scope="col" class="col-md-1 col-equipo-apellido container">
+            <div
+              class="row d-flex align-items-center hover-underline"
+              onclick="document.getElementById('sort_field').value='apellido'; document.getElementById('sort_form').submit();"
+              style="display: flex; cursor: pointer"
             >
-              <div class="row align-items-center">
-                <div class="col-md-auto" style="padding: 0%; font-weight: bold">
-                  Apellido
-                </div>
-                <div class="col-4">
-                  <div class="row">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      fill="currentColor"
-                      class="bi bi-caret-up"
-                      viewBox="0 0 16 16"
-                    >
-                      <path
-                        d="M3.204 11h9.592L8 5.519zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659"
-                      />
-                    </svg>
-                  </div>
-                  <div class="row">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      fill="currentColor"
-                      class="bi bi-caret-down"
-                      viewBox="0 0 16 16"
-                    >
-                      <path
-                        d="M3.204 5h9.592L8 10.481zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </button>
+              <div class="col-auto">Apellido</div>
+              {% set sort_by = 'apellido' %}
+              {% include "equipo/filter_arrows.html" %}
+            </div>
           </th>
-          <th scope="col" class="col-equipo-dni">DNI</th>
-          <th scope="col" class="col-equipo-email">E-Mail</th>
-          <th scope="col" class="col-equipo-puesto">Puesto</th>
-          <th scope="col" class="col-equipo-fecha">
-            <button
-              class="btn btn-outline-primary container"
-              style="padding: 0%; font-weight: bold"
-              type="submit"
-              onclick="document.getElementById('sort_field').value='fecha';"
+          <th scope="col" class="col-md-1 col-equipo-dni">DNI</th>
+          <th scope="col" class="col-md-2 col-equipo-email">E-Mail</th>
+          <th scope="col" class="col-md-2 col-equipo-puesto">Puesto</th>
+          <th scope="col" class="col-md-2 col-equipo-fecha container">
+            <div
+              class="row d-flex align-items-center justify-content-start hover-underline"
+              onclick="document.getElementById('sort_field').value='fecha'; document.getElementById('sort_form').submit();"
+              style="display: flex; cursor: pointer"
             >
-              <div class="row align-items-center">
-                <div class="col-md-auto" style="padding: 0%">
-                  Fecha de creación
-                </div>
-                <div class="col">
-                  <div class="row">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      fill="currentColor"
-                      class="bi bi-caret-up"
-                      viewBox="0 0 16 16"
-                    >
-                      <path
-                        d="M3.204 11h9.592L8 5.519zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659"
-                      />
-                    </svg>
-                  </div>
-                  <div class="row">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      fill="currentColor"
-                      class="bi bi-caret-down"
-                      viewBox="0 0 16 16"
-                    >
-                      <path
-                        d="M3.204 5h9.592L8 10.481zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </button>
+              <div class="col-auto">Fecha de creación</div>
+              {% set sort_by = 'fecha' %}
+              {% include "equipo/filter_arrows.html" %}
+            </div>
           </th>
-          <th scope="col" class="col-equipo-estado">Estado</th>
-          <th scope="col" class="col-equipo-acciones">Acciones</th>
+          <th scope="col" class="col-md-1 col-equipo-estado">Estado</th>
+          <th scope="col" class="col-md-1 col-equipo-acciones">Acciones</th>
         </tr>
       </thead>
     </form>
@@ -156,8 +57,7 @@
     <tbody>
       {% for equipo in equipos %}
       <tr>
-        <td scope="row">{{ equipo.id }}</td>
-        <td>{{ equipo.nombre }}</td>
+        <td scope="row">{{ equipo.nombre }}</td>
         <td>{{ equipo.apellido }}</td>
         <td>{{ equipo.dni }}</td>
         <td>{{ equipo.email }}</td>

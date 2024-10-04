@@ -59,45 +59,6 @@ h5 {
     width: auto;        
 }
 
-.table-column-search-btn {
-    width: 30px;
+.hover-underline:hover {
+  text-decoration: underline;
 }
-
-.table-column-name {
-    padding-left: 0%;
-    width: auto;
-}
-
-.col-equipo-id {
-    width: 2%; /* Ancho para la columna de ID */
-  }
-
-  .col-equipo-nombre {
-    width: 10%; /* Ancho para la columna de Nombre */
-  }
-
-  .col-equipo-apellido {
-    width: 10%; /* Ancho para la columna de Apellido */
-  }
-
-  .col-equipo-dni {
-    width: 10%; /* Ancho para la columna de DNI */
-  }
-
-  .col-equipo-email {
-    width: 20%; /* Ancho para la columna de E-Mail */
-  }
-
-  .col-equipo-puesto {
-    width: 15%; /* Ancho para la columna de Puesto */
-  }
-  .col-equipo-fecha {
-    width: 15%;
-  }
-  .col-equipo-estado {
-    width: 6%;
-  }
-  .col-equipo-acciones {
-    width: 10%;
-  }
-  
