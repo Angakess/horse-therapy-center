@@ -106,8 +106,7 @@ def run():
         profesionales_atienden = 'Aaa, Bbb'   
     )
 
-    role_admin = user.create_role(name="Administración")
-    role_user = user.create_role(name="User")
+    role_admin = user.create_role(name="Técnica")
 
     user1 = user.create_user(
         alias='JuanAdmin',
@@ -119,19 +118,9 @@ def run():
         inserted_at=datetime.now()
     )
 
-    #Prueba de que funciona mail único
-    user2 = user.create_user(
-        alias='MariaUser',
-        email='juan.admin@example.com',
-        password='userpassword',
-        role_id=role_user.id,
-        system_admin=False,
-        enabled=True,
-        inserted_at=datetime.now()
-    )
+   
 
     user.assign_role(user1, role_admin)
-    user.assign_role(user2,role_user)
 
     ecuestre.assing_equipo(ecuestre1,equipo1)
     ecuestre.assing_equipo(ecuestre2,equipo2)
