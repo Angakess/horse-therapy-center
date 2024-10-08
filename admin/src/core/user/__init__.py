@@ -3,6 +3,12 @@ from core.user.users import User
 from core.user.roles import Role
 
 
+def list_users():
+    users = User.query.all()
+    return users
+
+
+
 
 def create_user(**kwargs):
     email = kwargs.get('email')

@@ -106,8 +106,8 @@ def run():
         profesionales_atienden = 'Aaa, Bbb'   
     )
 
-    role_admin = user.create_role(name="Administración")
-    role_user = user.create_role(name="User")
+    role_admin = user.create_role(name="Técnica")
+    role_voluntario = user.create_role(name="Voluntariado")
 
     user1 = user.create_user(
         alias='JuanAdmin',
@@ -119,19 +119,34 @@ def run():
         inserted_at=datetime.now()
     )
 
-    #Prueba de que funciona mail único
     user2 = user.create_user(
-        alias='MariaUser',
-        email='juan.admin@example.com',
-        password='userpassword',
-        role_id=role_user.id,
-        system_admin=False,
+    alias='AnaVoluntaria',
+    email='ana.voluntaria@example.com',
+    password='voluntariopassword1',
+    role_id=role_voluntario.id,
+    system_admin=False,  # No es system admin
+    enabled=True,
+    inserted_at=datetime.now()
+)
+
+    
+
+    # Crear segundo usuario voluntario
+    user3 = user.create_user(
+        alias='CarlosVoluntario',
+        email='carlos.voluntario@example.com',
+        password='voluntariopassword2',
+        role_id=role_voluntario.id,
+        system_admin=False,  # No es system admin
         enabled=True,
         inserted_at=datetime.now()
     )
 
+    #Asignar rol de voluntariado al segundo usuario
+    user.assign_role(user3, role_voluntario)
+    user.assign_role(user2, role_voluntario)
+
     user.assign_role(user1, role_admin)
-    user.assign_role(user2,role_user)
 
     ecuestre.assing_equipo(ecuestre1,equipo1)
     ecuestre.assing_equipo(ecuestre2,equipo2)

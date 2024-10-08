@@ -1,0 +1,198 @@
+{% extends "layout.html" %}
+
+{% block title %} Lista de usuarios {% endblock %}
+
+{% block content %}
+
+{% include "auth/messages.html"%}
+
+<main role="main" class="container">
+  <div class="content-body">
+    <!-- TITULO -->
+    <h1>Lista de usuarios</h1>
+
+    <!-- BARRA DE BUSQUEDA -->
+    <form
+      action="{{ url_for('users.index') }}"
+      method="GET"
+      class="input-group mb-3"
+    >
+      <input
+        value="{{ parametro or '' }}"
+        type="text"
+        name="query"
+        class="form-control"
+        placeholder="Buscar por email, estado o rol"
+        aria-label="Buscar por columna"
+        aria-describedby="button-addon2"
+      />
+      <button class="btn btn-outline-primary" type="submit" id="button-addon2">
+        Buscar
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-search"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"
+          />
+        </svg>
+      </button>
+         <a href="{{ url_for('users.index') }}" class="btn btn-outline-secondary">
+        Reset
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-arrow-counterclockwise"
+          viewBox="0 0 16 16"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z"
+          />
+          <path
+            d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466"
+          />
+        </svg>
+      </a>
+    </form>
+
+    {% if users %}
+    <!-- TABLA CON USUARIOS -->
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Alias</th>
+            <th scope="col">Email</th>
+            <th scope="col">Rol</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.alias }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.role.name if user.role else 'Sin rol asignado' }}</td>
+            <td>{{ "Activo" if user.enabled else "Inactivo" }}</td>
+            <td>
+              <div class="container">
+                <div class="row">
+                  <button
+                    class="col-4 btn btn-sm btn-outline-primary"
+                    title="Ver perfil"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-person-fill"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"
+                      />
+                    </svg>
+                  </button>
+                  <form
+                    class="col-4"
+                    action="{{ url_for('users.activar_usuario') }}"
+                    method="POST"
+                  >
+                    <input type="hidden" name="id" value="{{ user.id }}" />
+                    <input
+                      type="hidden"
+                      name="query"
+                      value="{{ parametro or '' }}"
+                    />
+                    {% if user.enabled %}
+                    <button
+                      class="btn btn-sm btn-success"
+                      type="submit"
+                      title="Desactivar"
+                      onclick="return confirm('¿Está seguro de que quiere desactivar a este usuario?');"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="bi bi-power"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M7.5 1v7h1V1z" />
+                        <path
+                          d="M3 8.812a5 5 0 0 1 2.578-4.375l-.485-.874A6 6 0 1 0 11 3.616l-.501.865A5 5 0 1 1 3 8.812"
+                        />
+                      </svg>
+                    </button>
+                    {% else %}
+                    <button
+                      class="btn btn-sm btn-danger"
+                      type="submit"
+                      onclick="return confirm('¿Está seguro de que quiere activar a este usuario?');"
+                      title="Activar"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="bi bi-power"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M7.5 1v7h1V1z" />
+                        <path
+                          d="M3 8.812a5 5 0 0 1 2.578-4.375l-.485-.874A6 6 0 1 0 11 3.616l-.501.865A5 5 0 1 1 3 8.812"
+                        />
+                      </svg>
+                    </button>
+                    {% endif %}
+                  </form>
+                </div>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <!-- TABLA SIN USUARIOS -->
+    <div class="row container text-center">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="32"
+        height="32"
+        fill="currentColor"
+        class="bi bi-clipboard-minus"
+        viewBox="0 0 16 16"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M5.5 9.5A.5.5 0 0 1 6 9h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5"
+        />
+        <path
+          d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"
+        />
+        <path
+          d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"
+        />
+      </svg>
+      <h4>No hay usuarios con el valor
+    </div>
+    {% endif %}
+  </div>
+</main>
+{% endblock %}
