@@ -49,4 +49,9 @@ def activar_usuario():
     except ValueError as e:
         flash(str(e), 'danger') 
         return redirect(url_for('users.index', query=query))
+    
+
+@bprint.get("/edit_user")
+def edit_user():
+    return render_template("auth/edit_user.html")
 

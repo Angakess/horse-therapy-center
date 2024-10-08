@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %} Editar usuario {% endblock %}
+
+{% block content %}
+<h1> Editar usuario </h1>
+
+<form>
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Correo electrónico</label>
+      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputAlias" class="form-label">Alias</label>
+      <input type="password" class="form-control" id="exampleInputPassword1">
+    </div>
+    <div class="input-group mb-3">
+        <label class="input-group-text" for="inputGroupSelect01">Rol</label>
+        <select class="form-select" id="inputGroupSelect01">
+          <option selected>Seleccionar...</option>
+          <option value="1">Administración</option>
+          <option value="2">Ecuestre</option>
+          <option value="3">Técnica</option>
+          <option value="4">Voluntariado</option>
+
+        </select>
+      </div>
+    <button type="submit" class="btn btn-primary" >Guardar</button>
+    <a type="submit" class="btn btn-danger" label="boton" id="boton Cancelar" href="{{ url_for('users.index') }}">Cancelar</a>
+  </form>
+
+{%endblock%}
