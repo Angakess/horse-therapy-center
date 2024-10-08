@@ -11,6 +11,7 @@ def user_exists(usermail):
         print(asd)
         return True
     except:
+        print(users[usermail])
         return False
     
 
