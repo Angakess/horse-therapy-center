@@ -10,12 +10,18 @@ class Ecuestre(db.Model):
     raza = db.Column(db.String(40), nullable=False)
     pelaje = db.Column(db.String(40), nullable=False)
     sede_asignada = db.Column(db.String(40), nullable=False)
-    equipo_id = db.Column(db.Integer, db.ForeignKey("equipos.id"))
-    equipo = db.relationship("Equipo", back_populates=("equipos"))
-    j_y_a_id = db.Column(db.Integer, db.ForeignKey("JinetesYAmazonas.id"))
-    j_y_a = db.relationship("JinetesAmazonas", back_populates=("j_y_a"))
-    inserted_at = db.Column(db.DateTime, default = datetime.now)
-    updated_at = db.Column(db.DateTime, default = datetime.now, onupdate = datetime.now)
+
+    equipo_id = db.Column(db.Integer, db.ForeignKey("equipos.id", name="fk_ecuestre_equipo_id"))
+    equipo = db.relationship("Equipo", back_populates="equipos")
+
+    j_y_a_id = db.Column(db.Integer, db.ForeignKey("JinetesYAmazonas.id", name="fk_ecuestre_jya_id"))
+    j_y_a = db.relationship("JinetesAmazonas", back_populates="j_y_a")
+
+    inserted_at = db.Column(db.DateTime, default=datetime.now)
+    updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+
+    caballo_trabajo = db.relationship("Trabajo", back_populates="caballo")
+
 
     def __repr__(self):
         return f'<Nombre "{self.nombre}," Fecha nacimiento "{self.fecha_nacimiento}," Sexo "{self.sexo}," Raza "{self.raza}," Pelaje "{self.pelaje}," Sede Asignada: {self.sede_asignada}>'
