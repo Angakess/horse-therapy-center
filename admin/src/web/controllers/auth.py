@@ -25,7 +25,7 @@ def authenticate():
     else:
         session["user"] = user.usermail
         flash("La sesión se inició correctamente", "success")
-        return redirect("/consultas/")
+        return redirect("/usuarios/")
 
 @bp.get("/logout")
 def logout():
