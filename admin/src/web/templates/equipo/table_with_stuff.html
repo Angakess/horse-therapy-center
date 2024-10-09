@@ -1,0 +1,186 @@
+<div class="table-responsive">
+  <table class="table table-striped">
+    <form
+      id="sort_form"
+      action="{{ url_for('equipo.index', query=parametro, order=order, by=by, pag=page) }}"
+      method="GET"
+    >
+      <input type="hidden" name="query" value="{{ parametro or '' }}" />
+      <input
+        type="hidden"
+        id="sort_order"
+        name="order"
+        value="{% if order=='asc' %}desc{% else %}asc{% endif %}"
+      />
+      <input type="hidden" id="sort_field" name="by" value="{{ by or ''}}" />
+      <input type="hidden" id="page_field" name="pag" value="{{ pag }}" />
+      <thead class="container-fluid">
+        <tr class="align-items-center">
+          <th scope="col" class="col-md-1 col-equipo-nombre">
+            <div
+              class="row d-flex align-items-center hover-underline"
+              onclick="document.getElementById('sort_field').value='nombre';
+                document.getElementById('page_field').value='1';
+                document.getElementById('sort_form').submit();"
+              style="display: flex; cursor: pointer"
+            >
+              <div id="column_name_nombre" class="col-auto">Nombre</div>
+
+              {% set sort_by = 'nombre' %} {% include
+              "equipo/filter_arrows.html" %}
+            </div>
+          </th>
+          <th scope="col" class="col-md-1 col-equipo-apellido container">
+            <div
+              class="row d-flex align-items-center hover-underline"
+              onclick="document.getElementById('sort_field').value='apellido';
+                document.getElementById('page_field').value='1';
+                document.getElementById('sort_form').submit();"
+              style="display: flex; cursor: pointer"
+            >
+              <div class="col-auto">Apellido</div>
+              {% set sort_by = 'apellido' %} {% include
+              "equipo/filter_arrows.html" %}
+            </div>
+          </th>
+          <th scope="col" class="col-md-1 col-equipo-dni">DNI</th>
+          <th scope="col" class="col-md-2 col-equipo-email">E-Mail</th>
+          <th scope="col" class="col-md-2 col-equipo-puesto">Puesto</th>
+          <th scope="col" class="col-md-2 col-equipo-fecha container">
+            <div
+              class="row d-flex align-items-center justify-content-start hover-underline"
+              onclick="document.getElementById('sort_field').value='fecha';
+                document.getElementById('page_field').value='1';
+                document.getElementById('sort_form').submit();"
+              style="display: flex; cursor: pointer"
+            >
+              <div class="col-auto">Fecha de creación</div>
+              {% set sort_by = 'fecha' %} {% include "equipo/filter_arrows.html"
+              %}
+            </div>
+          </th>
+          <th scope="col" class="col-md-1 col-equipo-estado">Estado</th>
+          <th scope="col" class="col-md-1 col-equipo-acciones">Acciones</th>
+        </tr>
+      </thead>
+    </form>
+
+    <tbody>
+      {% for equipo in equipos %}
+      <tr>
+        <td scope="row">{{ equipo.nombre }}</td>
+        <td>{{ equipo.apellido }}</td>
+        <td>{{ equipo.dni }}</td>
+        <td>{{ equipo.email }}</td>
+        <td>{{ equipo.puesto }}</td>
+        <td>{{ equipo.inserted_at.strftime('%d/%m/%Y') }}</td>
+        <td>{{ "Activo" if equipo.activo else "Inactivo" }}</td>
+        <td>
+          <div class="container">
+            <div class="row">
+              <button
+                class="col-4 btn btn-sm btn-outline-primary"
+                data-mdb-ripple-init
+                data-mdb-tooltip-init
+                data-mdb-placement="top"
+                title="Ver perfil"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-person-fill"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"
+                  />
+                </svg>
+              </button>
+              <form
+                class="col-4"
+                action="{{ url_for('equipo.toggle_activate') }}"
+                method="POST"
+              >
+                <input type="hidden" name="id" value="{{ equipo.id }}" />
+                <input
+                  type="hidden"
+                  name="query"
+                  value="{{ parametro or '' }}"
+                />
+                <input
+                  type="hidden"
+                  id="sort_order"
+                  name="order"
+                  value="{{ order }}"
+                />
+                <input
+                  type="hidden"
+                  id="sort_field"
+                  name="by"
+                  value="{{ by or ''}}"
+                />
+                <input
+                  type="hidden"
+                  id="page_field"
+                  name="pag"
+                  value="{{ pag }}"
+                />
+                {% if equipo.activo %}
+                <button
+                  class="btn btn-sm btn-danger"
+                  type="submit"
+                  data-mdb-ripple-init
+                  data-mdb-tooltip-init
+                  data-mdb-placement="top"
+                  title="Desactivar"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-power"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M7.5 1v7h1V1z" />
+                    <path
+                      d="M3 8.812a5 5 0 0 1 2.578-4.375l-.485-.874A6 6 0 1 0 11 3.616l-.501.865A5 5 0 1 1 3 8.812"
+                    />
+                  </svg>
+                </button>
+                {% else %}
+                <button
+                  class="btn btn-sm btn-success"
+                  type="submit"
+                  data-mdb-ripple-init
+                  data-mdb-tooltip-init
+                  data-mdb-placement="top"
+                  title="Activar"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-power"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M7.5 1v7h1V1z" />
+                    <path
+                      d="M3 8.812a5 5 0 0 1 2.578-4.375l-.485-.874A6 6 0 1 0 11 3.616l-.501.865A5 5 0 1 1 3 8.812"
+                    />
+                  </svg>
+                </button>
+                {% endif %}
+              </form>
+            </div>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% include "equipo/pagination_equipo.html" %}

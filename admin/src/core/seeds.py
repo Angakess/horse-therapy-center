@@ -59,7 +59,7 @@ def run():
         condicion='Personal Rentado',
         activo=False
     )
-    ecuestre1 = ecuestre.create_ecuestre(
+    """ ecuestre1 = ecuestre.create_ecuestre(
         nombre = 'Ecuestre 1',
         fecha_nacimiento = datetime(2004,2,20),
         sexo = 'Macho',
@@ -154,3 +154,4 @@ def run():
     ecuestre.assing_j_y_a(ecuestre2,jya2)
 
 
+ """
