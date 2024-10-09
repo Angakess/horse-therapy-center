@@ -4,7 +4,9 @@ from core import user
 from flask import Blueprint
 from flask import flash
 
+from core.user.roles import Role
 from core.user.users import User
+from core.user import update_user
 #from src.web.handlers.auth import login_required
 
 
@@ -42,16 +44,35 @@ def activar_usuario():
     try:
         if user:
             if user.enabled:
-                user.deactivate_user()  # Desactivar si está activo
+                user.deactivate_user()  
             else:
-                user.activate_user()  # Activar si está inactivo
+                user.activate_user() 
         return redirect(url_for('users.index', query=query))
     except ValueError as e:
         flash(str(e), 'danger') 
         return redirect(url_for('users.index', query=query))
     
 
-@bprint.get("/edit_user")
-def edit_user():
-    return render_template("auth/edit_user.html")
+@bprint.route("/edit_user/<int:user_id>", methods=["GET", "POST"])
+def edit_user(user_id):
+    """ Función que edita el usuario y agrega los parametros a un diccionario para ahorrar 
+        validación en la funcion update_user
+    """
+    user = User.query.get_or_404(user_id)  
+    roles = Role.query.all()  
 
+    if request.method == "POST":
+        alias = request.form.get('alias')
+        role_id = request.form.get('role')
+
+        updates = {}
+        if alias:
+            updates['alias'] = alias
+        if role_id:
+            updates['role_id'] = role_id
+
+        update_user(user_id, **updates)
+
+        return redirect(url_for('users.index')) 
+
+    return render_template("auth/edit_user.html", user=user, roles=roles)
