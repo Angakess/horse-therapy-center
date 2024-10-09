@@ -1,6 +1,10 @@
 <div class="table-responsive">
   <table class="table table-striped">
-    <form id="sort_form" action="{{ url_for('equipo.index') }}" method="GET">
+    <form
+      id="sort_form"
+      action="{{ url_for('equipo.index', query=parametro, order=order, by=by, pag=page) }}"
+      method="GET"
+    >
       <input type="hidden" name="query" value="{{ parametro or '' }}" />
       <input
         type="hidden"
@@ -9,12 +13,15 @@
         value="{% if order=='asc' %}desc{% else %}asc{% endif %}"
       />
       <input type="hidden" id="sort_field" name="by" value="{{ by or ''}}" />
+      <input type="hidden" id="page_field" name="pag" value="{{ pag }}" />
       <thead class="container-fluid">
         <tr class="align-items-center">
           <th scope="col" class="col-md-1 col-equipo-nombre">
             <div
               class="row d-flex align-items-center hover-underline"
-              onclick="document.getElementById('sort_field').value='nombre'; document.getElementById('sort_form').submit();"
+              onclick="document.getElementById('sort_field').value='nombre';
+                document.getElementById('page_field').value='1';
+                document.getElementById('sort_form').submit();"
               style="display: flex; cursor: pointer"
             >
               <div id="column_name_nombre" class="col-auto">Nombre</div>
@@ -26,12 +33,14 @@
           <th scope="col" class="col-md-1 col-equipo-apellido container">
             <div
               class="row d-flex align-items-center hover-underline"
-              onclick="document.getElementById('sort_field').value='apellido'; document.getElementById('sort_form').submit();"
+              onclick="document.getElementById('sort_field').value='apellido';
+                document.getElementById('page_field').value='1';
+                document.getElementById('sort_form').submit();"
               style="display: flex; cursor: pointer"
             >
               <div class="col-auto">Apellido</div>
-              {% set sort_by = 'apellido' %}
-              {% include "equipo/filter_arrows.html" %}
+              {% set sort_by = 'apellido' %} {% include
+              "equipo/filter_arrows.html" %}
             </div>
           </th>
           <th scope="col" class="col-md-1 col-equipo-dni">DNI</th>
@@ -40,12 +49,14 @@
           <th scope="col" class="col-md-2 col-equipo-fecha container">
             <div
               class="row d-flex align-items-center justify-content-start hover-underline"
-              onclick="document.getElementById('sort_field').value='fecha'; document.getElementById('sort_form').submit();"
+              onclick="document.getElementById('sort_field').value='fecha';
+                document.getElementById('page_field').value='1';
+                document.getElementById('sort_form').submit();"
               style="display: flex; cursor: pointer"
             >
               <div class="col-auto">Fecha de creación</div>
-              {% set sort_by = 'fecha' %}
-              {% include "equipo/filter_arrows.html" %}
+              {% set sort_by = 'fecha' %} {% include "equipo/filter_arrows.html"
+              %}
             </div>
           </th>
           <th scope="col" class="col-md-1 col-equipo-estado">Estado</th>
@@ -110,6 +121,12 @@
                   name="by"
                   value="{{ by or ''}}"
                 />
+                <input
+                  type="hidden"
+                  id="page_field"
+                  name="pag"
+                  value="{{ pag }}"
+                />
                 {% if equipo.activo %}
                 <button
                   class="btn btn-sm btn-danger"
@@ -166,3 +183,4 @@
     </tbody>
   </table>
 </div>
+{% include "equipo/pagination_equipo.html" %}

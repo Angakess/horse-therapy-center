@@ -7,39 +7,36 @@ bprint = Blueprint("equipo", __name__, url_prefix="/equipo")
 
 @bprint.get("/")
 def index():
-    equipos = equipo.list_equipos()
-    query = request.args.get('query','')
-    order = request.args.get('order', 'asc')
-    by = request.args.get('by','')
+    amount_per_page = 10
 
-    if query:
-        equipos = [
-            equipo for equipo in equipos if (
-                query.lower() in equipo.nombre.lower() or
-                query.lower() in equipo.apellido.lower() or
-                query.lower() in str(equipo.dni) or
-                query.lower() in equipo.email.lower() or
-                query.lower() in equipo.puesto.lower()
-            )
-        ]
-    
-    if by == 'nombre':
-        equipos.sort(key=lambda x: x.nombre, reverse=order == 'asc')
-    elif by == 'apellido':
-        equipos.sort(key=lambda x: x.apellido, reverse=order == 'asc')
-    elif by == 'fecha':
-        equipos.sort(key=lambda x: x.inserted_at, reverse=order == 'asc')
-    else:
-        equipos.sort(key=lambda x: x.id)
+    query = request.args.get("query", "")
+    order = request.args.get("order", "asc")
+    by = request.args.get("by", "")
+    page = int(request.args.get("pag", "1"))
 
-    return render_template("equipo/index.html", equipos=equipos, parametro=query, order=order, by=by)
+    total = equipo.get_total(query)
+    equipos = equipo.list_equipos_page(query, page, amount_per_page, order, by)
+
+    return render_template(
+        "equipo/index.html",
+        equipos=equipos,
+        parametro=query,
+        order=order,
+        by=by,
+        pag=page,
+        page_amount=(total + amount_per_page - 1) // amount_per_page,
+    )
+
 
 @bprint.post("/toggle-active")
 def toggle_activate():
-    chosen_id = request.form['id']
-    query = request.form['query']   #guardo lo que haya en la barra de busqueda para no resetearla
-    order = request.form['order']
-    by = request.form['by']
+    chosen_id = request.form["id"]
     equipo.toggle_a(chosen_id)
 
-    return redirect(url_for('equipo.index', query=query, order=order, by=by))
+    # guardo todo lo demas para no resetearlo
+    query = request.form["query"]
+    order = request.form["order"]
+    by = request.form["by"]
+    page = request.form["pag"]
+
+    return redirect(url_for("equipo.index", query=query, order=order, by=by, pag=page))
