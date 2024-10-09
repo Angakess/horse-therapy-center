@@ -6,7 +6,7 @@ from flask import flash
 
 from core.user.roles import Role
 from core.user.users import User
-from core.user import update_user
+from core.user import update_user,delete_user
 #from src.web.handlers.auth import login_required
 
 
@@ -37,6 +37,9 @@ def index():
 
 @bprint.post("/activar_usuario")
 def activar_usuario():
+    """
+    Funcion que permite habilitar/deshabilitar el usuario a menos que sea System Admin
+    """
     chosen_id = request.form['id']
     query = request.form['query']
     user = User.query.get(chosen_id)
@@ -76,3 +79,15 @@ def edit_user(user_id):
         return redirect(url_for('users.index')) 
 
     return render_template("auth/edit_user.html", user=user, roles=roles)
+
+@bprint.post("/delete_user")
+def delete_user_controller():
+    user_id = request.form.get("user_id")  
+    try:
+        delete_user(user_id) 
+        flash("Usuario eliminado correctamente.", "success")  
+    except ValueError as e:
+        flash(str(e), "danger")
+
+    return redirect(url_for('users.index'))
+
