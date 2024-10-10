@@ -1,5 +1,6 @@
 from core.database import db
 from datetime import datetime
+from sqlalchemy import asc, desc
 
 class Ecuestre(db.Model):
     __tablename__ = 'Ecuestre'
@@ -9,6 +10,12 @@ class Ecuestre(db.Model):
     sexo = db.Column(db.String(40), nullable=False)
     raza = db.Column(db.String(40), nullable=False)
     pelaje = db.Column(db.String(40), nullable=False)
+    tipo_adquisicion = db.Column(db.Enum(
+        'Compra',
+        'Donación',
+        name = 'tipo_adquisicion'
+    ), nullable=False)
+    fecha_ingreso = db.Column(db.DateTime, nullable=False)
     sede_asignada = db.Column(db.String(40), nullable=False)
 
     equipo_id = db.Column(db.Integer, db.ForeignKey("equipos.id", name="fk_ecuestre_equipo_id"))
@@ -29,6 +36,30 @@ class Ecuestre(db.Model):
 def list_ecuestres():
     ecuestres = Ecuestre.query.all()
     return ecuestres
+
+def list_ecuestres_nombre_asc():
+    ecuestres = Ecuestre.query.order_by(asc(Ecuestre.nombre)).all()
+    return ecuestres 
+
+def list_ecuestres_nombre_desc():
+    ecuestres = Ecuestre.query.order_by(desc(Ecuestre.nombre)).all()
+    return ecuestres    
+
+def list_ecuestres_fecha_nacimiento_asc():
+    ecuestres = Ecuestre.query.order_by(asc(Ecuestre.fecha_nacimiento)).all()
+    return ecuestres    
+
+def list_ecuestres_fecha_nacimiento_desc():
+    ecuestres = Ecuestre.query.order_by(desc(Ecuestre.fecha_nacimiento)).all()
+    return ecuestres
+
+def list_ecuestres_fecha_ingreso_asc():
+    ecuestres = Ecuestre.query.order_by(asc(Ecuestre.fecha_ingreso)).all()
+    return ecuestres    
+
+def list_ecuestres_fecha_ingreso_desc():
+    ecuestres = Ecuestre.query.order_by(desc(Ecuestre.fecha_ingreso)).all()
+    return ecuestres 
 
 def create_ecuestre(**kwargs):
     ecuestre = Ecuestre(**kwargs)

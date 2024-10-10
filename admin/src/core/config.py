@@ -8,7 +8,7 @@ class ProductionConfig(Config):
 
 class DevelopmentConfig(Config):
     DB_USER = "postgres"
-    DB_PASSWORD = "postgres"
+    DB_PASSWORD = "*JMcva3OO9i/F8z3[Pdk"
     DB_HOST = "localhost"
     DB_PORT = "5432"
     DB_NAME = "grupo28"

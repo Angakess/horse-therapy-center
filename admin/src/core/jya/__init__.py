@@ -1,5 +1,7 @@
 from core.database import db
 from sqlalchemy import Enum
+from sqlalchemy import asc
+from sqlalchemy import desc
 from datetime import datetime
 
 class JinetesAmazonas(db.Model):
@@ -69,20 +71,36 @@ class JinetesAmazonas(db.Model):
 
     j_y_a = db.relationship("Ecuestre", back_populates="j_y_a")
 
-    situacion_previsional_id = db.Column(db.Integer, db.ForeignKey("situacion_previsional.id"), name="fk_jya_situacion_previsional_id")
+    situacion_previsional_id = db.Column(db.Integer, db.ForeignKey("situacion_previsional.id"))
     situacion_previsional = db.relationship("Situacion_previsional", back_populates="j_y_a")
 
-    institucion_escolar_id = db.Column(db.Integer, db.ForeignKey("InstitucionEscolar.id", name="fk_jya_institucion_escolar_id"))
+    institucion_escolar_id = db.Column(db.Integer, db.ForeignKey("InstitucionEscolar.id"))
     institucion_escolar = db.relationship("Institucion_escolar", back_populates="j_y_a")
 
     parentesco_tutor = db.relationship("Familiar_tutor", back_populates="j_y_a", lazy = 'dynamic')
 
-    trabajo_id = db.Column(db.Integer, db.ForeignKey("TrabajoInstitucion.id", name="fk_jya_trabajo_id"))
+    trabajo_id = db.Column(db.Integer, db.ForeignKey("TrabajoInstitucion.id"))
     trabajo = db.relationship("Trabajo", back_populates="j_y_a")
 
 
 def list_jinetes_amazonas():
     jinetes_amazonas = JinetesAmazonas.query.all()
+    return jinetes_amazonas
+
+def list_jinetes_amazonas_nombre_asc():
+    jinetes_amazonas = JinetesAmazonas.query.order_by(asc(JinetesAmazonas.nombre)).all()
+    return jinetes_amazonas
+
+def list_jinetes_amazonas_nombre_desc():
+    jinetes_amazonas = JinetesAmazonas.query.order_by(desc(JinetesAmazonas.nombre)).all()
+    return jinetes_amazonas
+
+def list_jinetes_amazonas_apellido_asc():
+    jinetes_amazonas = JinetesAmazonas.query.order_by(asc(JinetesAmazonas.apellido)).all()
+    return jinetes_amazonas
+
+def list_jinetes_amazonas_apellido_desc():
+    jinetes_amazonas = JinetesAmazonas.query.order_by(desc(JinetesAmazonas.apellido)).all()
     return jinetes_amazonas
 
 def create_jinetes_amazonas(**kwargs):
@@ -124,7 +142,7 @@ def assing_institucion_escolar(jya,institucion_escolar):
     return jya
 
 def assing_parentesco_tutor(jya,parentesco_tutor):
-    jya.parentesco_tutor =  parentesco_tutor
+    jya.parentesco_tutor.append(parentesco_tutor)
     db.session.add(jya)
     db.session.commit()
     return jya

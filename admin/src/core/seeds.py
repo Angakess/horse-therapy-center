@@ -69,7 +69,9 @@ def run():
         sexo = 'Macho',
         raza = 'Warmblood Westfaliano',
         pelaje = 'Marron',
-        sede_asignada = 'Club hipico'
+        tipo_adquisicion = 'Compra',
+        fecha_ingreso = datetime(2006,3,15),
+        sede_asignada = 'Club hipico',
     )
     ecuestre2 = ecuestre.create_ecuestre(
         nombre = 'Ecuestre 2',
@@ -77,7 +79,9 @@ def run():
         sexo = 'Hembra',
         raza = 'Warmblood Oldenburgo',
         pelaje = 'Blanco',
-        sede_asignada = 'Club hipico Jujuy'
+        tipo_adquisicion = 'Donación',
+        fecha_ingreso = datetime(2011,9,18),
+        sede_asignada = 'Club hipico Jujuy',
     )
     jya1 = jya.create_jinetes_amazonas(
         nombre = 'jya1',
