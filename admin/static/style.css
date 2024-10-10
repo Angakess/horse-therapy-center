@@ -80,3 +80,7 @@ h5 {
 .hover-underline:hover {
   text-decoration: underline;
 }
+
+.filer-arrow {
+  padding: 0%;
+}
