@@ -40,3 +40,9 @@ def toggle_activate():
     page = request.form["pag"]
 
     return redirect(url_for("equipo.index", query=query, order=order, by=by, pag=page))
+
+@bprint.get("/<id>")
+def get_profile(id):
+    chosen_equipo = equipo.get_one(id)
+
+    return render_template("equipo/profile.html", info=chosen_equipo)

@@ -82,3 +82,9 @@ def toggle_a(id):
     chosen_equipo = Equipo.query.get(id)
     chosen_equipo.activo = not (chosen_equipo.activo)
     db.session.commit()
+
+
+def get_one(id):
+    chosen_equipo = Equipo.query.get(id)
+    
+    return chosen_equipo
