@@ -1,4 +1,5 @@
 from core.database import db
+from sqlalchemy import Enum
 from datetime import datetime
 
 class JinetesAmazonas(db.Model):
@@ -12,12 +13,73 @@ class JinetesAmazonas(db.Model):
     lugar_nacimiento = db.Column(db.Text, nullable=False)
     domicilio_actual = db.Column(db.Text, nullable=False)
     telefono_actual = db.Column(db.Text, nullable=False)
-    contacto_emergencia = tel = db.Column(db.Text, nullable=False)
+    contacto_emergencia = db.Column(db.Text, nullable=False)
     tel = db.Column(db.Text, nullable=False)
-    becado = tel = db.Column(db.Boolean, nullable=False)
-    porcentaje_beca = tel = db.Column(db.Double, nullable=False)
+    becado = db.Column(db.Boolean, nullable=False)
+    porcentaje_beca = db.Column(db.Double, nullable=False)
     profesionales_atienden = db.Column(db.Text, nullable=False)
-    j_y_a = db.relationship("Ecuestre", back_populates=("j_y_a"))
+    certificado_discapacidad = db.Column(db.Boolean, nullable=False)
+    asignacion_familiar = db.Column(db.Boolean, nullable=False)
+
+    tipo_asignacion_familiar = db.Column(db.Enum(
+        'Universal por hijo',
+        'Universal por hijo con discapacidad',
+        'Ayuda escolar anual',
+        name='tipo_asignacion_familiar'
+    ), nullable=True)
+
+    beneficiario_pension = db.Column(db.Boolean, nullable=False)
+    beneficiario_pension_tipo = db.Column(db.Enum(
+        'Provincial',
+        'Nacional',
+        name='beneficiario_pension_tipo'
+    ), nullable=True)
+
+    discapacidad = db.Column(db.Enum(
+        'ECNE',
+        'Lesión post-traumática',
+        'Mielomeningocele',
+        'Esclerosis Múltiple',
+        'Escoliosis Leve',
+        'Secuelas de ACV',
+        'Discapacidad Intelectual',
+        'Trastorno del Espectro Autista',
+        'Trastorno del Aprendizaje',
+        'Trastorno por Déficit de Atención/Hiperactividad',
+        'Trastorno de la Comunicación',
+        'Trastorno de Ansiedad',
+        'Síndrome de Down',
+        'Retraso Madurativo',
+        'Psicosis',
+        'Trastorno de Conducta',
+        'Trastornos del ánimo y afectivos',
+        'Trastorno Alimentario',
+        'OTRO',
+        name='discapacidad'
+    ), nullable=True)
+
+    otra_discapacidad = db.Column(db.Text, nullable=True)
+    tipo_discapacidad = db.Column(db.Enum(
+        'Mental',
+        'Motora',
+        'Sensorial',
+        'Visceral',
+        name='tipo_discapacidad'
+    ), nullable=True)
+
+    j_y_a = db.relationship("Ecuestre", back_populates="j_y_a")
+
+    situacion_previsional_id = db.Column(db.Integer, db.ForeignKey("situacion_previsional.id"), name="fk_jya_situacion_previsional_id")
+    situacion_previsional = db.relationship("Situacion_previsional", back_populates="j_y_a")
+
+    institucion_escolar_id = db.Column(db.Integer, db.ForeignKey("InstitucionEscolar.id", name="fk_jya_institucion_escolar_id"))
+    institucion_escolar = db.relationship("Institucion_escolar", back_populates="j_y_a")
+
+    parentesco_tutor = db.relationship("Familiar_tutor", back_populates="j_y_a", lazy = 'dynamic')
+
+    trabajo_id = db.Column(db.Integer, db.ForeignKey("TrabajoInstitucion.id", name="fk_jya_trabajo_id"))
+    trabajo = db.relationship("Trabajo", back_populates="j_y_a")
+
 
 def list_jinetes_amazonas():
     jinetes_amazonas = JinetesAmazonas.query.all()
@@ -48,3 +110,27 @@ def jinetes_amazonas_by_dni(dni_jinetes_amazonas):
 def jinetes_amazonas_by_profesionales(profesionales_jinetes_amazonas):
     jinetes_amazonas = db.select(JinetesAmazonas).filter_by(profesionales = profesionales_jinetes_amazonas)
     return jinetes_amazonas
+
+def assing_situacion_previsional(jya,situacion_previsional):
+    jya.situacion_previsional = situacion_previsional
+    db.session.add(jya)
+    db.session.commit()
+    return jya
+
+def assing_institucion_escolar(jya,institucion_escolar):
+    jya.institucion_escolar = institucion_escolar
+    db.session.add(jya)
+    db.session.commit()
+    return jya
+
+def assing_parentesco_tutor(jya,parentesco_tutor):
+    jya.parentesco_tutor =  parentesco_tutor
+    db.session.add(jya)
+    db.session.commit()
+    return jya
+
+def assing_trabajo(jya,trabajo):
+    jya.trabajo = trabajo
+    db.session.add(jya)
+    db.session.commit()
+    return jya
