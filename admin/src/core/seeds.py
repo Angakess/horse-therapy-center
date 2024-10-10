@@ -2,10 +2,10 @@ from core import equipo
 from core import ecuestre
 from core import user
 from core import jya
-from core.jya import situacion_previsional
-from core.jya import institucion_escolar
-from core.jya import pariente_tutor
-from core.jya import trabajo
+from core import situacionPrevisional
+from core import institucion
+from core import parienteTutor
+from core import trabajo
 
 from datetime import datetime
 
@@ -119,31 +119,31 @@ def run():
         asignacion_familiar = False,
         beneficiario_pension = False,
     )
-    situacion_previsional1 = situacion_previsional.create_situacion_previsional(
+    situacion_previsional1 = situacionPrevisional.create_situacion_previsional(
         obra_social = 'IOMA',
         nroafiliado = 5643,
         curatela = False,
     )
-    situacion_previsional2 = situacion_previsional.create_situacion_previsional(
+    situacion_previsional2 = situacionPrevisional.create_situacion_previsional(
         obra_social = 'OSDE',
         nroafiliado = 8231,
         curatela = True,
         observaciones = 'Hola'
     )
-    institucion_escolar1 = institucion_escolar.create_institucion_escolar(
+    institucion_escolar1 = institucion.create_institucion_escolar(
         nombre = 'Escuela 1',
         direccion = 'Calle 1 y 50',
         telefono = '221345',
         grado_actual = 4,
     )
-    institucion_escolar2 = institucion_escolar.create_institucion_escolar(
+    institucion_escolar2 = institucion.create_institucion_escolar(
         nombre = 'Escuela 2',
         direccion = 'Calle 2 y 50',
         telefono = '221346',
         grado_actual = 2,
         observaciones = 'Capo total',
     )
-    pariente = pariente_tutor.create_parentesco_tutor(
+    pariente = parienteTutor.create_parentesco_tutor(
         parentesco = 'Padre',
         nombre = 'Alejandro',
         apellido = 'UNLP',
@@ -154,7 +154,7 @@ def run():
         nivel_escolaridad = 'Universitario',
         actividad_ocupacion = 'Abogado',
     )
-    tutor = pariente_tutor.create_parentesco_tutor(
+    tutor = parienteTutor.create_parentesco_tutor(
         parentesco = 'Tutora',
         nombre = 'Alejandra',
         apellido = 'UNLP',
@@ -166,7 +166,7 @@ def run():
         actividad_ocupacion = 'Medica',
     )
     trabajo1 = trabajo.create_trabajo(
-        propuestra_trabajo_institucional = 'Equitacion',
+        propuestra_trabajo_institucional = 'Equitación',
         condicion = 'Regular',
         sede = 'CASJ',
         dia = 'Domingo',

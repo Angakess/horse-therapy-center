@@ -16,7 +16,7 @@ class JinetesAmazonas(db.Model):
     contacto_emergencia = db.Column(db.Text, nullable=False)
     tel = db.Column(db.Text, nullable=False)
     becado = db.Column(db.Boolean, nullable=False)
-    porcentaje_beca = db.Column(db.Float, nullable=False)
+    porcentaje_beca = db.Column(db.Double, nullable=False)
     profesionales_atienden = db.Column(db.Text, nullable=False)
     certificado_discapacidad = db.Column(db.Boolean, nullable=False)
     asignacion_familiar = db.Column(db.Boolean, nullable=False)
@@ -69,19 +69,16 @@ class JinetesAmazonas(db.Model):
 
     j_y_a = db.relationship("Ecuestre", back_populates="j_y_a")
 
-    situacion_previsional_id = db.Column(db.Integer, db.ForeignKey("situacion_previsional.id", name="fk_jya_situacion_previsional_id"))
+    situacion_previsional_id = db.Column(db.Integer, db.ForeignKey("situacion_previsional.id"), name="fk_jya_situacion_previsional_id")
     situacion_previsional = db.relationship("Situacion_previsional", back_populates="j_y_a")
 
     institucion_escolar_id = db.Column(db.Integer, db.ForeignKey("InstitucionEscolar.id", name="fk_jya_institucion_escolar_id"))
     institucion_escolar = db.relationship("Institucion_escolar", back_populates="j_y_a")
 
-    parentesco_tutor_id = db.Column(db.Integer, db.ForeignKey("FamiliarOTutor.id", name="fk_jya_parentesco_tutor_id"))
-    parentesco_tutor = db.relationship("Familiar_tutor", back_populates="j_y_a")
+    parentesco_tutor = db.relationship("Familiar_tutor", back_populates="j_y_a", lazy = 'dynamic')
 
     trabajo_id = db.Column(db.Integer, db.ForeignKey("TrabajoInstitucion.id", name="fk_jya_trabajo_id"))
     trabajo = db.relationship("Trabajo", back_populates="j_y_a")
-
-
 
 
 def list_jinetes_amazonas():

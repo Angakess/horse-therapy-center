@@ -37,15 +37,15 @@ class Trabajo(db.Model):
     ), nullable=False)
 
     profesor_terapeuta_id = db.Column(db.Integer, db.ForeignKey("equipos.id", name="fk_trabajo_profesor_terapeuta_id"))
-    profesor_terapeuta = db.relationship("Equipo", back_populates="profesor_terapeuta_trabajo")
+    profesor_terapeuta = db.relationship("Equipo", back_populates="profesor_terapeuta_trabajo", foreign_keys=[profesor_terapeuta_id])
 
     conductor_id = db.Column(db.Integer, db.ForeignKey("equipos.id", name="fk_trabajo_conductor_id"))
-    conductor = db.relationship("Equipo", back_populates="conductor_trabajo")
+    conductor = db.relationship("Equipo", back_populates="conductor_trabajo", foreign_keys=[conductor_id])
 
     auxiliar_pista_id = db.Column(db.Integer, db.ForeignKey("equipos.id", name="fk_trabajo_auxiliar_pista_id"))
-    auxiliar_pista = db.relationship("Equipo", back_populates="auxiliar_pista_trabajo")
+    auxiliar_pista = db.relationship("Equipo", back_populates="auxiliar_pista_trabajo", foreign_keys=[auxiliar_pista_id])
 
-    caballo_id = db.Column(db.Integer, db.ForeignKey("Ecuestre.id", name="fk_trabajo_caballo_id"))
+    caballo_id = db.Column(db.Integer, db.ForeignKey("Ecuestre.id"))
     caballo = db.relationship("Ecuestre", back_populates="caballo_trabajo")
 
     j_y_a = db.relationship("JinetesAmazonas", back_populates="trabajo")

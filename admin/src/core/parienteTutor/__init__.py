@@ -8,7 +8,7 @@ class Familiar_tutor(db.Model):
     nombre = db.Column(db.Text, nullable = False)
     apellido = db.Column(db.Text, nullable = False)
     dni = db.Column(db.Integer, nullable = False)
-    domicilio_acutal = db.Column(db.Text, nullable = False)
+    domicilio_actual = db.Column(db.Text, nullable = False)
     celular_actual = db.Column(db.Text, nullable = False)
     email = db.Column(db.Text, nullable = False)
     nivel_escolaridad = db.Column(db.Enum(
@@ -20,6 +20,7 @@ class Familiar_tutor(db.Model):
     ), nullable = False)
     actividad_ocupacion = db.Column(db.Text, nullable = False)
 
+    j_y_a_id = db.Column(db.Integer, db.ForeignKey("JinetesYAmazonas.id"))
     j_y_a = db.relationship("JinetesAmazonas", back_populates=("parentesco_tutor"))
 
 def create_parentesco_tutor(**kwargs):

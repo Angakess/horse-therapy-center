@@ -21,9 +21,9 @@ class Equipo(db.Model):
     activo = db.Column(db.Boolean, nullable=False, default=True)
 
     equipos = db.relationship("Ecuestre", back_populates="equipo")
-    profesor_terapeuta_trabajo = db.relationship("Trabajo", back_populates="profesor_terapeuta")
-    conductor_trabajo = db.relationship("Trabajo", back_populates="conductor")
-    auxiliar_pista_trabajo = db.relationship("Trabajo", back_populates="auxiliar_pista")
+    profesor_terapeuta_trabajo = db.relationship("Trabajo", back_populates="profesor_terapeuta", foreign_keys="Trabajo.profesor_terapeuta_id")
+    conductor_trabajo = db.relationship("Trabajo", back_populates="conductor",foreign_keys="Trabajo.conductor_id")
+    auxiliar_pista_trabajo = db.relationship("Trabajo", back_populates="auxiliar_pista", foreign_keys="Trabajo.auxiliar_pista_id")
 
 
     def __repr__(self):
