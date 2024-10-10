@@ -104,14 +104,19 @@ def run():
         becado = True,
         porcentaje_beca = 0.9,
         profesionales_atienden = 'Aaa, Bbb'   
-    )
+    )"""
 
-    role_admin = user.create_role(name="Técnica")
+    #    VALID_ROLES = {"Técnica", "Ecuestre", "Voluntariado", "Administración"}
+
+    role_admin = user.create_role(name="Administración")
     role_voluntario = user.create_role(name="Voluntariado")
+    role_tec = user.create_role(name="Técnica")
+    role_ec = user.create_role(name="Ecuestre")
 
+    #superadmin
     user1 = user.create_user(
-        alias='JuanAdmin',
-        email='juan.admin@example.com',
+        alias='Admin',
+        email='admin@example.com',
         password='adminpassword',
         role_id=role_admin.id,
         system_admin=True,
@@ -133,25 +138,26 @@ def run():
 
     # Crear segundo usuario voluntario
     user3 = user.create_user(
-        alias='CarlosVoluntario',
-        email='carlos.voluntario@example.com',
-        password='voluntariopassword2',
-        role_id=role_voluntario.id,
+        alias='CarlosGomez',
+        email='carlos.gomez@example.com',
+        password='password2',
+        role_id=role_tec.id,
         system_admin=False,  # No es system admin
         enabled=True,
         inserted_at=datetime.now()
     )
 
     #Asignar rol de voluntariado al segundo usuario
-    user.assign_role(user3, role_voluntario)
+    user.assign_role(user3, role_tec)
     user.assign_role(user2, role_voluntario)
 
     user.assign_role(user1, role_admin)
 
+    """
     ecuestre.assing_equipo(ecuestre1,equipo1)
     ecuestre.assing_equipo(ecuestre2,equipo2)
     ecuestre.assing_j_y_a(ecuestre1,jya1)
     ecuestre.assing_j_y_a(ecuestre2,jya2)
 
 
- """
+    """""
