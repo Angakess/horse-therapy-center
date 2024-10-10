@@ -50,8 +50,6 @@ def search_users(email=None, role=None, active=None, page=1, per_page=25):
     users_query = User.query
     
 
-    print(f"query search: {email}, role: {role}, active: {active}")
-
     if email:
         users_query = users_query.filter(User.email.ilike(f"%{email}%"))
 
@@ -59,7 +57,6 @@ def search_users(email=None, role=None, active=None, page=1, per_page=25):
         users_query = users_query.join(Role).filter(Role.name == role)
     
     if active is not None:
-        print(active)
         users_query = users_query.filter(User.enabled == active)
 
     print(str(users_query)) 

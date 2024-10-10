@@ -1,3 +1,4 @@
+import random
 from core import equipo
 from core import ecuestre
 from core import user
@@ -146,6 +147,34 @@ def run():
         enabled=True,
         inserted_at=datetime.now()
     )
+
+    for i in range(1, 24):
+        alias = f"Usuario{i}"
+        email = f"usuario{i}@example.com"
+        password = f"password{i}"
+
+        # Asignar rol de manera aleatoria
+        roles = [role_admin, role_voluntario, role_tec, role_ec]
+        selected_role = random.choice(roles)
+
+        # Asignar estado enabled aleatoriamente
+        enabled_status = random.choice([True, False])
+
+        # Crear usuario
+        new_user = user.create_user(
+            alias=alias,
+            email=email,
+            password=password,
+            role_id=selected_role.id,
+            system_admin=False,  # Ningún usuario es system admin
+            enabled=enabled_status,
+            inserted_at=datetime.now()
+        )
+
+        # Asignar rol al usuario recién creado
+        user.assign_role(new_user, selected_role)
+
+        print(f"Usuario {alias} creado con rol {selected_role.name}")
 
     #Asignar rol de voluntariado al segundo usuario
     user.assign_role(user3, role_tec)
