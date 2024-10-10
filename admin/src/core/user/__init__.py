@@ -3,6 +3,12 @@ from core.user.users import User
 from core.user.roles import Role
 
 
+def list_users():
+    users = User.query.all()
+    return users
+
+
+
 
 def create_user(**kwargs):
     email = kwargs.get('email')
@@ -13,9 +19,14 @@ def create_user(**kwargs):
     return user
 
 def delete_user(user_id):
+    """
+    Baja fisica de un usuario del sistema, consultar si no sería mejor una lógica
+    """
     user = User.query.get(user_id)
     if not user:
         raise ValueError("El usuario no existe")
+    if user.system_admin:
+        raise ValueError("No puedes eliminar a un usuario administrador del sistema.")
     db.session.delete(user)
     db.session.commit()
 
