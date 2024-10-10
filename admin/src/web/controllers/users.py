@@ -20,14 +20,16 @@ def index():
     role = request.args.get('role', None)
     active = request.args.get('active', None)
     page = request.args.get('page', 1, type=int)
-    print(f"Query index: {query}, Role: {role}, Active: {active}, Page: {page}")
 
+    #Ya funciona
+    if active == "True":
+        active = True
+    elif active == "False":
+        active = False
+    else:
+        active = None
+    
 
-    if active is not None:
-        active = active.lower() == 'true'
-    
-    
-    
     users = search_users(email=query, role=role, active=active, page=page)
 
     return render_template("auth/users.html", users=users.items, pagination=users)

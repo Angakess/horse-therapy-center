@@ -58,8 +58,6 @@ def search_users(email=None, role=None, active=None, page=1, per_page=25):
     if role:
         users_query = users_query.join(Role).filter(Role.name == role)
     
-
-
     if active is not None:
         print(active)
         users_query = users_query.filter(User.enabled == active)
