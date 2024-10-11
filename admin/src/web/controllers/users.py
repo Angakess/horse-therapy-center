@@ -7,7 +7,7 @@ from flask import flash
 
 from core.user.roles import Role
 from core.user.users import User
-from core.user import search_users, update_user,delete_user
+from core.user import create_user, list_roles, list_users, search_users, update_user,delete_user
 #from src.web.handlers.auth import login_required
 
 
@@ -97,7 +97,21 @@ def delete_user_controller():
 
 @bprint.route("/register_user", methods=["GET", "POST"])
 def register_user():
-   # if request.method == "POST":
+    roles = list_roles()
+    roles = list_roles()
+
+    if request.method == "POST":
+        email = request.form['email']
+        alias = request.form['alias']
+        password = request.form['password']
+        role_id = request.form['role'] 
+
+        try:
+            create_user(email=email, alias=alias, password=password, role_id=role_id)
+            flash("Usuario registrado exitosamente.", "success")  
+            return redirect(url_for("users.index"))
+        except Exception as e:
+            flash(f"Error al registrar el usuario: {str(e)}", "danger")
+
        
-       # return redirect(url_for('users.success'))  # Redirect after successful registration
-    return render_template("auth/register/register_user.html")
+    return render_template("auth/register/register_user.html", roles=roles)
