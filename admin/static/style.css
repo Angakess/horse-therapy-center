@@ -173,6 +173,16 @@ h5 {
   color: white!important;
   border-color: white!important;
 }
+.equipo-add-btn {
+    color: #dfad3a!important;
+  border-color: #dfad3a!important;
+  font-weight: bold;
+}
+.equipo-add-btn:hover {
+    background-color: #dfad3a!important;
+    color: white!important;
+    border-color: white!important;
+}
 
 h2 {
     font-family: 'Abril Fatface'; 

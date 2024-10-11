@@ -64,20 +64,20 @@ def enter_edit(id):
 @bprint.post("/<id>/edit")
 def save_edit(id):
     new_data = {
-        "nombre": request.form["nombre"],
-        "apellido": request.form["apellido"],
+        "nombre": request.form["nombre"].capitalize(),
+        "apellido": request.form["apellido"].capitalize(),
         "dni": request.form["dni"],
         "email": request.form["email"],
         "dir": request.form["domicilio"],
-        "localidad": request.form["localidad"],
+        "localidad": request.form["localidad"].capitalize(),
         "tel": request.form["telefono"],
-        "contacto_emergencia_nombre": request.form["emergencia_nombre"],
+        "contacto_emergencia_nombre": request.form["emergencia_nombre"].capitalize(),
         "contacto_emergencia_tel": request.form["emergencia_telefono"],
         "profesion": request.form["profesion"],
         "puesto": request.form["puesto"],
         "fecha_inicio": request.form["fecha_inicio"],
         "fecha_fin": request.form["fecha_fin"],
-        "obra_social": request.form["obra_social"],
+        "obra_social": request.form["obra_social"].capitalize(),
         "num_afiliado": request.form["n_afiliado"],
         "condicion": request.form["condicion"],
     }
@@ -85,4 +85,34 @@ def save_edit(id):
     equipo.edit(id,new_data)
 
     return redirect(url_for("equipo.get_profile", id=id))
+
+@bprint.get("/agregar")
+def enter_add():
+    return render_template("equipo/add_equipo.html")
+
+@bprint.post("/agregar")
+def add_equipo():
+    new_data = {
+        "nombre": request.form["nombre"].capitalize(),
+        "apellido": request.form["apellido"].capitalize(),
+        "dni": request.form["dni"],
+        "dir": request.form["domicilio"],
+        "email": request.form["email"],
+        "localidad": request.form["localidad"].capitalize(),
+        "tel": request.form["telefono"],
+        "profesion": request.form["profesion"],
+        "puesto": request.form["puesto"],
+        "fecha_inicio": request.form["fecha_inicio"],
+        "fecha_fin": request.form["fecha_fin"],
+        "contacto_emergencia_nombre": request.form["emergencia_nombre"].capitalize(),
+        "contacto_emergencia_tel": request.form["emergencia_telefono"],
+        "obra_social": request.form["obra_social"].capitalize(),
+        "num_afiliado": request.form["n_afiliado"],
+        "condicion": request.form["condicion"],
+        "activo": True
+    }
+
+    new_equipo = equipo.create_equipo(**new_data)
+
+    return redirect(url_for("equipo.get_profile", id=new_equipo.id))
         
