@@ -95,3 +95,9 @@ def delete_user_controller():
 
     return redirect(url_for('users.index'))
 
+@bprint.route("/register_user", methods=["GET", "POST"])
+def register_user():
+   # if request.method == "POST":
+       
+       # return redirect(url_for('users.success'))  # Redirect after successful registration
+    return render_template("auth/register/register_user.html")
