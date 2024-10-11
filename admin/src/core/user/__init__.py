@@ -1,3 +1,6 @@
+import string
+
+from sqlalchemy import and_, or_
 from core.database import db
 from core.user.users import User
 from core.user.roles import Role
@@ -22,6 +25,7 @@ def delete_user(user_id):
     """
     Baja fisica de un usuario del sistema, consultar si no sería mejor una lógica
     """
+    
     user = User.query.get(user_id)
     if not user:
         raise ValueError("El usuario no existe")
@@ -41,19 +45,29 @@ def update_user(user_id,**kwargs):
     return user
 
 
-def users_by_mail(user_mail, page=1, per_page=25):
-    users = db.session.query(User).filter(User.email.ilike(f"%{user_mail}%")).paginate(page=page, per_page=per_page)
+def search_users(email=None, role=None, active=None, page=1, per_page=25,sort_by='email', order='asc'):
+    """Funcion que busca usuarios por cualquiera de los 3 parametros recibidos"""
+    users_query = User.query
+    
+
+    if email:
+        users_query = users_query.filter(User.email.ilike(f"%{email}%"))
+
+    if role:
+        users_query = users_query.join(Role).filter(Role.name == role)
+    
+    if active is not None:
+        users_query = users_query.filter(User.enabled == active)
+
+    if sort_by == 'inserted_at':
+        users_query = users_query.order_by(User.inserted_at.asc() if order == 'asc' else User.inserted_at.desc())
+    else:  
+        users_query = users_query.order_by(User.email.asc() if order == 'asc' else User.email.desc())
+    
+    users = users_query.paginate(page=page, per_page=per_page)
+
     return users
 
-def users_by_role(role_name, page=1, per_page=25):
-    query = User.query.join(Role).filter(Role.name == role_name)  #hace un join de user con role para buscar por nombre
-    users = query.paginate(page=page, per_page=per_page)
-    return users
-
-def users_by_status(active=True, page=1, per_page=25):
-    query = User.query.filter_by(enabled=active)
-    users = query.paginate(page=page, per_page=per_page)
-    return users
 
 
 

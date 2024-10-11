@@ -1,0 +1,21 @@
+<form method="GET" action="{{ url_for('users.index') }}">
+  <div class="row mb-2">
+    <div class="col-md-2">
+      <label for="sort_by">Ordenar por:</label>
+      <select id="sort_by" name="sort_by" class="form-select">
+        <option value="email" {% if request.args.get('sort_by') == 'email' %}selected{% endif %}>Email</option>
+        <option value="inserted_at" {% if request.args.get('sort_by') == 'inserted_at' %}selected{% endif %}>Fecha de creación</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <label for="order">Orden:</label>
+      <select id="order" name="order" class="form-select">
+        <option value="asc" {% if request.args.get('order') == 'asc' %}selected{% endif %}>Ascendente</option>
+        <option value="desc" {% if request.args.get('order') == 'desc' %}selected{% endif %}>Descendente</option>
+      </select>
+    </div>
+    <div class="col-md-4 d-flex align-items-end">
+      <button type="submit" class="btn btn-primary">Aplicar</button>
+    </div>
+  </div>
+</form>

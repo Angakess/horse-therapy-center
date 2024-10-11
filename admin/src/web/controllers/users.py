@@ -1,12 +1,13 @@
 import string
 from flask import render_template,request, url_for, redirect
+from sqlalchemy import asc, desc
 from core import user
 from flask import Blueprint
 from flask import flash
 
 from core.user.roles import Role
 from core.user.users import User
-from core.user import update_user,delete_user
+from core.user import search_users, update_user,delete_user
 #from src.web.handlers.auth import login_required
 
 
@@ -16,23 +17,26 @@ bprint = Blueprint("users", __name__, url_prefix="/usuarios")
 #@login_required
 #@check("user_index")
 def index():
-    users = user.list_users()
-    query = request.args.get('query', '')
-    query = query.translate(str.maketrans('', '', string.punctuation))
+    query = request.args.get('query',"")
+    role = request.args.get('role', None)
+    active = request.args.get('active', None)
+    page = request.args.get('page', 1, type=int)
+    sort_by = request.args.get('sort_by', 'email') 
+    order = request.args.get('order', 'asc')
 
+    #Ya funciona
+    if active == "True":
+        active = True
+    elif active == "False":
+        active = False
+    else:
+        active = None
 
-    if query:
-        users = [
-            user for user in users if (
-               query.lower() in user.email.lower() or
-                (user.enabled and query.lower() in ['activo', 'sí']) or
-                (not user.enabled and query.lower() in ['desactivado', 'no']) or
-                (user.role and query.lower() in user.role.name.lower())
-                )
-        ]
+    
 
-    users.sort(key=lambda x: x.id)
-    return render_template("auth/users.html", users=users, query=query)
+    users = search_users(email=query, role=role, active=active, page=page,sort_by=sort_by, order=order,)
+
+    return render_template("auth/users.html", users=users.items, pagination=users)
 
 
 @bprint.post("/activar_usuario")
