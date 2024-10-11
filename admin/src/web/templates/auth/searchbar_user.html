@@ -1,6 +1,6 @@
 <form action="{{ url_for('users.index') }}" method="GET" class="input-group mb-3">
   <input value="{{ query or '' }}" type="text" name="query" class="form-control" placeholder="Buscar por email" aria-label="Buscar por email" />
-    
+ 
   <select name="role" class="form-select" aria-label="Buscar por rol">
       <option value="">Seleccionar rol</option>
       <option value="Técnica">Técnica</option>
@@ -46,5 +46,7 @@
                 d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466"
             />
         </svg>
+
     </a>
+
 </form>

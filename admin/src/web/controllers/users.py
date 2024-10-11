@@ -1,5 +1,6 @@
 import string
 from flask import render_template,request, url_for, redirect
+from sqlalchemy import asc, desc
 from core import user
 from flask import Blueprint
 from flask import flash
@@ -20,6 +21,8 @@ def index():
     role = request.args.get('role', None)
     active = request.args.get('active', None)
     page = request.args.get('page', 1, type=int)
+    sort_by = request.args.get('sort_by', 'email') 
+    order = request.args.get('order', 'asc')
 
     #Ya funciona
     if active == "True":
@@ -28,9 +31,10 @@ def index():
         active = False
     else:
         active = None
+
     
 
-    users = search_users(email=query, role=role, active=active, page=page)
+    users = search_users(email=query, role=role, active=active, page=page,sort_by=sort_by, order=order,)
 
     return render_template("auth/users.html", users=users.items, pagination=users)
 

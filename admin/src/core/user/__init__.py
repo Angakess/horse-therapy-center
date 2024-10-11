@@ -45,7 +45,7 @@ def update_user(user_id,**kwargs):
     return user
 
 
-def search_users(email=None, role=None, active=None, page=1, per_page=25):
+def search_users(email=None, role=None, active=None, page=1, per_page=25,sort_by='email', order='asc'):
     """Funcion que busca usuarios por cualquiera de los 3 parametros recibidos"""
     users_query = User.query
     
@@ -59,8 +59,11 @@ def search_users(email=None, role=None, active=None, page=1, per_page=25):
     if active is not None:
         users_query = users_query.filter(User.enabled == active)
 
-    print(str(users_query)) 
-
+    if sort_by == 'inserted_at':
+        users_query = users_query.order_by(User.inserted_at.asc() if order == 'asc' else User.inserted_at.desc())
+    else:  
+        users_query = users_query.order_by(User.email.asc() if order == 'asc' else User.email.desc())
+    
     users = users_query.paginate(page=page, per_page=per_page)
 
     return users

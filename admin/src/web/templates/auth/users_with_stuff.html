@@ -1,4 +1,5 @@
 <div class="table-responsive">
+    {% include "auth/order_by.html"%}
       <table class="table table-striped">
         <thead>
           <tr>
@@ -7,10 +8,10 @@
             <th scope="col">Email</th>
             <th scope="col">Rol</th>
             <th scope="col">Estado</th>
+            <th scope="col">Fecha de creación</th>
             <th scope="col">Acciones</th>
           </tr>
         </thead>
-
         <tbody>
           {% for user in users %}
           <tr>
@@ -19,6 +20,8 @@
             <td>{{ user.email }}</td>
             <td>{{ user.role.name if user.role else 'Sin rol asignado' }}</td>
             <td>{{ "Activo" if user.enabled else "Inactivo" }}</td>
+            <td>{{ user.inserted_at.strftime('%d/%m/%Y')  }}</td>
+
             <td>
               <div class="container ">
                 <div class="row">
@@ -112,13 +115,5 @@
       </table>
     </div>
     <div>
-      {% if pagination.has_prev %}
-        <a href="{{ url_for('users.index', page=pagination.prev_num, query=query) }}">Anterior</a>
-      {% endif %}
-      
-      <span>Página {{ pagination.page }} de {{ pagination.pages }}</span>
-    
-      {% if pagination.has_next %}
-        <a href="{{ url_for('users.index', page=pagination.next_num, query=query) }}">Siguiente</a>
-      {% endif %}
+     {%include "auth/pagination.html"%}
     </div>
