@@ -3,18 +3,19 @@
 <main role="main" class="container">
   <div class="content-body">
     <!-- TITULO -->
-    <h1>Lista de empleados</h1>
+    <div class="row align-items-center justify-content-start">
+      <div class="col-auto">
+        <h1>Lista de empleados</h1>
+      </div>
+      <div class="col-auto">
+        <button class="btn btn-outline-primary equipo-add-btn" onclick=window.location.href="{{url_for('equipo.enter_add')}}";>Agregar +</button>
+      </div>
+    </div>
 
     <!-- BARRA DE BUSQUEDA -->
-    {% include "equipo/searchbar_equipo.html" %}
-
-
-    {% if page_amount > 0 %}
+    {% include "equipo/components/searchbar_equipo.html" %} {% if page_amount > 0 %}
     <!-- TABLA CON ELEMENTOS-->
-    {% include "equipo/table_with_stuff.html" %}
-
-    
-    {% else %}
+    {% include "equipo/components/table_with_stuff.html" %} {% else %}
     <!-- TABLA SIN ELEMENTOS -->
     <div class="row container text-center">
       <svg

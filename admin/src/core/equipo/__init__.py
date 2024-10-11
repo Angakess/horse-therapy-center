@@ -25,9 +25,19 @@ class Equipo(db.Model):
     activo = db.Column(db.Boolean, nullable=False, default=True)
 
     equipos = db.relationship("Ecuestre", back_populates="equipo")
-    profesor_terapeuta_trabajo = db.relationship("Trabajo", back_populates="profesor_terapeuta", foreign_keys="Trabajo.profesor_terapeuta_id")
-    conductor_trabajo = db.relationship("Trabajo", back_populates="conductor",foreign_keys="Trabajo.conductor_id")
-    auxiliar_pista_trabajo = db.relationship("Trabajo", back_populates="auxiliar_pista", foreign_keys="Trabajo.auxiliar_pista_id")
+    profesor_terapeuta_trabajo = db.relationship(
+        "Trabajo",
+        back_populates="profesor_terapeuta",
+        foreign_keys="Trabajo.profesor_terapeuta_id",
+    )
+    conductor_trabajo = db.relationship(
+        "Trabajo", back_populates="conductor", foreign_keys="Trabajo.conductor_id"
+    )
+    auxiliar_pista_trabajo = db.relationship(
+        "Trabajo",
+        back_populates="auxiliar_pista",
+        foreign_keys="Trabajo.auxiliar_pista_id",
+    )
 
     inserted_at = db.Column(db.DateTime, nullable=True, default=datetime.now)
 
@@ -50,7 +60,6 @@ def get_total(parametro):
 
 
 def list_equipos_page(query, page, amount_per_page, order, by):
-
     sort_column = {
         "nombre": Equipo.nombre,
         "apellido": Equipo.apellido,
@@ -77,6 +86,11 @@ def list_equipos_page(query, page, amount_per_page, order, by):
 
 
 def create_equipo(**kwargs):
+    if kwargs.get("fecha_fin") == "":
+        kwargs["fecha_fin"] = None
+    if kwargs.get("fecha_inicio") == "":
+        kwargs["fecha_inicio"] = None
+
     equipo = Equipo(**kwargs)
     db.session.add(equipo)
     db.session.commit()
@@ -92,14 +106,15 @@ def toggle_a(id):
 
 def get_one(id):
     chosen_equipo = Equipo.query.get(id)
-    
+
     return chosen_equipo
 
-def edit(id,data):
+
+def edit(id, data):
     chosen_equipo = Equipo.query.get(id)
 
     for key, value in data.items():
-        if key in ["fecha_inicio", "fecha_fin"] and value == '':
+        if key in ["fecha_inicio", "fecha_fin"] and value == "":
             value = None
 
         if hasattr(chosen_equipo, key):
