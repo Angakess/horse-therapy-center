@@ -1,10 +1,209 @@
 {% extends "layout.html" %} {% block title %} Lista de empleados {% endblock %}
 {% block head %} {{ super() }} {% endblock %} {% block content %}
 
-
-
-
-<div>{{info.nombre}}</div>
-
+<div class="container">
+  <div class="row">
+    <div
+      class="container bg-secondary d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded"
+    >
+      <div class="col">
+        <h1 class="h2 text-white mb-0">{{info.nombre}} {{info.apellido}}</h1>
+        <h5 class="h5 text-white mb-0">
+          {% if info.activo %}Activo{%else%}Inactivo{%endif%}
+        </h5>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="row">
+        <h2 class="equipo-profile-title text-secondary">
+          Información Personal
+        </h2>
+        <ul class="list-unstyled mb-1-9">
+          <li class="mb-2 mb-xl-3 display-28">
+            <span class="display-26 text-primary me-2 font-weight-600"
+              >DNI:</span
+            >{{info.dni}}
+          </li>
+          <li class="mb-2 mb-xl-3 display-28">
+            <span class="display-26 text-primary me-2 font-weight-600"
+              >Email:</span
+            >{{info.email}}
+          </li>
+          <li class="mb-2 mb-xl-3 display-28">
+            <span class="display-26 text-primary me-2 font-weight-600"
+              >Domicilio:</span
+            >{{info.dir}}
+          </li>
+          <li class="mb-2 mb-xl-3 display-28">
+            <span class="display-26 text-primary me-2 font-weight-600"
+              >Localidad:</span
+            >{{info.localidad}}
+          </li>
+        </ul>
+      </div>
+      <div class="row">
+        <h2 class="equipo-profile-title text-secondary">Contacto</h2>
+        <ul class="list-unstyled mb-1-9">
+          <li class="mb-2 mb-xl-3 display-28">
+            <span class="display-26 text-primary me-2 font-weight-600"
+              >Teléfono:</span
+            >{{info.tel}}
+          </li>
+          <li class="mb-2 mb-xl-3 display-28">
+            <span class="display-26 text-primary me-2 font-weight-600">Contacto de emergencia:</span>
+            <div class="container">
+              <div class="row">
+                <div class="col">
+                  <span for="contacto_nombre" class="display-16 text-primary font-weight-600">Nombre:</span>
+                  <span>{{ info.contacto_emergencia_nombre }}</span>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col">
+                  <span for="contacto_telefono" class="display-16 text-primary font-weight-600">Teléfono:</span>
+                  <span>{{ info.contacto_emergencia_tel }}</span>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="row">
+        <h2 class="equipo-profile-title text-secondary">Datos Laborales</h2>
+        <ul class="list-unstyled mb-1-9">
+          <li class="mb-2 mb-xl-3 display-28">
+            <span class="display-26 text-primary me-2 font-weight-600"
+              >Profesión:</span
+            >{{info.profesion}}
+          </li>
+          <li class="mb-2 mb-xl-3 display-28">
+            <span class="display-26 text-primary me-2 font-weight-600"
+              >Puesto:</span
+            >{{info.puesto}}
+          </li>
+          <li class="mb-2 mb-xl-3 display-28">
+            <span class="display-26 text-primary me-2 font-weight-600"
+              >Fecha de inicio:</span
+            >{{info.fecha_inicio.strftime('%d/%m/%Y')}}
+          </li>
+          <li class="mb-2 mb-xl-3 display-28">
+            <span class="display-26 text-primary me-2 font-weight-600"
+              >Fecha de cese:</span
+            >
+            {% if info.fecha_fin %} {{info.fecha_fin.strftime('%d/%m/%Y')}} {%
+            else %} - {% endif %}
+          </li>
+          <li class="mb-2 mb-xl-3 display-28">
+            <span class="display-26 text-primary me-2 font-weight-600"
+              >Condición:</span
+            >{{info.condicion}}
+          </li>
+        </ul>
+      </div>
+      <div class="row">
+        <h2 class="equipo-profile-title text-secondary">
+          Información Sanitaria
+        </h2>
+        <ul class="list-unstyled mb-1-9">
+          <li class="mb-2 mb-xl-3 display-28">
+            <span class="display-26 text-primary me-2 font-weight-600"
+              >Obra social:</span
+            >{{info.obra_social}}
+          </li>
+          <li class="mb-2 mb-xl-3 display-28">
+            <span class="display-26 text-primary me-2 font-weight-600"
+              >Nº de afiliado:</span
+            >{{info.num_afiliado}}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-5 d-flex justify-content-end align-items-start">
+      <a
+        class="btn btn-link mx-2 align-self-start"
+        href="{{url_for('equipo.index')}}"
+      >
+      ◄ Volver
+      </a>
+      <button
+        class="btn btn-outline-primary mx-2 align-self-start"
+        onclick=window.location.href="{{ url_for('equipo.enter_edit', id=info.id) }}";
+      >
+        Editar
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-pencil"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"
+          />
+        </svg>
+      </button>
+      <form action="{{ url_for('equipo.toggle_activate') }}" method="POST">
+        <input type="hidden" name="id" value="{{ info.id }}" />
+        <input type="hidden" name="from" value="profile" />
+        {% if info.activo %}
+        <button class="btn btn-outline-danger mx-2 align-self-start">
+          Desactivar
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-power"
+            viewBox="0 0 16 16"
+          >
+            <path d="M7.5 1v7h1V1z" />
+            <path
+              d="M3 8.812a5 5 0 0 1 2.578-4.375l-.485-.874A6 6 0 1 0 11 3.616l-.501.865A5 5 0 1 1 3 8.812"
+            />
+          </svg>
+        </button>
+        {% else %}
+        <button class="btn btn-outline-success mx-2 align-self-start">
+          Activar
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-power"
+            viewBox="0 0 16 16"
+          >
+            <path d="M7.5 1v7h1V1z" />
+            <path
+              d="M3 8.812a5 5 0 0 1 2.578-4.375l-.485-.874A6 6 0 1 0 11 3.616l-.501.865A5 5 0 1 1 3 8.812"
+            />
+          </svg>
+        </button>
+        {% endif %}
+      </form>
+      <button class="btn btn-outline-dark mx-2 align-self-start">
+        Eliminar
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-trash"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"
+          />
+          <path
+            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

@@ -1,0 +1,257 @@
+{% extends "layout.html" %} {% block title %} Lista de empleados {% endblock %}
+{% block head %} {{ super() }} {% endblock %} {% block content %}
+
+<div class="container">
+  <form
+    id="edit-form"
+    class="needs-validation"
+    novalidate
+    action="{{url_for('equipo.save_edit', id=info.id)}}"
+    method="POST"
+  >
+    <div class="row">
+      <div class="col">
+        <div class="row">
+          <h2 class="equipo-profile-title text-secondary">
+            Información Personal
+          </h2>
+          <ul class="list-unstyled mb-1-9">
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Nombre:</span
+              ><input id="nombre-input" name="nombre" class="form-control" value="{{info.nombre}}" required>
+              <div class="invalid-feedback">
+                Ingrese un nombre.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Apellido:</span
+              ><input id="apellido-input" name="apellido" class="form-control" value="{{info.apellido}}" required>
+              <div class="invalid-feedback">
+                Ingrese un apellido.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >DNI:</span
+              ><input id="dni-input" name="dni" class="form-control" value="{{info.dni}}" required pattern="^\d{8}$">
+              <div class="invalid-feedback">
+                Ingrese un DNI válido.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Email:</span
+              ><input id="email-input" name="email" class="form-control" value="{{info.email}}" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+              >
+              <div class="invalid-feedback">
+                Ingrese un email válido.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Domicilio:</span
+              ><input id="domicilio-input" name="domicilio" class="form-control" value="{{info.dir}}" required>
+              <div class="invalid-feedback">
+                Ingrese un domicilio.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Localidad:</span
+              ><input id="localidad-input" name="localidad" class="form-control" value="{{info.localidad}}" required>
+              <div class="invalid-feedback">
+                Ingrese una localidad.
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="row">
+          <h2 class="equipo-profile-title text-secondary">Contacto</h2>
+          <ul class="list-unstyled mb-1-9">
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Teléfono:</span
+              ><input id="telefono-input" name="telefono" class="form-control" value="{{info.tel}}" required>
+              <div class="invalid-feedback">
+                Ingrese un teléfono.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Contacto de emergencia:</span
+              >
+              <div class="row">
+                <div class="col-6">
+                  <label for="contacto_nombre" class="form-label text-primary font-weight-600">Nombre</label>
+                  <input id="emergencia_nombre-input" name="emergencia_nombre" id="contacto_nombre" class="form-control" value="{{ info.contacto_emergencia_nombre }}" required placeholder="Nombre del contacto">
+                  <div class="invalid-feedback">
+                    Ingrese un nombre.
+                  </div>
+                </div>
+                
+                <div class="col-6">
+                  <label for="contacto_telefono" class="form-label text-primary font-weight-600">Teléfono</label>
+                  <input id="emergencia_telefono-input" name="emergencia_telefono" id="contacto_telefono" class="form-control" value="{{ info.contacto_emergencia_tel }}" required placeholder="Teléfono del contacto">
+                  <div class="invalid-feedback">
+                    Ingrese un teléfono.
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="row">
+          <h2 class="equipo-profile-title text-secondary">Datos Laborales</h2>
+          <ul class="list-unstyled mb-1-9">
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Profesión:</span
+              >
+              <select name="profesion" class="form-control">
+                  <option value="Psicólogo/a" {% if info.profesion == 'Psicólogo/a' %}selected{% endif %}>Psicólogo/a</option>
+                  <option value="Psicomotricista" {% if info.profesion == 'Psicomotricista' %}selected{% endif %}>Psicomotricista</option>
+                  <option value="Médico/a" {% if info.profesion == 'Médico/a' %}selected{% endif %}>Médico/a</option>
+                  <option value="Kinesiólogo/a" {% if info.profesion == 'Kinesiólogo/a' %}selected{% endif %}>Kinesiólogo/a</option>
+                  <option value="Terapista Ocupacional" {% if info.profesion == 'Terapista Ocupacional' %}selected{% endif %}>Terapista Ocupacional</option>
+                  <option value="Psicopedagogo/a" {% if info.profesion == 'Psicopedagogo/a' %}selected{% endif %}>Psicopedagogo/a</option>
+                  <option value="Docente" {% if info.profesion == 'Docente' %}selected{% endif %}>Docente</option>
+                  <option value="Profesor" {% if info.profesion == 'Profesor' %}selected{% endif %}>Profesor</option>
+                  <option value="Fonoaudiólogo/a" {% if info.profesion == 'Fonoaudiólogo/a' %}selected{% endif %}>Fonoaudiólogo/a</option>
+                  <option value="Veterinario/a" {% if info.profesion == 'Veterinario/a' %}selected{% endif %}>Veterinario/a</option>
+                  <option value="Otro" {% if info.profesion == 'Otro' %}selected{% endif %}>Otro</option>
+              </select>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Puesto:</span
+              >
+              <select name="puesto" class="form-control">
+                  <option value="Administrativo/a" {% if info.puesto == 'Administrativo/a' %}selected{% endif %}>Administrativo/a</option>
+                  <option value="Terapeuta" {% if info.puesto == 'Terapeuta' %}selected{% endif %}>Terapeuta</option>
+                  <option value="Conductor" {% if info.puesto == 'Conductor' %}selected{% endif %}>Conductor</option>
+                  <option value="Auxiliar de pista" {% if info.puesto == 'Auxiliar de pista' %}selected{% endif %}>Auxiliar de pista</option>
+                  <option value="Herrero" {% if info.puesto == 'Herrero' %}selected{% endif %}>Herrero</option>
+                  <option value="Veterinario" {% if info.puesto == 'Veterinario' %}selected{% endif %}>Veterinario</option>
+                  <option value="Entrenador de Caballos" {% if info.puesto == 'Entrenador de Caballos' %}selected{% endif %}>Entrenador de Caballos</option>
+                  <option value="Domador" {% if info.puesto == 'Domador' %}selected{% endif %}>Domador</option>
+                  <option value="Profesor de Equitación" {% if info.puesto == 'Profesor de Equitación' %}selected{% endif %}>Profesor de Equitación</option>
+                  <option value="Docente de Capacitación" {% if info.puesto == 'Docente de Capacitación' %}selected{% endif %}>Docente de Capacitación</option>
+                  <option value="Auxiliar de mantenimiento" {% if info.puesto == 'Auxiliar de mantenimiento' %}selected{% endif %}>Auxiliar de mantenimiento</option>
+                  <option value="Otro" {% if info.puesto == 'Otro' %}selected{% endif %}>Otro</option>
+              </select>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Fecha de inicio:</span
+              ><input name="fecha_inicio" type="date" class="form-control" value="{{info.fecha_inicio.strftime('%Y-%m-%d')}}" required>
+              <div class="invalid-feedback">
+                Ingrese una fecha.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Fecha de cese:</span
+              >
+              <input name="fecha_fin" type="date" class="form-control" value="{%if info.fecha_fin%}{{info.fecha_fin.strftime('%Y-%m-%d')}}{%endif%}">
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Condición:</span
+              >
+              <select name="condicion" class="form-control">
+                <option value="Voluntario" {% if info.puesto == 'Voluntario' %}selected{% endif %}>Voluntario</option>
+                <option value="Personal Rentado" {% if info.puesto == 'Personal Rentado' %}selected{% endif %}>Personal Rentado</option>
+              </select>
+            </li>
+          </ul>
+        </div>
+        <div class="row">
+          <h2 class="equipo-profile-title text-secondary">
+            Información Sanitaria
+          </h2>
+          <ul class="list-unstyled mb-1-9">
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Obra social:</span
+              ><input id="obra_social-input" name="obra_social" class="form-control" value="{{info.obra_social}}" required>
+              <div class="invalid-feedback">
+                Ingrese una obra social.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Nº de afiliado:</span
+              ><input id="n_afiliado-input" name="n_afiliado" class="form-control" value="{{info.num_afiliado}}" required>
+              <div class="invalid-feedback">
+                Ingrese un numero de afiliado.
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-4 d-flex justify-content-end align-items-start">
+        <button
+          class="btn btn-outline-primary mx-2 align-self-start"
+          type="submit"
+        >
+          Guardar
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy" viewBox="0 0 16 16">
+            <path d="M11 2H9v3h2z"/>
+            <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z"/>
+          </svg>
+        </button>
+        <button class="btn btn-outline-secondary mx-2 align-self-start" onclick="window.history.back();">
+          Cancelar
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-trash"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"
+            />
+            <path
+              d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+  function validateForm(){
+    'use strict'
+
+    const form = document.getElementById("edit-form")
+  
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+
+      form.classList.add('was-validated')
+    }, false)
+
+    const emailInput = document.getElementById('email-input');
+    emailInput.addEventListener('input', function() {
+      if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(this.value)) {
+        this.setCustomValidity('Ingrese un email válido.');
+      } else {
+        this.setCustomValidity(''); // Resetear el mensaje si es válido
+      }
+    });
+  }
+
+  validateForm();
+
+</script>
+
+{% endblock %}
