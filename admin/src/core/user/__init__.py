@@ -106,3 +106,6 @@ def unassign_role(user):
     db.session.add(user)
     db.session.commit()
 
+def list_roles():
+    roles = Role.query.all()
+    return roles
