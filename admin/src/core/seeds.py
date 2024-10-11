@@ -21,7 +21,8 @@ def run():
         profesion='Psicólogo/a',
         puesto='Terapeuta',
         fecha_inicio=datetime.now(),
-        contacto_emergencia='Ana Martínez - 2345-6789',
+        contacto_emergencia_nombre='Ana Martínez',
+        contacto_emergencia_tel='2345-6789',
         obra_social='Obra Social X',
         num_afiliado="11223344",
         condicion='Personal Rentado',
@@ -39,7 +40,8 @@ def run():
         puesto='Administrativo/a',
         fecha_inicio=datetime(2022, 5, 15),  # Fecha de inicio específica
         fecha_fin=None,  # El campo es opcional, así que se puede omitir
-        contacto_emergencia='Juan García - 1234-5678',
+        contacto_emergencia_nombre='Juan García',
+        contacto_emergencia_tel='1234-5678',
         obra_social='Obra Social Y',
         num_afiliado="33445566",
         condicion='Voluntario',
@@ -57,7 +59,8 @@ def run():
         puesto='Profesor de Equitación',
         fecha_inicio=datetime(2023, 1, 10),  # Fecha de inicio específica
         fecha_fin=datetime(2024, 12, 31),  # Fecha de fin específica
-        contacto_emergencia='Pedro Rodríguez - 3456-7890',
+        contacto_emergencia_nombre='Pedro Rodríguez',
+        contacto_emergencia_tel='3456-7890',
         obra_social='Obra Social Z',
         num_afiliado="77889900",
         condicion='Personal Rentado',

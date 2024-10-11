@@ -79,11 +79,12 @@
           <div class="container">
             <div class="row">
               <button
-                class="col-4 btn btn-sm btn-outline-primary"
+                class="col-4 btn btn-sm btn-outline-primary equipo-profile-btn"
                 data-mdb-ripple-init
                 data-mdb-tooltip-init
                 data-mdb-placement="top"
                 title="Ver perfil"
+                onclick=window.location.href="{{ url_for('equipo.get_profile', id=equipo.id) }}";
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -104,6 +105,7 @@
                 method="POST"
               >
                 <input type="hidden" name="id" value="{{ equipo.id }}" />
+                <input type="hidden" name="from" value="list" />
                 <input
                   type="hidden"
                   name="query"
