@@ -1,9 +1,13 @@
 from core import equipo
 from core import ecuestre
 from core import user
+from core import jya
+from core import situacionPrevisional
+from core import institucion
+from core import parienteTutor
+from core import trabajo
 
 from datetime import datetime
-from core import jya
 
 def run():
     equipo1 = equipo.create_equipo(
@@ -68,7 +72,9 @@ def run():
         sexo = 'Macho',
         raza = 'Warmblood Westfaliano',
         pelaje = 'Marron',
-        sede_asignada = 'Club hipico'
+        tipo_adquisicion = 'Compra',
+        fecha_ingreso = datetime(2006,3,15),
+        sede_asignada = 'Club hipico',
     )
     ecuestre2 = ecuestre.create_ecuestre(
         nombre = 'Ecuestre 2',
@@ -76,7 +82,9 @@ def run():
         sexo = 'Hembra',
         raza = 'Warmblood Oldenburgo',
         pelaje = 'Blanco',
-        sede_asignada = 'Club hipico Jujuy'
+        tipo_adquisicion = 'Donación',
+        fecha_ingreso = datetime(2011,9,18),
+        sede_asignada = 'Club hipico Jujuy',
     )
     jya1 = jya.create_jinetes_amazonas(
         nombre = 'jya1',
@@ -91,7 +99,14 @@ def run():
         tel = '111222333',
         becado = True,
         porcentaje_beca = 0.7,
-        profesionales_atienden = 'Aaa, Bbb'   
+        profesionales_atienden = 'Aaa, Bbb',
+        certificado_discapacidad = True,
+        asignacion_familiar = True,
+        tipo_asignacion_familiar = 'Universal por hijo con discapacidad',
+        beneficiario_pension = True,
+        beneficiario_pension_tipo = 'Nacional',
+        discapacidad = 'ECNE',
+        tipo_discapacidad = 'Mental',
     )
     jya2 = jya.create_jinetes_amazonas(
         nombre = 'jya2',
@@ -106,7 +121,68 @@ def run():
         tel = '111222444',
         becado = True,
         porcentaje_beca = 0.9,
-        profesionales_atienden = 'Aaa, Bbb'   
+        profesionales_atienden = 'Aaa, Bbb',
+        certificado_discapacidad = False,
+        asignacion_familiar = False,
+        beneficiario_pension = False,
+    )
+    situacion_previsional1 = situacionPrevisional.create_situacion_previsional(
+        obra_social = 'IOMA',
+        nroafiliado = 5643,
+        curatela = False,
+    )
+    situacion_previsional2 = situacionPrevisional.create_situacion_previsional(
+        obra_social = 'OSDE',
+        nroafiliado = 8231,
+        curatela = True,
+        observaciones = 'Hola'
+    )
+    institucion_escolar1 = institucion.create_institucion_escolar(
+        nombre = 'Escuela 1',
+        direccion = 'Calle 1 y 50',
+        telefono = '221345',
+        grado_actual = 4,
+    )
+    institucion_escolar2 = institucion.create_institucion_escolar(
+        nombre = 'Escuela 2',
+        direccion = 'Calle 2 y 50',
+        telefono = '221346',
+        grado_actual = 2,
+        observaciones = 'Capo total',
+    )
+    pariente = parienteTutor.create_parentesco_tutor(
+        parentesco = 'Padre',
+        nombre = 'Alejandro',
+        apellido = 'UNLP',
+        dni = 441,
+        domicilio_actual = 'Calle 531',
+        celular_actual = '224214',
+        email = 'ale@mail.com',
+        nivel_escolaridad = 'Universitario',
+        actividad_ocupacion = 'Abogado',
+    )
+    tutor = parienteTutor.create_parentesco_tutor(
+        parentesco = 'Tutora',
+        nombre = 'Alejandra',
+        apellido = 'UNLP',
+        dni = 442,
+        domicilio_actual = 'Calle 532',
+        celular_actual = '3214',
+        email = 'ale2@mail.com',
+        nivel_escolaridad = 'Universitario',
+        actividad_ocupacion = 'Medica',
+    )
+    trabajo1 = trabajo.create_trabajo(
+        propuestra_trabajo_institucional = 'Equitación',
+        condicion = 'Regular',
+        sede = 'CASJ',
+        dia = 'Domingo',
+    )
+    trabajo2 = trabajo.create_trabajo(
+        propuestra_trabajo_institucional = 'Actividades recreativas',
+        condicion = 'De baja',
+        sede = 'HLP',
+        dia = 'Jueves',
     )
 
     role_admin = user.create_role(name="Técnica")
@@ -156,3 +232,22 @@ def run():
     ecuestre.assing_j_y_a(ecuestre1,jya1)
     ecuestre.assing_j_y_a(ecuestre2,jya2)
 
+    jya.assing_situacion_previsional(jya1,situacion_previsional1)
+    jya.assing_situacion_previsional(jya2,situacion_previsional2)
+    jya.assing_institucion_escolar(jya1,institucion_escolar1)
+    jya.assing_institucion_escolar(jya2,institucion_escolar2)
+    jya.assing_parentesco_tutor(jya1,pariente)
+    jya.assing_parentesco_tutor(jya2,tutor)
+
+    trabajo.assing_profesor(trabajo1,equipo1)
+    trabajo.assing_conductor(trabajo1,equipo2)
+    trabajo.assing_caballo(trabajo1,ecuestre1)
+    trabajo.assing_auxiliar_pista(trabajo1,equipo3)
+
+    trabajo.assing_profesor(trabajo2,equipo2)
+    trabajo.assing_conductor(trabajo2,equipo3)
+    trabajo.assing_caballo(trabajo2,ecuestre2)
+    trabajo.assing_auxiliar_pista(trabajo2,equipo1)
+
+    jya.assing_trabajo(jya1,trabajo1)
+    jya.assing_trabajo(jya2,trabajo2)

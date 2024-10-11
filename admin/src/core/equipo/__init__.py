@@ -23,7 +23,12 @@ class Equipo(db.Model):
     num_afiliado = db.Column(db.Text, nullable=False)
     condicion = db.Column(db.Text, nullable=False)
     activo = db.Column(db.Boolean, nullable=False, default=True)
+
     equipos = db.relationship("Ecuestre", back_populates="equipo")
+    profesor_terapeuta_trabajo = db.relationship("Trabajo", back_populates="profesor_terapeuta", foreign_keys="Trabajo.profesor_terapeuta_id")
+    conductor_trabajo = db.relationship("Trabajo", back_populates="conductor",foreign_keys="Trabajo.conductor_id")
+    auxiliar_pista_trabajo = db.relationship("Trabajo", back_populates="auxiliar_pista", foreign_keys="Trabajo.auxiliar_pista_id")
+
     inserted_at = db.Column(db.DateTime, nullable=True, default=datetime.now)
 
     def __repr__(self):
