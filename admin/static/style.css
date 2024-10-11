@@ -4,6 +4,10 @@ body {
     background-color: rgb(255, 255, 255);
 }
 
+.register {
+    background-color: #66B4D1;
+}
+
 h1 {
     font-family: 'Abril Fatface'; 
     font-weight: bolder;
@@ -189,3 +193,9 @@ h2 {
     font-weight: bolder;
 }
 
+
+.btn-celeste{
+    background-color: #66B4D1!important;
+    color: white!important;
+    border-color: white!important;
+  }
