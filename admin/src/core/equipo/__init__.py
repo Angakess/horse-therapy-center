@@ -17,12 +17,18 @@ class Equipo(db.Model):
     puesto = db.Column(db.Text, nullable=False)
     fecha_inicio = db.Column(db.DateTime, nullable=False)
     fecha_fin = db.Column(db.DateTime, nullable=True)
-    contacto_emergencia = db.Column(db.Text, nullable=False)
+    contacto_emergencia_nombre = db.Column(db.Text, nullable=False)
+    contacto_emergencia_tel = db.Column(db.Text, nullable=False)
     obra_social = db.Column(db.Text, nullable=False)
     num_afiliado = db.Column(db.Text, nullable=False)
     condicion = db.Column(db.Text, nullable=False)
     activo = db.Column(db.Boolean, nullable=False, default=True)
+
     equipos = db.relationship("Ecuestre", back_populates="equipo")
+    profesor_terapeuta_trabajo = db.relationship("Trabajo", back_populates="profesor_terapeuta", foreign_keys="Trabajo.profesor_terapeuta_id")
+    conductor_trabajo = db.relationship("Trabajo", back_populates="conductor",foreign_keys="Trabajo.conductor_id")
+    auxiliar_pista_trabajo = db.relationship("Trabajo", back_populates="auxiliar_pista", foreign_keys="Trabajo.auxiliar_pista_id")
+
     inserted_at = db.Column(db.DateTime, nullable=True, default=datetime.now)
 
     def __repr__(self):
@@ -81,4 +87,22 @@ def create_equipo(**kwargs):
 def toggle_a(id):
     chosen_equipo = Equipo.query.get(id)
     chosen_equipo.activo = not (chosen_equipo.activo)
+    db.session.commit()
+
+
+def get_one(id):
+    chosen_equipo = Equipo.query.get(id)
+    
+    return chosen_equipo
+
+def edit(id,data):
+    chosen_equipo = Equipo.query.get(id)
+
+    for key, value in data.items():
+        if key in ["fecha_inicio", "fecha_fin"] and value == '':
+            value = None
+
+        if hasattr(chosen_equipo, key):
+            setattr(chosen_equipo, key, value)
+
     db.session.commit()
