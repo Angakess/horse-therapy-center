@@ -14,7 +14,6 @@ from web.helpers.auth import is_authenticated
 session = Session()
 from core import database
 from core import seeds
-from core.config import config
 
 
 def create_app(env="development",  static_folder="../../static"):
