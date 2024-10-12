@@ -1,9 +1,14 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="light" role=navigation >
+<nav class="navbar navbar-expand-lg navbar-light bg-light" data-bs-theme="light" role=navigation >
     <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
         <a class="navbar-brand" href="{{ url_for('home') }}">
             <img src="{{ url_for('static', filename='img/cedica1.png') }}" class="img-fluid logo-cedica" alt="Logo Cedica">
-        </a>        
-      <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        </a>     
+
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0" aria-label="Secciones principales del sitio">
             <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Jinetes/Amazonas</a>
@@ -14,6 +19,7 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="{{ url_for('equipo.index') }}">Equipo</a>
           </li>
+          
         </ul>
 
         <!--- Lo comento porque es estetico pero no le damos uso
@@ -23,13 +29,12 @@
           <button class="btn btn-outline-success" type="submit" aria-label="Botón de buscar">Buscar</button>
       </form>
       --> 
+      
       <div class="dropdown ms-3">
         <button class="btn-damasco dropdown-toggle" id="userProfileDropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Menú de perfil de usuario">
             <i class="bi bi-person-circle" aria-hidden="true"></i>
         </button>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userProfileDropdown">
-            <li><a class="dropdown-item" href="#">Perfil</a></li>
-            <li><a class="dropdown-item" href="#">Configuración</a></li>
             {% if is_authenticated(session) %}
             <li><a class="dropdown-item" href="/auth/logout">Cerrar sesión</a></li>
             {% else %}
