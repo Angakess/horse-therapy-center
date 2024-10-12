@@ -27,7 +27,7 @@
               <div id="column_name_nombre" class="col-auto">Nombre</div>
 
               {% set sort_by = 'nombre' %} {% include
-              "equipo/filter_arrows.html" %}
+              "equipo/components/filter_arrows.html" %}
             </div>
           </th>
           <th scope="col" class="col-md-1 col-equipo-apellido container">
@@ -40,7 +40,7 @@
             >
               <div class="col-auto">Apellido</div>
               {% set sort_by = 'apellido' %} {% include
-              "equipo/filter_arrows.html" %}
+              "equipo/components/filter_arrows.html" %}
             </div>
           </th>
           <th scope="col" class="col-md-1 col-equipo-dni">DNI</th>
@@ -55,7 +55,7 @@
               style="display: flex; cursor: pointer"
             >
               <div class="col-auto">Fecha de creación</div>
-              {% set sort_by = 'fecha' %} {% include "equipo/filter_arrows.html"
+              {% set sort_by = 'fecha' %} {% include "equipo/components/filter_arrows.html"
               %}
             </div>
           </th>
@@ -185,4 +185,4 @@
     </tbody>
   </table>
 </div>
-{% include "equipo/pagination_equipo.html" %}
+{% include "equipo/components/pagination_equipo.html" %}
