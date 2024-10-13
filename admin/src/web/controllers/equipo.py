@@ -59,6 +59,9 @@ def get_profile(id):
         chosen_equipo = equipo.get_one(id)
     except ValueError as e:
         flash(str(e), "danger")
+        return redirect(
+            url_for("equipo.index")
+        )
 
     return render_template(
         "equipo/profile.html", info=chosen_equipo, archivos=chosen_equipo.archivos
@@ -70,14 +73,18 @@ def enter_edit(id):
     try:
         chosen_equipo = equipo.get_one(id)
         return render_template(
-        "equipo/profile_editing.html",
-        info=chosen_equipo,
-        archivos=chosen_equipo.archivos,
-    )
+            "equipo/profile_editing.html",
+            info=chosen_equipo,
+            archivos=chosen_equipo.archivos,
+        )
     except ValueError as e:
         flash(str(e), "danger")
         return redirect(
-            url_for("equipo/profile.html", info=chosen_equipo, archivos=chosen_equipo.archivos)
+            url_for(
+                "equipo/profile.html",
+                info=chosen_equipo,
+                archivos=chosen_equipo.archivos,
+            )
         )
 
 
@@ -148,8 +155,12 @@ def save_edit(id):
         client = current_app.storage.client
         archivos_a_eliminar = request.form.getlist("archivos_a_eliminar")
         for archivo_id in archivos_a_eliminar:
-            archivo = equipo.get_archivo(archivo_id)  # Obtener el archivo de la base de datos
-            client.remove_object("grupo28", f"{archivo.id}-{archivo.nombre}")  # Eliminar de MinIO
+            archivo = equipo.get_archivo(
+                archivo_id
+            )  # Obtener el archivo de la base de datos
+            client.remove_object(
+                "grupo28", f"{archivo.id}-{archivo.nombre}"
+            )  # Eliminar de MinIO
             equipo.delete_archivo(archivo_id)  # Eliminar de la base de datos
     except ValueError as e:
         flash(str(e), "danger")
@@ -208,3 +219,21 @@ def download_archivo(id):
         return redirect(url_for("equipo.get_profile", id=chosen_archivo.equipo_id))
 
     return redirect(minio_url)
+
+
+@bprint.post("/borrar")
+def delete():
+    chosen_id = request.form["id"]
+    try:
+        chosen_equipo = equipo.delete_equipo(chosen_id)
+        archivos_asociados = chosen_equipo.archivos
+        client = current_app.storage.client
+        for archivo in archivos_asociados:
+            client.remove_object("grupo28",f"{archivo.id}-{archivo.nombre}")
+            equipo.delete_archivo(archivo.id)
+    except ValueError as e:
+        flash(str(e), "danger")
+        return redirect(url_for("equipo.get_profile", id=chosen_id))
+
+    flash("Equipo borrado con éxito", "success")
+    return redirect(url_for("equipo.index"))

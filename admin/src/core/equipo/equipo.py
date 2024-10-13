@@ -22,6 +22,7 @@ class Equipo(db.Model):
     num_afiliado = db.Column(db.Text, nullable=False)
     condicion = db.Column(db.Text, nullable=False)
     activo = db.Column(db.Boolean, nullable=False, default=True)
+    borrado = db.Column(db.Boolean, nullable=False, default=False)
 
     equipos = db.relationship("Ecuestre", back_populates="equipo")
     profesor_terapeuta_trabajo = db.relationship(
