@@ -1,4 +1,5 @@
-from flask import redirect, render_template, request, url_for
+from os import fstat
+from flask import flash, redirect, render_template, request, url_for, current_app
 from core import equipo
 from flask import Blueprint
 
@@ -51,14 +52,14 @@ def toggle_activate():
 @bprint.get("/<id>")
 def get_profile(id):
     chosen_equipo = equipo.get_one(id)
-
-    return render_template("equipo/profile.html", info=chosen_equipo)
+    
+    return render_template("equipo/profile.html", info=chosen_equipo, archivos=chosen_equipo.archivos)
 
 @bprint.get("/<id>/edit")
 def enter_edit(id):
     chosen_equipo = equipo.get_one(id)
 
-    return render_template("equipo/profile_editing.html", info=chosen_equipo)
+    return render_template("equipo/profile_editing.html", info=chosen_equipo, archivos=chosen_equipo.archivos)
 
 
 @bprint.post("/<id>/edit")
@@ -81,9 +82,37 @@ def save_edit(id):
         "num_afiliado": request.form["n_afiliado"],
         "condicion": request.form["condicion"],
     }
+
+    ALLOWED_MIME_TYPES = {"application/pdf", "image/png", "image/jpeg", "text/plain"}
+
+    archivo_subido = request.files["archivos"]
+
+    if archivo_subido:
+        if archivo_subido.content_type not in ALLOWED_MIME_TYPES:
+            flash("Tipo de archivo no permitido. Solo se permiten PDF, PNG, JPG o TXT.", "danger")
+            return redirect(url_for("equipo.get_profile", id=id))
+
+        size = fstat(archivo_subido.fileno()).st_size
+        if size > 5 * 1024 * 1024:
+            flash("El archivo es demasiado grande. El tamaño máximo permitido es 5 MB.", "danger")
+            return redirect(url_for("equipo.get_profile", id=id))
+
+        new_archivo = equipo.create_archivo(nombre=archivo_subido.filename)
+        chosen_equipo = equipo.get_one(id)
+        equipo.assign_archivo(chosen_equipo, new_archivo)
+
+        client = current_app.storage.client
+        client.put_object(
+            "grupo28",
+            f"{new_archivo.id}-{new_archivo.nombre}",
+            archivo_subido,
+            size,
+            content_type=archivo_subido.content_type,
+        )
     
     equipo.edit(id,new_data)
 
+    flash("Datos guardados con exito.", "success")
     return redirect(url_for("equipo.get_profile", id=id))
 
 @bprint.get("/agregar")
@@ -115,4 +144,12 @@ def add_equipo():
     new_equipo = equipo.create_equipo(**new_data)
 
     return redirect(url_for("equipo.get_profile", id=new_equipo.id))
-        
+
+
+@bprint.get("/<id>/descargar-archivo")
+def download_archivo(id):
+        chosen_archivo = equipo.get_archivo(id)
+        client = current_app.storage.client
+        minio_url = client.presigned_get_object("grupo28", f"{chosen_archivo.id}-{chosen_archivo.nombre}")
+
+        return redirect(minio_url)
