@@ -199,3 +199,8 @@ h2 {
     color: white!important;
     border-color: white!important;
   }
+
+.archivo-eliminado {
+    background-color: #ffcccc;
+    text-decoration: line-through;
+}
