@@ -69,14 +69,16 @@ def get_profile(id):
 def enter_edit(id):
     try:
         chosen_equipo = equipo.get_one(id)
-    except ValueError as e:
-        flash(str(e), "danger")
-
-    return render_template(
+        return render_template(
         "equipo/profile_editing.html",
         info=chosen_equipo,
         archivos=chosen_equipo.archivos,
     )
+    except ValueError as e:
+        flash(str(e), "danger")
+        return redirect(
+            url_for("equipo/profile.html", info=chosen_equipo, archivos=chosen_equipo.archivos)
+        )
 
 
 @bprint.post("/<id>/edit")
@@ -135,10 +137,23 @@ def save_edit(id):
             )
         except ValueError as e:
             flash(str(e), "danger")
+            return redirect(url_for("equipo.get_profile", id=id))
     try:
         equipo.edit(id, new_data)
     except ValueError as e:
         flash(str(e), "danger")
+        return redirect(url_for("equipo.get_profile", id=id))
+
+    try:
+        client = current_app.storage.client
+        archivos_a_eliminar = request.form.getlist("archivos_a_eliminar")
+        for archivo_id in archivos_a_eliminar:
+            archivo = equipo.get_archivo(archivo_id)  # Obtener el archivo de la base de datos
+            client.remove_object("grupo28", f"{archivo.id}-{archivo.nombre}")  # Eliminar de MinIO
+            equipo.delete_archivo(archivo_id)  # Eliminar de la base de datos
+    except ValueError as e:
+        flash(str(e), "danger")
+        return redirect(url_for("equipo.get_profile", id=id))
 
     flash("Datos guardados con exito.", "success")
     return redirect(url_for("equipo.get_profile", id=id))
@@ -190,5 +205,6 @@ def download_archivo(id):
         )
     except ValueError as e:
         flash(str(e), "danger")
+        return redirect(url_for("equipo.get_profile", id=chosen_archivo.equipo_id))
 
     return redirect(minio_url)

@@ -111,3 +111,12 @@ def get_archivo(id):
         raise(ValueError("No se encontró el archivo solicitado"))
 
     return archivo
+
+
+def delete_archivo(id):
+    archivo = Archivo.query.get(id)
+    if not archivo:
+        raise(ValueError("No se encontró el archivo solicitado para borrar"))
+    else:
+        db.session.delete(archivo)
+        db.session.commit()
