@@ -59,18 +59,25 @@ def create_equipo(**kwargs):
 
 def toggle_a(id):
     chosen_equipo = Equipo.query.get(id)
+    if not chosen_equipo:
+        raise ValueError("No se encontró a la persona seleccionada")
     chosen_equipo.activo = not (chosen_equipo.activo)
     db.session.commit()
 
 
 def get_one(id):
     chosen_equipo = Equipo.query.get(id)
+    if not chosen_equipo:
+        raise ValueError("No se encontró a la persona seleccionada")
 
     return chosen_equipo
 
 
 def edit(id, data):
     chosen_equipo = Equipo.query.get(id)
+
+    if not chosen_equipo:
+        raise ValueError("No se encontró a la persona seleccionada")
 
     for key, value in data.items():
         if key in ["fecha_inicio", "fecha_fin"] and value == "":
@@ -89,6 +96,7 @@ def create_archivo(**kwargs):
 
     return archivo
 
+
 def assign_archivo(equipo, archivo):
     archivo.equipo = equipo
     db.session.add(archivo)
@@ -99,5 +107,7 @@ def assign_archivo(equipo, archivo):
 
 def get_archivo(id):
     archivo = Archivo.query.get(id)
+    if not archivo:
+        raise(ValueError("No se encontró el archivo solicitado"))
 
     return archivo
