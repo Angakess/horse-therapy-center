@@ -5,6 +5,7 @@ from os import environ
 # Cargar variables de entorno desde el archivo .env
 load_dotenv()
 
+
 class Config(object):
     """BaseConfiguration."""
     SECRET_KEY = "proyecto2024"
