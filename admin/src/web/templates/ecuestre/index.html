@@ -1,8 +1,20 @@
 {% extends "layout.html" %} {% block title %} Lista de empleados {% endblock %}
 {% block head %} {{ super() }} {% endblock %}
 {% block content %}
-
-<h1> Ecuestre </h1>
+<main role="main" class="container">
+    {% include "auth/messages.html"%}
+    <div class="content-body">
+      <!-- TITULO -->
+      <div class="row align-items-center justify-content-start">
+        <div class="col-auto">
+          <h1>Lista de ecuestres</h1>
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-outline-primary equipo-add-btn" onclick=window.location.href="#";>Agregar +</button>
+        </div>
+         <!-- BARRA DE BUSQUEDA -->
+        {% include "ecuestre/searchbar_ecuestre.html"%}
+      </div>
 
 {%endblock%}
 
