@@ -16,7 +16,7 @@ class ProductionConfig(Config):
     MINIO_SERVER = environ.get("MINIO_SERVER")
     MINIO_ACCESS_KEY = environ.get("MINIO_ACCESS_KEY")
     MINIO_SECRET_KEY = environ.get("MINIO_SECRET_KEY")
-    MINIO_SECURE = False
+    MINIO_SECURE = True
     SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL")
 
 
