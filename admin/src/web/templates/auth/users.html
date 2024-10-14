@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block title %} Lista de usuarios {% endblock %}
+
+
+{% block content %}
+
+{% include "auth/messages.html"%}
+
+<main role="main" class="container">
+  <div class="content-body">
+    <!-- TITULO -->
+    <h1>Lista de usuarios</h1>
+
+    <!-- BARRA DE BUSQUEDA -->
+    {% include "auth/searchbar_user.html"%}
+
+    {% if users %}
+    <!-- TABLA CON USUARIOS -->
+    {% include "auth/users_with_stuff.html" %}
+    
+    {% else %}
+    <!-- TABLA SIN USUARIOS -->
+    {% include "auth/void_users.html" %}
+
+    {% endif %}
+  </div>
+</main>
+{% endblock %}

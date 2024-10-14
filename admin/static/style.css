@@ -1,0 +1,206 @@
+
+body {
+    font-family: 'Helvetica', sans-serif;
+    background-color: rgb(255, 255, 255);
+}
+
+.register {
+    background-color: #66B4D1;
+}
+
+h1 {
+    font-family: 'Abril Fatface'; 
+    font-weight: bolder;
+}
+
+@media (max-width: 576px) {
+  .btn-cancelar,.btn-damasco,.btn-verde {
+    padding: 0.8em 1.5em; 
+    font-size: 0.9rem; 
+  }
+}
+
+.btn-damasco {
+    background-color: #fc7323;
+    color: rgb(255, 255, 255); 
+    padding: 0.5em 1em; 
+    border: none; 
+    cursor: pointer; 
+    transition: background-color 0.5s; 
+    text-decoration: none; 
+    display: inline-flex;
+    align-items: center; 
+    font-size: 1rem; 
+    justify-content: center; 
+    border-radius: 0.50rem;
+}
+
+
+
+.btn-verde {
+    background-color: #106d37;
+    color: rgb(255, 255, 255); 
+    padding: 0.5em 1em; 
+    border: none; 
+    cursor: pointer; 
+    transition: background-color 0.5s; 
+    text-decoration: none; 
+    display: inline-flex;
+    align-items: center; 
+    font-size: 1rem; 
+    justify-content: center; 
+    border-radius: 0.50rem;
+}
+
+.btn-cancelar {
+  background-color: #f82509;
+  color: rgb(255, 255, 255); 
+  padding: 0.5em 1em; 
+  border: none; 
+  cursor: pointer; 
+  transition: background-color 0.5s; 
+  text-decoration: none; 
+  display: inline-flex;
+  font-size: 1rem; 
+  align-items: center; 
+  justify-content: center; 
+  border-radius: 0.50rem;
+}
+
+
+
+
+h5 {
+    font-weight: bold; 
+}
+
+
+.logo-cedica {
+    max-height: 60px;    
+    height: auto;      
+    width: auto;        
+}
+
+.hover-underline:hover {
+  text-decoration: underline;
+}
+
+.filer-arrow {
+  padding: 0%;
+}
+
+.text-primary {
+    color: #dfad3a !important;
+}
+.text-secondary {
+    color: #66B4D1 !important;
+}
+.font-weight-600 {
+    font-weight: 600;
+}
+.display-26 {
+    font-size: 1.3rem;
+}
+
+@media screen and (min-width: 992px){
+    .p-lg-7 {
+        padding: 4rem;
+    }
+}
+@media screen and (min-width: 768px){
+    .p-md-6 {
+        padding: 3.5rem;
+    }
+}
+@media screen and (min-width: 576px){
+    .p-sm-2-3 {
+        padding: 2.3rem;
+    }
+}
+.p-1-9 {
+    padding: 1.9rem;
+}
+
+.bg-secondary {
+    background: #66B4D1 !important;
+}
+@media screen and (min-width: 576px){
+    .pe-sm-6, .px-sm-6 {
+        padding-right: 3.5rem;
+    }
+}
+@media screen and (min-width: 576px){
+    .ps-sm-6, .px-sm-6 {
+        padding-left: 3.5rem;
+    }
+}
+.pe-1-9, .px-1-9 {
+    padding-right: 1.9rem;
+}
+.ps-1-9, .px-1-9 {
+    padding-left: 1.9rem;
+}
+.pb-1-9, .py-1-9 {
+    padding-bottom: 1.9rem;
+}
+.pt-1-9, .py-1-9 {
+    padding-top: 1.9rem;
+}
+.mb-1-9, .my-1-9 {
+    margin-bottom: 1.9rem;
+}
+@media (min-width: 992px){
+    .d-lg-inline-block {
+        display: inline-block!important;
+    }
+}
+.rounded {
+    border-radius: 0.25rem!important;
+}
+
+.equipo-profile-btn {
+  color: #66B4D1!important;
+  border-color: #66B4D1!important;
+}
+.equipo-profile-btn:hover {
+  background-color: #66B4D1!important;
+  color: white!important;
+  border-color: white!important;
+}
+.equipo-search-btn {
+  color: #66B4D1!important;
+  border-color: #66B4D1!important;
+  font-weight: bold;
+}
+.equipo-search-btn:hover {
+  background-color: #66B4D1!important;
+  color: white!important;
+  border-color: white!important;
+}
+.equipo-add-btn {
+    color: #dfad3a!important;
+  border-color: #dfad3a!important;
+  font-weight: bold;
+}
+.equipo-add-btn:hover {
+    background-color: #dfad3a!important;
+    color: white!important;
+    border-color: white!important;
+}
+
+h2 {
+    font-family: 'Abril Fatface'; 
+    font-weight: bolder;
+}
+
+
+.btn-celeste{
+    background-color: #66B4D1!important;
+    color: white!important;
+    border-color: white!important;
+  }
+
+.archivo-eliminado {
+    background-color: #ffcccc;
+    text-decoration: line-through;
+}

@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block title %} Editar usuario {% endblock %}
+
+{% block content %}
+<h1 class="row justify-content-center"> Editar usuario </h1>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6"> 
+
+    <form action="{{ url_for('users.edit_user', user_id=user.id) }}" method="POST">
+      <div class="mb-5">
+        <label for="alias" class="form-label">Alias</label>
+        <input type="text" class="form-control" id="alias" name="alias" value="{{ user.alias }}">
+      </div>
+      <div class="input-group mb-5">
+        <label class="input-group-text" for="inputGroupSelect01">Rol</label>
+        <select class="form-select" id="inputGroupSelect01" name="role">
+          <option selected>Seleccionar...</option>
+          {% for role in roles %}
+          <option value="{{ role.id }}" {% if role.id == user.role_id %}selected{% endif %}>
+            {{ role.name }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="d-flex justify-content-center mb-3">
+        <button type="submit" class="btn-celeste me-2" id="botonGuardar">Guardar</button>
+        <button type="button" class="btn-secondary" id="botonCancelar">Cancelar</button>
+      </div>  
+    </div>
+    </form>
+    
+  </div>
+</div>
+
+<script>
+document.getElementById("botonCancelar").addEventListener("click", function() {
+    window.location.href = "{{ url_for('users.index') }}";
+});
+
+</script>
+
+
+{%endblock%}

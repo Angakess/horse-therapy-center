@@ -1,0 +1,250 @@
+{% extends "layout.html" %} {% block title %} Lista de empleados {% endblock %}
+{% block head %} {{ super() }} {% endblock %} {% block content %}
+
+<div class="container">
+  <form
+    id="edit-form"
+    class="needs-validation"
+    novalidate
+    action="{{url_for('equipo.add_equipo')}}"
+    method="POST"
+  >
+    <div class="row">
+      <div class="col">
+        <div class="row">
+          <h2 class="equipo-profile-title text-secondary">
+            Información Personal
+          </h2>
+          <ul class="list-unstyled mb-1-9">
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Nombre:</span
+              ><input id="nombre-input" name="nombre" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese un nombre.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Apellido:</span
+              ><input id="apellido-input" name="apellido" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese un apellido.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >DNI:</span
+              ><input id="dni-input" name="dni" class="form-control" required pattern="^\d{8}$">
+              <div class="invalid-feedback">
+                Ingrese un DNI válido.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Email:</span
+              ><input id="email-input" name="email" class="form-control" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+              >
+              <div class="invalid-feedback">
+                Ingrese un email válido.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Domicilio:</span
+              ><input id="domicilio-input" name="domicilio" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese un domicilio.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Localidad:</span
+              ><input id="localidad-input" name="localidad" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese una localidad.
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="row">
+          <h2 class="equipo-profile-title text-secondary">Contacto</h2>
+          <ul class="list-unstyled mb-1-9">
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Teléfono:</span
+              ><input id="telefono-input" name="telefono" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese un teléfono.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Contacto de emergencia:</span
+              >
+              <div class="row">
+                <div class="col-6">
+                  <label for="contacto_nombre" class="form-label text-primary font-weight-600">Nombre</label>
+                  <input id="emergencia_nombre-input" name="emergencia_nombre" id="contacto_nombre" class="form-control" required>
+                  <div class="invalid-feedback">
+                    Ingrese un nombre.
+                  </div>
+                </div>
+                
+                <div class="col-6">
+                  <label for="contacto_telefono" class="form-label text-primary font-weight-600">Teléfono</label>
+                  <input id="emergencia_telefono-input" name="emergencia_telefono" id="contacto_telefono" class="form-control" required>
+                  <div class="invalid-feedback">
+                    Ingrese un teléfono.
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="row">
+          <h2 class="equipo-profile-title text-secondary">Datos Laborales</h2>
+          <ul class="list-unstyled mb-1-9">
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Profesión:</span
+              >
+              <select name="profesion" class="form-control" required>
+                  <option hidden selected disabled value=""></option>
+                  <option value="Psicólogo/a">Psicólogo/a</option>
+                  <option value="Psicomotricista">Psicomotricista</option>
+                  <option value="Médico/a">Médico/a</option>
+                  <option value="Kinesiólogo/a">Kinesiólogo/a</option>
+                  <option value="Terapista Ocupacional">Terapista Ocupacional</option>
+                  <option value="Psicopedagogo/a">Psicopedagogo/a</option>
+                  <option value="Docente">Docente</option>
+                  <option value="Profesor">Profesor</option>
+                  <option value="Fonoaudiólogo/a">Fonoaudiólogo/a</option>
+                  <option value="Veterinario/a">Veterinario/a</option>
+                  <option value="Otro">Otro</option>
+              </select>
+              <div class="invalid-feedback">
+                Seleccione una profesión.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Puesto:</span
+              >
+              <select name="puesto" class="form-control" required>
+                  <option hidden selected disabled value=""></option>
+                  <option value="Administrativo/a">Administrativo/a</option>
+                  <option value="Terapeuta">Terapeuta</option>
+                  <option value="Conductor">Conductor</option>
+                  <option value="Auxiliar de pista">Auxiliar de pista</option>
+                  <option value="Herrero">Herrero</option>
+                  <option value="Veterinario">Veterinario</option>
+                  <option value="Entrenador de Caballos">Entrenador de Caballos</option>
+                  <option value="Domador">Domador</option>
+                  <option value="Profesor de Equitación">Profesor de Equitación</option>
+                  <option value="Docente de Capacitación">Docente de Capacitación</option>
+                  <option value="Auxiliar de mantenimiento">Auxiliar de mantenimiento</option>
+                  <option value="Otro">Otro</option>
+              </select>
+              <div class="invalid-feedback">
+                Seleccione un puesto.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Fecha de inicio:</span
+              ><input name="fecha_inicio" type="date" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese una fecha.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Fecha de cese:</span
+              >
+              <input name="fecha_fin" type="date" class="form-control">
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Condición:</span
+              >
+              <select name="condicion" class="form-control" required>
+                <option hidden selected disabled value=""></option>
+                <option value="Voluntario">Voluntario</option>
+                <option value="Personal Rentado">Personal Rentado</option>
+              </select>
+              <div class="invalid-feedback">
+                Ingrese una condición.
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="row">
+          <h2 class="equipo-profile-title text-secondary">
+            Información Sanitaria
+          </h2>
+          <ul class="list-unstyled mb-1-9">
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Obra social:</span
+              ><input id="obra_social-input" name="obra_social" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese una obra social.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Nº de afiliado:</span
+              ><input id="n_afiliado-input" name="n_afiliado" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese un numero de afiliado.
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-4 d-flex justify-content-end align-items-start">
+        <button
+          class="btn btn-outline-primary mx-2 align-self-start"
+          type="submit"
+        >
+          Confirmar
+        </button>
+        <button class="btn btn-outline-secondary mx-2 align-self-start" onclick="window.history.back();">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+  function validateForm(){
+    'use strict'
+
+    const form = document.getElementById("edit-form")
+  
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+
+      form.classList.add('was-validated')
+    }, false)
+
+    const emailInput = document.getElementById('email-input');
+    emailInput.addEventListener('input', function() {
+      if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(this.value)) {
+        this.setCustomValidity('Ingrese un email válido.');
+      } else {
+        this.setCustomValidity(''); // Resetear el mensaje si es válido
+      }
+    });
+  }
+
+  validateForm();
+
+</script>
+
+{% endblock %}
