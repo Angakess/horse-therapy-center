@@ -7,4 +7,5 @@ bprint = Blueprint("ecuestre", __name__, url_prefix="/ecuestre")
 
 @bprint.get("/")
 def index():
-    return render_template("ecuestre/index.html")
+    ecuestres = ecuestre.list_ecuestres()
+    return render_template("ecuestre/index.html", ecuestres=ecuestres)
