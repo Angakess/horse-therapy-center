@@ -1,5 +1,6 @@
 import os
 from dotenv import load_dotenv
+from os import environ
 
 # Cargar variables de entorno desde el archivo .env
 load_dotenv()
@@ -12,7 +13,12 @@ class Config(object):
 
 class ProductionConfig(Config):
     """Production configuration."""
-    pass
+    MINIO_SERVER = environ.get("MINIO_SERVER")
+    MINIO_ACCESS_KEY = environ.get("MINIO_ACCESS_KEY")
+    MINIO_SECRET_KEY = environ.get("MINIO_SECRET_KEY")
+    MINIO_SECURE = False
+    SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL")
+
 
 class DevelopmentConfig(Config):
     """Development configuration."""

@@ -1,3 +1,4 @@
+import logging
 from flask import Flask
 from flask import render_template
 from flask import url_for
@@ -16,6 +17,8 @@ session = Session()
 from core import database
 from core import seeds
 
+logging.basicConfig()
+logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
 
 def create_app(env="development", static_folder="../../static"):
     app = Flask(__name__, static_folder=static_folder)

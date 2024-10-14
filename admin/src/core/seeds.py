@@ -11,14 +11,6 @@ from core import trabajo
 from datetime import datetime
 
 def run():
-
-    archivo1 = equipo.create_archivo(
-        nombre='1-DNI Test.pdf',
-    )
-    archivo2 = equipo.create_archivo(
-        nombre='2-Titulo Test.jpg',
-    )
-
     equipo1 = equipo.create_equipo(
         nombre='Juan',
         apellido='Pérez',
@@ -295,6 +287,6 @@ def run():
     jya.assing_trabajo(jya1,trabajo1)
     jya.assing_trabajo(jya2,trabajo2)
 
-    equipo.assign_archivo(equipo1,archivo1)
-    equipo.assign_archivo(equipo1,archivo2)
+    """ equipo.assign_archivo(equipo1,archivo1)
+    equipo.assign_archivo(equipo1,archivo2) """
 
