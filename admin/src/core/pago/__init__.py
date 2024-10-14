@@ -1,5 +1,6 @@
 from datetime import datetime
 from core.database import db
+from sqlalchemy import asc, desc
 
 
 class Pago(db.Model):
@@ -32,9 +33,16 @@ def assign_pago(equipo, pago):
     return pago
 
 
-def list_pagos_page():
-    pass
+def list_pagos_page(amount, page):
+    pagos = Pago.query.filter().paginate(page=page, per_page=amount)
 
+    return pagos
+
+
+def get_total():
+    total = Pago.query.filter().count()
+
+    return total
 
 def edit():
     pass

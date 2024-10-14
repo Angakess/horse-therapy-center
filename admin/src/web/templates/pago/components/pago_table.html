@@ -1,0 +1,26 @@
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead class="container-fluid">
+      <tr class="align-items-center">
+        <th scope="col" class="col-md-1 col-pago-dni">Monto</th>
+        <th scope="col" class="col-md-2 col-pago-email">Fecha de pago</th>
+        <th scope="col" class="col-md-2 col-pago-puesto">Tipo</th>
+        <th scope="col" class="col-md-1 col-pago-acciones">Acciones</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for pago in pagos %}
+      <tr>
+        <td>$ {{ pago.monto }}</td>
+        <td>{{ pago.fecha.strftime('%d/%m/%Y') }}</td>
+        <td>{{ pago.tipo }}</td>
+        <td>
+            <button></button>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{%include "pago/components/pagination_pago.html"%}
