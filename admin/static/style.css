@@ -177,12 +177,32 @@ h5 {
   color: white!important;
   border-color: white!important;
 }
+.btn-outline-lblue {
+    color: #66B4D1!important;
+    border-color: #66B4D1!important;
+    font-weight: bold;
+  }
+.btn-outline-lblue:hover {
+background-color: #66B4D1!important;
+color: white!important;
+border-color: white!important;
+}
 .equipo-add-btn {
     color: #dfad3a!important;
   border-color: #dfad3a!important;
   font-weight: bold;
 }
 .equipo-add-btn:hover {
+    background-color: #dfad3a!important;
+    color: white!important;
+    border-color: white!important;
+}
+.btn-outline-yellow {
+    color: #dfad3a!important;
+  border-color: #dfad3a!important;
+  font-weight: bold;
+}
+.btn-outline-yellow:hover {
     background-color: #dfad3a!important;
     color: white!important;
     border-color: white!important;

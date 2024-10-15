@@ -2,9 +2,29 @@
   <table class="table table-striped">
     <thead class="container-fluid">
       <tr class="align-items-center">
-        <th scope="col" class="col-md-1 col-pago-dni">Monto</th>
-        <th scope="col" class="col-md-2 col-pago-email">Fecha de pago</th>
         <th scope="col" class="col-md-2 col-pago-puesto">Tipo</th>
+        <th scope="col" class="col-md-2 col-pago-email">
+          <form id="sort_form" action="" method="get">
+
+            <input hidden type="checkbox" name="tipo-pago" value="Proveedor" {% if 'Proveedor' in tipos %}checked{% endif %}>
+            <input hidden type="checkbox" name="tipo-pago" value="Gastos varios" {% if 'Gastos varios' in tipos %}checked{% endif %}>
+            <input hidden type="checkbox" name="tipo-pago" value="Honorario" {% if 'Honorario' in tipos %}checked{% endif %}>
+            <input hidden type="date" name="fecha-min" value="{% if fecha_min %}{{fecha_min.strftime('%Y-%m-%d')}}{% endif %}">
+            <input hidden type="date" name="fecha-max" value="{% if fecha_max %}{{fecha_max.strftime('%Y-%m-%d')}}{% endif %}">
+            <input type="hidden" name="order" value="{% if order=='asc' %}desc{% else %}asc{% endif %}">
+
+
+            <div
+            class="row d-flex align-items-center hover-underline"
+            onclick="document.getElementById('sort_form').submit();"
+            style="display: flex; cursor: pointer"
+            >
+              <div id="column_name_nombre" class="col-auto">Fecha de pago</div>
+              {% include 'pago/components/filter_arrows.html'%}
+            </div>
+          </form>
+        </th>
+        <th scope="col" class="col-md-1 col-pago-dni">Monto</th>
         <th scope="col" class="col-md-1 col-pago-acciones">Acciones</th>
       </tr>
     </thead>
@@ -12,11 +32,12 @@
     <tbody>
       {% for pago in pagos %}
       <tr>
-        <td>$ {{ pago.monto }}</td>
-        <td>{{ pago.fecha.strftime('%d/%m/%Y') }}</td>
         <td>{{ pago.tipo }}</td>
+        <td>{{ pago.fecha.strftime('%d/%m/%Y') }}</td>
+        <td>$ {{ pago.monto }}</td>
+
         <td>
-            <button></button>
+          <button></button>
         </td>
       </tr>
       {% endfor %}
