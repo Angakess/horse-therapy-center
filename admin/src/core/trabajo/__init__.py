@@ -80,3 +80,17 @@ def assing_caballo(trabajo,caballo):
     db.session.add(trabajo)
     db.session.commit()
     return trabajo
+
+def get_trabajo(id):
+    trabajo = Trabajo.query.filter_by(id=id).first()
+    if not trabajo:
+        raise ValueError("No se encontró el trabajo seleccionado")
+    return trabajo
+
+def delete_trabajo(id):
+    trabajo = Trabajo.query.get(id)
+    if trabajo:
+        db.session.delete(trabajo)
+        db.session.commit()
+    else:
+        raise ValueError("No se encontro el trabajo a borrar")

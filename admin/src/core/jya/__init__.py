@@ -87,6 +87,12 @@ def list_jinetes_amazonas():
     jinetes_amazonas = JinetesAmazonas.query.all()
     return jinetes_amazonas
 
+def get_jinete_amazona(id):
+    jinete_amazona = JinetesAmazonas.query.filter_by(id=id).first()
+    if not jinete_amazona:
+        raise ValueError("No se encontró al Jinete/Amazona seleccionado")
+    return jinete_amazona
+
 def list_jinetes_amazonas_nombre_asc():
     jinetes_amazonas = JinetesAmazonas.query.order_by(asc(JinetesAmazonas.nombre)).all()
     return jinetes_amazonas
@@ -128,6 +134,31 @@ def jinetes_amazonas_by_dni(dni_jinetes_amazonas):
 def jinetes_amazonas_by_profesionales(profesionales_jinetes_amazonas):
     jinetes_amazonas = db.select(JinetesAmazonas).filter_by(profesionales = profesionales_jinetes_amazonas)
     return jinetes_amazonas
+
+def list_jinetes_amazonas_page(query, page, amount_per_page, order, by):
+    sort_column = {
+        "nombre": JinetesAmazonas.nombre,
+        "apellido": JinetesAmazonas.apellido,
+        "dni": JinetesAmazonas.dni,
+        "profesionales_atienden": JinetesAmazonas.profesionales_atienden,
+    }.get(by, JinetesAmazonas.id)
+
+    order_by = asc(sort_column) if order == "asc" else desc(sort_column)
+
+    jinetesamazonas = (
+        JinetesAmazonas.query.filter(
+            or_(
+                JinetesAmazonas.nombre.like(f"%{query}%"),
+                JinetesAmazonas.apellido.like(f"%{query}%"),
+                cast(JinetesAmazonas.dni, String).like(f"%{query}%"),
+                JinetesAmazonas.profesionales_atienden.like(f"%{query}%"),
+            )
+        )
+        .order_by(order_by)
+        .paginate(page=page, per_page=amount_per_page)
+    )
+
+    return jinetesamazonas
 
 def assing_situacion_previsional(jya,situacion_previsional):
     jya.situacion_previsional = situacion_previsional

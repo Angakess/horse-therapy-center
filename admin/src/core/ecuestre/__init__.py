@@ -1,6 +1,6 @@
 from core.database import db
 from datetime import datetime
-from sqlalchemy import asc, desc
+from sqlalchemy import asc, desc, or_
 
 class Ecuestre(db.Model):
     __tablename__ = 'Ecuestre'
@@ -18,7 +18,7 @@ class Ecuestre(db.Model):
     fecha_ingreso = db.Column(db.DateTime, nullable=False)
     sede_asignada = db.Column(db.String(40), nullable=False)
 
-    equipo_id = db.Column(db.Integer, db.ForeignKey("equipos.id", name="fk_ecuestre_equipo_id"))
+    equipo_id = db.Column(db.Integer, db.ForeignKey("equipos.id", name="fk_ecuestre_Ecuestre_id"))
     equipo = db.relationship("Equipo", back_populates="equipos")
 
     j_y_a_id = db.Column(db.Integer, db.ForeignKey("JinetesYAmazonas.id", name="fk_ecuestre_jya_id"))
@@ -70,6 +70,40 @@ def create_ecuestre(**kwargs):
 def delete_ecuestre(ecuestre):
     db.session.delete(ecuestre)
     db.session.commit()
+
+def edit_ecuestre(id,data):
+    chosen_ecuestre = Ecuestre.query.get(id)
+    for key, value in data.items():
+        if hasattr(chosen_ecuestre, key):
+            setattr(chosen_ecuestre, key, value)
+    db.session.commit()
+
+def get_ecuestre(id):
+    chosen_ecuestre = Ecuestre.query.get(id)
+    return chosen_ecuestre
+
+
+def list_ecuestres_page(query, page, amount_per_page, order, by):
+
+    sort_column = {
+        "nombre": Ecuestre.nombre,
+        "jineteamazona": Ecuestre.j_y_a,
+    }.get(by, Ecuestre.id)
+
+    order_by = asc(sort_column) if order == "asc" else desc(sort_column)
+
+    ecuestres = (
+        Ecuestre.query.filter(
+            or_(
+                Ecuestre.nombre.like(f"%{query}%"),
+                Ecuestre.j_y_a.like(f"%{query}%"),
+            )
+        )
+        .order_by(order_by)
+        .paginate(page=page, per_page=amount_per_page)
+    )
+
+    return ecuestres
 
 def ecuestre_by_name(nombre_ecuestre):
     ecuestre = db.select(Ecuestre).filter_by(nombre = nombre_ecuestre)
