@@ -1,6 +1,6 @@
 from datetime import datetime
 from core.database import db
-from sqlalchemy import asc, desc
+from sqlalchemy import and_, asc, desc, or_
 
 
 class Pago(db.Model):
@@ -33,16 +33,38 @@ def assign_pago(equipo, pago):
     return pago
 
 
-def list_pagos_page(amount, page):
-    pagos = Pago.query.filter().paginate(page=page, per_page=amount)
+def list_pagos_page(amount, page, f_min, f_max, tipos, order):
+
+    order_by_fecha = asc(Pago.fecha) if order == "asc" else desc(Pago.fecha)
+
+    if tipos:
+        pagos = (
+            Pago.query.filter(
+                Pago.tipo.in_(tipos), Pago.fecha >= f_min, Pago.fecha <= f_max
+            )
+            .order_by(order_by_fecha)
+            .paginate(page=page, per_page=amount)
+        )
+    else:
+        pagos = (
+            Pago.query.filter(Pago.fecha >= f_min, Pago.fecha <= f_max)
+            .order_by(order_by_fecha)
+            .paginate(page=page, per_page=amount)
+        )
 
     return pagos
 
 
-def get_total():
-    total = Pago.query.filter().count()
+def get_total(f_min, f_max, tipos):
+    if tipos:
+        total = Pago.query.filter(
+            Pago.tipo.in_(tipos), Pago.fecha >= f_min, Pago.fecha <= f_max
+        ).count()
+    else:
+        total = Pago.query.filter(Pago.fecha >= f_min, Pago.fecha <= f_max).count()
 
     return total
+
 
 def edit():
     pass
