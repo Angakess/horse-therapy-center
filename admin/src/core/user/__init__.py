@@ -7,6 +7,57 @@ from core.user.users import User
 from core.user.roles import Role
 
 
+PERMISSIONS = {
+    "Administración": [
+        "list_users",
+        "create_user",
+        "update_user",
+        "delete_user",
+        "list_roles",
+        "create_role",
+        "delete_role",
+        "assign_role",
+        "unassign_role",
+        "issue_index",
+        "issue_show",
+        "issue_new",
+        "issue_create",
+        "issue_edit",
+        "issue_update",
+        "issue_delete",
+        "list_equipos_page",
+    ],
+    "Voluntariado": [
+        "issue_index",
+        "issue_show",
+        "issue_new",
+        "issue_create",
+        "issue_edit",
+        "issue_update",
+        "issue_delete",
+    ],
+    "Técnica": [
+        "issue_index",
+        "issue_show",
+        "issue_new",
+        "issue_create",
+        "issue_edit",
+        "issue_update",
+        "issue_delete",
+    ],
+    "Ecuestre": [
+        "issue_index",
+        "issue_show",
+        "issue_new",
+        "issue_create",
+        "issue_edit",
+        "issue_update",
+        "issue_delete",
+    ],
+}
+
+def get_permissions(user):
+    return PERMISSIONS[user.role.name]
 
 def list_users():
     users = User.query.all()

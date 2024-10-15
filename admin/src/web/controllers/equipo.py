@@ -2,7 +2,7 @@ from os import fstat
 from flask import flash, redirect, render_template, request, url_for, current_app, session, abort
 from core import equipo
 from flask import Blueprint
-from src.web.helpers.auth import is_authenticated
+from src.web.helpers.auth import is_authenticated, check_permission
 
 bprint = Blueprint("equipo", __name__, url_prefix="/equipo")
 
@@ -11,6 +11,9 @@ bprint = Blueprint("equipo", __name__, url_prefix="/equipo")
 def index():
     if not is_authenticated(session):
         return abort(401)
+    
+    if not check_permission(session, "list_equipos_page"):
+        return abort(403)
     
     amount_per_page = 10
 

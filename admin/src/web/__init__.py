@@ -12,7 +12,7 @@ from web.controllers.ecuestre import bprint as ecuestre_bp
 from web.controllers.pago import bprint as pago_bp
 from flask_session import Session
 from core.bcrypt import bcrypt
-from web.helpers.auth import is_authenticated
+from web.helpers.auth import is_authenticated, check_permission
 from web.storage import storage
 
 session = Session()
@@ -49,8 +49,14 @@ def create_app(env="development", static_folder="../../static"):
     def unauthorized(e):
         return render_template("error.html"), 401
 
+    # Manejo del error 403
+    @app.errorhandler(403)
+    def forbidden(e):
+        return render_template("error.html"), 403
+
     # Función para jinja
     app.jinja_env.globals.update(is_authenticated=is_authenticated)
+    app.jinja_env.globals.update(check_permission=check_permission)
 
     # Registro blueprints
     app.register_blueprint(issues_bp)
@@ -63,6 +69,7 @@ def create_app(env="development", static_folder="../../static"):
     # Error handlers
     app.register_error_handler(404, handler.not_found_error)
     app.register_error_handler(401, handler.unauthorized)
+    app.register_error_handler(403, handler.forbidden)
 
     # Comandos personalizados
     @app.cli.command(name="reset-db")

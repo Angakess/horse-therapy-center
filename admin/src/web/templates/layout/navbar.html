@@ -17,9 +17,11 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="{{ url_for('ecuestre.index') }}">Ecuestre</a>
           </li>
+          {% if check_permission(session, "list_equipos_page") %}
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="{{ url_for('equipo.index') }}">Equipo</a>
           </li>
+          {% endif %}
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="{{ url_for('pago.index') }}">Pagos</a>
           </li>
