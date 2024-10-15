@@ -27,7 +27,7 @@ def authenticate():
     else:
         session["user"] = user.email
         flash("La sesión se inició correctamente", "success")
-        return redirect("/usuarios/")
+        return redirect("/")
 
 @bp.get("/logout")
 def logout():
@@ -37,5 +37,5 @@ def logout():
         flash("La sesión se cerró correctamente", "info")
     else:
         flash("No hay sesión activa", "error")
-    return redirect("/auth/")
+    return redirect("/")
 

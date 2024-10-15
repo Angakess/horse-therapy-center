@@ -7,9 +7,10 @@
         <a class="navbar-brand" href="{{ url_for('home') }}">
             <img src="{{ url_for('static', filename='img/cedica1.png') }}" class="img-fluid logo-cedica" alt="Logo Cedica">
         </a>     
-
+      
       <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0" aria-label="Secciones principales del sitio">
+          {% if is_authenticated(session) %}
             <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Jinetes/Amazonas</a>
           </li>
@@ -22,6 +23,7 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="{{ url_for('pago.index') }}">Pagos</a>
           </li>
+          {% endif %}
           
         </ul>
 

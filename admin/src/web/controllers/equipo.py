@@ -1,13 +1,17 @@
 from os import fstat
-from flask import flash, redirect, render_template, request, url_for, current_app
+from flask import flash, redirect, render_template, request, url_for, current_app, session, abort
 from core import equipo
 from flask import Blueprint
+from src.web.helpers.auth import is_authenticated
 
 bprint = Blueprint("equipo", __name__, url_prefix="/equipo")
 
 
 @bprint.get("/")
 def index():
+    if not is_authenticated(session):
+        return abort(401)
+    
     amount_per_page = 10
 
     query = request.args.get("query", "")
