@@ -16,6 +16,8 @@ def login():
 @bp.post("/authenticate")
 def authenticate():
     params = request.form
+    print(params["usermail"])
+    print(params["password"])
 
     user = check_user(params["usermail"], params["password"])
 
@@ -23,7 +25,7 @@ def authenticate():
         flash("Usuario o contraseña incorrecta", "error")
         return redirect("/auth/")#CONSULTAR SI LAS URLS ESTÁN BIEN PUESTAS DE ESTA MANERA
     else:
-        session["user"] = user.usermail
+        session["user"] = user.email
         flash("La sesión se inició correctamente", "success")
         return redirect("/usuarios/")
 
