@@ -43,5 +43,7 @@ class Equipo(db.Model):
 
     archivos = db.relationship("Archivo", back_populates="equipo")
 
+    pagos = db.relationship("Pago", back_populates="beneficiario")
+
     def __repr__(self):
         return f'<Equipo #{self.id} nombre="{self.nombre} {self.apellido}">'

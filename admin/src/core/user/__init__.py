@@ -1,9 +1,11 @@
 import string
 
 from sqlalchemy import and_, or_
+import bcrypt
 from core.database import db
 from core.user.users import User
 from core.user.roles import Role
+
 
 
 def list_users():
@@ -16,6 +18,10 @@ def list_users():
 def create_user(**kwargs):
     email = kwargs.get('email')
     User.validate_unique_email(email)
+    password = kwargs.get('password')
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    kwargs['password'] = hashed_password.decode('utf-8')
+
     user = User(**kwargs)
     db.session.add(user)
     db.session.commit()
