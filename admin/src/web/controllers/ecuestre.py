@@ -14,7 +14,7 @@ def index():
     by = request.args.get("by", "")
     page = int(request.args.get("pag", "1"))
 
-    total = ecuestre.list_ecuestres()
+    total = ecuestre.get_total_ecuestre()
     ecuestres = ecuestre.list_ecuestres_page(query, page, amount_per_page, order, by)
 
     return render_template(
@@ -198,22 +198,21 @@ def add_ecuestre():
 
     return redirect(url_for("ecuestre.get_profile", id=new_ecuestre.id))
 
-@bprint.post("/borrar")
-def delete():
-    chosen_id = request.form["id"]
+@bprint.post("/borrar/<id>")
+def delete(id):
     try:
-        chosen_ecuestre = ecuestre.get_ecuestre(chosen_id)
+        chosen_ecuestre = ecuestre.get_ecuestre(id)
         archivos_asociados = chosen_ecuestre.archivos
         client = current_app.storage.client
         for archivo in archivos_asociados:
             client.remove_object("grupo28",f"{archivo.id}-{archivo.nombre}")
             ecuestre.delete_archivo(archivo.id)
         
-        ecuestre.delete_ecuestre(chosen_id)
+        ecuestre.delete_ecuestre(id)
 
     except ValueError as e:
         flash(str(e), "danger")
-        return redirect(url_for("ecuestre.get_profile", id=chosen_id))
+        return redirect(url_for("ecuestre.get_profile", id=id))
 
     flash("Ecuestre borrado con éxito", "success")
     return redirect(url_for("ecuestre.index"))

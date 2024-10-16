@@ -69,9 +69,13 @@ def create_ecuestre(**kwargs):
     db.session.commit()
     return ecuestre
 
-def delete_ecuestre(ecuestre):
-    db.session.delete(ecuestre)
-    db.session.commit()
+def delete_ecuestre(id):
+    ecuestre = Ecuestre.query.get(id)
+    if ecuestre:
+        db.session.delete(ecuestre)
+        db.session.commit()
+    else:
+        pass
 
 def edit_ecuestre(id,data):
     chosen_ecuestre = Ecuestre.query.get(id)
@@ -89,7 +93,7 @@ def list_ecuestres_page(query, page, amount_per_page, order, by):
 
     sort_column = {
         "nombre": Ecuestre.nombre,
-        "jineteamazona": Ecuestre.j_y_a,
+        # "jineteamazona": Ecuestre.j_y_a.trabajo.propuestra_trabajo_institucional,
     }.get(by, Ecuestre.id)
 
     order_by = asc(sort_column) if order == "asc" else desc(sort_column)
@@ -98,7 +102,7 @@ def list_ecuestres_page(query, page, amount_per_page, order, by):
         Ecuestre.query.filter(
             or_(
                 Ecuestre.nombre.like(f"%{query}%"),
-                Ecuestre.j_y_a.like(f"%{query}%"),
+                # Ecuestre.j_y_a.trabajo.propuestra_trabajo_institucional.like(f"%{query}%"),
             )
         )
         .order_by(order_by)
@@ -151,3 +155,7 @@ def delete_archivo(id):
     else:
         db.session.delete(archivo)
         db.session.commit()
+
+def get_total_ecuestre():
+    total = Ecuestre.query.filter().count()
+    return total

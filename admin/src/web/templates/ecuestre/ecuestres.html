@@ -41,7 +41,7 @@
                   </a>
        
                   <!--Boton para eliminar un ususario-->
-                  <form class="col-4" action="#" method="POST" onsubmit="return confirm('¿Está seguro que quiere eliminar este caballo?')">
+                  <form class="col-4" action="{{url_for('ecuestre.delete', id=ecuestre.id)}}" method="POST" onsubmit="return confirm('¿Está seguro que quiere eliminar este caballo?')">
                    <!--<input type="hidden" name="ecuestre_id" value="{{ ecuestre.id }}" /> -->
                     <button class="col btn btn-sm btn-outline-danger" title="Eliminar ecuestre" type="submit">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">

@@ -1,5 +1,5 @@
 from core.database import db
-from sqlalchemy import Enum, cast, or_
+from sqlalchemy import Enum,String, cast, or_
 from sqlalchemy import asc
 from sqlalchemy import desc
 from datetime import datetime
@@ -118,9 +118,13 @@ def create_jinetes_amazonas(**kwargs):
     db.session.commit()
     return jinetes_amazonas
 
-def delete_jinetes_amazonas(jinetes_amazonas):
-    db.session.delete(jinetes_amazonas)
-    db.session.commit()
+def delete_jinetes_amazonas(id):
+    jinetes_amazonas = JinetesAmazonas.query.get(id)
+    if jinetes_amazonas:
+        db.session.delete(jinetes_amazonas)
+        db.session.commit()
+    else:
+        pass
 
 def edit_jya(id,data):
     chosen_jya = JinetesAmazonas.query.get(id)
@@ -222,3 +226,7 @@ def delete_archivo(id):
     else:
         db.session.delete(archivo)
         db.session.commit()
+
+def get_total_jinetes_amazonas():
+    total = JinetesAmazonas.query.filter().count()
+    return total

@@ -14,7 +14,7 @@ def index():
     by = request.args.get("by", "")
     page = int(request.args.get("pag", "1"))
 
-    total = jya.list_jinetes_amazonas()
+    total = jya.get_total_jinetes_amazonas()
     jinetes_amazonas = jya.list_jinetes_amazonas_page(query, page, amount_per_page, order, by)
 
     return render_template(
@@ -160,11 +160,10 @@ def add_jya():
 
     return redirect(url_for("jya.get_profile"))
 
-@bprint.post("/borrar")
-def delete():
-    chosen_id = request.form["id"]
+@bprint.post("/borrar/<id>")
+def delete(id):
     try:
-        chosen_jinete_amazona = jya.get_jinete_amazona(chosen_id)
+        chosen_jinete_amazona = jya.get_jinete_amazona(id)
         archivos_asociados = chosen_jinete_amazona.archivos
         client = current_app.storage.client
         for archivo in archivos_asociados:
@@ -184,11 +183,11 @@ def delete():
         trabajo_asociado = chosen_jinete_amazona.trabajo
         trabajo.delete_trabajo(trabajo_asociado.id)
 
-        jya.delete_jinetes_amazonas(chosen_id)           
+        jya.delete_jinetes_amazonas(id)           
         
     except ValueError as e:
         flash(str(e), "danger")
-        return redirect(url_for("jya.get_profile", id=chosen_id))
+        return redirect(url_for("jya.get_profile", id=id))
 
     flash("Jinete/Amazona borrado con éxito", "success")
     return redirect(url_for("jya.index"))
