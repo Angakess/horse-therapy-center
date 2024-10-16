@@ -4,7 +4,7 @@ from .equipo import Equipo
 from .archivos import Archivo
 
 
-def get_total(parametro):
+def get_total(parametro=""):
     total = Equipo.query.filter(
         or_(
             Equipo.nombre.like(f"%{parametro}%"),
@@ -19,7 +19,7 @@ def get_total(parametro):
     return total
 
 
-def list_equipos_page(query, page, amount_per_page, order, by):
+def list_equipos_page(query="", page=1, amount_per_page=10, order="asc", by="id"):
     sort_column = {
         "nombre": Equipo.nombre,
         "apellido": Equipo.apellido,
