@@ -1,6 +1,7 @@
 from core.database import db
 from datetime import datetime
 from sqlalchemy import asc, desc, or_
+from .archivos import Archivo_Ecuestre
 
 class Ecuestre(db.Model):
     __tablename__ = 'Ecuestre'
@@ -29,6 +30,7 @@ class Ecuestre(db.Model):
 
     caballo_trabajo = db.relationship("Trabajo", back_populates="caballo")
 
+    archivos = db.relationship("Archivo_Ecuestre", back_populates = "ecuestre")
 
     def __repr__(self):
         return f'<Nombre "{self.nombre}," Fecha nacimiento "{self.fecha_nacimiento}," Sexo "{self.sexo}," Raza "{self.raza}," Pelaje "{self.pelaje}," Sede Asignada: {self.sede_asignada}>'
@@ -120,3 +122,32 @@ def assing_j_y_a(ecuestre, j_y_a):
     db.session.add(ecuestre)
     db.session.commit()
     return ecuestre
+
+def create_archivo(**kwargs):
+    archivo = Archivo_Ecuestre(**kwargs)
+    db.session.add(archivo)
+    db.session.commit()
+    return archivo
+
+
+def assign_archivo(equipo, archivo):
+    archivo.equipo = equipo
+    db.session.add(archivo)
+    db.session.commit()
+    return archivo
+
+
+def get_archivo(id):
+    archivo = Archivo_Ecuestre.query.get(id)
+    if not archivo:
+        raise(ValueError("No se encontró el archivo solicitado"))
+    return archivo
+
+
+def delete_archivo(id):
+    archivo = Archivo_Ecuestre.query.get(id)
+    if not archivo:
+        raise(ValueError("No se encontró el archivo solicitado para borrar"))
+    else:
+        db.session.delete(archivo)
+        db.session.commit()
