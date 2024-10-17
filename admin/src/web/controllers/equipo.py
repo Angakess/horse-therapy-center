@@ -166,7 +166,7 @@ def save_edit(id):
                 archivo_id
             )  # Obtener el archivo de la base de datos
             client.remove_object(
-                "grupo28", f"{archivo.id}-{archivo.nombre}"
+                "grupo28", f"/equipo/{archivo.id}-{archivo.nombre}"
             )  # Eliminar de MinIO
             equipo.delete_archivo(archivo_id)  # Eliminar de la base de datos
     except ValueError as e:
@@ -236,7 +236,7 @@ def delete():
         archivos_asociados = chosen_equipo.archivos
         client = current_app.storage.client
         for archivo in archivos_asociados:
-            client.remove_object("grupo28",f"{archivo.id}-{archivo.nombre}")
+            client.remove_object("grupo28",f"/equipo/{archivo.id}-{archivo.nombre}")
             equipo.delete_archivo(archivo.id)
     except ValueError as e:
         flash(str(e), "danger")

@@ -1,6 +1,7 @@
 from core.database import db
 from datetime import datetime
 from sqlalchemy import asc, desc, or_
+from .archivos import Archivo_Ecuestre
 
 class Ecuestre(db.Model):
     __tablename__ = 'Ecuestre'
@@ -29,6 +30,7 @@ class Ecuestre(db.Model):
 
     caballo_trabajo = db.relationship("Trabajo", back_populates="caballo")
 
+    archivos = db.relationship("Archivo_Ecuestre", back_populates = "ecuestre")
 
     def __repr__(self):
         return f'<Nombre "{self.nombre}," Fecha nacimiento "{self.fecha_nacimiento}," Sexo "{self.sexo}," Raza "{self.raza}," Pelaje "{self.pelaje}," Sede Asignada: {self.sede_asignada}>'
@@ -67,9 +69,13 @@ def create_ecuestre(**kwargs):
     db.session.commit()
     return ecuestre
 
-def delete_ecuestre(ecuestre):
-    db.session.delete(ecuestre)
-    db.session.commit()
+def delete_ecuestre(id):
+    ecuestre = Ecuestre.query.get(id)
+    if ecuestre:
+        db.session.delete(ecuestre)
+        db.session.commit()
+    else:
+        pass
 
 def edit_ecuestre(id,data):
     chosen_ecuestre = Ecuestre.query.get(id)
@@ -87,7 +93,7 @@ def list_ecuestres_page(query, page, amount_per_page, order, by):
 
     sort_column = {
         "nombre": Ecuestre.nombre,
-        "jineteamazona": Ecuestre.j_y_a,
+        # "jineteamazona": Ecuestre.j_y_a.trabajo.propuestra_trabajo_institucional,
     }.get(by, Ecuestre.id)
 
     order_by = asc(sort_column) if order == "asc" else desc(sort_column)
@@ -96,7 +102,7 @@ def list_ecuestres_page(query, page, amount_per_page, order, by):
         Ecuestre.query.filter(
             or_(
                 Ecuestre.nombre.like(f"%{query}%"),
-                Ecuestre.j_y_a.like(f"%{query}%"),
+                # Ecuestre.j_y_a.trabajo.propuestra_trabajo_institucional.like(f"%{query}%"),
             )
         )
         .order_by(order_by)
@@ -120,3 +126,36 @@ def assing_j_y_a(ecuestre, j_y_a):
     db.session.add(ecuestre)
     db.session.commit()
     return ecuestre
+
+def create_archivo(**kwargs):
+    archivo = Archivo_Ecuestre(**kwargs)
+    db.session.add(archivo)
+    db.session.commit()
+    return archivo
+
+
+def assign_archivo(equipo, archivo):
+    archivo.equipo = equipo
+    db.session.add(archivo)
+    db.session.commit()
+    return archivo
+
+
+def get_archivo(id):
+    archivo = Archivo_Ecuestre.query.get(id)
+    if not archivo:
+        raise(ValueError("No se encontró el archivo solicitado"))
+    return archivo
+
+
+def delete_archivo(id):
+    archivo = Archivo_Ecuestre.query.get(id)
+    if not archivo:
+        raise(ValueError("No se encontró el archivo solicitado para borrar"))
+    else:
+        db.session.delete(archivo)
+        db.session.commit()
+
+def get_total_ecuestre():
+    total = Ecuestre.query.filter().count()
+    return total

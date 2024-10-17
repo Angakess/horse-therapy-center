@@ -1,8 +1,9 @@
 from core.database import db
-from sqlalchemy import Enum
+from sqlalchemy import Enum,String, cast, or_
 from sqlalchemy import asc
 from sqlalchemy import desc
 from datetime import datetime
+from .archivos import Archivo_JineteAmazonas
 
 class JinetesAmazonas(db.Model):
     __tablename__ = 'JinetesYAmazonas'
@@ -82,6 +83,8 @@ class JinetesAmazonas(db.Model):
     trabajo_id = db.Column(db.Integer, db.ForeignKey("TrabajoInstitucion.id"))
     trabajo = db.relationship("Trabajo", back_populates="j_y_a")
 
+    archivos = db.relationship ("Archivo_JineteAmazonas", back_populates = "JineteAmazonas")
+
 
 def list_jinetes_amazonas():
     jinetes_amazonas = JinetesAmazonas.query.all()
@@ -115,8 +118,19 @@ def create_jinetes_amazonas(**kwargs):
     db.session.commit()
     return jinetes_amazonas
 
-def delete_jinetes_amazonas(jinetes_amazonas):
-    db.session.delete(jinetes_amazonas)
+def delete_jinetes_amazonas(id):
+    jinetes_amazonas = JinetesAmazonas.query.get(id)
+    if jinetes_amazonas:
+        db.session.delete(jinetes_amazonas)
+        db.session.commit()
+    else:
+        pass
+
+def edit_jya(id,data):
+    chosen_jya = JinetesAmazonas.query.get(id)
+    for key, value in data.items():
+        if hasattr(chosen_jya, key):
+            setattr(chosen_jya, key, value)
     db.session.commit()
 
 def jinetes_amazonas_by_name(nombre_jinetes_amazonas):
@@ -183,3 +197,36 @@ def assing_trabajo(jya,trabajo):
     db.session.add(jya)
     db.session.commit()
     return jya
+
+def create_archivo(**kwargs):
+    archivo = Archivo_JineteAmazonas(**kwargs)
+    db.session.add(archivo)
+    db.session.commit()
+    return archivo
+
+
+def assign_archivo(equipo, archivo):
+    archivo.equipo = equipo
+    db.session.add(archivo)
+    db.session.commit()
+    return archivo
+
+
+def get_archivo(id):
+    archivo = Archivo_JineteAmazonas.query.get(id)
+    if not archivo:
+        raise(ValueError("No se encontró el archivo solicitado"))
+    return archivo
+
+
+def delete_archivo(id):
+    archivo = Archivo_JineteAmazonas.query.get(id)
+    if not archivo:
+        raise(ValueError("No se encontró el archivo solicitado para borrar"))
+    else:
+        db.session.delete(archivo)
+        db.session.commit()
+
+def get_total_jinetes_amazonas():
+    total = JinetesAmazonas.query.filter().count()
+    return total
