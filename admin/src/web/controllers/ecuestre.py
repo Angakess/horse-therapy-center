@@ -13,9 +13,9 @@ def index():
     order = request.args.get("order", "asc")
     by = request.args.get("by", "")
     page = int(request.args.get("pag", "1"))
-
+    jya =request.args.get('jya', None)
     total = ecuestre.get_total_ecuestre()
-    ecuestres = ecuestre.list_ecuestres_page(query, page, amount_per_page, order, by)
+    ecuestres = ecuestre.list_ecuestres_page(query, page, amount_per_page, order, by,jya)
 
     return render_template(
         "ecuestre/index.html",
