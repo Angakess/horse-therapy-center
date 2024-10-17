@@ -1,0 +1,226 @@
+{% extends "layout.html" %} {% block title %} Lista de empleados {% endblock %}
+{% block head %} {{ super() }} {% endblock %} {% block content %}
+
+<!--Nombre
+Fecha Nacimiento
+Sexo
+Raza
+Pelaje
+Compra/Donación
+Fecha de Ingreso
+Sede Asignada
+Asociar Entrenadores y Conductores (son miembros del Equipo dados de alta en el sistema)
+Tipo de J&A Asignados-->
+
+<div class="container">
+  <form
+    id="edit-form"
+    class="needs-validation"
+    novalidate
+    action="{{url_for('ecuestre.add_ecuestre')}}"
+    method="POST"
+  >
+    <div class="row">
+      <div class="col">
+        <div class="row">
+          <h2 class="equipo-profile-title text-secondary">
+            Información Ecuestre
+          </h2>
+          <ul class="list-unstyled mb-1-9">
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Nombre:</span
+              ><input id="nombre-input" name="nombre" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese un nombre.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Raza:</span
+              ><input id="raza-input" name="raza" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese una raza.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+                <span class="display-26 text-primary me-2 font-weight-600"
+                  >Fecha de nacimiento:</span
+                ><input name="fecha_inicio" type="date" class="form-control" required>
+                <div class="invalid-feedback">
+                  Ingrese una fecha.
+                </div>
+              </li>
+              <li class="mb-2 mb-xl-3 display-28">
+                <span class="display-26 text-primary me-2 font-weight-600">Sexo:</span>
+                <div>
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      id="sexoFemenino"
+                      name="sexo"
+                      value="true"
+                      required
+                    />
+                    <label class="form-check-label" for="sexoFemenino">Femenino</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      id="sexoMasculino"
+                      name="sexo"
+                      value="false"
+                      required
+                    />
+                    <label class="form-check-label" for="sexoMasculino">Masculino</label>
+                  </div>
+                  <div class="invalid-feedback">Seleccione un sexo.</div>
+                </div>
+              </li>
+              
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Pelaje:</span
+              ><input id="pelaje-input" name="pelaje" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese un tipo de pelaje.
+              </div>
+            </li>
+          
+          </ul>
+        </div>
+       
+        <div class="row">
+          <h2 class="equipo-profile-title text-secondary">Datos Laborales</h2>
+          <ul class="list-unstyled mb-1-9">
+            <li class="mb-2 mb-xl-3 display-28">
+                <span class="display-26 text-primary me-2 font-weight-600"
+                  >Fecha de ingreso:</span
+                ><input name="fecha_ingreso" type="date" class="form-control" required>
+                <div class="invalid-feedback">
+                  Ingrese una fecha.
+                </div>
+              </li>
+              <li class="mb-2 mb-xl-3 display-28">
+                <span class="display-26 text-primary me-2 font-weight-600">Compra/Donacion:</span>
+                <div>
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      id="Compra"
+                      name="Compra"
+                      value="true"
+                      required
+                    />
+                    <label class="form-check-label" for="Compra">Compra</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      id="Donación"
+                      name="Donación"
+                      value="false"
+                      required
+                    />
+                    <label class="form-check-label" for="Donación">Donación</label>
+                  </div>
+                  <div class="invalid-feedback">Seleccione una opción.</div>
+                </div>
+              </li>
+              <li class="mb-2 mb-xl-3 display-28">
+                <span class="display-26 text-primary me-2 font-weight-600"
+                  >Sede asignada:</span
+                ><input id="sede-asignada-input" name="sede-asignada" class="form-control" required>
+                <div class="invalid-feedback">
+                  Ingrese una sede.
+                </div>
+              </li>
+            
+           
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >J&A asignado:</span
+              >
+              <div class="form-group">
+                <select class="form-control" id="tipoJYASelect" name="tipo_jya_asignado" required>
+                  <option value="Hipoterapia">Hipoterapia</option>
+                  <option value="Monta terapéutica">Monta Terapéutica</option>
+                  <option value="Deporte Ecuestre Adaptado">Deporte Ecuestre Adaptado</option>
+                  <option value="Actividades Recreativas">Actividades Recreativas</option>
+                  <option value="Equitación">Equitación</option>
+                </select>
+              </div>
+              <div class="invalid-feedback">
+                Ingrese una condición.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+                <span class="display-26 text-primary me-2 font-weight-600"
+                  >Entrenador/Conductor:</span
+                >
+                <div class="form-group">
+                    <select class="form-control" id="entrenadorConductorSelect" name="entrenador_conductor" required>
+                      {% for equipo in equipos %}
+                        <option value="{{ equipo.id }}">{{ equipo.nombre }} {{ equipo.apellido }} ({{ equipo.puesto }})</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                <div class="invalid-feedback">
+                  Ingrese un entrenador o conductor.
+                </div>
+              </li>
+          </ul>
+        </div>
+        
+           
+          
+      </div>
+      <div class="col-4 d-flex justify-content-end align-items-start">
+        <button
+          class="btn btn-outline-primary mx-2 align-self-start"
+          type="submit"
+        >
+          Confirmar
+        </button>
+        <button class="btn btn-outline-secondary mx-2 align-self-start" onclick="window.history.back();">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+  function validateForm(){
+    'use strict'
+
+    const form = document.getElementById("edit-form")
+  
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+
+      form.classList.add('was-validated')
+    }, false)
+
+    const emailInput = document.getElementById('email-input');
+    emailInput.addEventListener('input', function() {
+      if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(this.value)) {
+        this.setCustomValidity('Ingrese un email válido.');
+      } else {
+        this.setCustomValidity(''); // Resetear el mensaje si es válido
+      }
+    });
+  }
+
+  validateForm();
+
+</script>
+
+{% endblock %}

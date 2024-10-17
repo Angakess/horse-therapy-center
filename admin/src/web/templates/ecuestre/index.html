@@ -10,7 +10,7 @@
           <h1>Lista de ecuestres</h1>
         </div>
         <div class="col-auto">
-          <button class="btn btn-outline-primary equipo-add-btn" onclick=window.location.href="#";>Agregar +</button>
+          <button class="btn btn-outline-primary equipo-add-btn" onclick=window.location.href="{{url_for('ecuestre.add_ecuestre')}}";>Agregar +</button>
         </div>
          <!-- BARRA DE BUSQUEDA -->
         {% include "ecuestre/searchbar_ecuestre.html"%}

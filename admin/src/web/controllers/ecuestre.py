@@ -3,6 +3,8 @@ from flask import current_app, redirect, render_template, request, url_for, flas
 from core import ecuestre, equipo, jya
 from flask import Blueprint
 
+from core.equipo.equipo import Equipo
+
 bprint = Blueprint("ecuestre", __name__, url_prefix="/ecuestre")
 
 
@@ -25,6 +27,7 @@ def index():
         by=by,
         pag=page,
         page_amount=(total + amount_per_page - 1) // amount_per_page,
+       
     )
 
 
@@ -161,7 +164,8 @@ def save_edit(id):
 
 @bprint.get("/agregar")
 def enter_add():
-    return render_template("ecuestre/add_ecuestre.html")
+    equipos = Equipo.query.all()
+    return render_template("ecuestre/add_ecuestre.html",equipos=equipos)
 
 
 @bprint.post("/agregar")
@@ -175,6 +179,7 @@ def add_ecuestre():
         "tipo_adquisicion": request.form["tipo_adquisicion"],
         "fecha_ingreso": request.form["fecha_ingreso"],
         "sede_asignada": request.form["sede_asignada"],
+        
     }
 
     try:
