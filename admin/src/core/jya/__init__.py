@@ -91,7 +91,7 @@ def list_jinetes_amazonas():
     return jinetes_amazonas
 
 def get_jinete_amazona(id):
-    jinete_amazona = JinetesAmazonas.query.filter_by(id=id).first()
+    jinete_amazona = JinetesAmazonas.query.get(id)
     if not jinete_amazona:
         raise ValueError("No se encontró al Jinete/Amazona seleccionado")
     return jinete_amazona

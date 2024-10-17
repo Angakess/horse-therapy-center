@@ -6,14 +6,14 @@
     id="edit-form"
     class="needs-validation"
     novalidate
-    action="{{url_for('equipo.save_edit', id=info.id)}}"
+    action="{{url_for('jya.save_edit', id=info.id)}}"
     method="POST"
     enctype="multipart/form-data"
   >
     <div class="row">
       <div class="col">
         <div class="row">
-          <h2 class="equipo-profile-title text-secondary">
+          <h2 class="jya-profile-title text-secondary">
             Información Jinete/Amazona
           </h2>
           <ul class="list-unstyled mb-1-9">
@@ -43,33 +43,115 @@
             </li>
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
-                >Email:</span
-              ><input id="email-input" name="email" class="form-control" value="{{info.email}}" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                >Edad:</span
+              ><input id="edad-input" name="edad" class="form-control" value="{{info.edad}}" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
               >
               <div class="invalid-feedback">
-                Ingrese un email válido.
+                Ingrese una edad válida.
               </div>
             </li>
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
-                >Domicilio:</span
-              ><input id="domicilio-input" name="domicilio" class="form-control" value="{{info.dir}}" required>
+                >Fecha nacimiento:</span
+              ><input id="fecha_nacimiento-input" name="fecha_nacimiento" class="form-control" value="{{info.fecha_nacimiento}}" required>
+              <div class="invalid-feedback">
+                Ingrese una fecha de nacimiento.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Lugar nacimiento:</span
+              ><input id="lugar_nacimiento-input" name="lugar_nacimiento" class="form-control" value="{{info.lugar_nacimiento}}" required>
+              <div class="invalid-feedback">
+                Ingrese una localidad.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Domicilio actual:</span
+              ><input id="domicilio_actual-input" name="domicilio_actual" class="form-control" value="{{info.domicilio_actual}}" required>
               <div class="invalid-feedback">
                 Ingrese un domicilio.
               </div>
             </li>
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
-                >Localidad:</span
-              ><input id="localidad-input" name="localidad" class="form-control" value="{{info.localidad}}" required>
+                >Teléfono actual:</span
+              ><input id="telefono_actual-input" name="telefono_actual" class="form-control" value="{{info.telefono_actual}}" required>
               <div class="invalid-feedback">
-                Ingrese una localidad.
+                Ingrese un teléfono.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Contacto emergencia:</span
+              ><input id="contacto_emergencia" name="contacto_emergencia" class="form-control" value="{{info.contacto_emergencia}}" required>
+              <div class="invalid-feedback">
+                Ingrese un contacto de emergencia.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Teléfono de emergencia:</span
+              ><input id="tel-input" name="tel" class="form-control" value="{{info.tel}}" required>
+              <div class="invalid-feedback">
+                Ingrese un teléfono de emergencia.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Becado:</span
+              >
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="becado" id="flexRadioDefault1" {%if info.becado%} checked {%endif%} value="True">
+                <label class="form-check-label" for="flexRadioDefault1">
+                  True
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="becado" id="flexRadioDefault2" {%if not info.becado%} checked {%endif%} value="False">
+                <label class="form-check-label" for="flexRadioDefault2">
+                  False
+                </label>
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Porcentaje beca:</span
+              ><input id="porcentaje_beca" name="porcentaje_beca" class="form-control" value="{{info.porcentaje_beca}}" required>
+              <div class="invalid-feedback">
+                Ingrese un porcentaje.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Profesionales atienden:</span
+              ><input id="porcentaje_beca-input" name="profesionales_atienden" class="form-control" value="{{info.profesionales_atienden}}" required>
+              <div class="invalid-feedback">
+                Ingrese profesional/es.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Certificado discapacidad:</span
+              >
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="certificado_discapacidad" id="flexRadioDefault3" {%if info.certificado_discapacidad%} checked {%endif%} value="True">
+                <label class="form-check-label" for="flexRadioDefault3">
+                  True
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="certificado_discapacidad" id="flexRadioDefault4" {%if not info.certificado_discapacidad%} checked {%endif%} value="False">
+                <label class="form-check-label" for="flexRadioDefault4">
+                  False
+                </label>
               </div>
             </li>
           </ul>
         </div>
         <div class="row">
-          <h2 class="equipo-profile-title text-secondary">Contacto</h2>
+          <h2 class="jya-profile-title text-secondary">Contacto</h2>
           <ul class="list-unstyled mb-1-9">
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
@@ -104,7 +186,7 @@
           </ul>
         </div>
         <div class="row">
-          <h2 class="equipo-profile-title text-secondary">Datos Laborales</h2>
+          <h2 class="jya-profile-title text-secondary">Datos Laborales</h2>
           <ul class="list-unstyled mb-1-9">
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
@@ -169,7 +251,7 @@
           </ul>
         </div>
         <div class="row">
-          <h2 class="equipo-profile-title text-secondary">
+          <h2 class="jya-profile-title text-secondary">
             Información Sanitaria
           </h2>
           <ul class="list-unstyled mb-1-9">
@@ -192,7 +274,7 @@
           </ul>
         </div>
         <div class="row">
-          <h2 class="equipo-profile-title text-secondary">
+          <h2 class="jya-profile-title text-secondary">
             Archivos
           </h2>
           <div class="mb-3">
