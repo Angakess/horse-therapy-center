@@ -136,6 +136,13 @@ def assing_j_y_a(ecuestre, j_y_a):
     db.session.commit()
     return ecuestre
 
+def unassing_j_y_a(ecuestre, j_y_a):
+    if j_y_a in ecuestre.j_y_a:
+        ecuestre.equipos.remove(j_y_a)
+        db.session.commit()
+    else:
+        raise ValueError("El jinete/amazona no está asociado con este ecuestre.")
+
 def create_archivo(**kwargs):
     archivo = Archivo_Ecuestre(**kwargs)
     db.session.add(archivo)

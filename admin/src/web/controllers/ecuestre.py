@@ -105,17 +105,17 @@ def save_edit(id):
     try:
         equipo_id_a_borrar = request.form.get("equipo_id")
         if equipo_id:
-            equipo_designado = equipo.get_one(equipo_id_a_borrar)
-            if equipo_designado:
-                ecuestre.unassing_equipo(ecuestre_modificar, equipo_designado)
+            equipo_designado_borrar = equipo.get_one(equipo_id_a_borrar)
+            if equipo_designado_borrar:
+                ecuestre.unassing_equipo(ecuestre_modificar, equipo_designado_borrar)
             else:
                 flash("Equipo no encontrado", "warning")
 
         j_y_a_id_a_borrar = request.form.get("j_y_a_id")
         if j_y_a_id:
-            j_y_a_designado = jya.get_jinete_amazona(j_y_a_id_a_borrar)
-            if j_y_a_designado:
-                ecuestre.unassing_j_y_a(ecuestre_modificar, j_y_a_designado)
+            j_y_a_designado_borrar = jya.get_jinete_amazona(j_y_a_id_a_borrar)
+            if j_y_a_designado_borrar:
+                ecuestre.unassing_j_y_a(ecuestre_modificar, j_y_a_designado_borrar )
             else:
                 flash("Jinete/Amazona no encontrado", "warning")
     except ValueError as e:
