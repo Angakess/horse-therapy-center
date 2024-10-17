@@ -33,6 +33,13 @@ def assign_pago(equipo, pago):
     return pago
 
 
+def unassign_pago(pago):
+    pago.beneficiario_id = None
+    db.session.commit()
+
+    return pago
+
+
 def list_pagos_page(amount, page, f_min, f_max, tipos, order):
 
     order_by_fecha = asc(Pago.fecha) if order == "asc" else desc(Pago.fecha)
@@ -66,9 +73,37 @@ def get_total(f_min, f_max, tipos):
     return total
 
 
-def edit():
-    pass
+def get_one(id):
+    chosen_pago = Pago.query.get(id)
+
+    if not chosen_pago:
+        raise ValueError("No se encontró el pago seleccionado")
+
+    return chosen_pago
 
 
-def delete_pago():
-    pass
+def edit(id, data):
+    chosen_pago = Pago.query.filter_by(id=id).first()
+
+    if not chosen_pago:
+        raise ValueError("No se encontró el pago seleccionado")
+
+    for key, value in data.items():
+        if key in ["fecha"] and value == "":
+            value = None
+
+        if hasattr(chosen_pago, key):
+            setattr(chosen_pago, key, value)
+
+    db.session.commit()
+    return chosen_pago
+
+
+def delete_pago(pago_id):
+    chosen_pago = Pago.query.get(pago_id)
+
+    if not chosen_pago:
+        raise ValueError("No se encontró el pago seleccionado")
+
+    db.session.delete(chosen_pago)
+    db.session.commit()

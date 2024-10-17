@@ -21,8 +21,7 @@
               <li class="dropdown-item">
                 <div class="form-check">
                   <input
-                    
-                    name="tipo-pago"
+                    name="tipopago"
                     value="Proveedor"
                     {% if 'Proveedor' in tipos %}checked{% endif %}
                     class="form-check-input"
@@ -37,8 +36,7 @@
               <li class="dropdown-item">
                 <div class="form-check">
                   <input
-                    
-                    name="tipo-pago"
+                    name="tipopago"
                     value="Gastos varios"
                     {% if 'Gastos varios' in tipos  %}checked{% endif %}
                     class="form-check-input"
@@ -53,8 +51,7 @@
               <li class="dropdown-item">
                 <div class="form-check">
                   <input
-                    
-                    name="tipo-pago"
+                    name="tipopago"
                     value="Honorario"
                     {% if 'Honorario' in tipos %}checked{% endif %}
                     class="form-check-input"
@@ -72,7 +69,7 @@
         <div class="col">
           <label class="">Fecha mínima</label>
           <input
-            name="fecha-min"
+            name="fechamin"
             value="{% if fecha_min %}{{fecha_min.strftime('%Y-%m-%d')}}{% endif %}"
             type="date"
             class="form-control"
@@ -82,7 +79,7 @@
         <div class="col">
           <label class="">Fecha máxima</label>
           <input
-            name="fecha-max"
+            name="fechamax"
             value="{% if fecha_max %}{{fecha_max.strftime('%Y-%m-%d')}}{% endif %}"
             type="date"
             class="form-control"
@@ -96,14 +93,12 @@
             class="btn btn-outline-secondary"
             >Reset</a
           >
-          <button
+          <a
             class="btn btn-outline-primary btn-outline-yellow"
-            onclick="window.location.href"
-            ="{{url_for('pago.index')}}"
-            ;
+            onclick=window.location.href="{{url_for('pago.enter_add')}}";
           >
             Agregar pago +
-          </button>
+          </a>
         </div>
       </div>
     </form>
