@@ -6,7 +6,9 @@ def is_authenticated(session):
 
 def check_permission(session, permission):
     user_mail = session.get("user")
+    print("MAIL",user_mail)
     usuario = find_user_by_email(user_mail)
+    print("user email",usuario)
     permissions = user.get_permissions(usuario)
-
+    print("permisos",permissions)
     return usuario is not None and permission in permissions
