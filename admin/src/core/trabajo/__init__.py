@@ -25,17 +25,6 @@ class Trabajo(db.Model):
         name='sede_enum'
     ), nullable=False)
 
-    dia = db.Column(db.Enum(
-        'Lunes',
-        'Martes',
-        'Miércoles',
-        'Jueves',
-        'Viernes',
-        'Sábado',
-        'Domingo',
-        name='dia_enum'
-    ), nullable=False)
-
     profesor_terapeuta_id = db.Column(db.Integer, db.ForeignKey("equipos.id"))
     profesor_terapeuta = db.relationship("Equipo", back_populates="profesor_terapeuta_trabajo", foreign_keys=[profesor_terapeuta_id])
 
@@ -47,6 +36,8 @@ class Trabajo(db.Model):
 
     caballo_id = db.Column(db.Integer, db.ForeignKey("Ecuestre.id"))
     caballo = db.relationship("Ecuestre", back_populates="caballo_trabajo")
+
+    dia = db.relationship("Dia", back_populates="trabajo", lazy = 'dynamic')
 
     j_y_a = db.relationship("JinetesAmazonas", back_populates="trabajo")
 
@@ -94,3 +85,9 @@ def delete_trabajo(id):
         db.session.commit()
     else:
         raise ValueError("No se encontro el trabajo a borrar")
+    
+def assing_dia(trabajo,dia):
+    trabajo.dia.append(dia)
+    db.session.add(trabajo)
+    db.session.commit()
+    return trabajo

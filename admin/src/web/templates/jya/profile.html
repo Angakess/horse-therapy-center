@@ -1,0 +1,349 @@
+{% extends "layout.html" %} {% block title %} Perfil Jinete/Amazona {{info.id}} {% endblock %}
+{% block head %} {{ super() }} {% endblock %} {% block content %}
+
+<div class="container">
+  {% include "jya/components/messages.html" %}
+  <div class="row">
+    <div
+      class="container bg-secondary d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded"
+    >
+      <div class="col">
+        <h1 class="h2 text-white mb-0">{{info.nombre}} {{info.apellido}} {{info.dni}}</h1>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="row">
+        <div class="col">
+          <h2 class="jya-profile-title text-secondary">
+            Información Jinete/Amazona
+          </h2>
+          <ul class="list-unstyled mb-1-9">
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Nombre:</span
+              >{{info.nombre}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Apellido:</span
+              >{{info.apellido}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >DNI:</span
+              >{{info.dni}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Edad:</span
+              >{{info.edad}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Fecha nacimiento:</span
+              >{{info.fecha_nacimiento.strftime('%d/%m/%Y')}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Lugar nacimiento:</span
+              >{{info.lugar_nacimiento}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Domicilio actual:</span
+              >{{info.domicilio_actual}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Teléfono actual:</span
+              >{{info.telefono_actual}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Contacto emergencia:</span
+              >{{info.contacto_emergencia}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Teléfono contacto emergencia:</span
+              >{{info.tel}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Becado:</span
+              >{{info.becado}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Porcentaje beca:</span
+              >% {{info.porcentaje_beca}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Profesionales atienden:</span
+              >{{info.profesionales_atienden}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Certificado discapacidad:</span
+              >{{info.certificado_discapacidad}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Asignación familiar:</span
+              >{{info.asignacion_familiar}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Tipo asignación familiar:</span
+              >{{info.tipo_asignacion_familiar}}
+            </li>
+            <h2 class="jya-profile-title text-secondary">Tipo de J&A Asignado</h2>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Beneficiario pensión:</span
+              >{{info.beneficiario_pension}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Tipo beneficiario pensión:</span
+              >{{info.beneficiario_pension_tipo}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Discapacidad:</span
+              >{{info.discapacidad}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Otra discapacidad:</span
+              >{{info.otra_discapacidad}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Tipo discapacidad:</span
+              >{{info.tipo_discapacidad}}
+            </li>
+            <h2 class="jya-profile-title text-secondary">Situación previsional</h2>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Obra social:</span
+              >{{info.situacion_previsional.obra_social}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Número afiliado:</span
+              >{{info.situacion_previsional.nroafiliado}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Curatela:</span
+              >{{info.situacion_previsional.curatela}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Observaciones:</span
+              >{{info.situacion_previsional.observaciones}}
+            </li>
+            <h2 class="jya-profile-title text-secondary">Institución escolar</h2>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Nombre:</span
+              >{{info.institucion_escolar.nombre}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Dirección:</span
+              >{{info.institucion_escolar.direccion}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Teléfono:</span
+              >{{info.institucion_escolar.telefono}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Grado actual:</span
+              >{{info.institucion_escolar.grado_actual}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Observaciones:</span
+              >{{info.institucion_escolar.observaciones}}
+            </li>
+            <h2 class="jya-profile-title text-secondary">Responsables</h2>
+              {%for responsable in info.parentesco_tutor%}
+              <li class="mb-2 mb-xl-3 display-28">
+                <span class="display-26 text-primary me-2 font-weight-600"
+                  >Parentesco:</span
+                >{{responsable.parentesco}}
+              </li>
+              <li class="mb-2 mb-xl-3 display-28">
+                <span class="display-26 text-primary me-2 font-weight-600"
+                  >Nombre:</span
+                >{{responsable.nombre}}
+              </li>
+              <li class="mb-2 mb-xl-3 display-28">
+                <span class="display-26 text-primary me-2 font-weight-600"
+                  >Apellido:</span
+                >{{responsable.apellido}}
+              </li>
+              <li class="mb-2 mb-xl-3 display-28">
+                <span class="display-26 text-primary me-2 font-weight-600"
+                  >DNI:</span
+                >{{responsable.dni}}
+              </li>
+              <li class="mb-2 mb-xl-3 display-28">
+                <span class="display-26 text-primary me-2 font-weight-600"
+                  >Domicilio actual:</span
+                >{{responsable.domicilio_actual}}
+              </li>
+              <li class="mb-2 mb-xl-3 display-28">
+                <span class="display-26 text-primary me-2 font-weight-600"
+                  >Celular actual:</span
+                >{{responsable.celular_actual}}
+              </li>
+              <li class="mb-2 mb-xl-3 display-28">
+                <span class="display-26 text-primary me-2 font-weight-600"
+                  >Email:</span
+                >{{responsable.email}}
+              </li>
+              <li class="mb-2 mb-xl-3 display-28">
+                <span class="display-26 text-primary me-2 font-weight-600"
+                  >Nivel escolaridad:</span
+                >{{responsable.nivel_escolaridad}}
+              </li>
+              <li class="mb-2 mb-xl-3 display-28">
+                <span class="display-26 text-primary me-2 font-weight-600"
+                  >Actividad/Ocupación:</span
+                >{{responsable.actividad_ocupacion}}
+              </li>
+              {%endfor%}
+              <h2 class="jya-profile-title text-secondary">Trabajo</h2>
+              <li class="mb-2 mb-xl-3 display-28">
+                <span class="display-26 text-primary me-2 font-weight-600"
+                  >Propuesta de trabajo institucional:</span
+                >{{info.trabajo.propuestra_trabajo_institucional}}
+              </li>
+              <li class="mb-2 mb-xl-3 display-28">
+                <span class="display-26 text-primary me-2 font-weight-600"
+                  >Condición:</span
+                >{{info.trabajo.condicion}}
+              </li>
+              <li class="mb-2 mb-xl-3 display-28">
+                <span class="display-26 text-primary me-2 font-weight-600"
+                  >Sede:</span
+                >{{info.trabajo.sede}}
+              </li>
+              <li class="mb-2 mb-xl-3 display-28">
+                <span class="display-26 text-primary me-2 font-weight-600"
+                  >Dias laborales:</span
+                  {%for dia in info.trabajo.dia%}
+                  >{{info.trabajo.dia.nombre}}
+                  {%endfor%}
+              </li>
+              <li class="mb-2 mb-xl-3 display-28">
+                <span class="display-26 text-primary me-2 font-weight-600"
+                  >Profesor/a o terapeuta:</span
+                >{{info.trabajo.profesor_terapeuta.nombre}} {{info.trabajo.profesor_terapeuta.email}}
+              </li>
+              <li class="mb-2 mb-xl-3 display-28">
+                <span class="display-26 text-primary me-2 font-weight-600"
+                  >Conductor/a del caballo:</span
+                >{{info.trabajo.conductor.nombre}} {{info.trabajo.conductor.email}}
+              </li>
+              <li class="mb-2 mb-xl-3 display-28">
+                <span class="display-26 text-primary me-2 font-weight-600"
+                  >Caballo:</span
+                >{{info.trabajo.caballo.nombre}} {{info.trabajo.caballo.raza}}
+              </li>
+              <li class="mb-2 mb-xl-3 display-28">
+                <span class="display-26 text-primary me-2 font-weight-600"
+                  >Auxiliar de pista:</span
+                >{{info.trabajo.auxiliar_pista.nombre}} {{info.trabajo.auxiliar_pista.email}}
+              </li>
+          </ul>
+        </div>
+        <div class="col d-flex align-items-center justify-content-end">
+          <a
+            class="btn btn-link mx-2 align-self-start"
+            href="{{url_for('jya.index')}}"
+          >
+            ◄ Volver
+            </a>
+            <button
+              class="btn btn-outline-primary mx-2 align-self-start"
+              onclick=window.location.href="{{ url_for('jya.enter_edit', id=info.id) }}";
+            >
+              Editar
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-pencil"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"
+                />
+              </svg>
+            </button>
+            <form action="{{url_for('jya.delete', id=info.id)}}" method="POST" class="mx-2 align-self-start" onsubmit="return confirm('¿Está seguro que quiere eliminar este caballo?')">
+              <input type="hidden" name="id" value="{{ info.id }}" />
+              <button class="btn btn-outline-dark mx-2 align-self-start">
+                Eliminar
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-trash"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"
+                  />
+                  <path
+                    d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"
+                  />
+                </svg>
+              </button>
+            </form>
+        </div>
+      </div>
+        <div class="col">
+          <h2 class="jya-profile-title text-secondary">Archivos</h2>
+          <ul class="list-group list-unstyled mb-1-9">
+            {% if archivos %}
+            {% for a in archivos %}
+            <li class="list-group-item container">
+              <div class="row align-items-center">
+                <div class="col">
+                  {{a.nombre}}
+                </div>
+                <div class="col d-flex justify-content-end">
+                  <button class="btn btn-outline-secondary mx-1" 
+                  onclick="window.open('{{ url_for('jya.download_archivo', id=a.id) }}', '_blank')"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                      <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+                      <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </li>
+            {%endfor%}
+            {%else%}
+            <span class="display-26 text-primary me-2 font-weight-600">No hay archivos asociados a este jya</span>
+            {%endif%}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

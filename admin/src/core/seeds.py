@@ -1,14 +1,5 @@
 import random
-from core import equipo
-from core import ecuestre
-from core import user
-from core import jya
-from core import situacionPrevisional
-from core import institucion
-from core import parienteTutor
-from core import trabajo
-from core import pago
-
+from core import equipo,ecuestre,user,jya,situacionPrevisional,institucion,parienteTutor,trabajo,pago,dia
 from datetime import datetime
 
 
@@ -196,15 +187,33 @@ def run():
         propuestra_trabajo_institucional="Equitación",
         condicion="Regular",
         sede="CASJ",
-        dia="Domingo",
     )
     trabajo2 = trabajo.create_trabajo(
         propuestra_trabajo_institucional="Actividades recreativas",
         condicion="De baja",
         sede="HLP",
-        dia="Jueves",
     )
-
+    lunes = dia.create_dia(
+        nombre = "Lunes",
+    )
+    martes = dia.create_dia(
+        nombre = "Martes",
+    )    
+    miercoles = dia.create_dia(
+        nombre = "Miércoles",
+    )
+    jueves = dia.create_dia(
+        nombre = "Jueves",
+    )
+    viernes = dia.create_dia(
+        nombre = "Viernes",
+    )
+    sabado = dia.create_dia(
+        nombre = "Sábado",
+    )
+    domingo = dia.create_dia(
+        nombre = "Domingo",
+    )            
     #    VALID_ROLES = {"Técnica", "Ecuestre", "Voluntariado", "Administración"}
 
     role_admin = user.create_role(name="Administración")
@@ -294,11 +303,18 @@ def run():
     trabajo.assing_conductor(trabajo1, equipo2)
     trabajo.assing_caballo(trabajo1, ecuestre1)
     trabajo.assing_auxiliar_pista(trabajo1, equipo3)
+    trabajo.assing_dia(trabajo1,lunes)
+    trabajo.assing_dia(trabajo1,viernes)
+    trabajo.assing_dia(trabajo1,sabado)
 
     trabajo.assing_profesor(trabajo2, equipo2)
     trabajo.assing_conductor(trabajo2, equipo3)
     trabajo.assing_caballo(trabajo2, ecuestre2)
     trabajo.assing_auxiliar_pista(trabajo2, equipo1)
+
+    trabajo.assing_dia(trabajo2,martes)
+    trabajo.assing_dia(trabajo2,jueves)
+    trabajo.assing_dia(trabajo2,sabado)
 
     jya.assing_trabajo(jya1, trabajo1)
     jya.assing_trabajo(jya2, trabajo2)
