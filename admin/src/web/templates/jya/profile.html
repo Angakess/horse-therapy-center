@@ -239,10 +239,28 @@
               </li>
               <li class="mb-2 mb-xl-3 display-28">
                 <span class="display-26 text-primary me-2 font-weight-600"
-                  >Dias laborales:</span
-                  {%for dia in info.trabajo.dia%}
-                  >{{info.trabajo.dia.nombre}}
-                  {%endfor%}
+                  >Dias laborales:</span>
+                  {%if info.trabajo.lunes%}
+                  Lunes 
+                  {%endif%}
+                  {%if info.trabajo.martes%}
+                  Martes 
+                  {%endif%}
+                  {%if info.trabajo.miercoles%}
+                  Miercoles 
+                  {%endif%}
+                  {%if info.trabajo.jueves%}
+                  Jueves 
+                  {%endif%}
+                  {%if info.trabajo.viernes%}
+                  Viernes 
+                  {%endif%}
+                  {%if info.trabajo.sabado%}
+                  Sabado 
+                  {%endif%}
+                  {%if info.trabajo.domingo%}
+                  Domingo
+                  {%endif%}
               </li>
               <li class="mb-2 mb-xl-3 display-28">
                 <span class="display-26 text-primary me-2 font-weight-600"

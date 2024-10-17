@@ -111,7 +111,13 @@ def add_jya():
             "propuestra_trabajo_institucional": request.form["propuestra_trabajo_institucional"],
             "condicion": request.form["condicion"],
             "sede": request.form["sede"],
-            "dia": request.form["dia"],
+            "lunes": request.form["lunes"],
+            "martes": request.form["martes"],
+            "miercoles": request.form["miercoles"],
+            "jueves": request.form["jueves"],
+            "viernes": request.form["viernes"],
+            "sabado": request.form["sabado"],
+            "domingo": request.form["domingo"],
         }
         new_trabajo =  trabajo.create_trabajo(datos_trabajo)
 
