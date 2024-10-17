@@ -1,6 +1,9 @@
 from core.database import db
 from datetime import datetime
 from sqlalchemy import asc, desc, or_
+
+from core.jya import JinetesAmazonas
+from core.trabajo import Trabajo
 from .archivos import Archivo_Ecuestre
 
 class Ecuestre(db.Model):
@@ -89,7 +92,7 @@ def get_ecuestre(id):
     return chosen_ecuestre
 
 
-def list_ecuestres_page(query, page, amount_per_page, order, by):
+def list_ecuestres_page(query, page, amount_per_page, order, by,jya):
 
     sort_column = {
         "nombre": Ecuestre.nombre,
@@ -97,18 +100,18 @@ def list_ecuestres_page(query, page, amount_per_page, order, by):
     }.get(by, Ecuestre.id)
 
     order_by = asc(sort_column) if order == "asc" else desc(sort_column)
+    ecuestres = Ecuestre.query
+    print("jinetes",jya)
 
-    ecuestres = (
-        Ecuestre.query.filter(
-            or_(
-                Ecuestre.nombre.like(f"%{query}%"),
-                # Ecuestre.j_y_a.trabajo.propuestra_trabajo_institucional.like(f"%{query}%"),
-            )
-        )
-        .order_by(order_by)
-        .paginate(page=page, per_page=amount_per_page)
-    )
+    if jya:
+        ecuestres = ecuestres.join(JinetesAmazonas).join(Trabajo).filter(Trabajo.propuestra_trabajo_institucional == jya)
 
+    if query:
+        ecuestres = ecuestres.filter( Ecuestre.nombre.ilike(f"%{query}%") )
+
+    ecuestres = ecuestres.order_by(order_by).paginate(page=page, per_page=amount_per_page)
+
+  
     return ecuestres
 
 def ecuestre_by_name(nombre_ecuestre):
