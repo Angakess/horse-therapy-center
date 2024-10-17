@@ -4,7 +4,9 @@ from sqlalchemy import and_, or_
 import bcrypt
 from core.database import db
 from core.user.users import User
-from core.user.roles import Role
+from core.user.roles import Permission, Role, RolePermission
+
+
 
 
 PERMISSIONS = {
@@ -177,3 +179,18 @@ def unassign_role(user):
 def list_roles():
     roles = Role.query.all()
     return roles
+
+
+def create_permission(name):
+    #agregar validación(?
+    permission = Permission(name)
+    db.session.add(permission)
+    db.session.commit()
+    return permission
+
+
+
+def assign_permission(role, permission):
+    permission_role = RolePermission(role,permission)
+    db.session.add(permission_role)
+    db.session.commit()

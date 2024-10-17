@@ -37,6 +37,8 @@ def list_ecuestres():
     ecuestres = Ecuestre.query.all()
     return ecuestres
 
+
+
 def list_ecuestres_nombre_asc():
     ecuestres = Ecuestre.query.order_by(asc(Ecuestre.nombre)).all()
     return ecuestres 
@@ -96,7 +98,7 @@ def list_ecuestres_page(query, page, amount_per_page, order, by):
         Ecuestre.query.filter(
             or_(
                 Ecuestre.nombre.like(f"%{query}%"),
-                Ecuestre.j_y_a.like(f"%{query}%"),
+               #esto no va si lo maneja con el filtro Ecuestre.j_y_a.like(f"%{query}%"),
             )
         )
         .order_by(order_by)
@@ -120,3 +122,13 @@ def assing_j_y_a(ecuestre, j_y_a):
     db.session.add(ecuestre)
     db.session.commit()
     return ecuestre
+
+
+def get_total(parametro):
+    total = Ecuestre.query.filter(
+        or_(
+            Ecuestre.nombre.like(f"%{parametro}%"),
+        ),
+    ).count()
+
+    return total

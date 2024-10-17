@@ -13,7 +13,7 @@ def index():
     by = request.args.get("by", "")
     page = int(request.args.get("pag", "1"))
 
-    total = ecuestre.list_ecuestres(query)
+    total = ecuestre.get_total(query)
     ecuestres = ecuestre.list_ecuestres_page(query, page, amount_per_page, order, by)
 
     return render_template(
@@ -26,6 +26,7 @@ def index():
         page_amount=(total + amount_per_page - 1) // amount_per_page,
     )
 
+"""
 
 @bprint.get("/<id>")
 def get_profile(id):
@@ -135,3 +136,5 @@ def delete():
 
     flash("Ecuestre borrado con éxito", "success")
     return redirect(url_for("ecuestre.index"))
+
+"""

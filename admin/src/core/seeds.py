@@ -14,6 +14,7 @@ from datetime import datetime
 
 def run():
 
+    """"
     pago1 = pago.create_pago(
         monto=10000,
         fecha=datetime(2022, 1, 1),
@@ -203,7 +204,7 @@ def run():
         condicion="De baja",
         sede="HLP",
         dia="Jueves",
-    )
+    )"""
 
     #    VALID_ROLES = {"Técnica", "Ecuestre", "Voluntariado", "Administración"}
 
@@ -272,12 +273,16 @@ def run():
 
         print(f"Usuario {alias} creado con rol {selected_role.name}")
 
+
+    
+
     # Asignar rol de voluntariado al segundo usuario
     user.assign_role(user3, role_tec)
     user.assign_role(user2, role_voluntario)
 
     user.assign_role(user1, role_admin)
 
+    """
     ecuestre.assing_equipo(ecuestre1, equipo1)
     ecuestre.assing_equipo(ecuestre2, equipo2)
     ecuestre.assing_j_y_a(ecuestre1, jya1)
@@ -303,4 +308,7 @@ def run():
     jya.assing_trabajo(jya1, trabajo1)
     jya.assing_trabajo(jya2, trabajo2)
 
-    pago.assign_pago(equipo1, pago1)
+    pago.assign_pago(equipo1, pago1)"""
+
+    permission=user.create_permission("users_index")
+    user.assign_permission(role_admin.id,permission.id)
