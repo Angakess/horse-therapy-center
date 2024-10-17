@@ -12,7 +12,7 @@ def index():
     if not is_authenticated(session):
         return abort(401)
     
-    if not check_permission(session, "list_equipos_page"):
+    if not check_permission(session, "equipo_index"):
         return abort(403)
     
     amount_per_page = 10
