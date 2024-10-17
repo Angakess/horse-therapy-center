@@ -10,7 +10,7 @@
       <li class="page-item">
         <a
           class="page-link"
-          href="{{url_for('pago.enter_edit', pag=pag-1, id=info.id)}}"
+          href="{{url_for('pago.index', pag=pag-1, order=order, tipopago=tipos, fechamin=fecha_min, fechamax=fecha_max)}}"
           aria-label="Previous"
         >
           <span aria-hidden="true">&laquo;</span>
@@ -20,7 +20,7 @@
       <li class="page-item {% if pag == p+1 %} active {% endif %}">
         <a
           class="page-link"
-          href="{{url_for('pago.enter_edit', pag=p+1, id=info.id)}}"
+          href="{{url_for('pago.index', pag=p+1, order=order, tipopago=tipos, fechamin=fecha_min, fechamax=fecha_max)}}"
           >{{p+1}}</a
         >
       </li>
@@ -34,7 +34,7 @@
       <li class="page-item">
         <a
           class="page-link"
-          href="{{url_for('pago.enter_edit', pag=pag+1, id=info.id)}}"
+          href="{{url_for('pago.index', pag=pag+1, order=order, tipopago=tipos, fechamin=fecha_min, fechamax=fecha_max)}}"
           aria-label="Next"
         >
           <span aria-hidden="true">&raquo;</span>

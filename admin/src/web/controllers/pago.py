@@ -12,16 +12,19 @@ def index():
     try:
         page = int(request.args.get("pag", "1"))
         order = request.args.get("order", "desc")
-        tipos = request.args.getlist("tipo-pago")
+        tipos = request.args.getlist("tipopago")
 
-        fecha_min = request.args.get("fecha-min", "")
+        fecha_min = request.args.get("fechamin", "")
+
         if fecha_min:
+            fecha_min = fecha_min.split(" ")[0]
             fecha_min = datetime.strptime(fecha_min, "%Y-%m-%d")
         else:
             fecha_min = datetime.min
 
-        fecha_max = request.args.get("fecha-max", "")
+        fecha_max = request.args.get("fechamax", "")
         if fecha_max:
+            fecha_max = fecha_max.split(" ")[0]
             fecha_max = datetime.strptime(fecha_max, "%Y-%m-%d")
         else:
             fecha_max = datetime.max
@@ -62,7 +65,7 @@ def enter_edit(id):
     try:
         chosen_pago = pago.get_one(id)
 
-        amount_per_page = 5
+        amount_per_page = 20
 
         page = int(request.args.get("pag", "1"))
         empleados = equipo.list_equipos_page(page=page, amount_per_page=amount_per_page)
@@ -126,4 +129,45 @@ def delete(id):
 
 @bprint.get("/agregar")
 def enter_add():
-    pass
+    amount_per_page = 20
+
+    page = int(request.args.get("pag", "1"))
+    empleados = equipo.list_equipos_page(page=page, amount_per_page=amount_per_page)
+    total_empleados = equipo.get_total()
+    page_amount = (total_empleados + amount_per_page - 1) // amount_per_page
+
+    return render_template(
+        "pago/pago_adding.html",
+        empleados=empleados,
+        pag=page,
+        page_amount=page_amount,
+        other_page=(True if page > 1 else False),
+    )
+
+
+@bprint.post("/agregar")
+def add():
+    try:
+        new_data = {
+            "desc": request.form["desc"],
+            "monto": request.form["monto"],
+            "fecha": request.form["fecha"],
+            "tipo": request.form["tipo"],
+        }
+
+        new_pago = pago.create_pago(**new_data)
+
+        if new_data["tipo"] == "Honorario":
+            try:
+                new_person_id = request.form["chosen-beneficiario"]
+            except:
+                flash("No se seleccionó un beneficiario", "danger")
+                return redirect(url_for("pago.enter_edit", id=id))
+            new_person = equipo.get_one(new_person_id)
+            pago.assign_pago(new_person, new_pago)
+    except ValueError as e:
+        flash(str(e), "danger")
+        return redirect(url_for("pago.enter_edit", id=id))
+
+    flash("Operación realizada con éxito", "success")
+    return render_template("pago/pago_info.html", info=new_pago)

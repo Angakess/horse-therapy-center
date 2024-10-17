@@ -9,13 +9,13 @@ bprint = Blueprint("equipo", __name__, url_prefix="/equipo")
 
 @bprint.get("/")
 def index():
-    if not is_authenticated(session):
+    """ if not is_authenticated(session):
         return abort(401)
     
     if not check_permission(session, "list_equipos_page"):
-        return abort(403)
+        return abort(403) """
     
-    amount_per_page = 10
+    amount_per_page = 2
 
     query = request.args.get("query", "")
     order = request.args.get("order", "asc")

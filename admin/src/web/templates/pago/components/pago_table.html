@@ -4,23 +4,23 @@
       <tr class="align-items-center">
         <th scope="col" class="col-md-2 col-pago-puesto">Tipo</th>
         <th scope="col" class="col-md-2 col-pago-email">
-          <form id="sort_form" action="" method="get">
-            <input hidden type="checkbox" name="tipo-pago" value="Proveedor" 
+          <form id="sort_form" action="{{url_for('pago.index')}}" method="get">
+            <input hidden type="checkbox" name="tipopago" value="Proveedor" 
             {%if 'Proveedor' in tipos %}checked{% endif %}> 
-            <input hidden type="checkbox" name="tipo-pago" value="Gastos varios" 
+            <input hidden type="checkbox" name="tipopago" value="Gastos varios" 
             {% if 'Gastos varios' in tipos %}checked{% endif %}> 
-            <input hidden type="checkbox" name="tipo-pago" value="Honorario"
+            <input hidden type="checkbox" name="tipopago" value="Honorario"
             {% if 'Honorario' in tipos %}checked{% endif %}>
             <input
               hidden
               type="date"
-              name="fecha-min"
+              name="fechamin"
               value="{% if fecha_min %}{{fecha_min.strftime('%Y-%m-%d')}}{% endif %}"
             />
             <input
               hidden
               type="date"
-              name="fecha-max"
+              name="fechamax"
               value="{% if fecha_max %}{{fecha_max.strftime('%Y-%m-%d')}}{% endif %}"
             />
             <input
@@ -83,4 +83,4 @@
     </tbody>
   </table>
 </div>
-{%include "pago/components/pagination_pago.html"%}
+{%include "pago/components/pago_pagination.html"%}
