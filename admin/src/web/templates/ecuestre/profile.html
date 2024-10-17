@@ -63,18 +63,16 @@
             <h2 class="ecuestre-profile-title text-secondary">Equipo</h2>
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
-                >Nombre Entrenador/Conductor:</span
-              >{{info.equipo.nombre}}
-            </li>
-            <li class="mb-2 mb-xl-3 display-28">
-              <span class="display-26 text-primary me-2 font-weight-600"
-                >E-Mail Entrenador/Conductor:</span
-              >{{info.equipo.email}}
+                >Nombre y Mail Entrenadores/Conductores:</span>
+                <br> 
+              {%for ec in info.equipos%}
+                {{ec.nombre}} // {{ec.email}} <br> 
+              {%endfor%}
             </li>
             <h2 class="ecuestre-profile-title text-secondary">Tipo de J&A Asignado</h2>
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
-                >E-Mail Entrenador/Conductor:</span
+                >Propuestra trabajo institucional:</span
               >{{info.j_y_a.trabajo.propuestra_trabajo_institucional}}
             </li>
           </ul>

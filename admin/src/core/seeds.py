@@ -281,6 +281,7 @@ def run():
     user.assign_role(user1, role_admin)
 
     ecuestre.assing_equipo(ecuestre1, equipo1)
+    ecuestre.assing_equipo(ecuestre1, equipo2)
     ecuestre.assing_equipo(ecuestre2, equipo2)
     ecuestre.assing_j_y_a(ecuestre1, jya1)
     ecuestre.assing_j_y_a(ecuestre2, jya2)

@@ -1,7 +1,7 @@
 from core.database import db
 from datetime import datetime
 from sqlalchemy import asc, desc, or_
-
+from core.relacion_equipo_ecuestre import equipo_ecuestre
 from core.jya import JinetesAmazonas
 from core.trabajo import Trabajo
 from .archivos import Archivo_Ecuestre
@@ -22,8 +22,7 @@ class Ecuestre(db.Model):
     fecha_ingreso = db.Column(db.DateTime, nullable=False)
     sede_asignada = db.Column(db.String(40), nullable=False)
 
-    equipo_id = db.Column(db.Integer, db.ForeignKey("equipos.id", name="fk_ecuestre_Ecuestre_id"))
-    equipo = db.relationship("Equipo", back_populates="equipos")
+    equipos = db.relationship("Equipo",secondary=equipo_ecuestre,back_populates="ecuestres",lazy='dynamic')
 
     j_y_a_id = db.Column(db.Integer, db.ForeignKey("JinetesYAmazonas.id", name="fk_ecuestre_jya_id"))
     j_y_a = db.relationship("JinetesAmazonas", back_populates="j_y_a")
@@ -119,10 +118,17 @@ def ecuestre_by_name(nombre_ecuestre):
     return ecuestre
 
 def assing_equipo(ecuestre, equipo):
-    ecuestre.equipo = equipo
+    ecuestre.equipos.append(equipo)
     db.session.add(ecuestre)
     db.session.commit()
     return ecuestre
+
+def unassing_equipo(ecuestre,equipo):
+    if equipo in ecuestre.equipos:
+        ecuestre.equipos.remove(equipo)
+        db.session.commit()
+    else:
+        raise ValueError("El equipo no está asociado con este ecuestre.")
 
 def assing_j_y_a(ecuestre, j_y_a):
     ecuestre.j_y_a = j_y_a
