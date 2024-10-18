@@ -17,7 +17,11 @@ class Role(db.Model):
 
     @staticmethod
     def validate_role_name(name):
-        """Valida que el nombre del rol esté en la lista de roles permitidos."""
+        """
+            Valida que el nombre del rol esté en la lista de roles permitidos.
+            Parameters: name(string)
+            Raises: ValueError si el rol no es válido.
+        """
         if name not in Role.VALID_ROLES:
             raise ValueError(f"El rol '{name}' no es valido. Los roles permitidos son: {', '.join(Role.VALID_ROLES)}.")
 

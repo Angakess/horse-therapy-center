@@ -21,17 +21,31 @@ class User(db.Model):
 
     @staticmethod
     def validate_unique_email(email):
-        '''valida que el mail no este reprtido'''
+        '''
+            Valida que el email sea único.
+            Parameters: email(string)
+            Raises: ValueError si el email ya está en uso.
+        '''
         if User.query.filter_by(email=email).first() is not None:
             raise ValueError("El correo electrónico ya está registrado")
 
     def activate_user(self):
+        '''
+            Valida que el usuario pueda ser activado.
+            Parameters: self(user)
+            Raises: ValueError si el user es sys admin.
+        '''
         if self.system_admin:
             raise ValueError("El usuario System Admin no puede ser desactivado.")
         self.enabled = True
         db.session.commit()
 
     def deactivate_user(self):
+        '''
+            Valida que el usuario pueda ser desactivado.
+            Parameters: self(user)
+            Raises: ValueError si el user es sys admin.
+        '''
         if self.system_admin:
             raise ValueError("El usuario System Admin no puede ser desactivado.")
         self.enabled = False

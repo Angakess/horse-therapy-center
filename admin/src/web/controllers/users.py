@@ -16,6 +16,11 @@ bprint = Blueprint("users", __name__, url_prefix="/usuarios")
 #@login_required
 #@check("user_index")
 def index():
+    '''
+        Función que muestra las tablas de usuario, permite busqueda y paginación
+        Parameters: Ninguno(Depende en los parametros de la query)
+        Returns: Renderiza template HTML para la lista de usuarios con paginación   
+     '''
     query = request.args.get('query',"")
     role = request.args.get('role', None)
     active = request.args.get('active', None)
@@ -23,15 +28,12 @@ def index():
     sort_by = request.args.get('sort_by', 'email') 
     order = request.args.get('order', 'asc')
 
-    #Ya funciona
     if active == "True":
         active = True
     elif active == "False":
         active = False
     else:
         active = None
-
-    
 
     users = search_users(email=query, role=role, active=active, page=page,sort_by=sort_by, order=order,)
 
@@ -40,9 +42,7 @@ def index():
 
 @bprint.post("/activar_usuario")
 def activar_usuario():
-    """
-    Funcion que permite habilitar/deshabilitar el usuario a menos que sea System Admin
-    """
+    '''Funcion que permite habilitar/deshabilitar el usuario a menos que sea System Admin'''
     chosen_id = request.form['id']
     query = request.form['query']
     user = User.query.get(chosen_id)
@@ -61,9 +61,10 @@ def activar_usuario():
 
 @bprint.route("/edit_user/<int:user_id>", methods=["GET", "POST"])
 def edit_user(user_id):
-    """ Función que edita el usuario y agrega los parametros a un diccionario para ahorrar 
-        validación en la funcion update_user
-    """
+    ''' 
+    Función que edita el usuario y agrega los parametros a un diccionario para 
+    no tener que hacer validación extra en update_user
+    '''
     user = User.query.get_or_404(user_id)  
     roles = Role.query.all()  
 
@@ -85,6 +86,11 @@ def edit_user(user_id):
 
 @bprint.post("/delete_user")
 def delete_user_controller():
+    '''
+        Función que elimina fisicamente un usuario
+        Parameters: Ninguno(Depende en los parametros de la query)
+        Raise: ValueError propagado por delete_user() 
+     '''
     user_id = request.form.get("user_id")  
     try:
         delete_user(user_id) 
@@ -96,6 +102,12 @@ def delete_user_controller():
 
 @bprint.route("/register_user", methods=["GET", "POST"])
 def register_user():
+    '''
+        Función que registra un nuevo usuario
+        Parameters: Ninguno(Depende en los parametros de la query)
+        Raise: ValueError propagado de create_user()
+        Returns: Renderiza template HTML para el formulario de registro y al index si el registro es correcto  
+     '''
     roles = list_roles()
     roles = list_roles()
 

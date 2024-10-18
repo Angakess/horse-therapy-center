@@ -25,6 +25,7 @@ class JinetesAmazonas(db.Model):
     asignacion_familiar = db.Column(db.Boolean, nullable=False)
 
     tipo_asignacion_familiar = db.Column(db.Enum(
+        'Ninguna',
         'Universal por hijo',
         'Universal por hijo con discapacidad',
         'Ayuda escolar anual',
