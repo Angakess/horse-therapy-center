@@ -10,7 +10,7 @@
       <li class="page-item">
         <a
           class="page-link"
-          href="{{url_for('pago.index', pag=pag-1)}}"
+          onclick="navigateWithFormValues('{{ url_for('pago.enter_edit',id=info.id, pag=pag-1) }}')"
           aria-label="Previous"
         >
           <span aria-hidden="true">&laquo;</span>
@@ -18,9 +18,7 @@
       </li>
       {% endif %} {% for p in range(page_amount) %}
       <li class="page-item {% if pag == p+1 %} active {% endif %}">
-        <a
-          class="page-link"
-          href="{{url_for('pago.index', pag=p+1)}}"
+        <a class="page-link" onclick="navigateWithFormValues('{{ url_for('pago.enter_edit',id=info.id, pag=p+1) }}')"
           >{{p+1}}</a
         >
       </li>
@@ -34,7 +32,7 @@
       <li class="page-item">
         <a
           class="page-link"
-          href="{{url_for('pago.index', pag=pag+1)}}"
+          onclick="navigateWithFormValues('{{ url_for('pago.enter_edit',id=info.id, pag=pag+1) }}')"
           aria-label="Next"
         >
           <span aria-hidden="true">&raquo;</span>
@@ -44,3 +42,22 @@
     </ul>
   </nav>
   
+  <script>
+    function navigateWithFormValues(baseUrl) {
+      // Obtén los valores de los campos del formulario
+      const desc = document.getElementById('desc-id').value;
+      const monto = document.getElementById('monto-id').value;
+      const fecha = document.getElementById('fecha-id').value;
+      const tipo = document.getElementById('tipo-id').value;
+  
+      // Construye la nueva URL con los parámetros
+      const url = new URL(baseUrl, window.location.origin);
+      url.searchParams.set('desc', desc);
+      url.searchParams.set('monto', monto);
+      url.searchParams.set('fecha', fecha);
+      url.searchParams.set('tipo', tipo);
+  
+      // Redirige a la nueva URL
+      window.location.href = url.toString();
+    }
+  </script>

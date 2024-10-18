@@ -18,7 +18,7 @@
             Descripción
           </h2>
           <div class="input-group">
-            <textarea class="form-control" name="desc" aria-label="With textarea" required>{{info.desc}}</textarea>
+            <textarea class="form-control" name="desc" id="desc-id" aria-label="With textarea" required>{{desc}}</textarea>
             <div class="invalid-feedback">
               Ingrese una descripción.
             </div>
@@ -33,7 +33,7 @@
                 >
                 <div class="input-group">
                     <span class="input-group-text" id="basic-addon1">$</span>
-                    <input id="monto-input" name="monto" class="form-control" value="{{ info.monto }}" required pattern="^(?!0+(\.0+)?$)(\d{1,10}(\.\d{1,2})?)$">
+                    <input name="monto" id="monto-id" class="form-control" value="{{ monto }}" required pattern="^(?!0+(\.0+)?$)(\d{1,10}(\.\d{1,2})?)$">
                     <div class="invalid-feedback">
                       Ingrese un monto.
                     </div>
@@ -43,7 +43,7 @@
                 <span class="display-26 text-primary me-2 font-weight-600"
                   >Fecha de pago:</span
                 >
-                <input type="date" id="fecha-input" name="fecha" class="form-control" value="{{ info.fecha.strftime('%Y-%m-%d') }}" required>
+                <input type="date" name="fecha" id="fecha-id" class="form-control" value="{{ fecha }}" required>
                 <div class="invalid-feedback">
                   Ingrese una fecha.
                 </div>
@@ -52,10 +52,10 @@
                 <span class="display-26 text-primary me-2 font-weight-600"
                   >Tipo de pago:</span
                 >
-                <select name="tipo" class="form-control">
-                    <option  value="Proveedor" {% if info.tipo == 'Proveedor' %}selected{% endif %}>Proveedor</option>
-                    <option value="Gastos varios" {% if info.tipo == 'Gastos varios' %}selected{% endif %}>Gastos varios</option>
-                    <option value="Honorario" {% if info.tipo == 'Honorario' %}selected{% endif %}>Honorario</option>
+                <select id="tipo-id" name="tipo" class="form-control">
+                    <option  value="Proveedor" {% if tipo == 'Proveedor' %}selected{% endif %}>Proveedor</option>
+                    <option value="Gastos varios" {% if tipo == 'Gastos varios' %}selected{% endif %}>Gastos varios</option>
+                    <option value="Honorario" {% if tipo == 'Honorario' %}selected{% endif %}>Honorario</option>
                 </select>
               </li>
           </ul>
@@ -66,7 +66,7 @@
               <h2 class="equipo-profile-title text-secondary">Beneficiario</h2>
             </div>
             <div class="col-auto">
-              {%include 'pago/components/pago_pagination.html'%}
+              {%include 'pago/components/pago_pagination_edit.html'%}
             </div>
             <ul class="list-group list-unstyled container">
                 {%for persona in empleados%}
