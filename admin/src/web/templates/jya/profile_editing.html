@@ -2,6 +2,7 @@
 {% block head %} {{ super() }} {% endblock %} {% block content %}
 
 <div class="container">
+  {% include "ecuestre/components/messages.html" %}
   <form
     id="edit-form"
     class="needs-validation"
@@ -53,7 +54,7 @@
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
                 >Fecha nacimiento:</span
-              ><input id="fecha_nacimiento-input" name="fecha_nacimiento" type = "date" class="form-control" value="{{info.fecha_nacimiento}}" required>
+              ><input id="fecha_nacimiento-input" name="fecha_nacimiento" type = "date" class="form-control" value="{{info.fecha_nacimiento.strftime('%Y-%m-%d')}}" required>
               <div class="invalid-feedback">
                 Ingrese una fecha de nacimiento.
               </div>
@@ -417,7 +418,7 @@
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
                 >Actividad/Ocupación:</span
-              ><input id="actividad_ocupacion_parentesco-input" name="actividad_ocupacion_parentesco" class="form-control" value="{{info.parentesco_tutor.actividad_ocupacion}}" required>
+              ><input id="actividad_ocupacion_parentesco-input" name="actividad_ocupacion_parentesco" class="form-control" value="{{r.actividad_ocupacion}}" required>
               <div class="invalid-feedback">
                 Ingrese una actividad u ocupación.
               </div>
@@ -541,6 +542,54 @@
                 <label class="form-check-label" for="flexRadioDefault24">No trabaja</label>
               </div>
             </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Profesor/a o terapeuta:</span>
+                <div class="form-group">
+                  <select class="form-control" id="profesorTerapeutaSelect" name="profesor_terapeuta_id" required>
+                    <option hidden selected disabled value=""></option>
+                    {% for equipo in equipos %}
+                      <option value="{{ equipo.id }}">{{ equipo.nombre }} {{ equipo.apellido }} ({{ equipo.puesto }})</option>
+                    {% endfor %}
+                  </select>
+                </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Conductor/a del Caballo:</span>
+                <div class="form-group">
+                  <select class="form-control" id="conductorSelect" name="conductor_id" required>
+                    <option hidden selected disabled value=""></option>
+                    {% for equipo in equipos %}
+                      <option value="{{ equipo.id }}">{{ equipo.nombre }} {{ equipo.apellido }} ({{ equipo.puesto }})</option>
+                    {% endfor %}
+                  </select>
+                </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Caballo:</span>
+                <div class="form-group">
+                  <select class="form-control" id="caballoSelect" name="caballo_id" required>
+                    <option hidden selected disabled value=""></option>
+                    {% for ecuestre in ecuestres %}
+                      <option value="{{ ecuestre.id }}">{{ ecuestre.nombre }} {{ ecuestre.raza }} ({{ ecuestre.sede_asignada }})</option>
+                    {% endfor %}
+                  </select>
+                </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Auxiliar de Pista:</span>
+                <div class="form-group">
+                  <select class="form-control" id="auxiliarDePistaSelect" name="auxiliar_pista_id" required>
+                    <option hidden selected disabled value=""></option>
+                    {% for equipo in equipos %}
+                      <option value="{{ equipo.id }}">{{ equipo.nombre }} {{ equipo.apellido }} ({{ equipo.puesto }})</option>
+                    {% endfor %}
+                  </select>
+                </div>
+            </li>
           </ul>
         </div>
           <ul class="list-group list-unstyled">
@@ -548,9 +597,9 @@
               Archivos
             </h2>
             <div class="mb-3">
-              <input class="form-control" type="file" id="formFile" name="archivos">
+              <input class="form-control" type="file" id="formFile" name="archivos_JineteAmazonas">
             </div>
-            {% for a in archivos_JineteAmazonas %}
+            {% for a in info.archivos %}
             <li class="list-group-item" id="archivo-field-{{a.id}}">
               <div class="row align-items-center">
                 <div class="col">

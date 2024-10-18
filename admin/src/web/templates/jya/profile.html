@@ -265,22 +265,22 @@
               <li class="mb-2 mb-xl-3 display-28">
                 <span class="display-26 text-primary me-2 font-weight-600"
                   >Profesor/a o terapeuta:</span
-                >{{info.trabajo.profesor_terapeuta.nombre}} {{info.trabajo.profesor_terapeuta.email}}
+                >{{info.trabajo.profesor_terapeuta.nombre}} // {{info.trabajo.profesor_terapeuta.email}}
               </li>
               <li class="mb-2 mb-xl-3 display-28">
                 <span class="display-26 text-primary me-2 font-weight-600"
                   >Conductor/a del caballo:</span
-                >{{info.trabajo.conductor.nombre}} {{info.trabajo.conductor.email}}
+                >{{info.trabajo.conductor.nombre}} // {{info.trabajo.conductor.email}}
               </li>
               <li class="mb-2 mb-xl-3 display-28">
                 <span class="display-26 text-primary me-2 font-weight-600"
                   >Caballo:</span
-                >{{info.trabajo.caballo.nombre}} {{info.trabajo.caballo.raza}}
+                >{{info.trabajo.caballo.nombre}} // {{info.trabajo.caballo.raza}}
               </li>
               <li class="mb-2 mb-xl-3 display-28">
                 <span class="display-26 text-primary me-2 font-weight-600"
                   >Auxiliar de pista:</span
-                >{{info.trabajo.auxiliar_pista.nombre}} {{info.trabajo.auxiliar_pista.email}}
+                >{{info.trabajo.auxiliar_pista.nombre}} // {{info.trabajo.auxiliar_pista.email}}
               </li>
           </ul>
         </div>
@@ -335,8 +335,8 @@
         <div class="col">
           <h2 class="jya-profile-title text-secondary">Archivos</h2>
           <ul class="list-group list-unstyled mb-1-9">
-            {% if archivos_JineteAmazonas %}
-            {% for a in archivos_JineteAmazonas %}
+            {% if info.archivos %}
+            {% for a in info.archivos %}
             <li class="list-group-item container">
               <div class="row align-items-center">
                 <div class="col">
@@ -356,7 +356,7 @@
             </li>
             {%endfor%}
             {%else%}
-            <span class="display-26 text-primary me-2 font-weight-600">No hay archivos asociados a este jya</span>
+            <span class="display-26 text-primary me-2 font-weight-600">No hay archivos asociados a este Jinete/Amazona</span>
             {%endif%}
           </ul>
         </div>

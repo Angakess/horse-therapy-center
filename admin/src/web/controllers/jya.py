@@ -1,6 +1,8 @@
 from os import fstat
 from flask import render_template,request, url_for, redirect, current_app
 from core import equipo, jya, situacionPrevisional, trabajo, institucion, parienteTutor, ecuestre
+from core.equipo import Equipo
+from core.ecuestre import Ecuestre
 from flask import Blueprint
 from flask import flash
 
@@ -44,7 +46,9 @@ def get_profile(id):
 
 @bprint.get("/agregar")
 def enter_add():
-    return render_template("jya/add_jya.html")
+    equipos = Equipo.query.all()
+    ecuestres = Ecuestre.query.all()
+    return render_template("jya/add_jya.html",equipos=equipos,ecuestres=ecuestres)
 
 @bprint.post("/agregar")
 def add_jya():
@@ -201,12 +205,16 @@ def delete(id):
 
 @bprint.get("/<id>/edit")
 def enter_edit(id):
+    equipos = Equipo.query.all()
+    ecuestres = Ecuestre.query.all()
     try:
         chosen_jinete_amazona = jya.get_jinete_amazona(id)
         return render_template(
             "jya/profile_editing.html",
             info=chosen_jinete_amazona,
             archivos=chosen_jinete_amazona.archivos,
+            equipos=equipos,
+            ecuestres=ecuestres,
         )
     except ValueError as e:
         flash(str(e), "danger")
@@ -249,6 +257,12 @@ def save_edit(id):
         "otra_discapacidad": request.form["otra_discapacidad"],
         "tipo_discapacidad": request.form["tipo_discapacidad"],
     }
+        print (new_data["porcentaje_beca"])
+        print (new_data["becado"])
+
+        if (new_data["becado"] == False and new_data["porcentaje_beca"]!= 0):
+            flash("No se puede ingresar un porcentaje si no esta becado", "warning")
+            return redirect(url_for("jya.enter_edit", id=id))
 
         try:
             datos_situacion_previsional = {
@@ -285,8 +299,9 @@ def save_edit(id):
                 "nivel_escolaridad": request.form["nivel_escolaridad_parentesco"],
                 "actividad_ocupacion": request.form["actividad_ocupacion_parentesco"],
             }
-            new_responsable = parienteTutor.create_parentesco_tutor(**datos_responsable)
-            jya.assing_parentesco_tutor(jinete_amazona_modificar, new_responsable)
+            if (not parienteTutor.existe(datos_responsable["dni"])):
+                new_responsable = parienteTutor.create_parentesco_tutor(**datos_responsable)
+                jya.assing_parentesco_tutor(jinete_amazona_modificar, new_responsable)
 
             datos_trabajo = {
                 "propuestra_trabajo_institucional": request.form["propuestra_trabajo_institucional"],
@@ -300,7 +315,9 @@ def save_edit(id):
                 "sabado": str_to_bool (request.form["sabado"]),
                 "domingo": str_to_bool (request.form["domingo"]),
             }
-            new_trabajo =  trabajo.create_trabajo(**datos_trabajo)
+
+            trabajo_editado_id =  jinete_amazona_modificar.trabajo_id
+            trabajo_editado = trabajo.edit_trabajo(trabajo_editado_id,**datos_trabajo)
 
             try:
                 profesor_terapeuta_id = request.form.get("profesor_terapeuta_id")
@@ -311,28 +328,28 @@ def save_edit(id):
                 if profesor_terapeuta_id:
                     profesor_terapeuta_asignado = equipo.get_one(profesor_terapeuta_id)
                     if profesor_terapeuta_asignado:
-                        trabajo.assing_profesor(new_trabajo, profesor_terapeuta_asignado)
+                        trabajo.assing_profesor(trabajo_editado, profesor_terapeuta_asignado)
                     else:
                         flash("Profesor no encontrado", "warning")
 
                 if conductor_id:
                     conductor_asignado = equipo.get_one(conductor_id)
                     if conductor_asignado:
-                        trabajo.assing_conductor(new_trabajo, conductor_asignado)
+                        trabajo.assing_conductor(trabajo_editado, conductor_asignado)
                     else:
                         flash("Conductor no encontrado", "warning")
 
                 if auxiliar_pista_id:
                     auxiliar_pista_asignado = equipo.get_one(auxiliar_pista_id)
                     if auxiliar_pista_asignado:
-                        trabajo.assing_auxiliar_pista(new_trabajo, auxiliar_pista_asignado)
+                        trabajo.assing_auxiliar_pista(trabajo_editado, auxiliar_pista_asignado)
                     else:
                         flash("Auxiliar pista no encontrado", "warning")
 
                 if caballo_id:
                     caballo_asignado = ecuestre.get_ecuestre(caballo_id)
                     if caballo_asignado:
-                        trabajo.assing_caballo(new_trabajo, caballo_asignado)
+                        trabajo.assing_caballo(trabajo_editado, caballo_asignado)
                     else:
                         flash("Caballo no encontrado", "warning")     
 
@@ -360,7 +377,7 @@ def save_edit(id):
                     "El archivo es demasiado grande. El tamaño máximo permitido es 5 MB.",
                     "danger",
                 )
-                return redirect(url_for("ecuestre.get_profile", id=id))
+                return redirect(url_for("jya.get_profile", id=id))
 
             try:
                 new_archivo = jya.create_archivo(nombre=archivo_subido.filename)

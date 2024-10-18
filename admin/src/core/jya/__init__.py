@@ -19,7 +19,7 @@ class JinetesAmazonas(db.Model):
     contacto_emergencia = db.Column(db.Text, nullable=False)
     tel = db.Column(db.Text, nullable=False)
     becado = db.Column(db.Boolean, nullable=False)
-    porcentaje_beca = db.Column(db.Double, nullable=False)
+    porcentaje_beca = db.Column(db.Double, nullable=True)
     profesionales_atienden = db.Column(db.Text, nullable=False)
     certificado_discapacidad = db.Column(db.Boolean, nullable=False)
     asignacion_familiar = db.Column(db.Boolean, nullable=False)
@@ -207,7 +207,7 @@ def create_archivo(**kwargs):
 
 
 def assign_archivo(jya, archivo):
-    jya.archivo = archivo
+    jya.archivos.append(archivo)
     db.session.add(jya)
     db.session.commit()
     return archivo

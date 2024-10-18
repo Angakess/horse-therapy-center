@@ -2,6 +2,7 @@
 {% block head %} {{ super() }} {% endblock %} {% block content %}
 
 <div class="container">
+  {% include "jya/components/messages.html" %}
   <form
     id="edit-form"
     class="needs-validation"

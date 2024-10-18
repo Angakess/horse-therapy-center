@@ -91,3 +91,13 @@ def delete_trabajo(id):
         db.session.commit()
     else:
         raise ValueError("No se encontro el trabajo a borrar")
+    
+def edit_trabajo(id, **trabajo_data):
+    trabajo = Trabajo.query.get(id)
+    if trabajo:
+        for key, value in trabajo_data.items():
+            setattr(trabajo, key, value)
+        db.session.commit()
+    else:
+        trabajo = create_trabajo(**trabajo_data)
+    return trabajo
