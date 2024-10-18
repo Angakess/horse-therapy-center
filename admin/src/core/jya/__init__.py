@@ -206,9 +206,9 @@ def create_archivo(**kwargs):
     return archivo
 
 
-def assign_archivo(equipo, archivo):
-    archivo.equipo = equipo
-    db.session.add(archivo)
+def assign_archivo(jya, archivo):
+    jya.archivo = archivo
+    db.session.add(jya)
     db.session.commit()
     return archivo
 

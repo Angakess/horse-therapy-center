@@ -241,7 +241,7 @@
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
                 >Otra discapacidad:</span
-              ><input id="otra_discapacidad-input" name="otra_discapacidad" class="form-control" value="{{info.otra_discapacidad}}" required>
+              ><input id="otra_discapacidad-input" name="otra_discapacidad" class="form-control" value="{{info.otra_discapacidad}}">
               <div class="invalid-feedback">
                 Ingrese un nombre de discapacidad.
               </div>
@@ -296,7 +296,7 @@
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
                 >Observaciones:</span
-              ><input id="observaciones-input" name="observaciones" class="form-control" value="{{info.situacion_previsional.observaciones}}" required>
+              ><input id="observaciones-input" name="observaciones" class="form-control" value="{{info.situacion_previsional.observaciones}}">
               <div class="invalid-feedback">
                 Ingrese alguna/as observacion/es.
               </div>
@@ -337,7 +337,7 @@
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
                 >Observaciones:</span
-              ><input id="observaciones_institucion-input" name="observaciones_institucion" class="form-control" value="{{info.institucion_escolar.observaciones}}" required>
+              ><input id="observaciones_institucion-input" name="observaciones_institucion" class="form-control" value="{{info.institucion_escolar.observaciones}}">
               <div class="invalid-feedback">
                 Ingrese alguna/as observacion/es.
               </div>
@@ -347,7 +347,7 @@
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
                 >Parentesco:</span
-              ><input id="parentesco-input" name="parentesco" class="form-control" value="{{info.parentesco_tutor.parentesco}}" required>
+              ><input id="parentesco-input" name="parentesco" class="form-control" value="{{r.parentesco}}" required>
               <div class="invalid-feedback">
                 Ingrese parentesco.
               </div>
@@ -355,7 +355,7 @@
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
                 >Nombre:</span
-              ><input id="nombre_parentesco-input" name="nombre_parentesco" class="form-control" value="{{info.parentesco_tutor.nombre}}" required>
+              ><input id="nombre_parentesco-input" name="nombre_parentesco" class="form-control" value="{{r.nombre}}" required>
               <div class="invalid-feedback">
                 Ingrese un nombre.
               </div>
@@ -363,7 +363,7 @@
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
                 >Apellido:</span
-              ><input id="apellido_parentesco-input" name="apellido_parentesco" class="form-control" value="{{info.parentesco_tutor.apellido}}" required>
+              ><input id="apellido_parentesco-input" name="apellido_parentesco" class="form-control" value="{{r.apellido}}" required>
               <div class="invalid-feedback">
                 Ingrese un apellido.
               </div>
@@ -371,15 +371,15 @@
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
                 >DNI:</span
-              ><input id="dni_parentesco-input" name="dni_parentesco" class="form-control" value="{{info.parentesco_tutor.dni}}" required>
+              ><input id="dni_parentesco-input" name="dni_parentesco" class="form-control" value="{{r.dni}}" required pattern="^\d{8}$">
               <div class="invalid-feedback">
-                Ingrese un DNI.
+                Ingrese un DNI válido.
               </div>
             </li>
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
                 >Domicilio actual:</span
-              ><input id="domicilio_actual_parentesco-input" name="domicilio_actual_parentesco" class="form-control" value="{{info.parentesco_tutor.domicilio_actual}}" required>
+              ><input id="domicilio_actual_parentesco-input" name="domicilio_actual_parentesco" class="form-control" value="{{r.domicilio_actual}}" required>
               <div class="invalid-feedback">
                 Ingrese una dirección.
               </div>
@@ -387,7 +387,7 @@
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
                 >Celular actual:</span
-              ><input id="celular_actual_parentesco-input" name="celular_actual_parentesco" class="form-control" value="{{info.parentesco_tutor.celular_actual}}" required>
+              ><input id="celular_actual_parentesco-input" name="celular_actual_parentesco" class="form-control" value="{{r.celular_actual}}" required>
               <div class="invalid-feedback">
                 Ingrese un número.
               </div>
@@ -395,7 +395,7 @@
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
                 >Email:</span
-              ><input id="email_parentesco-input" name="email_parentesco" class="form-control" value="{{info.parentesco_tutor.email}}" required>
+              ><input id="email_parentesco-input" name="email_parentesco" class="form-control" value="{{r.email}}" required>
               <div class="invalid-feedback">
                 Ingrese un email.
               </div>
@@ -406,10 +406,10 @@
               <div class="row">
                 <div class="col-6">
                   <select name="nivel_escolaridad_parentesco" class="form-control">
-                    <option value="Primario" {% if r.tipo_discapacidad == 'Primario' %}selected{% endif %}>Primario</option>
-                    <option value="Secundario" {% if r._discapacidad == 'Secundario' %}selected{% endif %}>Secundario</option>
-                    <option value="Terciario" {% if r._discapacidad == 'Terciario' %}selected{% endif %}>Terciario</option>
-                    <option value="Universitario" {% if r.tipo_discapacidad == 'Universitario' %}selected{% endif %}>Universitario</option>                    
+                    <option value="Primario" {% if r.nivel_escolaridad == 'Primario' %}selected{% endif %}>Primario</option>
+                    <option value="Secundario" {% if r.nivel_escolaridad == 'Secundario' %}selected{% endif %}>Secundario</option>
+                    <option value="Terciario" {% if r.nivel_escolaridad == 'Terciario' %}selected{% endif %}>Terciario</option>
+                    <option value="Universitario" {% if r.nivel_escolaridad == 'Universitario' %}selected{% endif %}>Universitario</option>                    
                   </select>
                 </div>
               </div>
@@ -544,7 +544,13 @@
           </ul>
         </div>
           <ul class="list-group list-unstyled">
-            {% for a in archivos %}
+            <h2 class="equipo-profile-title text-secondary">
+              Archivos
+            </h2>
+            <div class="mb-3">
+              <input class="form-control" type="file" id="formFile" name="archivos">
+            </div>
+            {% for a in archivos_JineteAmazonas %}
             <li class="list-group-item" id="archivo-field-{{a.id}}">
               <div class="row align-items-center">
                 <div class="col">

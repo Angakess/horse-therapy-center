@@ -257,6 +257,8 @@ def save_edit(id):
                 "curatela": str_to_bool(request.form["curatela"]),
                 "observaciones": request.form["observaciones"],
             }
+            if jinete_amazona_modificar.situacion_previsional:
+                situacionPrevisional.delete_situacion_previsional(jinete_amazona_modificar.situacion_previsional.id)
             new_situacion_previsional = situacionPrevisional.create_situacion_previsional(**datos_situacion_previsional)
             jya.assing_situacion_previsional(jinete_amazona_modificar, new_situacion_previsional)
 
@@ -267,6 +269,8 @@ def save_edit(id):
                 "grado_actual": request.form["grado_actual"],
                 "observaciones": request.form["observaciones_institucion"],
             }
+            if jinete_amazona_modificar.institucion_escolar:
+                institucion.delete_institucion(jinete_amazona_modificar.institucion_escolar.id)            
             new_institucion_escolar = institucion.create_institucion_escolar(**datos_institucion_escolar)
             jya.assing_institucion_escolar(jinete_amazona_modificar, new_institucion_escolar)
         
@@ -340,7 +344,7 @@ def save_edit(id):
 
         ALLOWED_MIME_TYPES = {"application/pdf", "image/png", "image/jpeg", "text/plain"}
 
-        archivo_subido = request.files["archivos"]
+        archivo_subido = request.files["archivos_JineteAmazonas"]
 
         if archivo_subido:
             if archivo_subido.content_type not in ALLOWED_MIME_TYPES:
