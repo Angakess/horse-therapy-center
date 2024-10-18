@@ -1,4 +1,4 @@
-{% extends "layout.html" %} {% block title %} Editando Jinete/Amazona {{info.id}} {% endblock %}
+{% extends "layout.html" %} {% block title %} Agregando Jinete/Amazona {% endblock %}
 {% block head %} {{ super() }} {% endblock %} {% block content %}
 
 <div class="container">
@@ -53,7 +53,7 @@
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
                 >Fecha nacimiento:</span
-              ><input id="fecha_nacimiento-input" name="fecha_nacimiento" class="form-control" required>
+              ><input id="fecha_nacimiento-input" type = "date" name="fecha_nacimiento" class="form-control" required>
               <div class="invalid-feedback">
                 Ingrese una fecha de nacimiento.
               </div>
@@ -103,13 +103,13 @@
                 >Becado:</span
               >
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="becado" id="flexRadioDefault1" {%if info.becado%} checked {%endif%} value="True">
+                <input class="form-check-input" type="radio" name="becado" id="flexRadioDefault1" value="True">
                 <label class="form-check-label" for="flexRadioDefault1">
                   Si
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="becado" id="flexRadioDefault2" {%if not info.becado%} checked {%endif%} value="False">
+                <input class="form-check-input" type="radio" name="becado" id="flexRadioDefault2" value="False">
                 <label class="form-check-label" for="flexRadioDefault2">
                   No
                 </label>
@@ -118,7 +118,7 @@
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
                 >Porcentaje beca:</span
-              ><input id="porcentaje_beca-input" name="porcentaje_beca" class="form-control" required>
+              ><input id="porcentaje_beca-input" name="porcentaje_beca" class="form-control">
               <div class="invalid-feedback">
                 Ingrese un porcentaje.
               </div>
@@ -136,13 +136,13 @@
                 >Certificado discapacidad:</span
               >
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="certificado_discapacidad" id="flexRadioDefault3" {%if info.certificado_discapacidad%} checked {%endif%} value="True">
+                <input class="form-check-input" type="radio" name="certificado_discapacidad" id="flexRadioDefault3" value="True">
                 <label class="form-check-label" for="flexRadioDefault3">
                   Posee
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="certificado_discapacidad" id="flexRadioDefault4" {%if not info.certificado_discapacidad%} checked {%endif%} value="False">
+                <input class="form-check-input" type="radio" name="certificado_discapacidad" id="flexRadioDefault4" value="False">
                 <label class="form-check-label" for="flexRadioDefault4">
                   No posee
                 </label>
@@ -156,13 +156,13 @@
               <span class="display-26 text-primary me-2 font-weight-600"
                 >Asignación familiar:</span>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="asignacion_familiar" id="flexRadioDefault5" {%if info.asignacion_familiar%} checked {%endif%} value="True">
+                <input class="form-check-input" type="radio" name="asignacion_familiar" id="flexRadioDefault5" value="True">
                 <label class="form-check-label" for="flexRadioDefault5">
                   Tiene
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="asignacion_familiar" id="flexRadioDefault6" {%if not info.asignacion_familiar%} checked {%endif%} value="False">
+                <input class="form-check-input" type="radio" name="asignacion_familiar" id="flexRadioDefault6" value="False">
                 <label class="form-check-label" for="flexRadioDefault6">
                   No tiene
                 </label>
@@ -174,9 +174,10 @@
               <div class="row">
                 <div class="col-6">
                   <select name="tipo_asignacion_familiar" class="form-control">
-                    <option value="Universal por hijo" {% if info.tipo_asignacion_familiar == 'Universal por hijo' %}selected{% endif %}>Universal por hijo</option>
-                    <option value="Universal por hijo con Discapacidad" {% if info.tipo_asignacion_familiar == 'Universal por hijo con Discapacidad' %}selected{% endif %}>Universal por hijo con Discapacidad</option>
-                    <option value="Ayuda escolar anual" {% if info.tipo_asignacion_familiar == 'Ayuda escolar anual' %}selected{% endif %}>Ayuda escolar anual</option>
+                    <option value="Ninguna">Ninguna</option>
+                    <option value="Universal por hijo">Universal por hijo</option>
+                    <option value="Universal por hijo con Discapacidad">Universal por hijo con Discapacidad</option>
+                    <option value="Ayuda escolar anual">Ayuda escolar anual</option>
                 </select>
                 </div>
               </div>
@@ -185,13 +186,13 @@
               <span class="display-26 text-primary me-2 font-weight-600"
                 >Beneficiario pensión:</span>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="beneficiario_pension" id="flexRadioDefault7" {%if info.beneficiario_pension%} checked {%endif%} value="True">
+                <input class="form-check-input" type="radio" name="beneficiario_pension" id="flexRadioDefault7" value="True">
                 <label class="form-check-label" for="flexRadioDefault7">
                   Es beneficiario
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="beneficiario_pension" id="flexRadioDefault8" {%if not info.beneficiario_pension%} checked {%endif%} value="False">
+                <input class="form-check-input" type="radio" name="beneficiario_pension" id="flexRadioDefault8" value="False">
                 <label class="form-check-label" for="flexRadioDefault8">
                   No es beneficiario
                 </label>
@@ -203,8 +204,8 @@
               <div class="row">
                 <div class="col-6">
                   <select name="beneficiario_pension_tipo" class="form-control">
-                    <option value="Provincial" {% if info.beneficiario_pension_tipo == 'Provincial' %}selected{% endif %}>Provincial</option>
-                    <option value="Nacional" {% if info.beneficiario_pension_tipo == 'Nacional' %}selected{% endif %}>Nacional</option>
+                    <option value="Provincial">Provincial</option>
+                    <option value="Nacional">Nacional</option>
                 </select>
                 </div>
               </div>
@@ -215,25 +216,25 @@
               <div class="row">
                 <div class="col-6">
                   <select name="discapacidad" class="form-control">
-                    <option value="ECNE" {% if info.discapacidad == 'ECNE' %}selected{% endif %}>ECNE</option>
-                    <option value="Lesión post-traumática" {% if info.discapacidad == 'Lesión post-traumática' %}selected{% endif %}>Lesión post-traumática</option>
-                    <option value="Mielomeningocele" {% if info.discapacidad == 'Mielomeningocele' %}selected{% endif %}>Mielomeningocele</option>
-                    <option value="Esclerosis Múltiple" {% if info.discapacidad == 'Esclerosis Múltiple' %}selected{% endif %}>Esclerosis Múltiple</option>
-                    <option value="Escoliosis Leve" {% if info.discapacidad == 'Escoliosis Leve' %}selected{% endif %}>Escoliosis Leve</option>
-                    <option value="Secuelas de ACV" {% if info.discapacidad == 'Secuelas de ACV' %}selected{% endif %}>Secuelas de ACV</option>
-                    <option value="Discapacidad Intelectual" {% if info.discapacidad == 'Discapacidad Intelectual' %}selected{% endif %}>Discapacidad Intelectual</option>
-                    <option value="Trastorno del Espectro Autista" {% if info.discapacidad == 'Trastorno del Espectro Autista' %}selected{% endif %}>Trastorno del Espectro Autista</option>
-                    <option value="Trastorno del Aprendizaje" {% if info.discapacidad == 'Trastorno del Aprendizaje' %}selected{% endif %}>Trastorno del Aprendizaje</option>
-                    <option value="Trastorno por Déficit de Atención/Hiperactividad" {% if info.discapacidad == 'Trastorno por Déficit de Atención/Hiperactividad' %}selected{% endif %}>Trastorno por Déficit de Atención/Hiperactividad</option>
-                    <option value="Trastorno de la Comunicación" {% if info.discapacidad == 'Trastorno de la Comunicación' %}selected{% endif %}>Trastorno de la Comunicación</option>
-                    <option value="Trastorno de Ansiedad" {% if info.discapacidad == 'Trastorno de Ansiedad' %}selected{% endif %}>Trastorno de Ansiedad</option>
-                    <option value="Síndrome de Down" {% if info.discapacidad == 'Síndrome de Down' %}selected{% endif %}>Síndrome de Down</option>
-                    <option value="Retraso Madurativo" {% if info.discapacidad == 'Retraso Madurativo' %}selected{% endif %}>Retraso Madurativo</option>
-                    <option value="Psicosis" {% if info.discapacidad == 'Psicosis' %}selected{% endif %}>Psicosis</option>
-                    <option value="Trastorno de Conducta" {% if info.discapacidad == 'Trastorno de Conducta' %}selected{% endif %}>Trastorno de Conducta</option>
-                    <option value="Trastornos del ánimo y afectivos" {% if info.discapacidad == 'Trastornos del ánimo y afectivos' %}selected{% endif %}>Trastornos del ánimo y afectivos</option>
-                    <option value="Trastorno Alimentario" {% if info.discapacidad == 'Trastorno Alimentario' %}selected{% endif %}>Trastorno Alimentario</option>
-                    <option value="OTRO" {% if info.discapacidad == 'OTRO' %}selected{% endif %}>OTRO</option>
+                    <option value="ECNE">ECNE</option>
+                    <option value="Lesión post-traumática">Lesión post-traumática</option>
+                    <option value="Mielomeningocele">Mielomeningocele</option>
+                    <option value="Esclerosis Múltiple">Esclerosis Múltiple</option>
+                    <option value="Escoliosis Leve">Escoliosis Leve</option>
+                    <option value="Secuelas de ACV">Secuelas de ACV</option>
+                    <option value="Discapacidad Intelectual">Discapacidad Intelectual</option>
+                    <option value="Trastorno del Espectro Autista">Trastorno del Espectro Autista</option>
+                    <option value="Trastorno del Aprendizaje">Trastorno del Aprendizaje</option>
+                    <option value="Trastorno por Déficit de Atención/Hiperactividad">Trastorno por Déficit de Atención/Hiperactividad</option>
+                    <option value="Trastorno de la Comunicación">Trastorno de la Comunicación</option>
+                    <option value="Trastorno de Ansiedad">Trastorno de Ansiedad</option>
+                    <option value="Síndrome de Down">Síndrome de Down</option>
+                    <option value="Retraso Madurativo">Retraso Madurativo</option>
+                    <option value="Psicosis">Psicosis</option>
+                    <option value="Trastorno de Conducta">Trastorno de Conducta</option>
+                    <option value="Trastornos del ánimo y afectivos">Trastornos del ánimo y afectivos</option>
+                    <option value="Trastorno Alimentario">Trastorno Alimentario</option>
+                    <option value="OTRO">OTRO</option>
                   </select>
                 </div>
               </div>
@@ -241,7 +242,7 @@
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
                 >Otra discapacidad:</span
-              ><input id="otra_discapacidad-input" name="otra_discapacidad" class="form-control" required>
+              ><input id="otra_discapacidad-input" name="otra_discapacidad" class="form-control">
               <div class="invalid-feedback">
                 Ingrese un nombre de discapacidad.
               </div>
@@ -252,10 +253,10 @@
               <div class="row">
                 <div class="col-6">
                   <select name="tipo_discapacidad" class="form-control">
-                    <option value="Mental" {% if info.tipo_discapacidad == 'Mental' %}selected{% endif %}>Mental</option>
-                    <option value="Motora" {% if info.tipo_discapacidad == 'Motora' %}selected{% endif %}>Motora</option>
-                    <option value="Sensorial" {% if info.tipo_discapacidad == 'Sensorial' %}selected{% endif %}>Sensorial</option>
-                    <option value="Visceral" {% if info.tipo_discapacidad == 'Visceral' %}selected{% endif %}>Visceral</option>                    
+                    <option value="Mental">Mental</option>
+                    <option value="Motora">Motora</option>
+                    <option value="Sensorial">Sensorial</option>
+                    <option value="Visceral">Visceral</option>                    
                   </select>
                 </div>
               </div>
@@ -281,13 +282,13 @@
               <span class="display-26 text-primary me-2 font-weight-600"
                 >Curatela:</span>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="curatela" id="flexRadioDefault9" {%if info.situacion_previsional.curatela%} checked {%endif%} value="True">
+                <input class="form-check-input" type="radio" name="curatela" id="flexRadioDefault9" value="True">
                 <label class="form-check-label" for="flexRadioDefault9">
                   Posee
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="curatela" id="flexRadioDefault10" {%if not info.situacion_previsional.curatela%} checked {%endif%} value="False">
+                <input class="form-check-input" type="radio" name="curatela" id="flexRadioDefault10" value="False">
                 <label class="form-check-label" for="flexRadioDefault10">
                   No posee
                 </label>
@@ -296,7 +297,7 @@
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
                 >Observaciones:</span
-              ><input id="observaciones-input" name="observaciones" class="form-control" required>
+              ><input id="observaciones-input" name="observaciones" class="form-control">
               <div class="invalid-feedback">
                 Ingrese alguna/as observacion/es.
               </div>
@@ -337,7 +338,7 @@
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
                 >Observaciones:</span
-              ><input id="observaciones_institucion-input" name="observaciones_institucion" class="form-control" required>
+              ><input id="observaciones_institucion-input" name="observaciones_institucion" class="form-control">
               <div class="invalid-feedback">
                 Ingrese alguna/as observacion/es.
               </div>
@@ -370,7 +371,7 @@
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
                 >DNI:</span
-              ><input id="dni_parentesco-input" name="dni_parentesco" class="form-control" required>
+              ><input id="dni_parentesco-input" name="dni_parentesco" class="form-control" required pattern="^\d{8}$">
               <div class="invalid-feedback">
                 Ingrese un DNI.
               </div>
@@ -405,10 +406,10 @@
               <div class="row">
                 <div class="col-6">
                   <select name="nivel_escolaridad_parentesco" class="form-control">
-                    <option value="Primario" {% if r.tipo_discapacidad == 'Primario' %}selected{% endif %}>Primario</option>
-                    <option value="Secundario" {% if r._discapacidad == 'Secundario' %}selected{% endif %}>Secundario</option>
-                    <option value="Terciario" {% if r._discapacidad == 'Terciario' %}selected{% endif %}>Terciario</option>
-                    <option value="Universitario" {% if r.tipo_discapacidad == 'Universitario' %}selected{% endif %}>Universitario</option>                    
+                    <option value="Primario">Primario</option>
+                    <option value="Secundario">Secundario</option>
+                    <option value="Terciario">Terciario</option>
+                    <option value="Universitario">Universitario</option>                    
                   </select>
                 </div>
               </div>
@@ -428,11 +429,11 @@
               <div class="row">
                 <div class="col-6">
                   <select name="propuestra_trabajo_institucional" class="form-control">
-                    <option value="Hipoterapia" {% if info.trabajo.propuestra_trabajo_institucional == 'Hipoterapia' %}selected{% endif %}>Hipoterapia</option>
-                    <option value="Monta terapéutica" {% if info.trabajo.propuestra_trabajo_institucional == 'Monta terapéutica' %}selected{% endif %}>Monta terapéutica</option>
-                    <option value="Deporte Ecuestre Adaptado" {% if info.trabajo.propuestra_trabajo_institucional == 'Deporte Ecuestre Adaptado' %}selected{% endif %}>Deporte Ecuestre Adaptado</option>
-                    <option value="Actividades recreativas" {% if info.trabajo.propuestra_trabajo_institucional == 'Actividades recreativas' %}selected{% endif %}>Actividades recreativas</option>
-                    <option value="Equitación" {% if info.trabajo.propuestra_trabajo_institucional == 'Equitación' %}selected{% endif %}>Equitación</option>                                   
+                    <option value="Hipoterapia">Hipoterapia</option>
+                    <option value="Monta terapéutica">Monta terapéutica</option>
+                    <option value="Deporte Ecuestre Adaptado">Deporte Ecuestre Adaptado</option>
+                    <option value="Actividades recreativas">Actividades recreativas</option>
+                    <option value="Equitación">Equitación</option>                                   
                   </select>
                 </div>
               </div>
@@ -443,8 +444,8 @@
               <div class="row">
                 <div class="col-6">
                   <select name="condicion_trabajo" class="form-control">
-                    <option value="Regular" {% if info.trabajo.condicion == 'Regular' %}selected{% endif %}>Regular</option>
-                    <option value="De baja" {% if info.trabajo.condicion == 'De baja' %}selected{% endif %}>De baja</option>                             
+                    <option value="Regular">Regular</option>
+                    <option value="De baja">De baja</option>                             
                   </select>
                 </div>
               </div>
@@ -455,9 +456,9 @@
               <div class="row">
                 <div class="col-6">
                   <select name="sede_trabajo" class="form-control">
-                    <option value="CASJ" {% if info.trabajo.sede == 'CASJ' %}selected{% endif %}>CASJ</option>
-                    <option value="HLP" {% if info.trabajo.sede == 'HLP' %}selected{% endif %}>HLP</option>
-                    <option value="Otro" {% if info.trabajo.sede == 'Otro' %}selected{% endif %}>Otro</option>                               
+                    <option value="CASJ">CASJ</option>
+                    <option value="HLP">HLP</option>
+                    <option value="Otro">Otro</option>                               
                   </select>
                 </div>
               </div>
@@ -465,77 +466,77 @@
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600">Lunes:</span>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="lunes" id="flexRadioDefault11" {% if info.trabajo.lunes %} checked {% endif %} value="True">
+                <input class="form-check-input" type="radio" name="lunes" id="flexRadioDefault11" value="True">
                 <label class="form-check-label" for="flexRadioDefault11">Trabaja</label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="lunes" id="flexRadioDefault12" {% if not info.trabajo.lunes %} checked {% endif %} value="False">
+                <input class="form-check-input" type="radio" name="lunes" id="flexRadioDefault12" value="False">
                 <label class="form-check-label" for="flexRadioDefault12">No trabaja</label>
               </div>
             </li>
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600">Martes:</span>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="martes" id="flexRadioDefault13" {% if info.trabajo.martes %} checked {% endif %} value="True">
+                <input class="form-check-input" type="radio" name="martes" id="flexRadioDefault13" value="True">
                 <label class="form-check-label" for="flexRadioDefault13">Trabaja</label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="martes" id="flexRadioDefault14" {% if not info.trabajo.martes %} checked {% endif %} value="False">
+                <input class="form-check-input" type="radio" name="martes" id="flexRadioDefault14" value="False">
                 <label class="form-check-label" for="flexRadioDefault14">No trabaja</label>
               </div>
             </li>
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600">Miércoles:</span>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="miercoles" id="flexRadioDefault15" {% if info.trabajo.miercoles %} checked {% endif %} value="True">
+                <input class="form-check-input" type="radio" name="miercoles" id="flexRadioDefault15" value="True">
                 <label class="form-check-label" for="flexRadioDefault15">Trabaja</label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="miercoles" id="flexRadioDefault16" {% if not info.trabajo.miercoles %} checked {% endif %} value="False">
+                <input class="form-check-input" type="radio" name="miercoles" id="flexRadioDefault16" value="False">
                 <label class="form-check-label" for="flexRadioDefault16">No trabaja</label>
               </div>
             </li>
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600">Jueves:</span>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="jueves" id="flexRadioDefault17" {% if info.trabajo.jueves %} checked {% endif %} value="True">
+                <input class="form-check-input" type="radio" name="jueves" id="flexRadioDefault17" value="True">
                 <label class="form-check-label" for="flexRadioDefault17">Trabaja</label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="jueves" id="flexRadioDefault18" {% if not info.trabajo.jueves %} checked {% endif %} value="False">
+                <input class="form-check-input" type="radio" name="jueves" id="flexRadioDefault18" value="False">
                 <label class="form-check-label" for="flexRadioDefault18">No trabaja</label>
               </div>
             </li>
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600">Viernes:</span>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="viernes" id="flexRadioDefault19" {% if info.trabajo.viernes %} checked {% endif %} value="True">
+                <input class="form-check-input" type="radio" name="viernes" id="flexRadioDefault19" value="True">
                 <label class="form-check-label" for="flexRadioDefault19">Trabaja</label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="viernes" id="flexRadioDefault20" {% if not info.trabajo.viernes %} checked {% endif %} value="False">
+                <input class="form-check-input" type="radio" name="viernes" id="flexRadioDefault20" value="False">
                 <label class="form-check-label" for="flexRadioDefault20">No trabaja</label>
               </div>
             </li>
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600">Sábado:</span>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="sabado" id="flexRadioDefault21" {% if info.trabajo.sabado %} checked {% endif %} value="True">
+                <input class="form-check-input" type="radio" name="sabado" id="flexRadioDefault21" value="True">
                 <label class="form-check-label" for="flexRadioDefault21">Trabaja</label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="sabado" id="flexRadioDefault22" {% if not info.trabajo.sabado %} checked {% endif %} value="False">
+                <input class="form-check-input" type="radio" name="sabado" id="flexRadioDefault22" value="False">
                 <label class="form-check-label" for="flexRadioDefault22">No trabaja</label>
               </div>
             </li>
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600">Domingo:</span>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="domingo" id="flexRadioDefault23" {% if info.trabajo.domingo %} checked {% endif %} value="True">
+                <input class="form-check-input" type="radio" name="domingo" id="flexRadioDefault23" value="True">
                 <label class="form-check-label" for="flexRadioDefault23">Trabaja</label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="domingo" id="flexRadioDefault24" {% if not info.trabajo.domingo %} checked {% endif %} value="False">
+                <input class="form-check-input" type="radio" name="domingo" id="flexRadioDefault24" value="False">
                 <label class="form-check-label" for="flexRadioDefault24">No trabaja</label>
               </div>
             </li>

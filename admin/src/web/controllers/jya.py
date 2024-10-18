@@ -51,21 +51,22 @@ def add_jya():
     new_data = {
         "nombre": request.form["nombre"].capitalize(),
         "apellido": request.form["apellido"].capitalize(),
+        "dni": request.form["dni"],
         "edad": request.form["edad"],
         "fecha_nacimiento": request.form["fecha_nacimiento"],
         "lugar_nacimiento": request.form["lugar_nacimiento"],
         "domicilio_actual": request.form["domicilio_actual"],
         "telefono_actual": request.form["telefono_actual"],
         "contacto_emergencia": request.form["contacto_emergencia"],
-        "telefono": request.form["tel"],
-        "becado": True if request.form["becado"] == "True" else False,
+        "tel": request.form["tel"],
+        "becado": str_to_bool(request.form["becado"]),
         "porcentaje_beca": request.form["porcentaje_beca"],
         "profesionales_atienden": request.form["profesionales_atienden"],
-        "certificado_discapacidad": True if request.form["certificado_discapacidad"] == "True" else False,
-        "asignacion_familiar": True if request.form["asignacion_familiar"] == "True" else False,
+        "certificado_discapacidad": str_to_bool(request.form["certificado_discapacidad"]),
+        "asignacion_familiar": str_to_bool (request.form["asignacion_familiar"]),
         "tipo_asignacion_familiar": request.form["tipo_asignacion_familiar"],
-        "beneficiario_pension": request.form["beneficiario_pension"],
-        "beneficiario_pension_tipo": True if request.form["beneficiario_pension_tipo"] == "True" else False,
+        "beneficiario_pension": str_to_bool(request.form["beneficiario_pension"]),
+        "beneficiario_pension_tipo": request.form["beneficiario_pension_tipo"],
         "discapacidad": request.form["discapacidad"],
         "otra_discapacidad": request.form["otra_discapacidad"],
         "tipo_discapacidad": request.form["tipo_discapacidad"],
@@ -77,7 +78,7 @@ def add_jya():
         datos_situacion_previsional = {
             "obra_social": request.form["obra_social"],
             "nroafiliado": request.form["nroafiliado"],
-            "curatela": True if request.form["curatela"] == "True" else False,
+            "curatela": str_to_bool(request.form["curatela"]),
             "observaciones": request.form["observaciones"],
         }
         new_situacion_previsional = situacionPrevisional.create_situacion_previsional(**datos_situacion_previsional)
@@ -111,13 +112,13 @@ def add_jya():
             "propuestra_trabajo_institucional": request.form["propuestra_trabajo_institucional"],
             "condicion": request.form["condicion_trabajo"],
             "sede": request.form["sede_trabajo"],
-            "lunes": True if request.form["lunes"] == "True" else False,
-            "martes": True if request.form["martes"] == "True" else False,
-            "miercoles": True if request.form["miercoles"] == "True" else False,
-            "jueves": True if request.form["jueves"] == "True" else False,
-            "viernes": True if request.form["viernes"] == "True" else False,
-            "sabado": True if request.form["sabado"] == "True" else False,
-            "domingo": True if request.form["domingo"] == "True" else False,
+            "lunes": str_to_bool (request.form["lunes"]),
+            "martes": str_to_bool (request.form["martes"]),
+            "miercoles": str_to_bool (request.form["miercoles"]),
+            "jueves": str_to_bool (request.form["jueves"]),
+            "viernes": str_to_bool (request.form["viernes"]),
+            "sabado": str_to_bool (request.form["sabado"]),
+            "domingo": str_to_bool (request.form["domingo"]),
         }
         new_trabajo =  trabajo.create_trabajo(**datos_trabajo)
 
@@ -157,14 +158,14 @@ def add_jya():
 
         except ValueError as e:
             flash(str(e), "danger")
-            return redirect(url_for("jya.get_profile", id=id))    
+            return redirect(url_for("jya.index"))    
         
         jya.assing_trabajo(new_jinete_amazona, new_trabajo)
         flash("Jinete/Amazona creado con éxito", "success")
+        return redirect(url_for("jya.get_profile", id=id))
     except Exception as e:
         flash(f"Error al crear Jinete/Amazona: {str(e)}", "danger")
-
-    return redirect(url_for("jya.get_profile"))
+        return redirect(url_for("jya.index")) 
 
 @bprint.post("/borrar/<id>")
 def delete(id):
@@ -292,7 +293,7 @@ def save_edit(id):
                 "jueves": True if request.form["jueves"] == "True" else False,
                 "viernes": True if request.form["viernes"] == "True" else False,
                 "sabado": True if request.form["sabado"] == "True" else False,
-                "domingo": True if request.form["domingo"] == "True" else False,
+                "domingo": str_to_bool (request.form["domingo"]),
             }
             new_trabajo =  trabajo.create_trabajo(datos_trabajo)
 
@@ -408,3 +409,13 @@ def download_archivo(id):
         return redirect(url_for("jya.get_profile", id=chosen_archivo.jya_id))
 
     return redirect(minio_url)
+
+def str_to_bool(value):
+    if isinstance(value, bool):
+        return value
+    if value.lower() in ("true", "1"):
+        return True
+    elif value.lower() in ("false", "0"):
+        return False
+    else:
+        raise ValueError("Not a boolean value")
