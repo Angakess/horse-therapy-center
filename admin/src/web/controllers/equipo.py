@@ -235,11 +235,10 @@ def download_archivo(id):
     return redirect(minio_url)
 
 
-@bprint.post("/borrar")
-def delete():
-    chosen_id = request.form["id"]
+@bprint.post("/<id>/borrar")
+def delete(id):
     try:
-        chosen_equipo = equipo.delete_equipo(chosen_id)
+        chosen_equipo = equipo.delete_equipo(id)
         archivos_asociados = chosen_equipo.archivos
         client = current_app.storage.client
         for archivo in archivos_asociados:
@@ -247,7 +246,7 @@ def delete():
             equipo.delete_archivo(archivo.id)
     except ValueError as e:
         flash(str(e), "danger")
-        return redirect(url_for("equipo.get_profile", id=chosen_id))
+        return redirect(url_for("equipo.get_profile", id=id))
 
     flash("Equipo borrado con éxito", "success")
     return redirect(url_for("equipo.index"))
