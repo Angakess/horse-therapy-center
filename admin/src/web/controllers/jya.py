@@ -84,33 +84,33 @@ def add_jya():
         jya.assing_situacion_previsional(new_jinete_amazona, new_situacion_previsional)
 
         datos_institucion_escolar = {
-            "nombre": request.form["nombre"],
+            "nombre": request.form["nombre_institucion"],
             "direccion": request.form["direccion"],
-            "telefono": request.form["telefono"],
+            "telefono": request.form["telefono_institucion"],
             "grado_actual": request.form["grado_actual"],
-            "observaciones": request.form["observaciones"],
+            "observaciones": request.form["observaciones_institucion"],
         }
         new_institucion_escolar = institucion.create_institucion_escolar(datos_institucion_escolar)
         jya.assing_institucion_escolar(new_jinete_amazona, new_institucion_escolar)
 
         datos_responsable = {
             "parentesco": request.form["parentesco"],
-            "nombre": request.form["nombre"],
-            "apellido": request.form["apellido"],
-            "dni": request.form["dni"],
-            "domicilio_actual": request.form["domicilio_actual"],
-            "celular_actual": request.form["celular_actual"],
-            "email": request.form["email"],
-            "nivel_escolaridad": request.form["nivel_escolaridad"],
-            "actividad_ocupacion": request.form["actividad_ocupacion"],
+            "nombre": request.form["nombre_parentesco"],
+            "apellido": request.form["apellido_parentesco"],
+            "dni": request.form["dni_parentesco"],
+            "domicilio_actual": request.form["domicilio_actual_parentesco"],
+            "celular_actual": request.form["celular_actual_parentesco"],
+            "email": request.form["email_parentesco"],
+            "nivel_escolaridad": request.form["nivel_escolaridad_parentesco"],
+            "actividad_ocupacion": request.form["actividad_ocupacion_parentesco"],
         }
         new_responsable = parienteTutor.create_parentesco_tutor(datos_responsable)
         jya.assing_parentesco_tutor(new_jinete_amazona, new_responsable)
 
         datos_trabajo = {
             "propuestra_trabajo_institucional": request.form["propuestra_trabajo_institucional"],
-            "condicion": request.form["condicion"],
-            "sede": request.form["sede"],
+            "condicion": request.form["condicion_trabajo"],
+            "sede": request.form["sede_trabajo"],
             "lunes": True if request.form["lunes"] == "True" else False,
             "martes": True if request.form["martes"] == "True" else False,
             "miercoles": True if request.form["miercoles"] == "True" else False,
@@ -157,7 +157,7 @@ def add_jya():
 
         except ValueError as e:
             flash(str(e), "danger")
-            return redirect(url_for("ecuestre.get_profile", id=id))    
+            return redirect(url_for("jya.get_profile", id=id))    
         
         jya.assing_trabajo(new_jinete_amazona, new_trabajo)
         flash("Jinete/Amazona creado con éxito", "success")
@@ -249,37 +249,90 @@ def save_edit(id):
     }
 
         try:
-            situacion_previsional_id = request.form.get("situacion_previsional_id")
-            if situacion_previsional_id:
-                situacion_previsional = situacionPrevisional.get_situacion_previsional(situacion_previsional_id)
-                if situacion_previsional:
-                    jya.assing_situacion_previsional(jinete_amazona_modificar, situacion_previsional)
-                else:
-                    flash("Situación previsional no encontrada", "warning")
+            datos_situacion_previsional = {
+                "obra_social": request.form["obra_social"],
+                "nroafiliado": request.form["nroafiliado"],
+                "curatela": True if request.form["curatela"] == "True" else False,
+                "observaciones": request.form["observaciones"],
+            }
+            new_situacion_previsional = situacionPrevisional.create_situacion_previsional(datos_situacion_previsional)
+            jya.assing_situacion_previsional(jinete_amazona_modificar, new_situacion_previsional)
 
-            institucion_escolar_id = request.form.get("institucion_escolar_id")
-            if institucion_escolar_id:
-                institucion_escolar = institucion.get_institucion(institucion_escolar_id)
-                if institucion_escolar:
-                    jya.assing_institucion_escolar(jinete_amazona_modificar, institucion_escolar)
-                else:
-                    flash("Institución no encontrada", "warning")
+            datos_institucion_escolar = {
+                "nombre": request.form["nombre_institucion"],
+                "direccion": request.form["direccion"],
+                "telefono": request.form["telefono_institucion"],
+                "grado_actual": request.form["grado_actual"],
+                "observaciones": request.form["observaciones_institucion"],
+            }
+            new_institucion_escolar = institucion.create_institucion_escolar(datos_institucion_escolar)
+            jya.assing_institucion_escolar(jinete_amazona_modificar, new_institucion_escolar)
+        
+            datos_responsable = {
+                "parentesco": request.form["parentesco"],
+                "nombre": request.form["nombre_parentesco"],
+                "apellido": request.form["apellido_parentesco"],
+                "dni": request.form["dni_parentesco"],
+                "domicilio_actual": request.form["domicilio_actual_parentesco"],
+                "celular_actual": request.form["celular_actual_parentesco"],
+                "email": request.form["email_parentesco"],
+                "nivel_escolaridad": request.form["nivel_escolaridad_parentesco"],
+                "actividad_ocupacion": request.form["actividad_ocupacion_parentesco"],
+            }
+            new_responsable = parienteTutor.create_parentesco_tutor(datos_responsable)
+            jya.assing_parentesco_tutor(jinete_amazona_modificar, new_responsable)
 
-            parentesco_tutor_id = request.form.get("parentesco_tutor_id")
-            if parentesco_tutor_id:
-                parentesco_tutor = parienteTutor.get_responsable(parentesco_tutor_id)
-                if parentesco_tutor:
-                    jya.assing_parentesco_tutor(jinete_amazona_modificar, parentesco_tutor)
-                else:
-                    flash("Pariente o tutor no encontrado", "warning")
+            datos_trabajo = {
+                "propuestra_trabajo_institucional": request.form["propuestra_trabajo_institucional"],
+                "condicion": request.form["condicion_trabajo"],
+                "sede": request.form["sede_trabajo"],
+                "lunes": True if request.form["lunes"] == "True" else False,
+                "martes": True if request.form["martes"] == "True" else False,
+                "miercoles": True if request.form["miercoles"] == "True" else False,
+                "jueves": True if request.form["jueves"] == "True" else False,
+                "viernes": True if request.form["viernes"] == "True" else False,
+                "sabado": True if request.form["sabado"] == "True" else False,
+                "domingo": True if request.form["domingo"] == "True" else False,
+            }
+            new_trabajo =  trabajo.create_trabajo(datos_trabajo)
 
-            trabajo_id = request.form.get("trabajo_id")
-            if trabajo_id:
-                trabajo_relacion = trabajo.get_trabajo(trabajo_id)
-                if trabajo_relacion:
-                    jya.assing_trabajo(jinete_amazona_modificar, trabajo_relacion)
-                else:
-                    flash("Ocupación no encontrada", "warning")                    
+            try:
+                profesor_terapeuta_id = request.form.get("profesor_terapeuta_id")
+                conductor_id = request.form.get("conductor_id")
+                auxiliar_pista_id = request.form.get("auxiliar_pista_id")
+                caballo_id = request.form.get("caballo_id")
+
+                if profesor_terapeuta_id:
+                    profesor_terapeuta_asignado = equipo.get_one(profesor_terapeuta_id)
+                    if profesor_terapeuta_asignado:
+                        trabajo.assing_profesor(new_trabajo, profesor_terapeuta_asignado)
+                    else:
+                        flash("Profesor no encontrado", "warning")
+
+                if conductor_id:
+                    conductor_asignado = equipo.get_one(conductor_id)
+                    if conductor_asignado:
+                        trabajo.assing_conductor(new_trabajo, conductor_asignado)
+                    else:
+                        flash("Conductor no encontrado", "warning")
+
+                if auxiliar_pista_id:
+                    auxiliar_pista_asignado = equipo.get_one(auxiliar_pista_id)
+                    if auxiliar_pista_asignado:
+                        trabajo.assing_auxiliar_pista(new_trabajo, auxiliar_pista_asignado)
+                    else:
+                        flash("Auxiliar pista no encontrado", "warning")
+
+                if caballo_id:
+                    caballo_asignado = ecuestre.get_ecuestre(caballo_id)
+                    if caballo_asignado:
+                        trabajo.assing_caballo(new_trabajo, caballo_asignado)
+                    else:
+                        flash("Caballo no encontrado", "warning")     
+
+            except Exception as e:
+                flash(f"Error al modificar Jinete/Amazona: {str(e)}", "danger")
+                    
         except ValueError as e:
             flash(str(e), "danger")
 
@@ -337,10 +390,10 @@ def save_edit(id):
                 jya.delete_archivo(archivo_id)
         except ValueError as e:
             flash(str(e), "danger")
-            return redirect(url_for("ecuestre.get_profile", id=id)) 
+            return redirect(url_for("jya.get_profile", id=id)) 
 
         flash("Datos guardados con exito.", "success")
-        return redirect(url_for("ecuestre.get_profile", id=id))
+        return redirect(url_for("jya.get_profile", id=id))
 
 @bprint.get("/<id>/descargar-archivo")
 def download_archivo(id):
