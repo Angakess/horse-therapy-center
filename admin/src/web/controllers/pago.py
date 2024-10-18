@@ -8,6 +8,7 @@ bprint = Blueprint("pago", __name__, url_prefix="/pago")
 
 @bprint.get("/")
 def index():
+    """Página principal que muestra la lista de pagos con paginación, filtro por fechas y tipos de pago."""
     amount_per_page = 10
     try:
         page = int(request.args.get("pag", "1"))
@@ -51,6 +52,7 @@ def index():
 
 @bprint.get("/<id>")
 def get_info(id):
+    """Muestra la información detallada de un pago específico."""
     try:
         chosen_pago = pago.get_one(id)
     except ValueError as e:
@@ -62,6 +64,7 @@ def get_info(id):
 
 @bprint.get("<id>/edit")
 def enter_edit(id):
+    """Permite editar un pago existente, cargando los datos actuales del pago."""
     try:
         chosen_pago = pago.get_one(id)
 
@@ -96,6 +99,7 @@ def enter_edit(id):
 
 @bprint.post("<id>/edit")
 def save_edit(id):
+    """Guarda los cambios realizados a un pago existente."""
     try:
         new_data = {
             "desc": request.form["desc"],
@@ -127,6 +131,7 @@ def save_edit(id):
 
 @bprint.post("/<id>/borrar")
 def delete(id):
+    """Elimina un pago por su ID."""
     try:
         pago.delete_pago(id)
     except ValueError as e:
@@ -139,6 +144,7 @@ def delete(id):
 
 @bprint.get("/agregar")
 def enter_add():
+    """Permite agregar un nuevo pago, mostrando un formulario para ingresar los datos."""
     amount_per_page = 5
 
     page = int(request.args.get("pag", "1"))
@@ -166,6 +172,7 @@ def enter_add():
 
 @bprint.post("/agregar")
 def add():
+    """Crea un nuevo pago basado en los datos ingresados en el formulario."""
     try:
         new_data = {
             "desc": request.form["desc"],
