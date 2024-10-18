@@ -1,5 +1,14 @@
 from os import fstat
-from flask import flash, redirect, render_template, request, url_for, current_app, session, abort
+from flask import (
+    flash,
+    redirect,
+    render_template,
+    request,
+    url_for,
+    current_app,
+    session,
+    abort,
+)
 from core import equipo
 from flask import Blueprint
 from src.web.helpers.auth import is_authenticated, check_permission
@@ -9,13 +18,13 @@ bprint = Blueprint("equipo", __name__, url_prefix="/equipo")
 
 @bprint.get("/")
 def index():
-    """ if not is_authenticated(session):
+    """if not is_authenticated(session):
         return abort(401)
-    
+
     if not check_permission(session, "list_equipos_page"):
-        return abort(403) """
-    
-    amount_per_page = 2
+        return abort(403)"""
+
+    amount_per_page = 10
 
     query = request.args.get("query", "")
     order = request.args.get("order", "asc")
@@ -66,9 +75,7 @@ def get_profile(id):
         chosen_equipo = equipo.get_one(id)
     except ValueError as e:
         flash(str(e), "danger")
-        return redirect(
-            url_for("equipo.index")
-        )
+        return redirect(url_for("equipo.index"))
 
     return render_template(
         "equipo/profile.html", info=chosen_equipo, archivos=chosen_equipo.archivos
@@ -236,7 +243,7 @@ def delete():
         archivos_asociados = chosen_equipo.archivos
         client = current_app.storage.client
         for archivo in archivos_asociados:
-            client.remove_object("grupo28",f"/equipo/{archivo.id}-{archivo.nombre}")
+            client.remove_object("grupo28", f"/equipo/{archivo.id}-{archivo.nombre}")
             equipo.delete_archivo(archivo.id)
     except ValueError as e:
         flash(str(e), "danger")
