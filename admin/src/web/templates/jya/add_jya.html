@@ -1,0 +1,591 @@
+{% extends "layout.html" %} {% block title %} Editando Jinete/Amazona {{info.id}} {% endblock %}
+{% block head %} {{ super() }} {% endblock %} {% block content %}
+
+<div class="container">
+  <form
+    id="edit-form"
+    class="needs-validation"
+    novalidate
+    action="{{url_for('jya.add_jya')}}"
+    method="POST"
+    enctype="multipart/form-data"
+  >
+    <div class="row">
+      <div class="col">
+        <div class="row">
+          <h2 class="jya-profile-title text-secondary">
+            Información Jinete/Amazona
+          </h2>
+          <ul class="list-unstyled mb-1-9">
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Nombre:</span
+              ><input id="nombre-input" name="nombre" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese un nombre.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Apellido:</span
+              ><input id="apellido-input" name="apellido" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese un apellido.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >DNI:</span
+              ><input id="dni-input" name="dni" class="form-control" required pattern="^\d{8}$">
+              <div class="invalid-feedback">
+                Ingrese un DNI válido.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Edad:</span
+              ><input id="edad-input" name="edad" class="form-control" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+              >
+              <div class="invalid-feedback">
+                Ingrese una edad válida.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Fecha nacimiento:</span
+              ><input id="fecha_nacimiento-input" name="fecha_nacimiento" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese una fecha de nacimiento.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Lugar nacimiento:</span
+              ><input id="lugar_nacimiento-input" name="lugar_nacimiento" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese una localidad.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Domicilio actual:</span
+              ><input id="domicilio_actual-input" name="domicilio_actual" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese un domicilio.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Teléfono actual:</span
+              ><input id="telefono_actual-input" name="telefono_actual" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese un teléfono.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Contacto emergencia:</span
+              ><input id="contacto_emergencia" name="contacto_emergencia" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese un contacto de emergencia.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Teléfono de emergencia:</span
+              ><input id="tel-input" name="tel" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese un teléfono de emergencia.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Becado:</span
+              >
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="becado" id="flexRadioDefault1" {%if info.becado%} checked {%endif%} value="True">
+                <label class="form-check-label" for="flexRadioDefault1">
+                  Si
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="becado" id="flexRadioDefault2" {%if not info.becado%} checked {%endif%} value="False">
+                <label class="form-check-label" for="flexRadioDefault2">
+                  No
+                </label>
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Porcentaje beca:</span
+              ><input id="porcentaje_beca-input" name="porcentaje_beca" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese un porcentaje.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Profesionales atienden:</span
+              ><input id="profesionales_atienden" name="profesionales_atienden" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese profesional/es.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Certificado discapacidad:</span
+              >
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="certificado_discapacidad" id="flexRadioDefault3" {%if info.certificado_discapacidad%} checked {%endif%} value="True">
+                <label class="form-check-label" for="flexRadioDefault3">
+                  Posee
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="certificado_discapacidad" id="flexRadioDefault4" {%if not info.certificado_discapacidad%} checked {%endif%} value="False">
+                <label class="form-check-label" for="flexRadioDefault4">
+                  No posee
+                </label>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="row">
+          <ul class="list-unstyled mb-1-9">
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Asignación familiar:</span>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="asignacion_familiar" id="flexRadioDefault5" {%if info.asignacion_familiar%} checked {%endif%} value="True">
+                <label class="form-check-label" for="flexRadioDefault5">
+                  Tiene
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="asignacion_familiar" id="flexRadioDefault6" {%if not info.asignacion_familiar%} checked {%endif%} value="False">
+                <label class="form-check-label" for="flexRadioDefault6">
+                  No tiene
+                </label>
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Tipo asignación familiar:</span>
+              <div class="row">
+                <div class="col-6">
+                  <select name="tipo_asignacion_familiar" class="form-control">
+                    <option value="Universal por hijo" {% if info.tipo_asignacion_familiar == 'Universal por hijo' %}selected{% endif %}>Universal por hijo</option>
+                    <option value="Universal por hijo con Discapacidad" {% if info.tipo_asignacion_familiar == 'Universal por hijo con Discapacidad' %}selected{% endif %}>Universal por hijo con Discapacidad</option>
+                    <option value="Ayuda escolar anual" {% if info.tipo_asignacion_familiar == 'Ayuda escolar anual' %}selected{% endif %}>Ayuda escolar anual</option>
+                </select>
+                </div>
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Beneficiario pensión:</span>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="beneficiario_pension" id="flexRadioDefault7" {%if info.beneficiario_pension%} checked {%endif%} value="True">
+                <label class="form-check-label" for="flexRadioDefault7">
+                  Es beneficiario
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="beneficiario_pension" id="flexRadioDefault8" {%if not info.beneficiario_pension%} checked {%endif%} value="False">
+                <label class="form-check-label" for="flexRadioDefault8">
+                  No es beneficiario
+                </label>
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Beneficiario pensión tipo:</span>
+              <div class="row">
+                <div class="col-6">
+                  <select name="beneficiario_pension_tipo" class="form-control">
+                    <option value="Provincial" {% if info.beneficiario_pension_tipo == 'Provincial' %}selected{% endif %}>Provincial</option>
+                    <option value="Nacional" {% if info.beneficiario_pension_tipo == 'Nacional' %}selected{% endif %}>Nacional</option>
+                </select>
+                </div>
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Discapacidad:</span>
+              <div class="row">
+                <div class="col-6">
+                  <select name="discapacidad" class="form-control">
+                    <option value="ECNE" {% if info.discapacidad == 'ECNE' %}selected{% endif %}>ECNE</option>
+                    <option value="Lesión post-traumática" {% if info.discapacidad == 'Lesión post-traumática' %}selected{% endif %}>Lesión post-traumática</option>
+                    <option value="Mielomeningocele" {% if info.discapacidad == 'Mielomeningocele' %}selected{% endif %}>Mielomeningocele</option>
+                    <option value="Esclerosis Múltiple" {% if info.discapacidad == 'Esclerosis Múltiple' %}selected{% endif %}>Esclerosis Múltiple</option>
+                    <option value="Escoliosis Leve" {% if info.discapacidad == 'Escoliosis Leve' %}selected{% endif %}>Escoliosis Leve</option>
+                    <option value="Secuelas de ACV" {% if info.discapacidad == 'Secuelas de ACV' %}selected{% endif %}>Secuelas de ACV</option>
+                    <option value="Discapacidad Intelectual" {% if info.discapacidad == 'Discapacidad Intelectual' %}selected{% endif %}>Discapacidad Intelectual</option>
+                    <option value="Trastorno del Espectro Autista" {% if info.discapacidad == 'Trastorno del Espectro Autista' %}selected{% endif %}>Trastorno del Espectro Autista</option>
+                    <option value="Trastorno del Aprendizaje" {% if info.discapacidad == 'Trastorno del Aprendizaje' %}selected{% endif %}>Trastorno del Aprendizaje</option>
+                    <option value="Trastorno por Déficit de Atención/Hiperactividad" {% if info.discapacidad == 'Trastorno por Déficit de Atención/Hiperactividad' %}selected{% endif %}>Trastorno por Déficit de Atención/Hiperactividad</option>
+                    <option value="Trastorno de la Comunicación" {% if info.discapacidad == 'Trastorno de la Comunicación' %}selected{% endif %}>Trastorno de la Comunicación</option>
+                    <option value="Trastorno de Ansiedad" {% if info.discapacidad == 'Trastorno de Ansiedad' %}selected{% endif %}>Trastorno de Ansiedad</option>
+                    <option value="Síndrome de Down" {% if info.discapacidad == 'Síndrome de Down' %}selected{% endif %}>Síndrome de Down</option>
+                    <option value="Retraso Madurativo" {% if info.discapacidad == 'Retraso Madurativo' %}selected{% endif %}>Retraso Madurativo</option>
+                    <option value="Psicosis" {% if info.discapacidad == 'Psicosis' %}selected{% endif %}>Psicosis</option>
+                    <option value="Trastorno de Conducta" {% if info.discapacidad == 'Trastorno de Conducta' %}selected{% endif %}>Trastorno de Conducta</option>
+                    <option value="Trastornos del ánimo y afectivos" {% if info.discapacidad == 'Trastornos del ánimo y afectivos' %}selected{% endif %}>Trastornos del ánimo y afectivos</option>
+                    <option value="Trastorno Alimentario" {% if info.discapacidad == 'Trastorno Alimentario' %}selected{% endif %}>Trastorno Alimentario</option>
+                    <option value="OTRO" {% if info.discapacidad == 'OTRO' %}selected{% endif %}>OTRO</option>
+                  </select>
+                </div>
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Otra discapacidad:</span
+              ><input id="otra_discapacidad-input" name="otra_discapacidad" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese un nombre de discapacidad.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Tipo discapacidad:</span>
+              <div class="row">
+                <div class="col-6">
+                  <select name="tipo_discapacidad" class="form-control">
+                    <option value="Mental" {% if info.tipo_discapacidad == 'Mental' %}selected{% endif %}>Mental</option>
+                    <option value="Motora" {% if info.tipo_discapacidad == 'Motora' %}selected{% endif %}>Motora</option>
+                    <option value="Sensorial" {% if info.tipo_discapacidad == 'Sensorial' %}selected{% endif %}>Sensorial</option>
+                    <option value="Visceral" {% if info.tipo_discapacidad == 'Visceral' %}selected{% endif %}>Visceral</option>                    
+                  </select>
+                </div>
+              </div>
+            </li>
+            <h2 class="jya-profile-title text-secondary"> Situación previsional</h2>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Obra social:</span
+              ><input id="obra_social-input" name="obra_social" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese una obra social.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Número afiliado:</span
+              ><input id="nroafiliado-input" name="nroafiliado" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese un número de afiliado.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Curatela:</span>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="curatela" id="flexRadioDefault9" {%if info.situacion_previsional.curatela%} checked {%endif%} value="True">
+                <label class="form-check-label" for="flexRadioDefault9">
+                  Posee
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="curatela" id="flexRadioDefault10" {%if not info.situacion_previsional.curatela%} checked {%endif%} value="False">
+                <label class="form-check-label" for="flexRadioDefault10">
+                  No posee
+                </label>
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Observaciones:</span
+              ><input id="observaciones-input" name="observaciones" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese alguna/as observacion/es.
+              </div>
+            </li>
+            <h2 class="jya-profile-title text-secondary"> Institución escolar</h2>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Nombre Institución:</span
+              ><input id="institucion_escolar_nombre-input" name="nombre_institucion" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese un nombre.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Dirección:</span
+              ><input id="institucion_escolar_direccion-input" name="direccion" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese una dirección.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Teléfono:</span
+              ><input id="institucion_escolar_telefono-input" name="telefono_institucion" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese un número de teléfono.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Grado actual:</span
+              ><input id="institucion_escolar_grado-input" name="grado_actual" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese un grado.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Observaciones:</span
+              ><input id="observaciones_institucion-input" name="observaciones_institucion" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese alguna/as observacion/es.
+              </div>
+            </li>
+            <h2 class="jya-profile-title text-secondary"> Responsables</h2>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Parentesco:</span
+              ><input id="parentesco-input" name="parentesco" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese parentesco.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Nombre:</span
+              ><input id="nombre_parentesco-input" name="nombre_parentesco" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese un nombre.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Apellido:</span
+              ><input id="apellido_parentesco-input" name="apellido_parentesco" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese un apellido.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >DNI:</span
+              ><input id="dni_parentesco-input" name="dni_parentesco" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese un DNI.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Domicilio actual:</span
+              ><input id="domicilio_actual_parentesco-input" name="domicilio_actual_parentesco" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese una dirección.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Celular actual:</span
+              ><input id="celular_actual_parentesco-input" name="celular_actual_parentesco" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese un número.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Email:</span
+              ><input id="email_parentesco-input" name="email_parentesco" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese un email.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Nivel escolaridad:</span>
+              <div class="row">
+                <div class="col-6">
+                  <select name="nivel_escolaridad_parentesco" class="form-control">
+                    <option value="Primario" {% if r.tipo_discapacidad == 'Primario' %}selected{% endif %}>Primario</option>
+                    <option value="Secundario" {% if r._discapacidad == 'Secundario' %}selected{% endif %}>Secundario</option>
+                    <option value="Terciario" {% if r._discapacidad == 'Terciario' %}selected{% endif %}>Terciario</option>
+                    <option value="Universitario" {% if r.tipo_discapacidad == 'Universitario' %}selected{% endif %}>Universitario</option>                    
+                  </select>
+                </div>
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Actividad/Ocupación:</span
+              ><input id="actividad_ocupacion_parentesco-input" name="actividad_ocupacion_parentesco" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese una actividad u ocupación.
+              </div>
+            </li>
+            <h2 class="jya-profile-title text-secondary">Trabajo</h2>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Propuesta trabajo institucional:</span>
+              <div class="row">
+                <div class="col-6">
+                  <select name="propuestra_trabajo_institucional" class="form-control">
+                    <option value="Hipoterapia" {% if info.trabajo.propuestra_trabajo_institucional == 'Hipoterapia' %}selected{% endif %}>Hipoterapia</option>
+                    <option value="Monta terapéutica" {% if info.trabajo.propuestra_trabajo_institucional == 'Monta terapéutica' %}selected{% endif %}>Monta terapéutica</option>
+                    <option value="Deporte Ecuestre Adaptado" {% if info.trabajo.propuestra_trabajo_institucional == 'Deporte Ecuestre Adaptado' %}selected{% endif %}>Deporte Ecuestre Adaptado</option>
+                    <option value="Actividades recreativas" {% if info.trabajo.propuestra_trabajo_institucional == 'Actividades recreativas' %}selected{% endif %}>Actividades recreativas</option>
+                    <option value="Equitación" {% if info.trabajo.propuestra_trabajo_institucional == 'Equitación' %}selected{% endif %}>Equitación</option>                                   
+                  </select>
+                </div>
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Condición:</span>
+              <div class="row">
+                <div class="col-6">
+                  <select name="condicion_trabajo" class="form-control">
+                    <option value="Regular" {% if info.trabajo.condicion == 'Regular' %}selected{% endif %}>Regular</option>
+                    <option value="De baja" {% if info.trabajo.condicion == 'De baja' %}selected{% endif %}>De baja</option>                             
+                  </select>
+                </div>
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Sede:</span>
+              <div class="row">
+                <div class="col-6">
+                  <select name="sede_trabajo" class="form-control">
+                    <option value="CASJ" {% if info.trabajo.sede == 'CASJ' %}selected{% endif %}>CASJ</option>
+                    <option value="HLP" {% if info.trabajo.sede == 'HLP' %}selected{% endif %}>HLP</option>
+                    <option value="Otro" {% if info.trabajo.sede == 'Otro' %}selected{% endif %}>Otro</option>                               
+                  </select>
+                </div>
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600">Lunes:</span>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="lunes" id="flexRadioDefault11" {% if info.trabajo.lunes %} checked {% endif %} value="True">
+                <label class="form-check-label" for="flexRadioDefault11">Trabaja</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="lunes" id="flexRadioDefault12" {% if not info.trabajo.lunes %} checked {% endif %} value="False">
+                <label class="form-check-label" for="flexRadioDefault12">No trabaja</label>
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600">Martes:</span>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="martes" id="flexRadioDefault13" {% if info.trabajo.martes %} checked {% endif %} value="True">
+                <label class="form-check-label" for="flexRadioDefault13">Trabaja</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="martes" id="flexRadioDefault14" {% if not info.trabajo.martes %} checked {% endif %} value="False">
+                <label class="form-check-label" for="flexRadioDefault14">No trabaja</label>
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600">Miércoles:</span>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="miercoles" id="flexRadioDefault15" {% if info.trabajo.miercoles %} checked {% endif %} value="True">
+                <label class="form-check-label" for="flexRadioDefault15">Trabaja</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="miercoles" id="flexRadioDefault16" {% if not info.trabajo.miercoles %} checked {% endif %} value="False">
+                <label class="form-check-label" for="flexRadioDefault16">No trabaja</label>
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600">Jueves:</span>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="jueves" id="flexRadioDefault17" {% if info.trabajo.jueves %} checked {% endif %} value="True">
+                <label class="form-check-label" for="flexRadioDefault17">Trabaja</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="jueves" id="flexRadioDefault18" {% if not info.trabajo.jueves %} checked {% endif %} value="False">
+                <label class="form-check-label" for="flexRadioDefault18">No trabaja</label>
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600">Viernes:</span>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="viernes" id="flexRadioDefault19" {% if info.trabajo.viernes %} checked {% endif %} value="True">
+                <label class="form-check-label" for="flexRadioDefault19">Trabaja</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="viernes" id="flexRadioDefault20" {% if not info.trabajo.viernes %} checked {% endif %} value="False">
+                <label class="form-check-label" for="flexRadioDefault20">No trabaja</label>
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600">Sábado:</span>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="sabado" id="flexRadioDefault21" {% if info.trabajo.sabado %} checked {% endif %} value="True">
+                <label class="form-check-label" for="flexRadioDefault21">Trabaja</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="sabado" id="flexRadioDefault22" {% if not info.trabajo.sabado %} checked {% endif %} value="False">
+                <label class="form-check-label" for="flexRadioDefault22">No trabaja</label>
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600">Domingo:</span>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="domingo" id="flexRadioDefault23" {% if info.trabajo.domingo %} checked {% endif %} value="True">
+                <label class="form-check-label" for="flexRadioDefault23">Trabaja</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="domingo" id="flexRadioDefault24" {% if not info.trabajo.domingo %} checked {% endif %} value="False">
+                <label class="form-check-label" for="flexRadioDefault24">No trabaja</label>
+              </div>
+            </li>
+          </ul>
+        </div>
+      <div class="col-4 d-flex justify-content-end align-items-start">
+        <button
+          class="btn btn-outline-primary mx-2 align-self-start"
+          type="submit"
+        >
+          Guardar
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy" viewBox="0 0 16 16">
+            <path d="M11 2H9v3h2z"/>
+            <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z"/>
+          </svg>
+        </button>
+        <button class="btn btn-outline-secondary mx-2 align-self-start" onclick="window.history.back();">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+  function validateForm(){
+    'use strict'
+
+    const form = document.getElementById("edit-form")
+  
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+
+      form.classList.add('was-validated')
+    }, false)
+
+    const emailInput = document.getElementById('email-input');
+    emailInput.addEventListener('input', function() {
+      if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(this.value)) {
+        this.setCustomValidity('Ingrese un email válido.');
+      } else {
+        this.setCustomValidity(''); // Resetear el mensaje si es válido
+      }
+    });
+  }
+
+  validateForm();
+</script>
+
+{% endblock %}

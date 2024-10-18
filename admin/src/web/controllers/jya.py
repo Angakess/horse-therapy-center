@@ -80,7 +80,7 @@ def add_jya():
             "curatela": True if request.form["curatela"] == "True" else False,
             "observaciones": request.form["observaciones"],
         }
-        new_situacion_previsional = situacionPrevisional.create_situacion_previsional(datos_situacion_previsional)
+        new_situacion_previsional = situacionPrevisional.create_situacion_previsional(**datos_situacion_previsional)
         jya.assing_situacion_previsional(new_jinete_amazona, new_situacion_previsional)
 
         datos_institucion_escolar = {
@@ -90,7 +90,7 @@ def add_jya():
             "grado_actual": request.form["grado_actual"],
             "observaciones": request.form["observaciones_institucion"],
         }
-        new_institucion_escolar = institucion.create_institucion_escolar(datos_institucion_escolar)
+        new_institucion_escolar = institucion.create_institucion_escolar(**datos_institucion_escolar)
         jya.assing_institucion_escolar(new_jinete_amazona, new_institucion_escolar)
 
         datos_responsable = {
@@ -104,7 +104,7 @@ def add_jya():
             "nivel_escolaridad": request.form["nivel_escolaridad_parentesco"],
             "actividad_ocupacion": request.form["actividad_ocupacion_parentesco"],
         }
-        new_responsable = parienteTutor.create_parentesco_tutor(datos_responsable)
+        new_responsable = parienteTutor.create_parentesco_tutor(**datos_responsable)
         jya.assing_parentesco_tutor(new_jinete_amazona, new_responsable)
 
         datos_trabajo = {
@@ -119,7 +119,7 @@ def add_jya():
             "sabado": True if request.form["sabado"] == "True" else False,
             "domingo": True if request.form["domingo"] == "True" else False,
         }
-        new_trabajo =  trabajo.create_trabajo(datos_trabajo)
+        new_trabajo =  trabajo.create_trabajo(**datos_trabajo)
 
         try:
             profesor_terapeuta_id = request.form.get("profesor_terapeuta_id")
