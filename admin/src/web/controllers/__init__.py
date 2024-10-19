@@ -1,5 +1,5 @@
 from src.core.bcrypt import bcrypt
-from src.core.user import User
+from src.core.user import User, Role, RolePermission, Permission
 
 def find_user_by_email(usermail):
     return User.query.filter_by(email = usermail).first()

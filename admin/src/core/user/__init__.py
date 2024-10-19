@@ -4,60 +4,18 @@ from sqlalchemy import and_, or_
 import bcrypt
 from core.database import db
 from core.user.users import User
-from core.user.roles import Role
+from core.user.roles import Permission, Role, RolePermission
 
-
-PERMISSIONS = {
-    "Administración": [
-        "list_users",
-        "create_user",
-        "update_user",
-        "delete_user",
-        "list_roles",
-        "create_role",
-        "delete_role",
-        "assign_role",
-        "unassign_role",
-        "issue_index",
-        "issue_show",
-        "issue_new",
-        "issue_create",
-        "issue_edit",
-        "issue_update",
-        "issue_delete",
-        "list_equipos_page",
-    ],
-    "Voluntariado": [
-        "issue_index",
-        "issue_show",
-        "issue_new",
-        "issue_create",
-        "issue_edit",
-        "issue_update",
-        "issue_delete",
-    ],
-    "Técnica": [
-        "issue_index",
-        "issue_show",
-        "issue_new",
-        "issue_create",
-        "issue_edit",
-        "issue_update",
-        "issue_delete",
-    ],
-    "Ecuestre": [
-        "issue_index",
-        "issue_show",
-        "issue_new",
-        "issue_create",
-        "issue_edit",
-        "issue_update",
-        "issue_delete",
-    ],
-}
 
 def get_permissions(user):
-    return PERMISSIONS[user.role.name]
+    user_role = user.role.name
+    a = (db.session.query(Permission.name)
+    .join(RolePermission)
+    .join(Role)
+    .filter(Role.name == user_role)
+    .all())
+    flat_permisos = tuple(item for sublist in a for item in sublist)
+    return flat_permisos
 
 def list_users():
     '''Función que devuelve una lista de usuarios'''
@@ -200,3 +158,18 @@ def list_roles():
     ''''Función que devuelve una lista de roles'''
     roles = Role.query.all()
     return roles
+
+
+def create_permission(name):
+    #agregar validación(?
+    permission = Permission(name)
+    db.session.add(permission)
+    db.session.commit()
+    return permission
+
+
+
+def assign_permission(role, permission):
+    permission_role = RolePermission(role,permission)
+    db.session.add(permission_role)
+    db.session.commit()

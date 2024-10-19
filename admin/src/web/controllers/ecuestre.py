@@ -33,6 +33,7 @@ def index():
     )
 
 
+
 @bprint.get("/<id>")
 def get_profile(id):
     try:

@@ -1,4 +1,4 @@
-from flask import render_template,request, url_for, redirect
+from flask import abort, render_template,request, session, url_for, redirect
 from sqlalchemy import asc, desc
 from core import user
 from flask import Blueprint
@@ -7,20 +7,25 @@ from flask import flash
 from core.user.roles import Role
 from core.user.users import User
 from core.user import create_user, list_roles, list_users, search_users, update_user,delete_user
+from web.helpers.auth import check_permission, is_authenticated
 #from src.web.handlers.auth import login_required
 
 
 bprint = Blueprint("users", __name__, url_prefix="/usuarios")
 
 @bprint.get("/")
-#@login_required
-#@check("user_index")
+
 def index():
     '''
         Función que muestra las tablas de usuario, permite busqueda y paginación
         Parameters: Ninguno(Depende en los parametros de la query)
         Returns: Renderiza template HTML para la lista de usuarios con paginación   
      '''
+    if not is_authenticated(session):
+        return abort(401)
+    
+    if not check_permission(session, "users_index"):
+        return abort(403)
     query = request.args.get('query',"")
     role = request.args.get('role', None)
     active = request.args.get('active', None)
@@ -43,6 +48,11 @@ def index():
 @bprint.post("/activar_usuario")
 def activar_usuario():
     '''Funcion que permite habilitar/deshabilitar el usuario a menos que sea System Admin'''
+    if not is_authenticated(session):
+        return abort(401)
+    
+    if not check_permission(session, "users_activar_usuario"):
+        return abort(403)
     chosen_id = request.form['id']
     query = request.form['query']
     user = User.query.get(chosen_id)
@@ -65,6 +75,12 @@ def edit_user(user_id):
     Función que edita el usuario y agrega los parametros a un diccionario para 
     no tener que hacer validación extra en update_user
     '''
+
+    if not is_authenticated(session):
+        return abort(401)
+    
+    if not check_permission(session, "users_edit_user"):
+        return abort(403)
     user = User.query.get_or_404(user_id)  
     roles = Role.query.all()  
 
@@ -91,6 +107,13 @@ def delete_user_controller():
         Parameters: Ninguno(Depende en los parametros de la query)
         Raise: ValueError propagado por delete_user() 
      '''
+    if not is_authenticated(session):
+        return abort(401)
+    
+    if not check_permission(session, "users_delete_user_controller"):
+        return abort(403)
+    
+
     user_id = request.form.get("user_id")  
     try:
         delete_user(user_id) 
@@ -108,6 +131,13 @@ def register_user():
         Raise: ValueError propagado de create_user()
         Returns: Renderiza template HTML para el formulario de registro y al index si el registro es correcto  
      '''
+
+    if not is_authenticated(session):
+        return abort(401)
+    
+    if not check_permission(session, "users_register_user"):
+        return abort(403)
+
     roles = list_roles()
     roles = list_roles()
 

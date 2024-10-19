@@ -18,17 +18,18 @@ bprint = Blueprint("equipo", __name__, url_prefix="/equipo")
 
 @bprint.get("/")
 def index():
-    """if not is_authenticated(session):
-        return abort(401)
-
-    if not check_permission(session, "list_equipos_page"):
-        return abort(403)"""
 
     """
     Función que muestra la lista paginada de equipos y permite búsqueda.
     Parameters: Ninguno (Los parámetros se obtienen de la query de la URL).
     Returns: Renderiza la plantilla HTML para mostrar la lista de equipos.
     """
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "equipo_index"):
+        return abort(403)
+
 
     amount_per_page = 10
 

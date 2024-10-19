@@ -35,12 +35,18 @@ class RolePermission(db.Model):
     permission_id = db.Column(db.Integer, db.ForeignKey('permissions.id'), primary_key=True)
     permission = db.relationship("Permission", back_populates="role_permissions")
 
+    def __init__(self, role_id, permission_id):
+        self.role_id= role_id
+        self.permission_id= permission_id
+
 class Permission(db.Model):
     __tablename__ = 'permissions'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False, unique=True)
     role_permissions = db.relationship('RolePermission', back_populates='permission')
 
+    def __init__(self, name):
+        self.name = name
 
     def __repr__(self):
         return f'<Permission #{self.id} name="{self.name}">'
