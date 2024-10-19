@@ -356,11 +356,6 @@ def run():
     ]
     PERMISSIONS = {
         "Administración": [
-            "users_index",
-            "users_activar_usuario",
-            "users_edit_user",
-            "users_delete_user_controller",
-            "users_register_user",
             "equipo_index",
             "equipo_toggle_activate",
             "equipo_get_profile",
