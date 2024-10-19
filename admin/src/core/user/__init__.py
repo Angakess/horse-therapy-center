@@ -7,70 +7,15 @@ from core.user.users import User
 from core.user.roles import Permission, Role, RolePermission
 
 
-
-
-PERMISSIONS = {
-    "Administración": [
-        "users_index",
-        "users_activar_usuario",
-        "users_edit_user",
-        "users_delete_user_controller",
-        "users_register_user",
-        #"create_user",
-        #"update_user",
-        #"delete_user",
-        #"list_roles",
-        #"create_role",
-        #"delete_role",
-        #"assign_role",
-        #"unassign_role",
-        "equipo_index",
-        "equipo_toggle_activate",
-        "equipo_get_profile",
-        "equipo_enter_edit",
-        "equipo_save_edit",
-        "equipo_enter_add",
-        "equipo_add_equipo",
-        "equipo_download_archivo",
-        "equipo_delete",
-        "jya_index",
-        "jya_get_profile",
-        "jya_enter_add",
-        "jya_add_jya",
-        "jya_delete",
-        "jya_enter_edit",
-        "jya_save_edit",
-        "ecuestre_index",
-        "ecuestre_get_profile",
-    ],
-    "Voluntariado": [
-    ],
-    "Técnica": [
-        "jya_index",
-        "jya_get_profile",
-        "jya_enter_add",
-        "jya_add_jya",
-        "jya_delete",
-        "jya_enter_edit",
-        "jya_save_edit",
-        "ecuestre_index",
-        "ecuestre_get_profile",
-    ],
-    "Ecuestre": [
-        "jya_index",
-        "jya_get_profile",
-        "ecuestre_index",
-        "ecuestre_get_profile",
-        "ecuestre_enter_edit",
-        "ecuestre_save_edit",
-        "ecuestre_enter_add",
-        "ecuestre_add_ecuestre",
-        "ecuestre_delete",
-    ],
-}
-
 def get_permissions(user):
-    return PERMISSIONS[user.role.name]
+    user_role = user.role.name
+    a = (db.session.query(Permission.name)
+    .join(RolePermission)
+    .join(Role)
+    .filter(Role.name == user_role)
+    .all())
+    flat_permisos = tuple(item for sublist in a for item in sublist)
+    return flat_permisos
 
 def list_users():
     users = User.query.all()

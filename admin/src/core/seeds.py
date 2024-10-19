@@ -8,13 +8,13 @@ from core import institucion
 from core import parienteTutor
 from core import trabajo
 from core import pago
+from src.core.user import Role, RolePermission, Permission
 
 from datetime import datetime
 
 
 def run():
 
-    """"
     pago1 = pago.create_pago(
         monto=10000,
         fecha=datetime(2022, 1, 1),
@@ -204,7 +204,7 @@ def run():
         condicion="De baja",
         sede="HLP",
         dia="Jueves",
-    )"""
+    )
 
     #    VALID_ROLES = {"Técnica", "Ecuestre", "Voluntariado", "Administración"}
 
@@ -282,7 +282,6 @@ def run():
 
     user.assign_role(user1, role_admin)
 
-    """
     ecuestre.assing_equipo(ecuestre1, equipo1)
     ecuestre.assing_equipo(ecuestre2, equipo2)
     ecuestre.assing_j_y_a(ecuestre1, jya1)
@@ -308,7 +307,99 @@ def run():
     jya.assing_trabajo(jya1, trabajo1)
     jya.assing_trabajo(jya2, trabajo2)
 
-    pago.assign_pago(equipo1, pago1)"""
+    pago.assign_pago(equipo1, pago1)
 
-    permission=user.create_permission("users_index")
-    user.assign_permission(role_admin.id,permission.id)
+
+    todosLosPermisos = [
+        "users_index",
+            "users_activar_usuario",
+            "users_edit_user",
+            "users_delete_user_controller",
+            "users_register_user","equipo_index",
+            "equipo_toggle_activate",
+            "equipo_get_profile",
+            "equipo_enter_edit",
+            "equipo_save_edit",
+            "equipo_enter_add",
+            "equipo_add_equipo",
+            "equipo_download_archivo",
+            "equipo_delete",
+            "jya_index",
+            "jya_get_profile",
+            "jya_enter_add",
+            "jya_add_jya",
+            "jya_delete",
+            "jya_enter_edit",
+            "jya_save_edit",
+            "ecuestre_index",
+            "ecuestre_get_profile",
+            "ecuestre_enter_edit",
+            "ecuestre_save_edit",
+            "ecuestre_enter_add",
+            "ecuestre_add_ecuestre",
+            "ecuestre_delete",
+    ]
+    PERMISSIONS = {
+        "Administración": [
+            "users_index",
+            "users_activar_usuario",
+            "users_edit_user",
+            "users_delete_user_controller",
+            "users_register_user",
+            "equipo_index",
+            "equipo_toggle_activate",
+            "equipo_get_profile",
+            "equipo_enter_edit",
+            "equipo_save_edit",
+            "equipo_enter_add",
+            "equipo_add_equipo",
+            "equipo_download_archivo",
+            "equipo_delete",
+            "jya_index",
+            "jya_get_profile",
+            "jya_enter_add",
+            "jya_add_jya",
+            "jya_delete",
+            "jya_enter_edit",
+            "jya_save_edit",
+            "ecuestre_index",
+            "ecuestre_get_profile",
+        ],
+        "Voluntariado": [
+        ],
+        "Técnica": [
+            "jya_index",
+            "jya_get_profile",
+            "jya_enter_add",
+            "jya_add_jya",
+            "jya_delete",
+            "jya_enter_edit",
+            "jya_save_edit",
+            "ecuestre_index",
+            "ecuestre_get_profile",
+        ],
+        "Ecuestre": [
+            "jya_index",
+            "jya_get_profile",
+            "ecuestre_index",
+            "ecuestre_get_profile",
+            "ecuestre_enter_edit",
+            "ecuestre_save_edit",
+            "ecuestre_enter_add",
+            "ecuestre_add_ecuestre",
+            "ecuestre_delete",
+        ],
+    }
+
+    def find_permission_by_name(permiso):
+        return Permission.query.filter_by(name = permiso).first()
+
+    def find_role_by_name(rol):
+        return Role.query.filter_by(name = rol).first()
+
+    for per in todosLosPermisos:
+        permission=user.create_permission(per)
+        
+    for rol in PERMISSIONS:
+        for per in PERMISSIONS[rol]:
+            user.assign_permission((find_role_by_name(rol)).id,(find_permission_by_name(per)).id)

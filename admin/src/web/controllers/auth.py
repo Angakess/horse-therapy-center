@@ -23,7 +23,7 @@ def authenticate():
 
     if not user:
         flash("Usuario o contraseña incorrecta", "error")
-        return redirect("/auth/")#CONSULTAR SI LAS URLS ESTÁN BIEN PUESTAS DE ESTA MANERA
+        return redirect("/auth/")
     else:
         session["user"] = user.email
         flash("La sesión se inició correctamente", "success")

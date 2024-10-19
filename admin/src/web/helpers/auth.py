@@ -8,5 +8,7 @@ def check_permission(session, permission):
     user_mail = session.get("user")
     usuario = find_user_by_email(user_mail)
     permissions = user.get_permissions(usuario)
+    print(usuario)
+    print(permissions)
 
     return usuario is not None and permission in permissions
