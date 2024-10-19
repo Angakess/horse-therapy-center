@@ -47,12 +47,14 @@ def get_profile(id):
 
 @bprint.get("/<id>/edit")
 def enter_edit(id):
+    equipos = Equipo.query.all()
     try:
         chosen_ecuestre = ecuestre.get_ecuestre(id)
         return render_template(
             "ecuestre/profile_editing.html",
             info=chosen_ecuestre,
             archivos=chosen_ecuestre.archivos,
+            equipos = equipos,
         )
     except ValueError as e:
         flash(str(e), "danger")
@@ -85,20 +87,17 @@ def save_edit(id):
 
     try:
         equipo_id = request.form.get("equipo_id")
-        if equipo_id:
-            equipo_designado = equipo.get_one(equipo_id)
-            if equipo_designado:
-                ecuestre.assing_equipo(ecuestre_modificar, equipo_designado)
-            else:
-                flash("Equipo no encontrado", "warning")
+        if (not equipo_id):
+            equipo_asignar = equipo.get_one(equipo_id)
+            ecuestre.assing_equipo(ecuestre_modificar,equipo_asignar)
 
-        j_y_a_id = request.form.get("j_y_a_id")
-        if j_y_a_id:
-            j_y_a_designado = jya.get_jinete_amazona(j_y_a_id)
-            if j_y_a_designado:
-                ecuestre.assing_j_y_a(ecuestre_modificar, j_y_a_designado)
-            else:
-                flash("Jinete/Amazona no encontrado", "warning")
+        # j_y_a_id = request.form.get("j_y_a_id")
+        # if j_y_a_id:
+        #     j_y_a_designado = jya.get_jinete_amazona(j_y_a_id)
+        #     if j_y_a_designado:
+        #         ecuestre.assing_j_y_a(ecuestre_modificar, j_y_a_designado)
+        #     else:
+        #         flash("Jinete/Amazona no encontrado", "warning")
     except ValueError as e:
         flash(str(e), "danger")
 
@@ -111,13 +110,13 @@ def save_edit(id):
             else:
                 flash("Equipo no encontrado", "warning")
 
-        j_y_a_id_a_borrar = request.form.get("j_y_a_id")
-        if j_y_a_id:
-            j_y_a_designado_borrar = jya.get_jinete_amazona(j_y_a_id_a_borrar)
-            if j_y_a_designado_borrar:
-                ecuestre.unassing_j_y_a(ecuestre_modificar, j_y_a_designado_borrar )
-            else:
-                flash("Jinete/Amazona no encontrado", "warning")
+        # j_y_a_id_a_borrar = request.form.get("j_y_a_id")
+        # if j_y_a_id:
+        #     j_y_a_designado_borrar = jya.get_jinete_amazona(j_y_a_id_a_borrar)
+        #     if j_y_a_designado_borrar:
+        #         ecuestre.unassing_j_y_a(ecuestre_modificar, j_y_a_designado_borrar )
+        #     else:
+        #         flash("Jinete/Amazona no encontrado", "warning")
     except ValueError as e:
         flash(str(e), "danger")
 
@@ -125,7 +124,7 @@ def save_edit(id):
 
     ALLOWED_MIME_TYPES = {"application/pdf", "image/png", "image/jpeg", "text/plain"}
 
-    archivo_subido = request.files["archivos"]
+    archivo_subido = request.files["archivos_ecuestre"]
 
     if archivo_subido:
         if archivo_subido.content_type not in ALLOWED_MIME_TYPES:

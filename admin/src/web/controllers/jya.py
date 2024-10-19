@@ -257,10 +257,8 @@ def save_edit(id):
         "otra_discapacidad": request.form["otra_discapacidad"],
         "tipo_discapacidad": request.form["tipo_discapacidad"],
     }
-        print (new_data["porcentaje_beca"])
-        print (new_data["becado"])
 
-        if (new_data["becado"] == False and new_data["porcentaje_beca"]!= 0):
+        if (new_data["becado"] == False and new_data["porcentaje_beca"]!= None and new_data["porcentaje_beca"]!= ''):
             flash("No se puede ingresar un porcentaje si no esta becado", "warning")
             return redirect(url_for("jya.enter_edit", id=id))
 
@@ -395,7 +393,7 @@ def save_edit(id):
                 flash(str(e), "danger")
                 return redirect(url_for("jya.get_profile", id=id))
         try:
-            jya.edit_jya(id,new_data)
+            jya.edit_jya(id,**new_data)
         except ValueError as e:
             flash(str(e), "danger")
             return redirect(url_for("jya.get_profile", id=id))

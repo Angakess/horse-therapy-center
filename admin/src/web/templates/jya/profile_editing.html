@@ -2,7 +2,7 @@
 {% block head %} {{ super() }} {% endblock %} {% block content %}
 
 <div class="container">
-  {% include "ecuestre/components/messages.html" %}
+  {% include "jya/components/messages.html" %}
   <form
     id="edit-form"
     class="needs-validation"
@@ -119,7 +119,7 @@
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
                 >Porcentaje beca:</span
-              ><input id="porcentaje_beca-input" name="porcentaje_beca" class="form-control" value="{{info.porcentaje_beca}}" required>
+              ><input id="porcentaje_beca-input" name="porcentaje_beca" class="form-control" value="{{info.porcentaje_beca}}">
               <div class="invalid-feedback">
                 Ingrese un porcentaje.
               </div>

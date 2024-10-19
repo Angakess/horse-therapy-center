@@ -150,9 +150,9 @@ def create_archivo(**kwargs):
     return archivo
 
 
-def assign_archivo(equipo, archivo):
-    archivo.equipo = equipo
-    db.session.add(archivo)
+def assign_archivo(ecuestre, archivo):
+    ecuestre.archivos.append(archivo)
+    db.session.add(ecuestre)
     db.session.commit()
     return archivo
 
@@ -175,3 +175,6 @@ def delete_archivo(id):
 def get_total_ecuestre():
     total = Ecuestre.query.filter().count()
     return total
+
+def contiene_miembro_equipo(ecuestre,id):
+    return ecuestre.equipos.filter_by(id=id).first()

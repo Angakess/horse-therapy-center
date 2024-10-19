@@ -114,6 +114,8 @@ def list_jinetes_amazonas_apellido_desc():
     return jinetes_amazonas
 
 def create_jinetes_amazonas(**kwargs):
+    if kwargs.get('porcentaje_beca') == '':
+        kwargs['porcentaje_beca'] = None
     jinetes_amazonas = JinetesAmazonas(**kwargs)
     db.session.add(jinetes_amazonas)
     db.session.commit()
@@ -127,7 +129,9 @@ def delete_jinetes_amazonas(id):
     else:
         pass
 
-def edit_jya(id,data):
+def edit_jya(id,**data):
+    if data.get('porcentaje_beca') == '':
+        data['porcentaje_beca'] = None
     chosen_jya = JinetesAmazonas.query.get(id)
     for key, value in data.items():
         if hasattr(chosen_jya, key):
