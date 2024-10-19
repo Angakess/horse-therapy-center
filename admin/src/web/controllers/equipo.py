@@ -59,6 +59,11 @@ def toggle_activate():
     Parameters: Ninguno (Los parámetros se obtienen del formulario).
     Returns: Redirige a la página correspondiente según el origen de la solicitud.
     """
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "equipo_toggle_activate"):
+        return abort(403)
     chosen_id = request.form["id"]
     from_page = request.form["from"]
     try:
@@ -88,6 +93,11 @@ def get_profile(id):
     Parameters: id (int), ID del equipo.
     Returns: Renderiza la plantilla HTML del perfil del equipo.
     """
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "equipo_get_profile"):
+        return abort(403)
     try:
         chosen_equipo = equipo.get_one(id)
     except ValueError as e:
@@ -106,6 +116,11 @@ def enter_edit(id):
     Parameters: id (int), ID del equipo.
     Returns: Renderiza la plantilla HTML para la edición del equipo.
     """
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "equipo_enter_edit"):
+        return abort(403)
     try:
         chosen_equipo = equipo.get_one(id)
         return render_template(
@@ -131,6 +146,11 @@ def save_edit(id):
     Parameters: id (int), ID del equipo.
     Returns: Redirige a la página de perfil del equipo después de guardar los cambios.
     """
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "equipo_save_edit"):
+        return abort(403)
     new_data = {
         "nombre": request.form["nombre"].capitalize(),
         "apellido": request.form["apellido"].capitalize(),
@@ -217,6 +237,11 @@ def enter_add():
     Función que muestra el formulario para agregar un nuevo equipo.
     Returns: Renderiza la plantilla HTML para agregar un equipo.
     """
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "equipo_enter_add"):
+        return abort(403)
     return render_template("equipo/add_equipo.html")
 
 
@@ -227,6 +252,11 @@ def add_equipo():
     Parameters: Ninguno (Los datos se obtienen del formulario).
     Returns: Redirige al perfil del equipo creado.
     """
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "equipo_add_equipo"):
+        return abort(403)
     new_data = {
         "nombre": request.form["nombre"].capitalize(),
         "apellido": request.form["apellido"].capitalize(),
@@ -263,6 +293,11 @@ def download_archivo(id):
     Parameters: id (int), ID del archivo.
     Returns: Redirige a la URL generada para la descarga del archivo.
     """
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "equipo_download_archivo"):
+        return abort(403)
     try:
         chosen_archivo = equipo.get_archivo(id)
         client = current_app.storage.client
@@ -283,6 +318,11 @@ def delete(id):
     Parameters: id (int), ID del equipo.
     Returns: Redirige a la lista de equipos tras la eliminación.
     """
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "equipo_delete"):
+        return abort(403)
     try:
         chosen_equipo = equipo.delete_equipo(id)
         archivos_asociados = chosen_equipo.archivos

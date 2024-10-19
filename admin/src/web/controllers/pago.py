@@ -1,7 +1,9 @@
 from datetime import datetime
 from flask import flash, redirect, render_template, request, url_for
+from flask import session, abort
 from core import equipo, pago
 from flask import Blueprint
+from web.helpers.auth import check_permission, is_authenticated
 
 bprint = Blueprint("pago", __name__, url_prefix="/pago")
 
@@ -9,6 +11,11 @@ bprint = Blueprint("pago", __name__, url_prefix="/pago")
 @bprint.get("/")
 def index():
     """Página principal que muestra la lista de pagos con paginación, filtro por fechas y tipos de pago."""
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "pago_index"):
+        return abort(403)
     amount_per_page = 10
     try:
         page = int(request.args.get("pag", "1"))
@@ -52,6 +59,11 @@ def index():
 
 @bprint.get("/<id>")
 def get_info(id):
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "pago_get_info"):
+        return abort(403)
     """Muestra la información detallada de un pago específico."""
     try:
         chosen_pago = pago.get_one(id)
@@ -64,6 +76,11 @@ def get_info(id):
 
 @bprint.get("<id>/edit")
 def enter_edit(id):
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "pago_enter_edit"):
+        return abort(403)
     """Permite editar un pago existente, cargando los datos actuales del pago."""
     try:
         chosen_pago = pago.get_one(id)
@@ -99,6 +116,11 @@ def enter_edit(id):
 
 @bprint.post("<id>/edit")
 def save_edit(id):
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "pago_save_edit"):
+        return abort(403)
     """Guarda los cambios realizados a un pago existente."""
     try:
         new_data = {
@@ -131,6 +153,11 @@ def save_edit(id):
 
 @bprint.post("/<id>/borrar")
 def delete(id):
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "pago_delete"):
+        return abort(403)
     """Elimina un pago por su ID."""
     try:
         pago.delete_pago(id)
@@ -144,6 +171,11 @@ def delete(id):
 
 @bprint.get("/agregar")
 def enter_add():
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "pago_enter_add"):
+        return abort(403)
     """Permite agregar un nuevo pago, mostrando un formulario para ingresar los datos."""
     amount_per_page = 5
 
@@ -172,6 +204,11 @@ def enter_add():
 
 @bprint.post("/agregar")
 def add():
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "pago_add"):
+        return abort(403)
     """Crea un nuevo pago basado en los datos ingresados en el formulario."""
     try:
         new_data = {

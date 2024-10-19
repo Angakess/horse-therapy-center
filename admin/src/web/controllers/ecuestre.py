@@ -6,11 +6,19 @@ from flask import Blueprint
 from core.equipo.equipo import Equipo
 from core.jya import JinetesAmazonas
 
+from flask import session, abort
+from web.helpers.auth import check_permission, is_authenticated
+
 bprint = Blueprint("ecuestre", __name__, url_prefix="/ecuestre")
 
 
 @bprint.get("/")
 def index():
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "ecuestre_index"):
+        return abort(403)
     amount_per_page = 10
     query = request.args.get("query", "")
     order = request.args.get("order", "asc")
@@ -36,6 +44,11 @@ def index():
 
 @bprint.get("/<id>")
 def get_profile(id):
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "ecuestre_get_profile"):
+        return abort(403)
     try:
         chosen_ecuestre = ecuestre.get_ecuestre(id)
     except ValueError as e:
@@ -47,6 +60,11 @@ def get_profile(id):
 
 @bprint.get("/<id>/edit")
 def enter_edit(id):
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "ecuestre_enter_edit"):
+        return abort(403)
     equipos = Equipo.query.all()
     jya = JinetesAmazonas.query.all()
     try:
@@ -71,6 +89,11 @@ def enter_edit(id):
 
 @bprint.post("/<id>/edit")
 def save_edit(id):
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "ecuestre_save_edit"):
+        return abort(403)
     ecuestre_modificar = ecuestre.get_ecuestre(id)
 
     if not ecuestre_modificar:
@@ -184,6 +207,11 @@ def save_edit(id):
 
 @bprint.get("/agregar")
 def enter_add():
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "ecuestre_enter_add"):
+        return abort(403)
     equipos = Equipo.query.all()
     jya = JinetesAmazonas.query.all()
     return render_template("ecuestre/add_ecuestre.html", equipos=equipos, jya=jya)
@@ -191,6 +219,11 @@ def enter_add():
 
 @bprint.post("/agregar")
 def add_ecuestre():
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "ecuestre_add_ecuestre"):
+        return abort(403)
     new_data = {
         "nombre": request.form["nombre"],
         "fecha_nacimiento": request.form["fecha_nacimiento"],
@@ -226,6 +259,11 @@ def add_ecuestre():
 
 @bprint.post("/borrar/<id>")
 def delete(id):
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "ecuestre_delete"):
+        return abort(403)
     try:
         chosen_ecuestre = ecuestre.get_ecuestre(id)
         archivos_asociados = chosen_ecuestre.archivos
@@ -246,6 +284,11 @@ def delete(id):
 
 @bprint.get("/<id>/descargar-archivo")
 def download_archivo(id):
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "ecuestre_download_archivo"):
+        return abort(403)
     try:
         chosen_archivo = ecuestre.get_archivo(id)
         client = current_app.storage.client

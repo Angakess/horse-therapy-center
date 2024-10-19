@@ -5,11 +5,18 @@ from core.equipo import Equipo
 from core.ecuestre import Ecuestre
 from flask import Blueprint
 from flask import flash
+from flask import session, abort
+from web.helpers.auth import check_permission, is_authenticated
 
 bprint = Blueprint("jya", __name__, url_prefix="/jya")
 
 @bprint.get("/")
 def index():
+    if not is_authenticated(session):
+        return abort(401)
+    
+    if not check_permission(session, "jya_index"):
+        return abort(403)
     amount_per_page = 10
     query = request.args.get("query", "")
     order = request.args.get("order", "asc")
@@ -31,6 +38,11 @@ def index():
 
 @bprint.get("/<id>")
 def get_profile(id):
+    if not is_authenticated(session):
+        return abort(401)
+    
+    if not check_permission(session, "jya_get_profile"):
+        return abort(403)
     try:
         chosen_jinete_amazona = jya.get_jinete_amazona(id)
     except ValueError as e:
@@ -46,12 +58,23 @@ def get_profile(id):
 
 @bprint.get("/agregar")
 def enter_add():
+    if not is_authenticated(session):
+        return abort(401)
+    
+    if not check_permission(session, "jya_enter_add"):
+        return abort(403)
     equipos = Equipo.query.all()
     ecuestres = Ecuestre.query.all()
     return render_template("jya/add_jya.html",equipos=equipos,ecuestres=ecuestres)
 
 @bprint.post("/agregar")
 def add_jya():
+
+    if not is_authenticated(session):
+        return abort(401)
+    
+    if not check_permission(session, "jya_add_jya"):
+        return abort(403)
     new_data = {
         "nombre": request.form["nombre"].capitalize(),
         "apellido": request.form["apellido"].capitalize(),
@@ -173,6 +196,11 @@ def add_jya():
 
 @bprint.post("/borrar/<id>")
 def delete(id):
+    if not is_authenticated(session):
+        return abort(401)
+    
+    if not check_permission(session, "jya_delete"):
+        return abort(403)
     try:
         chosen_jinete_amazona = jya.get_jinete_amazona(id)
         archivos_asociados = chosen_jinete_amazona.archivos
@@ -205,6 +233,11 @@ def delete(id):
 
 @bprint.get("/<id>/edit")
 def enter_edit(id):
+    if not is_authenticated(session):
+        return abort(401)
+    
+    if not check_permission(session, "jya_enter_edit"):
+        return abort(403)
     equipos = Equipo.query.all()
     ecuestres = Ecuestre.query.all()
     try:
@@ -228,6 +261,11 @@ def enter_edit(id):
 
 @bprint.post("/<id>/edit")
 def save_edit(id):
+    if not is_authenticated(session):
+        return abort(401)
+    
+    if not check_permission(session, "jya_save_edit"):
+        return abort(403)
         jinete_amazona_modificar = jya.get_jinete_amazona(id)
 
         if not jinete_amazona_modificar:
@@ -418,6 +456,11 @@ def save_edit(id):
 
 @bprint.get("/<id>/descargar-archivo")
 def download_archivo(id):
+    if not is_authenticated(session):
+        return abort(401)
+    
+    if not check_permission(session, "jya_download_archivo"):
+        return abort(403)
     try:
         chosen_archivo = jya.get_archivo(id)
         client = current_app.storage.client
@@ -431,6 +474,11 @@ def download_archivo(id):
     return redirect(minio_url)
 
 def str_to_bool(value):
+    if not is_authenticated(session):
+        return abort(401)
+    
+    if not check_permission(session, "jya_str_to_bool"):
+        return abort(403)
     if isinstance(value, bool):
         return value
     if value.lower() in ("true", "1"):
