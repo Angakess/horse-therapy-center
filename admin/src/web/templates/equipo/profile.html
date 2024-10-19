@@ -109,9 +109,8 @@
               </button>
               {% endif %}
             </form>
-            <form action="{{url_for('equipo.delete')}}" method="POST" class="mx-2 align-self-start">
-              <input type="hidden" name="id" value="{{ info.id }}" />
-              <button class="btn btn-outline-dark mx-2 align-self-start">
+            
+              <button class="btn btn-outline-dark mx-2 align-self-start" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Eliminar
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -129,7 +128,7 @@
                   />
                 </svg>
               </button>
-            </form>
+            
         </div>
       </div>
       <div class="row">
@@ -242,5 +241,7 @@
     
   </div>
 </div>
+
+{%include "equipo/components/confirmation_modal.html"%}
 
 {% endblock %}

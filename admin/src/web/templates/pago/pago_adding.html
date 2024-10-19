@@ -17,7 +17,7 @@
               Descripción
             </h2>
             <div class="input-group">
-              <textarea id="desc-id" class="form-control" name="desc" aria-label="With textarea" required></textarea>
+              <textarea id="desc-id" class="form-control" name="desc" aria-label="With textarea" required>{{ desc }}</textarea>
               <div class="invalid-feedback">
                 Ingrese una descripción.
               </div>
@@ -32,7 +32,7 @@
                   >
                   <div class="input-group">
                       <span class="input-group-text" id="basic-addon1">$</span>
-                      <input id="monto-id" name="monto" class="form-control" required pattern="^(?!0+(\.0+)?$)(\d{1,10}(\.\d{1,2})?)$">
+                      <input value="{{ monto }}" id="monto-id" name="monto" class="form-control" required pattern="^(?!0+(\.0+)?$)(\d{1,10}(\.\d{1,2})?)$">
                       <div class="invalid-feedback">
                         Ingrese un monto.
                       </div>
@@ -42,7 +42,7 @@
                   <span class="display-26 text-primary me-2 font-weight-600"
                     >Fecha de pago:</span
                   >
-                  <input type="date" id="fecha-id" name="fecha" class="form-control" required>
+                  <input value="{{fecha}}" type="date" id="fecha-id" name="fecha" class="form-control" required>
                   <div class="invalid-feedback">
                     Ingrese una fecha.
                   </div>
@@ -51,11 +51,15 @@
                   <span class="display-26 text-primary me-2 font-weight-600"
                     >Tipo de pago:</span
                   >
-                  <select id="tipo-id" name="tipo" class="form-control">
-                      <option value="Proveedor">Proveedor</option>
-                      <option value="Gastos varios">Gastos varios</option>
-                      <option value="Honorario">Honorario</option>
+                  <select id="tipo-id" name="tipo" class="form-control" required>
+                      <option {%if tipo == ''%}selected{%endif%} hidden disabled value=""></option>
+                      <option {%if tipo == 'Proveedor'%}selected{%endif%} value="Proveedor">Proveedor</option>
+                      <option {%if tipo == 'Gastos varios'%}selected{%endif%} value="Gastos varios">Gastos varios</option>
+                      <option {%if tipo == 'Honorario'%}selected{%endif%} value="Honorario">Honorario</option>
                   </select>
+                  <div class="invalid-feedback">
+                    Seleccione un tipo de pago.
+                  </div>
                 </li>
             </ul>
           </div>

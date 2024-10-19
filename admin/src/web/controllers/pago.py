@@ -8,6 +8,7 @@ bprint = Blueprint("pago", __name__, url_prefix="/pago")
 
 @bprint.get("/")
 def index():
+    """Página principal que muestra la lista de pagos con paginación, filtro por fechas y tipos de pago."""
     amount_per_page = 10
     try:
         page = int(request.args.get("pag", "1"))
@@ -51,6 +52,7 @@ def index():
 
 @bprint.get("/<id>")
 def get_info(id):
+    """Muestra la información detallada de un pago específico."""
     try:
         chosen_pago = pago.get_one(id)
     except ValueError as e:
@@ -62,12 +64,19 @@ def get_info(id):
 
 @bprint.get("<id>/edit")
 def enter_edit(id):
+    """Permite editar un pago existente, cargando los datos actuales del pago."""
     try:
         chosen_pago = pago.get_one(id)
 
-        amount_per_page = 20
+        amount_per_page = 5
 
         page = int(request.args.get("pag", "1"))
+
+        desc = request.args.get("desc", chosen_pago.desc)
+        monto = request.args.get("monto", chosen_pago.monto)
+        fecha = request.args.get("fecha", chosen_pago.fecha.strftime("%Y-%m-%d"))
+        tipo = request.args.get("tipo", chosen_pago.tipo)
+
         empleados = equipo.list_equipos_page(page=page, amount_per_page=amount_per_page)
         total_empleados = equipo.get_total()
         page_amount = (total_empleados + amount_per_page - 1) // amount_per_page
@@ -81,11 +90,16 @@ def enter_edit(id):
         empleados=empleados,
         pag=page,
         page_amount=page_amount,
+        desc=desc,
+        monto=monto,
+        fecha=fecha,
+        tipo=tipo,
     )
 
 
 @bprint.post("<id>/edit")
 def save_edit(id):
+    """Guarda los cambios realizados a un pago existente."""
     try:
         new_data = {
             "desc": request.form["desc"],
@@ -117,6 +131,7 @@ def save_edit(id):
 
 @bprint.post("/<id>/borrar")
 def delete(id):
+    """Elimina un pago por su ID."""
     try:
         pago.delete_pago(id)
     except ValueError as e:
@@ -129,12 +144,18 @@ def delete(id):
 
 @bprint.get("/agregar")
 def enter_add():
-    amount_per_page = 20
+    """Permite agregar un nuevo pago, mostrando un formulario para ingresar los datos."""
+    amount_per_page = 5
 
     page = int(request.args.get("pag", "1"))
     empleados = equipo.list_equipos_page(page=page, amount_per_page=amount_per_page)
     total_empleados = equipo.get_total()
     page_amount = (total_empleados + amount_per_page - 1) // amount_per_page
+
+    desc = request.args.get("desc", "")
+    monto = request.args.get("monto", "")
+    fecha = request.args.get("fecha", "")
+    tipo = request.args.get("tipo", "")
 
     return render_template(
         "pago/pago_adding.html",
@@ -142,11 +163,16 @@ def enter_add():
         pag=page,
         page_amount=page_amount,
         other_page=(True if page > 1 else False),
+        desc=desc,
+        monto=monto,
+        fecha=fecha,
+        tipo=tipo,
     )
 
 
 @bprint.post("/agregar")
 def add():
+    """Crea un nuevo pago basado en los datos ingresados en el formulario."""
     try:
         new_data = {
             "desc": request.form["desc"],
