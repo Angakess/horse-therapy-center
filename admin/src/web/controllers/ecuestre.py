@@ -16,9 +16,11 @@ def index():
     order = request.args.get("order", "asc")
     by = request.args.get("by", "")
     page = int(request.args.get("pag", "1"))
-    jya =request.args.get('jya', None)
+    jya = request.args.get("jya", None)
     total = ecuestre.get_total_ecuestre()
-    ecuestres = ecuestre.list_ecuestres_page(query, page, amount_per_page, order, by,jya)
+    ecuestres = ecuestre.list_ecuestres_page(
+        query, page, amount_per_page, order, by, jya
+    )
 
     return render_template(
         "ecuestre/index.html",
@@ -28,7 +30,6 @@ def index():
         by=by,
         pag=page,
         page_amount=(total + amount_per_page - 1) // amount_per_page,
-       
     )
 
 
@@ -38,13 +39,10 @@ def get_profile(id):
         chosen_ecuestre = ecuestre.get_ecuestre(id)
     except ValueError as e:
         flash(str(e), "danger")
-        return redirect(
-            url_for("ecuestre.index")
-        )
+        return redirect(url_for("ecuestre.index"))
 
-    return render_template(
-        "ecuestre/profile.html", info=chosen_ecuestre
-    )
+    return render_template("ecuestre/profile.html", info=chosen_ecuestre)
+
 
 @bprint.get("/<id>/edit")
 def enter_edit(id):
@@ -56,8 +54,8 @@ def enter_edit(id):
             "ecuestre/profile_editing.html",
             info=chosen_ecuestre,
             archivos=chosen_ecuestre.archivos,
-            equipos = equipos,
-            jya = jya,
+            equipos=equipos,
+            jya=jya,
         )
     except ValueError as e:
         flash(str(e), "danger")
@@ -68,6 +66,7 @@ def enter_edit(id):
                 archivos=chosen_ecuestre.archivos,
             )
         )
+
 
 @bprint.post("/<id>/edit")
 def save_edit(id):
@@ -89,11 +88,21 @@ def save_edit(id):
     }
 
     try:
-        equipo_id = request.form.get("equipo_id")
-        
-        if (ecuestre.contiene_miembro_equipo(ecuestre_modificar,equipo_id) == False):
+        equipos_ids_nuevos = set(request.form.getlist("equipos-asignados"))
+        equipos_ids_actuales = {str(equipo.id) for equipo in ecuestre_modificar.equipos}
+
+        equipos_ids_a_eliminar = equipos_ids_actuales - equipos_ids_nuevos
+        equipos_ids_a_agregar = equipos_ids_nuevos - equipos_ids_actuales
+
+        # Eliminar relaciones que ya no deberían existir
+        for equipo_id in equipos_ids_a_eliminar:
+            equipo_a_sacar = equipo.get_one(equipo_id)
+            ecuestre.unassing_equipo(ecuestre_modificar, equipo_a_sacar)
+
+        # Agregar nuevas relaciones
+        for equipo_id in equipos_ids_a_agregar:
             equipo_asignar = equipo.get_one(equipo_id)
-            ecuestre.assing_equipo(ecuestre_modificar,equipo_asignar)
+            ecuestre.assing_equipo(ecuestre_modificar, equipo_asignar)
 
         j_y_a_id = request.form.get("j_y_a_id")
         if j_y_a_id:
@@ -106,25 +115,15 @@ def save_edit(id):
         flash(str(e), "danger")
 
     try:
-        equipo_id_a_borrar = request.form.get("equipo_id")
-        if equipo_id:
-            equipo_designado_borrar = equipo.get_one(equipo_id_a_borrar)
-            if equipo_designado_borrar:
-                ecuestre.unassing_equipo(ecuestre_modificar, equipo_designado_borrar)
-            else:
-                flash("Equipo no encontrado", "warning")
-
         j_y_a_id_a_borrar = request.form.get("j_y_a_id")
         if j_y_a_id_a_borrar:
             j_y_a_designado_borrar = jya.get_jinete_amazona(j_y_a_id_a_borrar)
             if j_y_a_designado_borrar:
-                ecuestre.unassing_j_y_a(ecuestre_modificar, j_y_a_designado_borrar )
+                ecuestre.unassing_j_y_a(ecuestre_modificar, j_y_a_designado_borrar)
             else:
                 flash("Jinete/Amazona no encontrado", "warning")
     except ValueError as e:
         flash(str(e), "danger")
-
-
 
     ALLOWED_MIME_TYPES = {"application/pdf", "image/png", "image/jpeg", "text/plain"}
 
@@ -162,7 +161,7 @@ def save_edit(id):
             flash(str(e), "danger")
             return redirect(url_for("ecuestre.get_profile", id=id))
     try:
-        ecuestre.edit_ecuestre(id,new_data)
+        ecuestre.edit_ecuestre(id, new_data)
     except ValueError as e:
         flash(str(e), "danger")
         return redirect(url_for("ecuestre.get_profile", id=id))
@@ -171,25 +170,22 @@ def save_edit(id):
         client = current_app.storage.client
         archivos_a_eliminar = request.form.getlist("archivos_a_eliminar")
         for archivo_id in archivos_a_eliminar:
-            archivo = ecuestre.get_archivo(
-                archivo_id
-            )
-            client.remove_object(
-                "grupo28", f"{archivo.id}-{archivo.nombre}"
-            )
+            archivo = ecuestre.get_archivo(archivo_id)
+            client.remove_object("grupo28", f"{archivo.id}-{archivo.nombre}")
             ecuestre.delete_archivo(archivo_id)
     except ValueError as e:
         flash(str(e), "danger")
-        return redirect(url_for("ecuestre.get_profile", id=id)) 
+        return redirect(url_for("ecuestre.get_profile", id=id))
 
     flash("Datos guardados con exito.", "success")
     return redirect(url_for("ecuestre.get_profile", id=id))
+
 
 @bprint.get("/agregar")
 def enter_add():
     equipos = Equipo.query.all()
     jya = JinetesAmazonas.query.all()
-    return render_template("ecuestre/add_ecuestre.html",equipos=equipos,jya=jya)
+    return render_template("ecuestre/add_ecuestre.html", equipos=equipos, jya=jya)
 
 
 @bprint.post("/agregar")
@@ -218,13 +214,14 @@ def add_ecuestre():
         if j_y_a_id:
             j_y_a_designado = jya.get_jinete_amazona(j_y_a_id)
             if j_y_a_designado:
-                ecuestre.assing_j_y_a(new_ecuestre,j_y_a_designado)
+                ecuestre.assing_j_y_a(new_ecuestre, j_y_a_designado)
 
         flash("Ecuestre creado con éxito", "success")
     except ValueError as e:
         flash(str(e), "danger")
 
     return redirect(url_for("ecuestre.get_profile", id=new_ecuestre.id))
+
 
 @bprint.post("/borrar/<id>")
 def delete(id):
@@ -233,9 +230,9 @@ def delete(id):
         archivos_asociados = chosen_ecuestre.archivos
         client = current_app.storage.client
         for archivo in archivos_asociados:
-            client.remove_object("grupo28",f"{archivo.id}-{archivo.nombre}")
+            client.remove_object("grupo28", f"{archivo.id}-{archivo.nombre}")
             ecuestre.delete_archivo(archivo.id)
-        
+
         ecuestre.delete_ecuestre(id)
 
     except ValueError as e:
@@ -244,6 +241,7 @@ def delete(id):
 
     flash("Ecuestre borrado con éxito", "success")
     return redirect(url_for("ecuestre.index"))
+
 
 @bprint.get("/<id>/descargar-archivo")
 def download_archivo(id):

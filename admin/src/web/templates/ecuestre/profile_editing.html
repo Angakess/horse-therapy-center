@@ -95,12 +95,14 @@
                   <span class="display-26 text-primary me-2 font-weight-600"
                     >Entrenador/Conductor:</span>
                   <div class="form-group">
-                      <select class="form-control" id="equipoSelect" name="equipo" required>
-                        <option hidden selected disabled value=""></option>
-                        {% for equipo in equipos %}
-                          <option value="{{ equipo.id }}">{{ equipo.nombre }} {{ equipo.apellido }} ({{ equipo.puesto }})</option>
-                        {% endfor %}
-                      </select>
+                      {% for equipo in equipos %}
+                      <div class="form-check">
+                        <input name="equipos-asignados" class="form-check-input" type="checkbox" value="{{equipo.id}}" id="flexCheckChecked-{{equipo.id}}" {% if equipo in info.equipos %} checked {% endif %}>
+                        <label class="form-check-label" for="flexCheckChecked-{{equipo.id}}">
+                          {{equipo.nombre}} {{equipo.apellido}}
+                        </label>
+                      </div>
+                      {% endfor %}
                     </div>
                 </li>
                 <li class="mb-2 mb-xl-3 display-28">
@@ -111,7 +113,7 @@
                       <select class="form-control" id="jineteSelect" name="j_y_a" required>
                         <option hidden selected disabled value=""></option>
                         {% for ja in jya %}
-                          <option value="{{ ja.id }}">{{ ja.nombre }} {{ ja.apellido }} ({{ ja.dni }})</option>
+                          <option {%if info.j_y_a_id == ja.id %}selected{%endif%} value="{{ ja.id }}">{{ ja.nombre }} {{ ja.apellido }} ({{ ja.dni }})</option>
                         {% endfor %}
                       </select>
                     </div>
