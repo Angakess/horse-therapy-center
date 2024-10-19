@@ -63,9 +63,8 @@
               </div>
             </li>
             <li class="mb-2 mb-xl-3 display-28">
-              <span class="display-26 text-primary me-2 font-weight-600"
-                >Tipo adquisición:</span
-              ><input id="tipo_adquisicion-input" name="tipo_adquisicion" class="form-control" value="{{info.tipo_adquisicion}}" required>
+              <span class="display-26 text-primary me-2 font-weight-600">
+                Tipo adquisición:</span>
               <div class="row">
                 <div class="col-6">
                   <select name="tipo_adquisicion" class="form-control">
@@ -96,13 +95,29 @@
                   <span class="display-26 text-primary me-2 font-weight-600"
                     >Entrenador/Conductor:</span>
                   <div class="form-group">
-                      <select class="form-control" id="entrenadorConductorSelect" name="entrenador_conductor" required>
+                      <select class="form-control" id="equipoSelect" name="equipo" required>
                         <option hidden selected disabled value=""></option>
                         {% for equipo in equipos %}
                           <option value="{{ equipo.id }}">{{ equipo.nombre }} {{ equipo.apellido }} ({{ equipo.puesto }})</option>
                         {% endfor %}
                       </select>
                     </div>
+                </li>
+                <li class="mb-2 mb-xl-3 display-28">
+                  <span class="display-26 text-primary me-2 font-weight-600"
+                    >Jinete/Amazona:</span
+                  >
+                  <div class="form-group">
+                      <select class="form-control" id="jineteSelect" name="j_y_a" required>
+                        <option hidden selected disabled value=""></option>
+                        {% for ja in jya %}
+                          <option value="{{ ja.id }}">{{ ja.nombre }} {{ ja.apellido }} ({{ ja.dni }})</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  <div class="invalid-feedback">
+                    Ingrese un Jinete/Amazona.
+                  </div>
                 </li>
           <ul class="list-group list-unstyled">
             <h2 class="equipo-profile-title text-secondary">

@@ -53,6 +53,18 @@ Tipo de J&A Asignados-->
             </li>
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
+                >Sexo:</span>
+                <div class="row">
+                  <div class="col-6">
+                    <select name="sexo" class="form-control">
+                      <option value="Macho">Macho</option>
+                      <option value="Hembra">Hembra</option>                                  
+                    </select>
+                  </div>
+                </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
                 >Tipo adquisición:</span>
               <div class="row">
                 <div class="col-6">
@@ -85,66 +97,20 @@ Tipo de J&A Asignados-->
                 </div>
               </li>
               <li class="mb-2 mb-xl-3 display-28">
-                <span class="display-26 text-primary me-2 font-weight-600">Compra/Donacion:</span>
-                <div>
-                  <div class="form-check form-check-inline">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      id="Compra"
-                      name="Compra"
-                      value="true"
-                      required
-                    />
-                    <label class="form-check-label" for="Compra">Compra</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      id="Donación"
-                      name="Donación"
-                      value="false"
-                      required
-                    />
-                    <label class="form-check-label" for="Donación">Donación</label>
-                  </div>
-                  <div class="invalid-feedback">Seleccione una opción.</div>
-                </div>
-              </li>
-              <li class="mb-2 mb-xl-3 display-28">
                 <span class="display-26 text-primary me-2 font-weight-600"
                   >Sede asignada:</span
-                ><input id="sede-asignada-input" name="sede-asignada" class="form-control" required>
+                ><input id="sede_asignada-input" name="sede_asignada" class="form-control" required>
                 <div class="invalid-feedback">
                   Ingrese una sede.
                 </div>
               </li>
-            
-           
-            <li class="mb-2 mb-xl-3 display-28">
-              <span class="display-26 text-primary me-2 font-weight-600"
-                >J&A asignado:</span
-              >
-              <div class="form-group">
-                <select class="form-control" id="tipoJYASelect" name="tipo_jya_asignado" required>
-                  <option value="Hipoterapia">Hipoterapia</option>
-                  <option value="Monta terapéutica">Monta Terapéutica</option>
-                  <option value="Deporte Ecuestre Adaptado">Deporte Ecuestre Adaptado</option>
-                  <option value="Actividades Recreativas">Actividades Recreativas</option>
-                  <option value="Equitación">Equitación</option>
-                </select>
-              </div>
-              <div class="invalid-feedback">
-                Ingrese una condición.
-              </div>
-            </li>
             <li class="mb-2 mb-xl-3 display-28">
                 <span class="display-26 text-primary me-2 font-weight-600"
                   >Entrenador/Conductor:</span
                 >
                 <div class="form-group">
-                    <select class="form-control" id="entrenadorConductorSelect" name="entrenador_conductor" required>
+                    <select class="form-control" id="equipoSelect" name="equipo" required>
+                      <option hidden selected disabled value=""></option>
                       {% for equipo in equipos %}
                         <option value="{{ equipo.id }}">{{ equipo.nombre }} {{ equipo.apellido }} ({{ equipo.puesto }})</option>
                       {% endfor %}
@@ -152,6 +118,22 @@ Tipo de J&A Asignados-->
                   </div>
                 <div class="invalid-feedback">
                   Ingrese un entrenador o conductor.
+                </div>
+              </li>
+              <li class="mb-2 mb-xl-3 display-28">
+                <span class="display-26 text-primary me-2 font-weight-600"
+                  >Jinete/Amazona:</span
+                >
+                <div class="form-group">
+                    <select class="form-control" id="jineteSelect" name="j_y_a" required>
+                      <option hidden selected disabled value=""></option>
+                      {% for ja in jya %}
+                        <option value="{{ ja.id }}">{{ ja.nombre }} {{ ja.apellido }} ({{ ja.dni }})</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                <div class="invalid-feedback">
+                  Ingrese un Jinete/Amazona.
                 </div>
               </li>
           </ul>

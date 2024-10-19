@@ -4,6 +4,7 @@ from core import ecuestre, equipo, jya
 from flask import Blueprint
 
 from core.equipo.equipo import Equipo
+from core.jya import JinetesAmazonas
 
 bprint = Blueprint("ecuestre", __name__, url_prefix="/ecuestre")
 
@@ -48,6 +49,7 @@ def get_profile(id):
 @bprint.get("/<id>/edit")
 def enter_edit(id):
     equipos = Equipo.query.all()
+    jya = JinetesAmazonas.query.all()
     try:
         chosen_ecuestre = ecuestre.get_ecuestre(id)
         return render_template(
@@ -55,6 +57,7 @@ def enter_edit(id):
             info=chosen_ecuestre,
             archivos=chosen_ecuestre.archivos,
             equipos = equipos,
+            jya = jya,
         )
     except ValueError as e:
         flash(str(e), "danger")
@@ -87,17 +90,18 @@ def save_edit(id):
 
     try:
         equipo_id = request.form.get("equipo_id")
-        if (not equipo_id):
+        
+        if (ecuestre.contiene_miembro_equipo(ecuestre_modificar,equipo_id) == False):
             equipo_asignar = equipo.get_one(equipo_id)
             ecuestre.assing_equipo(ecuestre_modificar,equipo_asignar)
 
-        # j_y_a_id = request.form.get("j_y_a_id")
-        # if j_y_a_id:
-        #     j_y_a_designado = jya.get_jinete_amazona(j_y_a_id)
-        #     if j_y_a_designado:
-        #         ecuestre.assing_j_y_a(ecuestre_modificar, j_y_a_designado)
-        #     else:
-        #         flash("Jinete/Amazona no encontrado", "warning")
+        j_y_a_id = request.form.get("j_y_a_id")
+        if j_y_a_id:
+            j_y_a_designado = jya.get_jinete_amazona(j_y_a_id)
+            if j_y_a_designado:
+                ecuestre.assing_j_y_a(ecuestre_modificar, j_y_a_designado)
+            else:
+                flash("Jinete/Amazona no encontrado", "warning")
     except ValueError as e:
         flash(str(e), "danger")
 
@@ -110,13 +114,13 @@ def save_edit(id):
             else:
                 flash("Equipo no encontrado", "warning")
 
-        # j_y_a_id_a_borrar = request.form.get("j_y_a_id")
-        # if j_y_a_id:
-        #     j_y_a_designado_borrar = jya.get_jinete_amazona(j_y_a_id_a_borrar)
-        #     if j_y_a_designado_borrar:
-        #         ecuestre.unassing_j_y_a(ecuestre_modificar, j_y_a_designado_borrar )
-        #     else:
-        #         flash("Jinete/Amazona no encontrado", "warning")
+        j_y_a_id_a_borrar = request.form.get("j_y_a_id")
+        if j_y_a_id_a_borrar:
+            j_y_a_designado_borrar = jya.get_jinete_amazona(j_y_a_id_a_borrar)
+            if j_y_a_designado_borrar:
+                ecuestre.unassing_j_y_a(ecuestre_modificar, j_y_a_designado_borrar )
+            else:
+                flash("Jinete/Amazona no encontrado", "warning")
     except ValueError as e:
         flash(str(e), "danger")
 
@@ -184,7 +188,8 @@ def save_edit(id):
 @bprint.get("/agregar")
 def enter_add():
     equipos = Equipo.query.all()
-    return render_template("ecuestre/add_ecuestre.html",equipos=equipos)
+    jya = JinetesAmazonas.query.all()
+    return render_template("ecuestre/add_ecuestre.html",equipos=equipos,jya=jya)
 
 
 @bprint.post("/agregar")
@@ -198,23 +203,22 @@ def add_ecuestre():
         "tipo_adquisicion": request.form["tipo_adquisicion"],
         "fecha_ingreso": request.form["fecha_ingreso"],
         "sede_asignada": request.form["sede_asignada"],
-        
     }
 
     try:
         new_ecuestre = ecuestre.create_ecuestre(**new_data)
 
-        equipo_id = request.form.get("equipo_id")
+        equipo_id = request.form.get("equipo")
         if equipo_id:
             equipo_designado = equipo.get_one(equipo_id)
             if equipo_designado:
                 ecuestre.assing_equipo(new_ecuestre, equipo_designado)
 
-        # j_y_a_id = request.form.get("j_y_a_id")
-        # if j_y_a_id:
-        #     j_y_a_designado = jya.get_jinete_amazona(j_y_a_id)
-        #     if j_y_a_designado:
-        #         ecuestre.assing_j_y_a(new_ecuestre,j_y_a_designado)
+        j_y_a_id = request.form.get("j_y_a")
+        if j_y_a_id:
+            j_y_a_designado = jya.get_jinete_amazona(j_y_a_id)
+            if j_y_a_designado:
+                ecuestre.assing_j_y_a(new_ecuestre,j_y_a_designado)
 
         flash("Ecuestre creado con éxito", "success")
     except ValueError as e:

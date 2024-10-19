@@ -176,5 +176,8 @@ def get_total_ecuestre():
     total = Ecuestre.query.filter().count()
     return total
 
-def contiene_miembro_equipo(ecuestre,id):
-    return ecuestre.equipos.filter_by(id=id).first()
+def contiene_miembro_equipo(ecuestre, equipo_id):
+    for equipo in ecuestre.equipos:
+        if (equipo.id == equipo_id):
+            return True
+    return False
