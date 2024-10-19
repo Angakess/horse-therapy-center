@@ -42,3 +42,6 @@ def delete_responsable(id):
         db.session.commit()
     else:
         raise ValueError("No se encontro responsable a borrar")
+    
+def existe(dni):
+    return Familiar_tutor.query.filter_by(dni=dni).first()

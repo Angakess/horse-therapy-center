@@ -19,7 +19,7 @@ class JinetesAmazonas(db.Model):
     contacto_emergencia = db.Column(db.Text, nullable=False)
     tel = db.Column(db.Text, nullable=False)
     becado = db.Column(db.Boolean, nullable=False)
-    porcentaje_beca = db.Column(db.Double, nullable=False)
+    porcentaje_beca = db.Column(db.Double, nullable=True)
     profesionales_atienden = db.Column(db.Text, nullable=False)
     certificado_discapacidad = db.Column(db.Boolean, nullable=False)
     asignacion_familiar = db.Column(db.Boolean, nullable=False)
@@ -114,6 +114,8 @@ def list_jinetes_amazonas_apellido_desc():
     return jinetes_amazonas
 
 def create_jinetes_amazonas(**kwargs):
+    if kwargs.get('porcentaje_beca') == '':
+        kwargs['porcentaje_beca'] = None
     jinetes_amazonas = JinetesAmazonas(**kwargs)
     db.session.add(jinetes_amazonas)
     db.session.commit()
@@ -127,7 +129,9 @@ def delete_jinetes_amazonas(id):
     else:
         pass
 
-def edit_jya(id,data):
+def edit_jya(id,**data):
+    if data.get('porcentaje_beca') == '':
+        data['porcentaje_beca'] = None
     chosen_jya = JinetesAmazonas.query.get(id)
     for key, value in data.items():
         if hasattr(chosen_jya, key):
@@ -207,7 +211,7 @@ def create_archivo(**kwargs):
 
 
 def assign_archivo(jya, archivo):
-    jya.archivo = archivo
+    jya.archivos.append(archivo)
     db.session.add(jya)
     db.session.commit()
     return archivo

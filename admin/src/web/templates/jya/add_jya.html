@@ -176,7 +176,7 @@
                   <select name="tipo_asignacion_familiar" class="form-control">
                     <option value="Ninguna">Ninguna</option>
                     <option value="Universal por hijo">Universal por hijo</option>
-                    <option value="Universal por hijo con Discapacidad">Universal por hijo con Discapacidad</option>
+                    <option value="Universal por hijo con discapacidad">Universal por hijo con discapacidad</option>
                     <option value="Ayuda escolar anual">Ayuda escolar anual</option>
                 </select>
                 </div>
@@ -539,6 +539,54 @@
                 <input class="form-check-input" type="radio" name="domingo" id="flexRadioDefault24" value="False">
                 <label class="form-check-label" for="flexRadioDefault24">No trabaja</label>
               </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Profesor/a o terapeuta:</span>
+                <div class="form-group">
+                  <select class="form-control" id="profesorTerapeutaSelect" name="profesor_terapeuta_id" required>
+                    <option hidden selected disabled value=""></option>
+                    {% for equipo in equipos %}
+                      <option value="{{ equipo.id }}">{{ equipo.nombre }} {{ equipo.apellido }} ({{ equipo.puesto }})</option>
+                    {% endfor %}
+                  </select>
+                </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Conductor/a del Caballo:</span>
+                <div class="form-group">
+                  <select class="form-control" id="conductorSelect" name="conductor_id" required>
+                    <option hidden selected disabled value=""></option>
+                    {% for equipo in equipos %}
+                      <option value="{{ equipo.id }}">{{ equipo.nombre }} {{ equipo.apellido }} ({{ equipo.puesto }})</option>
+                    {% endfor %}
+                  </select>
+                </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Caballo:</span>
+                <div class="form-group">
+                  <select class="form-control" id="caballoSelect" name="caballo_id" required>
+                    <option hidden selected disabled value=""></option>
+                    {% for ecuestre in ecuestres %}
+                      <option value="{{ ecuestre.id }}">{{ ecuestre.nombre }} {{ ecuestre.raza }} ({{ ecuestre.sede_asignada }})</option>
+                    {% endfor %}
+                  </select>
+                </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Auxiliar de Pista:</span>
+                <div class="form-group">
+                  <select class="form-control" id="auxiliarDePistaSelect" name="auxiliar_pista_id" required>
+                    <option hidden selected disabled value=""></option>
+                    {% for equipo in equipos %}
+                      <option value="{{ equipo.id }}">{{ equipo.nombre }} {{ equipo.apellido }} ({{ equipo.puesto }})</option>
+                    {% endfor %}
+                  </select>
+                </div>
             </li>
           </ul>
         </div>
