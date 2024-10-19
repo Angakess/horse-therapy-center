@@ -210,11 +210,11 @@ def add_ecuestre():
             if equipo_designado:
                 ecuestre.assing_equipo(new_ecuestre, equipo_designado)
 
-        j_y_a_id = request.form.get("j_y_a_id")
-        if j_y_a_id:
-            j_y_a_designado = jya.get_jinete_amazona(j_y_a_id)
-            if j_y_a_designado:
-                ecuestre.assing_j_y_a(new_ecuestre,j_y_a_designado)
+        # j_y_a_id = request.form.get("j_y_a_id")
+        # if j_y_a_id:
+        #     j_y_a_designado = jya.get_jinete_amazona(j_y_a_id)
+        #     if j_y_a_designado:
+        #         ecuestre.assing_j_y_a(new_ecuestre,j_y_a_designado)
 
         flash("Ecuestre creado con éxito", "success")
     except ValueError as e:
