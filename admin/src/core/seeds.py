@@ -1,6 +1,16 @@
 import random
-from core import equipo,ecuestre,user,jya,situacionPrevisional,institucion,parienteTutor,trabajo,pago
-from src.core.user import Role, RolePermission, Permission
+from core import (
+    equipo,
+    ecuestre,
+    user,
+    jya,
+    situacionPrevisional,
+    institucion,
+    parienteTutor,
+    trabajo,
+    pago,
+)
+from core.user import Role, RolePermission, Permission
 from datetime import datetime
 
 
@@ -188,26 +198,26 @@ def run():
         propuestra_trabajo_institucional="Equitación",
         condicion="Regular",
         sede="CASJ",
-        lunes= True,
-        martes= False,
-        miercoles= True,
-        jueves= False,
-        viernes= True,
+        lunes=True,
+        martes=False,
+        miercoles=True,
+        jueves=False,
+        viernes=True,
         sabado=False,
-        domingo= True,
+        domingo=True,
     )
     trabajo2 = trabajo.create_trabajo(
         propuestra_trabajo_institucional="Actividades recreativas",
         condicion="De baja",
         sede="HLP",
-        lunes= False,
-        martes= True,
-        miercoles= False,
-        jueves= True,
-        viernes= False,
+        lunes=False,
+        martes=True,
+        miercoles=False,
+        jueves=True,
+        viernes=False,
         sabado=True,
-        domingo= False,
-    )        
+        domingo=False,
+    )
     #    VALID_ROLES = {"Técnica", "Ecuestre", "Voluntariado", "Administración"}
 
     role_admin = user.create_role(name="Administración")
@@ -275,9 +285,6 @@ def run():
 
         print(f"Usuario {alias} creado con rol {selected_role.name}")
 
-
-    
-
     # Asignar rol de voluntariado al segundo usuario
     user.assign_role(user3, role_tec)
     user.assign_role(user2, role_voluntario)
@@ -301,7 +308,7 @@ def run():
     trabajo.assing_conductor(trabajo1, equipo2)
     trabajo.assing_caballo(trabajo1, ecuestre1)
     trabajo.assing_auxiliar_pista(trabajo1, equipo3)
-    
+
     trabajo.assing_profesor(trabajo2, equipo2)
     trabajo.assing_conductor(trabajo2, equipo3)
     trabajo.assing_caballo(trabajo2, ecuestre2)
@@ -311,7 +318,6 @@ def run():
     jya.assing_trabajo(jya2, trabajo2)
 
     pago.assign_pago(equipo1, pago1)
-
 
     todosLosPermisos = [
         "users_index",
@@ -383,8 +389,7 @@ def run():
             "pago_enter_add",
             "pago_add",
         ],
-        "Voluntariado": [
-        ],
+        "Voluntariado": [],
         "Técnica": [
             "jya_index",
             "jya_get_profile",
@@ -410,14 +415,16 @@ def run():
     }
 
     def find_permission_by_name(permiso):
-        return Permission.query.filter_by(name = permiso).first()
+        return Permission.query.filter_by(name=permiso).first()
 
     def find_role_by_name(rol):
-        return Role.query.filter_by(name = rol).first()
+        return Role.query.filter_by(name=rol).first()
 
     for per in todosLosPermisos:
-        permission=user.create_permission(per)
-        
+        permission = user.create_permission(per)
+
     for rol in PERMISSIONS:
         for per in PERMISSIONS[rol]:
-            user.assign_permission((find_role_by_name(rol)).id,(find_permission_by_name(per)).id)
+            user.assign_permission(
+                (find_role_by_name(rol)).id, (find_permission_by_name(per)).id
+            )
