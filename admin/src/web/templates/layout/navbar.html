@@ -13,7 +13,7 @@
           {% if is_authenticated(session) %}
           {% if check_permission(session, "jya_index") %}
             <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Jinetes/Amazonas</a>
+            <a class="nav-link active" aria-current="page" href="{{ url_for('jya.index') }}">Jinetes/Amazonas</a>
           </li>
           {% endif %}
           {% if check_permission(session, "ecuestre_index") %}
@@ -26,12 +26,19 @@
             <a class="nav-link active" aria-current="page" href="{{ url_for('equipo.index') }}">Equipo</a>
           </li>
           {% endif %}
+          {% if check_permission(session, "pago_index") %}
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="{{ url_for('pago.index') }}">Pagos</a>
           </li>
+          {% endif %}
           {% if check_permission(session, "users_index") %}
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="{{ url_for('users.index') }}">Usuarios</a>
+          </li>
+          {% endif %}
+          {% if check_permission(session, "cobro_index") %}
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{{ url_for('cobro.index') }}">Cobros</a>
           </li>
           {% endif %}
           {% endif %}
