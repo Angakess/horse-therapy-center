@@ -1,11 +1,10 @@
 import random
-from core import equipo,ecuestre,user,jya,situacionPrevisional,institucion,parienteTutor,trabajo,pago
+from core import equipo,ecuestre,user,jya,situacionPrevisional,institucion,parienteTutor,trabajo,pago,cobro 
 from src.core.user import Role, RolePermission, Permission
 from datetime import datetime
 
 
 def run():
-
     pago1 = pago.create_pago(
         monto=10000,
         fecha=datetime(2022, 1, 1),
@@ -207,7 +206,7 @@ def run():
         viernes= False,
         sabado=True,
         domingo= False,
-    )        
+    )
     #    VALID_ROLES = {"Técnica", "Ecuestre", "Voluntariado", "Administración"}
 
     role_admin = user.create_role(name="Administración")
@@ -310,7 +309,7 @@ def run():
     jya.assing_trabajo(jya1, trabajo1)
     jya.assing_trabajo(jya2, trabajo2)
 
-    pago.assign_pago(equipo1, pago1)
+    #pago.assign_pago(equipo1, pago1)
 
 
     todosLosPermisos = [
@@ -421,3 +420,32 @@ def run():
     for rol in PERMISSIONS:
         for per in PERMISSIONS[rol]:
             user.assign_permission((find_role_by_name(rol)).id,(find_permission_by_name(per)).id)
+
+    medioDePago1 = cobro.create_medio_pago(name = "Efectivo")
+    medioDePago2 = cobro.create_medio_pago(name = "Tarjeta de débito")
+    medioDePago3 = cobro.create_medio_pago(name = "Tarjeta de crédito")
+
+    cobro1 = cobro.create_cobro(
+        monto = 100,
+        fecha=datetime(2024, 3, 3),
+        observaciones = "Te observo 1",
+        medio_pago = medioDePago1,
+        jya = jya1,
+        equipo = equipo1
+    )
+    cobro2 = cobro.create_cobro(
+        monto = 2000,
+        fecha=datetime(2021, 7, 3),
+        observaciones = "Te observo 2",
+        medio_pago = medioDePago2,
+        jya = jya2,
+        equipo = equipo2
+    )
+    cobro3 = cobro.create_cobro(
+        monto = 100132,
+        fecha=datetime(2026, 3, 3),
+        observaciones = "Te observo 3",
+        medio_pago = medioDePago3,
+        jya = jya1,
+        equipo = equipo3
+    )

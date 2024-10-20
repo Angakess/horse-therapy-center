@@ -1,0 +1,43 @@
+<form
+      action="{{ url_for('cobro.index') }}"
+      method="GET"
+      class="mb-3 container"
+    >
+      <input type="hidden" name="order" value="{{order}}">
+      <div class="row align-items-end">
+        <div class="col">
+          <label class="">Fecha mínima</label>
+          <input
+            name="fechamin"
+            value="{% if fecha_min %}{{fecha_min.strftime('%Y-%m-%d')}}{% endif %}"
+            type="date"
+            class="form-control"
+            placeholder="Fecha minima"
+          />
+        </div>
+        <div class="col">
+          <label class="">Fecha máxima</label>
+          <input
+            name="fechamax"
+            value="{% if fecha_max %}{{fecha_max.strftime('%Y-%m-%d')}}{% endif %}"
+            type="date"
+            class="form-control"
+            placeholder="Fecha maxima"
+          />
+        </div>
+        <div class="col d-flex justify-content-around">
+          <button type="submit" class="btn btn-outline-lblue">Buscar</button>
+          <a
+            href="{{ url_for('cobro.index') }}"
+            class="btn btn-outline-secondary"
+            >Reset</a
+          >
+          <a
+            class="btn btn-outline-primary btn-outline-yellow"
+            onclick=window.location.href="{{url_for('cobro.enter_add')}}";
+          >
+            Agregar cobro +
+          </a>
+        </div>
+      </div>
+    </form>

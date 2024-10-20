@@ -86,6 +86,8 @@ class JinetesAmazonas(db.Model):
 
     archivos = db.relationship ("Archivo_JineteAmazonas", back_populates = "JineteAmazonas")
 
+    cobros = db.relationship("Cobro", back_populates="jya")
+
 
 def list_jinetes_amazonas():
     jinetes_amazonas = JinetesAmazonas.query.all()
