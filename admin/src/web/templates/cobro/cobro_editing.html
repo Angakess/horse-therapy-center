@@ -18,7 +18,7 @@
             Observaciones
           </h2>
           <div class="input-group">
-            <textarea class="form-control" name="desc" id="desc-id" aria-label="With textarea" required>{{observaciones}}</textarea>
+            <textarea class="form-control" name="observaciones" id="observaciones-id" aria-label="With textarea" required>{{observaciones}}</textarea>
             <div class="invalid-feedback">
               Ingrese observaciones
             </div>
@@ -50,18 +50,17 @@
               </li>
           </ul>
         </div>
-        <!--
-        <div class="row" id="beneficiario-container">
+        <div class="row" id="jya-container">
             <div class="col">
-              <h2 class="equipo-profile-title text-secondary">Beneficiario</h2>
+              <h2 class="equipo-profile-title text-secondary">Jinetes y Amazonas</h2>
             </div>
             <div class="col-auto">
               {%include 'cobro/components/cobro_pagination_edit.html'%}
             </div>
             <ul class="list-group list-unstyled container">
-                {%for persona in empleados%}
+                {%for persona in jyas%}
                 <div class="form-check d-flex align-items-center">
-                  <input value="{{persona.id}}" {%if info.beneficiario.id == persona.id %}checked {%endif%} class="form-check-input" type="radio" name="chosen-beneficiario" id="radio-{{persona.id}}">
+                  <input value="{{persona.id}}" {%if info.jya.id == persona.id %}checked {%endif%} class="form-check-input" type="radio" name="chosen-jya" id="radio-{{persona.id}}">
                   <label class="form-check-label form-control ms-2" for="radio-{{persona.id}}">
                     {{persona.nombre}} {{persona.apellido}}
                   </label>
@@ -69,7 +68,24 @@
                 {%endfor%}
             </ul>
         </div>
-        -->
+        <div class="row" id="equipo-container">
+          <div class="col">
+            <h2 class="equipo-profile-title text-secondary">Equipo</h2>
+          </div>
+          <div class="col-auto">
+            {%include 'cobro/components/cobro_pagination_edit.html'%}
+          </div>
+          <ul class="list-group list-unstyled container">
+              {%for persona in empleados%}
+              <div class="form-check d-flex align-items-center">
+                <input value="{{persona.id}}" {%if info.equipo.id == persona.id %}checked {%endif%} class="form-check-input" type="radio" name="chosen-equipo" id="radio-{{persona.id}}">
+                <label class="form-check-label form-control ms-2" for="radio-{{persona.id}}">
+                  {{persona.nombre}} {{persona.apellido}}
+                </label>
+              </div>
+              {%endfor%}
+          </ul>
+      </div>
         
       </div>
       <div class="col-4 d-flex justify-content-end align-items-start">
