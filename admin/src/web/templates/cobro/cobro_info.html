@@ -78,18 +78,21 @@
                 >Fecha de cobro:</span
               >{{info.fecha.strftime('%d/%m/%Y')}}
             </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Medio de pago:</span
+              >{{info.medio_pago.name}}
+            </li>
           </ul>
         </div>
-        <!--
-        {%if info.beneficiario %}
         <div class="col">
           <div class="row">
             <div class="col-auto">
-              <h2 class="equipo-profile-title text-secondary">Beneficiario</h2>
+              <h2 class="equipo-profile-title text-secondary">Jinete y Amazonas</h2>
             </div>
             <div class="col-auto">
               <button class="btn btn-outline-lblue" 
-                onclick=window.location.href="{{ url_for('equipo.get_profile', id=info.beneficiario.id) }}";  
+                onclick=window.location.href="{{ url_for('jya.get_profile', id=info.jya.id) }}";  
               >
                 Ver perfil
                 <svg
@@ -111,22 +114,58 @@
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
                 >Nombre:</span
-              >{{info.beneficiario.nombre}} {{info.beneficiario.apellido}}
-            </li>
-            <li class="mb-2 mb-xl-3 display-28">
-              <span class="display-26 text-primary me-2 font-weight-600"
-                >Email:</span
-              >{{info.beneficiario.email}}
+              >{{info.jya.nombre}} {{info.jya.apellido}}
             </li>
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
                 >Teléfono:</span
-              >{{info.beneficiario.tel}}
+              >{{info.jya.tel}}
             </li>
           </ul>
         </div>
-        {%endif%}
-        -->
+        <div class="col">
+          <div class="row">
+            <div class="col-auto">
+              <h2 class="equipo-profile-title text-secondary">Equipo que realizó el cobro</h2>
+            </div>
+            <div class="col-auto">
+              <button class="btn btn-outline-lblue" 
+                onclick=window.location.href="{{ url_for('equipo.get_profile', id=info.equipo.id) }}";  
+              >
+                Ver perfil
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-person-fill"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <ul class="list-unstyled mb-1-9">
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Nombre:</span
+              >{{info.equipo.nombre}} {{info.equipo.apellido}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Teléfono:</span
+              >{{info.equipo.email}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Teléfono:</span
+              >{{info.equipo.tel}}
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>

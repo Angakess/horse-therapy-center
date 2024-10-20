@@ -11,11 +11,11 @@ bprint = Blueprint("cobro", __name__, url_prefix="/cobro")
 @bprint.get("/")
 def index():
     """Página principal que muestra la lista de cobros con paginación, filtro por fechas"""
-    #if not is_authenticated(session):
-    #    return abort(401)
+    if not is_authenticated(session):
+        return abort(401)
 
-    #if not check_permission(session, "cobro_index"):
-    #    return abort(403)
+    if not check_permission(session, "cobro_index"):
+        return abort(403)
     amount_per_page = 10
     try:
         page = int(request.args.get("pag", "1"))
@@ -60,16 +60,16 @@ def get_info(id):
     if not is_authenticated(session):
         return abort(401)
 
-    if not check_permission(session, "pago_get_info"):
+    if not check_permission(session, "cobro_get_info"):
         return abort(403)
-    """Muestra la información detallada de un pago específico."""
+    """Muestra la información detallada de un cobro específico."""
     try:
-        chosen_pago = pago.get_one(id)
+        chosen_cobro = cobro.get_one(id)
     except ValueError as e:
         flash(str(e), "danger")
-        return redirect(url_for("pago.index"))
+        return redirect(url_for("cobro.index"))
 
-    return render_template("pago/pago_info.html", info=chosen_pago)
+    return render_template("cobro/cobro_info.html", info=chosen_cobro)
 
 
 @bprint.get("<id>/edit")

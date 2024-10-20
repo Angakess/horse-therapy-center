@@ -352,6 +352,14 @@ def run():
         "pago_delete",
         "pago_enter_add",
         "pago_add",
+        "cobro_index",
+        "cobro_get_info",
+        "cobro_enter_edit",
+        "cobro_save_edit",
+        "cobro_delete",
+        "cobro_enter_add",
+        "cobro_add",
+
     ]
     PERMISSIONS = {
         "Administración": [
@@ -381,6 +389,13 @@ def run():
             "pago_delete",
             "pago_enter_add",
             "pago_add",
+            "cobro_index",
+            "cobro_get_info",
+            "cobro_enter_edit",
+            "cobro_save_edit",
+            "cobro_delete",
+            "cobro_enter_add",
+            "cobro_add",
         ],
         "Voluntariado": [
         ],
