@@ -6,7 +6,7 @@ def not_found_error(e):
         "error_name": "404 Not Found Error",
         "error_description": "La url a la que quiere acceder no existe",
     }
-    return render_template("error.html", **kwargs), 
+    return render_template("error.html", **kwargs), 404
     
 def unauthorized(e):
     kwargs = {
@@ -14,3 +14,10 @@ def unauthorized(e):
         "error_description": "usted no tiene acceso a esta sección",
     }
     return render_template("error.html", **kwargs), 401
+
+def forbidden(e):
+    kwargs = {
+        "error_name": "403 Forbidden",
+        "error_description": "usted no tiene acceso a esta sección",
+    }
+    return render_template("error.html", **kwargs), 403

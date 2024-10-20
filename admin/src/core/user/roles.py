@@ -17,7 +17,11 @@ class Role(db.Model):
 
     @staticmethod
     def validate_role_name(name):
-        """Valida que el nombre del rol esté en la lista de roles permitidos."""
+        """
+            Valida que el nombre del rol esté en la lista de roles permitidos.
+            Parameters: name(string)
+            Raises: ValueError si el rol no es válido.
+        """
         if name not in Role.VALID_ROLES:
             raise ValueError(f"El rol '{name}' no es valido. Los roles permitidos son: {', '.join(Role.VALID_ROLES)}.")
 
@@ -31,12 +35,18 @@ class RolePermission(db.Model):
     permission_id = db.Column(db.Integer, db.ForeignKey('permissions.id'), primary_key=True)
     permission = db.relationship("Permission", back_populates="role_permissions")
 
+    def __init__(self, role_id, permission_id):
+        self.role_id= role_id
+        self.permission_id= permission_id
+
 class Permission(db.Model):
     __tablename__ = 'permissions'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False, unique=True)
     role_permissions = db.relationship('RolePermission', back_populates='permission')
 
+    def __init__(self, name):
+        self.name = name
 
     def __repr__(self):
         return f'<Permission #{self.id} name="{self.name}">'

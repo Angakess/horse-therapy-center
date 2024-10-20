@@ -1,36 +1,15 @@
 from src.core.bcrypt import bcrypt
+from src.core.user import User, Role, RolePermission, Permission
 
-users = {
-    "pepe": bcrypt.generate_password_hash("argento").decode("utf-8"),
-    "homero": bcrypt.generate_password_hash("simpson").decode("utf-8")
-}
-
-def user_exists(usermail):
-    try:
-        asd = users[usermail]
-        print(asd)
-        return True
-    except:
-        print(users[usermail])
-        return False
-    
-
-def find_user_by_email(usermail, password):
-    #A ESTO DESP HAY QUE CAMBIARLO CON LA BASE DE DATOS
-    if user_exists(usermail):
-        class User:
-            def __init__(self, usermail, password):
-                self.usermail = usermail
-                self.password = password
-        user = User(usermail, users[usermail])
-        return user
-    else:
-        return None
+def find_user_by_email(usermail):
+    return User.query.filter_by(email = usermail).first()
 
 def check_user(usermail, password):
-    user = find_user_by_email(usermail, password)
-    #checkeo la contraseña usando bcrypt para hashearla
-    if (user and bcrypt.check_password_hash(user.password,password)):
-        return user
+    '''
+    Si el usuario existe y las contraseñas coinciden devuelve el usuario, sino devuelve None
+    '''
+    usuario = find_user_by_email(usermail)
+    if (usuario and bcrypt.check_password_hash(usuario.password,password)):
+        return usuario
     else:
         return None

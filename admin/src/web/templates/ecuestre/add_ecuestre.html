@@ -1,0 +1,190 @@
+{% extends "layout.html" %} {% block title %} Agregando ecuestre{% endblock %}
+{% block head %} {{ super() }} {% endblock %} {% block content %}
+
+<!--Nombre
+Fecha Nacimiento
+Sexo
+Raza
+Pelaje
+Compra/Donación
+Fecha de Ingreso
+Sede Asignada
+Asociar Entrenadores y Conductores (son miembros del Equipo dados de alta en el sistema)
+Tipo de J&A Asignados-->
+
+<div class="container">
+  <form
+    id="edit-form"
+    class="needs-validation"
+    novalidate
+    action="{{url_for('ecuestre.add_ecuestre')}}"
+    method="POST"
+  >
+    <div class="row">
+      <div class="col">
+        <div class="row">
+          <h2 class="equipo-profile-title text-secondary">
+            Información Ecuestre
+          </h2>
+          <ul class="list-unstyled mb-1-9">
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Nombre:</span
+              ><input id="nombre-input" name="nombre" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese un nombre.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Raza:</span
+              ><input id="raza-input" name="raza" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese una raza.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Fecha nacimiento:</span
+              ><input id="fecha_nacimiento-input" type = "date" name="fecha_nacimiento" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese una fecha de nacimiento.
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Sexo:</span>
+                <div class="row">
+                  <div class="col-6">
+                    <select name="sexo" class="form-control">
+                      <option value="Macho">Macho</option>
+                      <option value="Hembra">Hembra</option>                                  
+                    </select>
+                  </div>
+                </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Tipo adquisición:</span>
+              <div class="row">
+                <div class="col-6">
+                  <select name="tipo_adquisicion" class="form-control">
+                    <option value="Compra">Compra</option>
+                    <option value="Donación">Donación</option>
+                  </select>
+                </div>
+              </div>
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Pelaje:</span
+              ><input id="pelaje-input" name="pelaje" class="form-control" required>
+              <div class="invalid-feedback">
+                Ingrese un tipo de pelaje.
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="row">
+          <h2 class="equipo-profile-title text-secondary">Datos Laborales</h2>
+          <ul class="list-unstyled mb-1-9">
+            <li class="mb-2 mb-xl-3 display-28">
+                <span class="display-26 text-primary me-2 font-weight-600"
+                  >Fecha de ingreso:</span
+                ><input name="fecha_ingreso" type="date" class="form-control" required>
+                <div class="invalid-feedback">
+                  Ingrese una fecha.
+                </div>
+              </li>
+              <li class="mb-2 mb-xl-3 display-28">
+                <span class="display-26 text-primary me-2 font-weight-600"
+                  >Sede asignada:</span
+                ><input id="sede_asignada-input" name="sede_asignada" class="form-control" required>
+                <div class="invalid-feedback">
+                  Ingrese una sede.
+                </div>
+              </li>
+            <li class="mb-2 mb-xl-3 display-28">
+                <span class="display-26 text-primary me-2 font-weight-600"
+                  >Entrenador/Conductor:</span
+                >
+                <div class="form-group">
+                    <select class="form-control" id="equipoSelect" name="equipo" required>
+                      <option hidden selected disabled value=""></option>
+                      {% for equipo in equipos %}
+                        <option value="{{ equipo.id }}">{{ equipo.nombre }} {{ equipo.apellido }} ({{ equipo.puesto }})</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                <div class="invalid-feedback">
+                  Ingrese un entrenador o conductor.
+                </div>
+              </li>
+              <li class="mb-2 mb-xl-3 display-28">
+                <span class="display-26 text-primary me-2 font-weight-600"
+                  >Jinete/Amazona:</span
+                >
+                <div class="form-group">
+                    <select class="form-control" id="jineteSelect" name="j_y_a" required>
+                      <option hidden selected disabled value=""></option>
+                      {% for ja in jya %}
+                        <option value="{{ ja.id }}">{{ ja.nombre }} {{ ja.apellido }} ({{ ja.dni }})</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                <div class="invalid-feedback">
+                  Ingrese un Jinete/Amazona.
+                </div>
+              </li>
+          </ul>
+        </div> 
+      </div>
+      <div class="col-4 d-flex justify-content-end align-items-start">
+        <button
+          class="btn btn-outline-primary mx-2 align-self-start"
+          type="submit"
+        >
+          Confirmar
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy" viewBox="0 0 16 16">
+            <path d="M11 2H9v3h2z"/>
+            <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z"/>
+          </svg>
+        </button>
+        <button class="btn btn-outline-secondary mx-2 align-self-start" onclick="window.history.back();">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+  function validateForm(){
+    'use strict'
+
+    const form = document.getElementById("edit-form")
+  
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+
+      form.classList.add('was-validated')
+    }, false)
+
+    const emailInput = document.getElementById('email-input');
+    emailInput.addEventListener('input', function() {
+      if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(this.value)) {
+        this.setCustomValidity('Ingrese un email válido.');
+      } else {
+        this.setCustomValidity(''); // Resetear el mensaje si es válido
+      }
+    });
+  }
+
+  validateForm();
+
+</script>
+
+{% endblock %}

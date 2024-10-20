@@ -1,8 +1,9 @@
 from core.database import db
-from sqlalchemy import Enum
+from sqlalchemy import Enum,String, cast, or_
 from sqlalchemy import asc
 from sqlalchemy import desc
 from datetime import datetime
+from .archivos import Archivo_JineteAmazonas
 
 class JinetesAmazonas(db.Model):
     __tablename__ = 'JinetesYAmazonas'
@@ -18,12 +19,13 @@ class JinetesAmazonas(db.Model):
     contacto_emergencia = db.Column(db.Text, nullable=False)
     tel = db.Column(db.Text, nullable=False)
     becado = db.Column(db.Boolean, nullable=False)
-    porcentaje_beca = db.Column(db.Double, nullable=False)
+    porcentaje_beca = db.Column(db.Double, nullable=True)
     profesionales_atienden = db.Column(db.Text, nullable=False)
     certificado_discapacidad = db.Column(db.Boolean, nullable=False)
     asignacion_familiar = db.Column(db.Boolean, nullable=False)
 
     tipo_asignacion_familiar = db.Column(db.Enum(
+        'Ninguna',
         'Universal por hijo',
         'Universal por hijo con discapacidad',
         'Ayuda escolar anual',
@@ -82,10 +84,18 @@ class JinetesAmazonas(db.Model):
     trabajo_id = db.Column(db.Integer, db.ForeignKey("TrabajoInstitucion.id"))
     trabajo = db.relationship("Trabajo", back_populates="j_y_a")
 
+    archivos = db.relationship ("Archivo_JineteAmazonas", back_populates = "JineteAmazonas")
+
 
 def list_jinetes_amazonas():
     jinetes_amazonas = JinetesAmazonas.query.all()
     return jinetes_amazonas
+
+def get_jinete_amazona(id):
+    jinete_amazona = JinetesAmazonas.query.get(id)
+    if not jinete_amazona:
+        raise ValueError("No se encontró al Jinete/Amazona seleccionado")
+    return jinete_amazona
 
 def list_jinetes_amazonas_nombre_asc():
     jinetes_amazonas = JinetesAmazonas.query.order_by(asc(JinetesAmazonas.nombre)).all()
@@ -104,13 +114,28 @@ def list_jinetes_amazonas_apellido_desc():
     return jinetes_amazonas
 
 def create_jinetes_amazonas(**kwargs):
+    if kwargs.get('porcentaje_beca') == '':
+        kwargs['porcentaje_beca'] = None
     jinetes_amazonas = JinetesAmazonas(**kwargs)
     db.session.add(jinetes_amazonas)
     db.session.commit()
     return jinetes_amazonas
 
-def delete_jinetes_amazonas(jinetes_amazonas):
-    db.session.delete(jinetes_amazonas)
+def delete_jinetes_amazonas(id):
+    jinetes_amazonas = JinetesAmazonas.query.get(id)
+    if jinetes_amazonas:
+        db.session.delete(jinetes_amazonas)
+        db.session.commit()
+    else:
+        pass
+
+def edit_jya(id,**data):
+    if data.get('porcentaje_beca') == '':
+        data['porcentaje_beca'] = None
+    chosen_jya = JinetesAmazonas.query.get(id)
+    for key, value in data.items():
+        if hasattr(chosen_jya, key):
+            setattr(chosen_jya, key, value)
     db.session.commit()
 
 def jinetes_amazonas_by_name(nombre_jinetes_amazonas):
@@ -128,6 +153,31 @@ def jinetes_amazonas_by_dni(dni_jinetes_amazonas):
 def jinetes_amazonas_by_profesionales(profesionales_jinetes_amazonas):
     jinetes_amazonas = db.select(JinetesAmazonas).filter_by(profesionales = profesionales_jinetes_amazonas)
     return jinetes_amazonas
+
+def list_jinetes_amazonas_page(query, page, amount_per_page, order, by):
+    sort_column = {
+        "nombre": JinetesAmazonas.nombre,
+        "apellido": JinetesAmazonas.apellido,
+        "dni": JinetesAmazonas.dni,
+        "profesionales_atienden": JinetesAmazonas.profesionales_atienden,
+    }.get(by, JinetesAmazonas.id)
+
+    order_by = asc(sort_column) if order == "asc" else desc(sort_column)
+
+    jinetesamazonas = (
+        JinetesAmazonas.query.filter(
+            or_(
+                JinetesAmazonas.nombre.like(f"%{query}%"),
+                JinetesAmazonas.apellido.like(f"%{query}%"),
+                cast(JinetesAmazonas.dni, String).like(f"%{query}%"),
+                JinetesAmazonas.profesionales_atienden.like(f"%{query}%"),
+            )
+        )
+        .order_by(order_by)
+        .paginate(page=page, per_page=amount_per_page)
+    )
+
+    return jinetesamazonas
 
 def assing_situacion_previsional(jya,situacion_previsional):
     jya.situacion_previsional = situacion_previsional
@@ -152,3 +202,36 @@ def assing_trabajo(jya,trabajo):
     db.session.add(jya)
     db.session.commit()
     return jya
+
+def create_archivo(**kwargs):
+    archivo = Archivo_JineteAmazonas(**kwargs)
+    db.session.add(archivo)
+    db.session.commit()
+    return archivo
+
+
+def assign_archivo(jya, archivo):
+    jya.archivos.append(archivo)
+    db.session.add(jya)
+    db.session.commit()
+    return archivo
+
+
+def get_archivo(id):
+    archivo = Archivo_JineteAmazonas.query.get(id)
+    if not archivo:
+        raise(ValueError("No se encontró el archivo solicitado"))
+    return archivo
+
+
+def delete_archivo(id):
+    archivo = Archivo_JineteAmazonas.query.get(id)
+    if not archivo:
+        raise(ValueError("No se encontró el archivo solicitado para borrar"))
+    else:
+        db.session.delete(archivo)
+        db.session.commit()
+
+def get_total_jinetes_amazonas():
+    total = JinetesAmazonas.query.filter().count()
+    return total

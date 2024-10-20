@@ -1,12 +1,24 @@
 import string
 
 from sqlalchemy import and_, or_
+import bcrypt
 from core.database import db
 from core.user.users import User
-from core.user.roles import Role
+from core.user.roles import Permission, Role, RolePermission
 
+
+def get_permissions(user):
+    user_role = user.role.name
+    a = (db.session.query(Permission.name)
+    .join(RolePermission)
+    .join(Role)
+    .filter(Role.name == user_role)
+    .all())
+    flat_permisos = tuple(item for sublist in a for item in sublist)
+    return flat_permisos
 
 def list_users():
+    '''Función que devuelve una lista de usuarios'''
     users = User.query.all()
     return users
 
@@ -14,17 +26,29 @@ def list_users():
 
 
 def create_user(**kwargs):
+    '''
+        Función que crea un usuario válido y hashea su contraseña
+        Parameters: kwargs(parametros para crear user)
+        Returns: user
+        Raises: ValueError propagado por validate_unique_email si el mail no es único
+    '''
     email = kwargs.get('email')
     User.validate_unique_email(email)
+    password = kwargs.get('password')
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    kwargs['password'] = hashed_password.decode('utf-8')
+
     user = User(**kwargs)
     db.session.add(user)
     db.session.commit()
     return user
 
 def delete_user(user_id):
-    """
-    Baja fisica de un usuario del sistema, consultar si no sería mejor una lógica
-    """
+    '''
+        Función que realiza baja física de un usuario del sistema
+        Parameters: user_id(int)
+        Raises: ValueError si el usuario no existe o es sys_admin
+    '''
     
     user = User.query.get(user_id)
     if not user:
@@ -35,6 +59,11 @@ def delete_user(user_id):
     db.session.commit()
 
 def update_user(user_id,**kwargs):
+    '''
+        Función que realiza una actualización del usuario
+        Parameters: kwargs(parametros a modificar de user), user_id(int)
+        Returns: user
+    '''
     user = User.query.get(user_id)
 
     for key, value in kwargs.items():
@@ -46,10 +75,13 @@ def update_user(user_id,**kwargs):
 
 
 def search_users(email=None, role=None, active=None, page=1, per_page=25,sort_by='email', order='asc'):
-    """Funcion que busca usuarios por cualquiera de los 3 parametros recibidos"""
+    '''
+        Función que busca usuarios por 3 parametros(mail,role y active) pagina y ordena el resultado
+        Parameters: email(string), role(string), active(string), page(int), per_page(int), sort_by(string), order(string)
+        Returns: users
+    '''
     users_query = User.query
     
-
     if email:
         users_query = users_query.filter(User.email.ilike(f"%{email}%"))
 
@@ -72,6 +104,12 @@ def search_users(email=None, role=None, active=None, page=1, per_page=25,sort_by
 
 
 def create_role(**kwargs):
+    '''
+        Función que crea un rol válido 
+        Parameters: kwargs(parametros para crear rol)
+        Returns: rol
+        Raises: ValueError propagado por validate_role_name si el role no está permitido
+    '''
     role_name = kwargs.get('name')
     Role.validate_role_name(role_name)
     role = Role(**kwargs)
@@ -81,11 +119,17 @@ def create_role(**kwargs):
 
 
 def assign_role(user, role):
+    '''Funcion que asigna un rol a un usuario ya validados'''
     user.role = role
     db.session.add(user)
     db.session.commit()
 
 def delete_role(role_id):
+    '''
+        Función que borra un rol fisicamente
+        Parameters: role_id(int)
+        Raises: ValueError si el rol no existe o tiene usuarios asociados
+    '''
     role = Role.query.get(role_id)
     
     if not role:
@@ -99,6 +143,10 @@ def delete_role(role_id):
 
 
 def unassign_role(user):
+    '''
+    Funcion que desasigna un rol a un usuario 
+    Raise: ValueError si el usuario no tiene rol
+    '''
     if not user.role:
         raise ValueError("El usuario no tiene rol")
     
@@ -107,5 +155,21 @@ def unassign_role(user):
     db.session.commit()
 
 def list_roles():
+    ''''Función que devuelve una lista de roles'''
     roles = Role.query.all()
     return roles
+
+
+def create_permission(name):
+    #agregar validación(?
+    permission = Permission(name)
+    db.session.add(permission)
+    db.session.commit()
+    return permission
+
+
+
+def assign_permission(role, permission):
+    permission_role = RolePermission(role,permission)
+    db.session.add(permission_role)
+    db.session.commit()

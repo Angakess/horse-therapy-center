@@ -28,3 +28,20 @@ def create_parentesco_tutor(**kwargs):
     db.session.add(parentesco_tutor)
     db.session.commit()
     return parentesco_tutor
+
+def get_responsable(id):
+    responsable = Familiar_tutor.query.filter_by(id=id).first()
+    if not responsable:
+        raise ValueError("No se encontró al responsable seleccionado")
+    return responsable
+
+def delete_responsable(id):
+    responsable = Familiar_tutor.query.get(id)
+    if responsable:
+        db.session.delete(responsable)
+        db.session.commit()
+    else:
+        raise ValueError("No se encontro responsable a borrar")
+    
+def existe(dni):
+    return Familiar_tutor.query.filter_by(dni=dni).first()

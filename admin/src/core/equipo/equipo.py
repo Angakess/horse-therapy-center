@@ -1,5 +1,6 @@
 from datetime import datetime
 from core.database import db
+from core.relacion_equipo_ecuestre import equipo_ecuestre
 
 
 class Equipo(db.Model):
@@ -24,7 +25,8 @@ class Equipo(db.Model):
     activo = db.Column(db.Boolean, nullable=False, default=True)
     borrado = db.Column(db.Boolean, nullable=False, default=False)
 
-    equipos = db.relationship("Ecuestre", back_populates="equipo")
+    ecuestres = db.relationship("Ecuestre",secondary=equipo_ecuestre,back_populates="equipos",lazy='dynamic')
+
     profesor_terapeuta_trabajo = db.relationship(
         "Trabajo",
         back_populates="profesor_terapeuta",
@@ -42,6 +44,8 @@ class Equipo(db.Model):
     inserted_at = db.Column(db.DateTime, nullable=True, default=datetime.now)
 
     archivos = db.relationship("Archivo", back_populates="equipo")
+
+    pagos = db.relationship("Pago", back_populates="beneficiario")
 
     def __repr__(self):
         return f'<Equipo #{self.id} nombre="{self.nombre} {self.apellido}">'

@@ -1,13 +1,36 @@
 from os import fstat
-from flask import flash, redirect, render_template, request, url_for, current_app
+from flask import (
+    flash,
+    redirect,
+    render_template,
+    request,
+    url_for,
+    current_app,
+    session,
+    abort,
+)
 from core import equipo
 from flask import Blueprint
+from src.web.helpers.auth import is_authenticated, check_permission
 
 bprint = Blueprint("equipo", __name__, url_prefix="/equipo")
 
 
 @bprint.get("/")
 def index():
+
+    """
+    Función que muestra la lista paginada de equipos y permite búsqueda.
+    Parameters: Ninguno (Los parámetros se obtienen de la query de la URL).
+    Returns: Renderiza la plantilla HTML para mostrar la lista de equipos.
+    """
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "equipo_index"):
+        return abort(403)
+
+
     amount_per_page = 10
 
     query = request.args.get("query", "")
@@ -31,6 +54,16 @@ def index():
 
 @bprint.post("/toggle-active")
 def toggle_activate():
+    """
+    Función que activa o desactiva un equipo seleccionado.
+    Parameters: Ninguno (Los parámetros se obtienen del formulario).
+    Returns: Redirige a la página correspondiente según el origen de la solicitud.
+    """
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "equipo_toggle_activate"):
+        return abort(403)
     chosen_id = request.form["id"]
     from_page = request.form["from"]
     try:
@@ -55,13 +88,21 @@ def toggle_activate():
 
 @bprint.get("/<id>")
 def get_profile(id):
+    """
+    Función que muestra el perfil de un equipo por su ID.
+    Parameters: id (int), ID del equipo.
+    Returns: Renderiza la plantilla HTML del perfil del equipo.
+    """
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "equipo_get_profile"):
+        return abort(403)
     try:
         chosen_equipo = equipo.get_one(id)
     except ValueError as e:
         flash(str(e), "danger")
-        return redirect(
-            url_for("equipo.index")
-        )
+        return redirect(url_for("equipo.index"))
 
     return render_template(
         "equipo/profile.html", info=chosen_equipo, archivos=chosen_equipo.archivos
@@ -70,6 +111,16 @@ def get_profile(id):
 
 @bprint.get("/<id>/edit")
 def enter_edit(id):
+    """
+    Función que muestra el formulario para editar un equipo.
+    Parameters: id (int), ID del equipo.
+    Returns: Renderiza la plantilla HTML para la edición del equipo.
+    """
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "equipo_enter_edit"):
+        return abort(403)
     try:
         chosen_equipo = equipo.get_one(id)
         return render_template(
@@ -90,6 +141,16 @@ def enter_edit(id):
 
 @bprint.post("/<id>/edit")
 def save_edit(id):
+    """
+    Función que guarda los cambios realizados en el perfil de un equipo.
+    Parameters: id (int), ID del equipo.
+    Returns: Redirige a la página de perfil del equipo después de guardar los cambios.
+    """
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "equipo_save_edit"):
+        return abort(403)
     new_data = {
         "nombre": request.form["nombre"].capitalize(),
         "apellido": request.form["apellido"].capitalize(),
@@ -159,7 +220,7 @@ def save_edit(id):
                 archivo_id
             )  # Obtener el archivo de la base de datos
             client.remove_object(
-                "grupo28", f"{archivo.id}-{archivo.nombre}"
+                "grupo28", f"/equipo/{archivo.id}-{archivo.nombre}"
             )  # Eliminar de MinIO
             equipo.delete_archivo(archivo_id)  # Eliminar de la base de datos
     except ValueError as e:
@@ -172,11 +233,30 @@ def save_edit(id):
 
 @bprint.get("/agregar")
 def enter_add():
+    """
+    Función que muestra el formulario para agregar un nuevo equipo.
+    Returns: Renderiza la plantilla HTML para agregar un equipo.
+    """
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "equipo_enter_add"):
+        return abort(403)
     return render_template("equipo/add_equipo.html")
 
 
 @bprint.post("/agregar")
 def add_equipo():
+    """
+    Función que crea un nuevo equipo con los datos proporcionados.
+    Parameters: Ninguno (Los datos se obtienen del formulario).
+    Returns: Redirige al perfil del equipo creado.
+    """
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "equipo_add_equipo"):
+        return abort(403)
     new_data = {
         "nombre": request.form["nombre"].capitalize(),
         "apellido": request.form["apellido"].capitalize(),
@@ -208,6 +288,16 @@ def add_equipo():
 
 @bprint.get("/<id>/descargar-archivo")
 def download_archivo(id):
+    """
+    Función que permite descargar un archivo asociado a un equipo.
+    Parameters: id (int), ID del archivo.
+    Returns: Redirige a la URL generada para la descarga del archivo.
+    """
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "equipo_download_archivo"):
+        return abort(403)
     try:
         chosen_archivo = equipo.get_archivo(id)
         client = current_app.storage.client
@@ -221,19 +311,28 @@ def download_archivo(id):
     return redirect(minio_url)
 
 
-@bprint.post("/borrar")
-def delete():
-    chosen_id = request.form["id"]
+@bprint.post("/<id>/borrar")
+def delete(id):
+    """
+    Función que elimina un equipo y sus archivos asociados.
+    Parameters: id (int), ID del equipo.
+    Returns: Redirige a la lista de equipos tras la eliminación.
+    """
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "equipo_delete"):
+        return abort(403)
     try:
-        chosen_equipo = equipo.delete_equipo(chosen_id)
+        chosen_equipo = equipo.delete_equipo(id)
         archivos_asociados = chosen_equipo.archivos
         client = current_app.storage.client
         for archivo in archivos_asociados:
-            client.remove_object("grupo28",f"{archivo.id}-{archivo.nombre}")
+            client.remove_object("grupo28", f"/equipo/{archivo.id}-{archivo.nombre}")
             equipo.delete_archivo(archivo.id)
     except ValueError as e:
         flash(str(e), "danger")
-        return redirect(url_for("equipo.get_profile", id=chosen_id))
+        return redirect(url_for("equipo.get_profile", id=id))
 
     flash("Equipo borrado con éxito", "success")
     return redirect(url_for("equipo.index"))

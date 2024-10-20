@@ -25,16 +25,13 @@ class Trabajo(db.Model):
         name='sede_enum'
     ), nullable=False)
 
-    dia = db.Column(db.Enum(
-        'Lunes',
-        'Martes',
-        'Miércoles',
-        'Jueves',
-        'Viernes',
-        'Sábado',
-        'Domingo',
-        name='dia_enum'
-    ), nullable=False)
+    lunes = db.Column(db.Boolean, nullable=False)
+    martes =  db.Column(db.Boolean, nullable=False)
+    miercoles =  db.Column(db.Boolean, nullable=False)
+    jueves =  db.Column(db.Boolean, nullable=False)
+    viernes = db.Column(db.Boolean, nullable=False)
+    sabado =  db.Column(db.Boolean, nullable=False)
+    domingo = db.Column(db.Boolean, nullable=False)
 
     profesor_terapeuta_id = db.Column(db.Integer, db.ForeignKey("equipos.id"))
     profesor_terapeuta = db.relationship("Equipo", back_populates="profesor_terapeuta_trabajo", foreign_keys=[profesor_terapeuta_id])
@@ -79,4 +76,28 @@ def assing_caballo(trabajo,caballo):
     trabajo.caballo = caballo
     db.session.add(trabajo)
     db.session.commit()
+    return trabajo
+
+def get_trabajo(id):
+    trabajo = Trabajo.query.filter_by(id=id).first()
+    if not trabajo:
+        raise ValueError("No se encontró el trabajo seleccionado")
+    return trabajo
+
+def delete_trabajo(id):
+    trabajo = Trabajo.query.get(id)
+    if trabajo:
+        db.session.delete(trabajo)
+        db.session.commit()
+    else:
+        raise ValueError("No se encontro el trabajo a borrar")
+    
+def edit_trabajo(id, **trabajo_data):
+    trabajo = Trabajo.query.get(id)
+    if trabajo:
+        for key, value in trabajo_data.items():
+            setattr(trabajo, key, value)
+        db.session.commit()
+    else:
+        trabajo = create_trabajo(**trabajo_data)
     return trabajo
