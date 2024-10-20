@@ -86,6 +86,21 @@
               {%endfor%}
           </ul>
       </div>
+      <div class="row" id="medio-container">
+        <div class="col">
+          <h2 class="equipo-profile-title text-secondary">Medio de Pago</h2>
+        </div>
+        <ul class="list-group list-unstyled container">
+            {%for medio in medios%}
+            <div class="d-flex align-items-center">
+              <input value="{{medio.id}}" {%if info.medio_pago.id == medio.id %}checked {%endif%} class="" type="radio" name="chosen-medio" id="radio-{{medio.id}}">
+              <label class="form-control ms-2" for="radio-{{medio.id}}">
+                {{medio.name}}
+              </label>
+            </div>
+            {%endfor%}
+        </ul>
+    </div>
         
       </div>
       <div class="col-4 d-flex justify-content-end align-items-start">

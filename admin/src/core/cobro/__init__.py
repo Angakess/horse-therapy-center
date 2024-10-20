@@ -27,6 +27,36 @@ def create_medio_pago(**kwargs):
 
     return medio_pago
 
+def get_total_medio():
+    """
+    Función que obtiene el total de medios de pago
+    """
+    total = MedioDePago.query.filter().count()
+
+    return total
+
+def list_medio_de_pago():
+
+    mediosDePago = (
+        MedioDePago.query.filter()
+    )
+
+    return mediosDePago
+
+
+def get_one_medio(id):
+    """
+    Función que obtiene un medio de pago por su id.
+    Parameters: id(int), id del medio a buscar.
+    Returns: chosen_cobro (objeto Cobro), medio encontrado.
+    Raises: ValueError si el medio no se encuentra.
+    """
+    chosen_medio = MedioDePago.query.get(id)
+
+    if not chosen_medio:
+        raise ValueError("No se encontró el cobro seleccionado")
+
+    return chosen_medio
 
 class Cobro(db.Model):
     __tablename__ = "cobros"

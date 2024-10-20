@@ -99,8 +99,10 @@ def enter_edit(id):
 
         total_jyas = jya.get_total_jinetes_amazonas()
         page_amount_jya = (total_jyas + amount_per_page - 1) // amount_per_page
-
         jyas = jya.list_jinetes_amazonas_page(query = "", page=page, amount_per_page=amount_per_page, order = "asc", by = "")
+
+
+        medios = cobro.list_medio_de_pago()
     except ValueError as e:
         flash(str(e), "danger")
         return redirect(url_for("cobro.get_one", id=id))
@@ -116,6 +118,7 @@ def enter_edit(id):
         fecha=fecha,
         jyas=jyas,
         empleados=empleados,
+        medios=medios,
     )
 
 
@@ -128,12 +131,20 @@ def save_edit(id):
         return abort(403)
     """Guarda los cambios realizados a un cobro existente."""
     try:
+        
+        try:
+            chosen_medio = request.form["chosen-medio"]
+        except:
+            flash("No se seleccionó un medio de pago", "danger")
+            return redirect(url_for("cobro"))
+        
         new_data = {
             "observaciones": request.form["observaciones"],
             "monto": request.form["monto"],
             "fecha": request.form["fecha"],
             "jya": jya.get_jinete_amazona(request.form["chosen-jya"]),
             "equipo": equipo.get_one(request.form["chosen-equipo"]),
+            "medio_pago": cobro.get_one_medio(chosen_medio),
         }
 
         edited_cobro = cobro.edit(id, new_data)
@@ -170,9 +181,9 @@ def enter_add():
     if not is_authenticated(session):
         return abort(401)
 
-    if not check_permission(session, "pago_enter_add"):
+    if not check_permission(session, "cobro_enter_add"):
         return abort(403)
-    """Permite agregar un nuevo pago, mostrando un formulario para ingresar los datos."""
+    """Permite agregar un nuevo cobro, mostrando un formulario para ingresar los datos."""
     amount_per_page = 5
 
     page = int(request.args.get("pag", "1"))
@@ -180,21 +191,30 @@ def enter_add():
     total_empleados = equipo.get_total()
     page_amount = (total_empleados + amount_per_page - 1) // amount_per_page
 
-    desc = request.args.get("desc", "")
+
+    total_jyas = jya.get_total_jinetes_amazonas()
+    page_amount_jya = (total_jyas + amount_per_page - 1) // amount_per_page
+    jyas = jya.list_jinetes_amazonas_page(query = "", page=page, amount_per_page=amount_per_page, order = "asc", by = "")
+
+
+    medios = cobro.list_medio_de_pago()
+
+    observaciones = request.args.get("observaciones", "")
     monto = request.args.get("monto", "")
     fecha = request.args.get("fecha", "")
-    tipo = request.args.get("tipo", "")
 
     return render_template(
-        "pago/pago_adding.html",
+        "cobro/cobro_adding.html",
+        jyas = jyas,
         empleados=empleados,
         pag=page,
         page_amount=page_amount,
+        page_amount_jya=page_amount_jya,
         other_page=(True if page > 1 else False),
-        desc=desc,
+        observaciones=observaciones,
         monto=monto,
         fecha=fecha,
-        tipo=tipo,
+        medios=medios,
     )
 
 
@@ -203,31 +223,46 @@ def add():
     if not is_authenticated(session):
         return abort(401)
 
-    if not check_permission(session, "pago_add"):
+    if not check_permission(session, "cobro_add"):
         return abort(403)
-    """Crea un nuevo pago basado en los datos ingresados en el formulario."""
+    """Crea un nuevo cobro basado en los datos ingresados en el formulario."""
     try:
+
+        try:
+            chosen_jya = request.form["chosen-jya"]
+        except:
+            flash("No se seleccionó un Jinetes y Amazonas", "danger")
+            return redirect(url_for("cobro", id=id))
+        
+        try:
+            chosen_equipo = request.form["chosen-equipo"]
+        except:
+            flash("No se seleccionó un cobrador", "danger")
+            return redirect(url_for("cobro"))
+        
+        try:
+            chosen_medio = request.form["chosen-medio"]
+        except:
+            flash("No se seleccionó un medio de pago", "danger")
+            return redirect(url_for("cobro"))
+        
+
         new_data = {
-            "desc": request.form["desc"],
+            "observaciones": request.form["observaciones"],
             "monto": request.form["monto"],
             "fecha": request.form["fecha"],
-            "tipo": request.form["tipo"],
+            "jya": jya.get_jinete_amazona(chosen_jya),
+            "equipo": equipo.get_one(chosen_equipo),
+            "medio_pago": cobro.get_one_medio(chosen_medio),
         }
 
-        new_pago = pago.create_pago(**new_data)
 
-        if new_data["tipo"] == "Honorario":
-            try:
-                new_person_id = request.form["chosen-beneficiario"]
-            except:
-                flash("No se seleccionó un beneficiario", "danger")
-                return redirect(url_for("pago.enter_edit", id=id))
-            new_person = equipo.get_one(new_person_id)
-            pago.assign_pago(new_person, new_pago)
+        new_cobro = cobro.create_cobro(**new_data)
+        
     except ValueError as e:
         flash(str(e), "danger")
-        return redirect(url_for("pago.enter_edit", id=id))
+        return redirect(url_for("cobro.enter_edit", id=id))
 
     flash("Operación realizada con éxito", "success")
-    return render_template("pago/pago_info.html", info=new_pago)
+    return render_template("cobro/cobro_info.html", info=new_cobro)
 
