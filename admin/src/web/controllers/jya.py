@@ -151,6 +151,7 @@ def add_jya():
             "curatela": str_to_bool(request.form["curatela"]),
             "observaciones": request.form["observaciones"],
         }
+
         new_situacion_previsional = situacionPrevisional.create_situacion_previsional(
             **datos_situacion_previsional
         )
@@ -163,6 +164,7 @@ def add_jya():
             "grado_actual": request.form["grado_actual"],
             "observaciones": request.form["observaciones_institucion"],
         }
+
         new_institucion_escolar = institucion.create_institucion_escolar(
             **datos_institucion_escolar
         )
@@ -179,6 +181,7 @@ def add_jya():
             "nivel_escolaridad": request.form["nivel_escolaridad_parentesco"],
             "actividad_ocupacion": request.form["actividad_ocupacion_parentesco"],
         }
+
         new_responsable = parienteTutor.create_parentesco_tutor(**datos_responsable)
         jya.assing_parentesco_tutor(new_jinete_amazona, new_responsable)
 
@@ -196,13 +199,15 @@ def add_jya():
             "sabado": str_to_bool(request.form["sabado"]),
             "domingo": str_to_bool(request.form["domingo"]),
         }
+
         new_trabajo = trabajo.create_trabajo(**datos_trabajo)
 
         try:
-            profesor_terapeuta_id = request.form.get("profesor_terapeuta_id")
-            conductor_id = request.form.get("conductor_id")
-            auxiliar_pista_id = request.form.get("auxiliar_pista_id")
-            caballo_id = request.form.get("caballo_id")
+
+            profesor_terapeuta_id = int(request.form["profesor_terapeuta_id"])
+            conductor_id = int(request.form["conductor_id"])
+            auxiliar_pista_id = int(request.form["auxiliar_pista_id"])
+            caballo_id = int(request.form["caballo_id"])
 
             if profesor_terapeuta_id:
                 profesor_terapeuta_asignado = equipo.get_one(profesor_terapeuta_id)
@@ -210,6 +215,7 @@ def add_jya():
                     trabajo.assing_profesor(new_trabajo, profesor_terapeuta_asignado)
                 else:
                     flash("Profesor no encontrado", "warning")
+                    return redirect(url_for("jya.index"))
 
             if conductor_id:
                 conductor_asignado = equipo.get_one(conductor_id)
@@ -217,6 +223,7 @@ def add_jya():
                     trabajo.assing_conductor(new_trabajo, conductor_asignado)
                 else:
                     flash("Conductor no encontrado", "warning")
+                    return redirect(url_for("jya.index"))
 
             if auxiliar_pista_id:
                 auxiliar_pista_asignado = equipo.get_one(auxiliar_pista_id)
@@ -224,6 +231,7 @@ def add_jya():
                     trabajo.assing_auxiliar_pista(new_trabajo, auxiliar_pista_asignado)
                 else:
                     flash("Auxiliar pista no encontrado", "warning")
+                    return redirect(url_for("jya.index"))
 
             if caballo_id:
                 caballo_asignado = ecuestre.get_ecuestre(caballo_id)
@@ -231,6 +239,7 @@ def add_jya():
                     trabajo.assing_caballo(new_trabajo, caballo_asignado)
                 else:
                     flash("Caballo no encontrado", "warning")
+                    return redirect(url_for("jya.index"))
 
         except ValueError as e:
             flash(str(e), "danger")
