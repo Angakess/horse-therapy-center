@@ -527,6 +527,11 @@ def download_archivo(id):
 
 @bprint.get("/<id>/documentos")
 def enter_docs(id):
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "jya_enter_docs"):
+        return abort(403)
     try:
         amount_per_page = 5
 
@@ -574,7 +579,11 @@ def enter_docs(id):
 
 @bprint.post("/<id>/agregar-archivo")
 def add_archivo(id):
+    if not is_authenticated(session):
+        return abort(401)
 
+    if not check_permission(session, "jya_add_archivo"):
+        return abort(403)
     try:
 
         jinete_amazona_modificar = jya.get_jinete_amazona(id)
@@ -638,6 +647,11 @@ def add_archivo(id):
 
 @bprint.post("/<id>/agregar-enlace")
 def add_enlace(id):
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "jya_add_enlace"):
+        return abort(403)
     try:
 
         jinete_amazona_modificar = jya.get_jinete_amazona(id)
@@ -664,6 +678,11 @@ def add_enlace(id):
 
 @bprint.post("/<id>/borrar-archivo/<id_archivo>")
 def delete_archivo(id, id_archivo):
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "jya_delete_archivo"):
+        return abort(403)
     try:
         archivo = jya.delete_archivo(id_archivo)
 
@@ -682,6 +701,11 @@ def delete_archivo(id, id_archivo):
 
 @bprint.post("/<id>/borrar-enlace/<id_enlace>")
 def delete_enlace(id, id_enlace):
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "jya_delete_enlace"):
+        return abort(403)
     try:
         jya.delete_archivo(id_enlace)
         flash("Enlace eliminado con éxito", "danger")
