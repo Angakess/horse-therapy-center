@@ -21,6 +21,14 @@ bprint = Blueprint("jya", __name__, url_prefix="/jya")
 
 @bprint.get("/")
 def index():
+    """
+    Función que muestra una lista paginada de Jinetes/Amazonas y permite realizar una búsqueda.
+    Parameters: Ninguno (Los parámetros de búsqueda, orden y paginación se obtienen de la query de la URL).
+    Returns:
+        - Si el usuario no está autenticado o no tiene permiso, aborta con los códigos 401 o 403 respectivamente.
+        - Si tiene permisos, renderiza la plantilla 'jya/index.html' mostrando los Jinetes/Amazonas filtrados y paginados.
+    """
+
     if not is_authenticated(session):
         return abort(401)
 
@@ -50,6 +58,15 @@ def index():
 
 @bprint.get("/<id>")
 def get_profile(id):
+    """
+    Función que muestra el perfil de un Jinete/Amazona por su ID.
+    Parameters:
+        id (int): El ID del Jinete/Amazona a mostrar.
+    Returns:
+        - Si el usuario no está autenticado o no tiene permiso, aborta con los códigos 401 o 403 respectivamente.
+        - Si el Jinete/Amazona con el ID proporcionado no existe, muestra un mensaje de error y redirige al índice.
+        - Si tiene permisos y el Jinete/Amazona es válido, renderiza la plantilla 'jya/profile.html' con la información correspondiente.
+    """
     if not is_authenticated(session):
         return abort(401)
 
@@ -66,6 +83,13 @@ def get_profile(id):
 
 @bprint.get("/agregar")
 def enter_add():
+    """
+    Función que muestra el formulario para agregar un nuevo Jinete/Amazona.
+    Parameters: Ninguno.
+    Returns:
+        - Si el usuario no está autenticado o no tiene permiso, aborta con los códigos 401 o 403 respectivamente.
+        - Si tiene permisos, renderiza la plantilla 'jya/add_jya.html' con las listas de equipos y ecuestres.
+    """
     if not is_authenticated(session):
         return abort(401)
 
@@ -78,7 +102,15 @@ def enter_add():
 
 @bprint.post("/agregar")
 def add_jya():
-
+    """
+    Función para agregar un nuevo Jinete/Amazona junto con su situación previsional,
+        institución escolar, responsable (pariente/tutor) y trabajo.
+    Parameters: Ninguno (Los parámetros se obtienen del formulario de la solicitud POST).
+    Returns:
+        - Si el usuario no está autenticado o no tiene permiso, aborta con los códigos 401 o 403 respectivamente.
+        - Si se crea exitosamente el Jinete/Amazona junto con sus relaciones, redirige al perfil del Jinete/Amazona con un mensaje de éxito.
+        - Si ocurre algún error durante la creación, muestra un mensaje de error y redirige al índice.
+    """
     if not is_authenticated(session):
         return abort(401)
 
@@ -214,6 +246,16 @@ def add_jya():
 
 @bprint.post("/borrar/<id>")
 def delete(id):
+    """
+    Función para eliminar un Jinete/Amazona junto con sus archivos y todas sus asociaciones
+    (situación previsional, institución escolar, parentesco/tutor y trabajo).
+    Parameters:
+        - id (int): ID del Jinete/Amazona a eliminar.
+    Returns:
+        - Si el usuario no está autenticado o no tiene permiso, aborta con los códigos 401 o 403 respectivamente.
+        - Si la eliminación es exitosa, redirige al índice de Jinetes/Amazonas con un mensaje de éxito.
+        - Si ocurre un error durante el proceso, redirige al perfil del Jinete/Amazona con un mensaje de error.
+    """
     if not is_authenticated(session):
         return abort(401)
 
@@ -254,6 +296,16 @@ def delete(id):
 
 @bprint.get("/<id>/edit")
 def enter_edit(id):
+    """
+    Función que permite acceder a la página de edición de un Jinete/Amazona.
+    Parameters:
+        - id (int): ID del Jinete/Amazona a editar.
+    Returns:
+        - Renderiza la plantilla de edición del perfil con los datos del Jinete/Amazona seleccionado y las listas
+          de equipos y ecuestres disponibles para su selección.
+        - Si el usuario no está autenticado o no tiene permiso, aborta con los códigos 401 o 403 respectivamente.
+        - Si ocurre un error al obtener los datos, redirige a la página de perfil con un mensaje de error.
+    """
     if not is_authenticated(session):
         return abort(401)
 
@@ -283,6 +335,15 @@ def enter_edit(id):
 
 @bprint.post("/<id>/edit")
 def save_edit(id):
+    """
+    Función que guarda los cambios realizados en el perfil de un Jinete/Amazona.
+    Parameters:
+        - id (int): ID del Jinete/Amazona a editar.
+    Returns:
+        - Redirige a la página del perfil del Jinete/Amazona editado con un mensaje de éxito si la edición fue exitosa.
+        - Si el usuario no está autenticado o no tiene permiso, aborta con los códigos 401 o 403 respectivamente.
+        - Si el Jinete/Amazona no se encuentra o se produce un error, muestra un mensaje de error y redirige a la página correspondiente.
+    """
     if not is_authenticated(session):
         return abort(401)
 
@@ -442,64 +503,11 @@ def save_edit(id):
     except ValueError as e:
         flash(str(e), "danger")
 
-    """ ALLOWED_MIME_TYPES = {
-        "application/pdf",
-        "image/png",
-        "image/jpeg",
-        "text/plain",
-        "application/vnd.ms-excel",
-        "application/msword",
-    }
-
-    archivo_subido = request.files["archivos_JineteAmazonas"]
-
-    if archivo_subido:
-        if archivo_subido.content_type not in ALLOWED_MIME_TYPES:
-            flash(
-                "Tipo de archivo no permitido. Solo se permiten PDF, PNG, JPG o TXT.",
-                "danger",
-            )
-            return redirect(url_for("jya.get_profile", id=id))
-
-        size = fstat(archivo_subido.fileno()).st_size
-        if size > 5 * 1024 * 1024:
-            flash(
-                "El archivo es demasiado grande. El tamaño máximo permitido es 5 MB.",
-                "danger",
-            )
-            return redirect(url_for("jya.get_profile", id=id))
-
-        try:
-            new_archivo = jya.create_archivo(nombre=archivo_subido.filename)
-            jya.assign_archivo(jinete_amazona_modificar, new_archivo)
-
-            client = current_app.storage.client
-            client.put_object(
-                "grupo28",
-                f"/jya/{new_archivo.id}-{new_archivo.nombre}",
-                archivo_subido,
-                size,
-                content_type=archivo_subido.content_type,
-            )
-        except ValueError as e:
-            flash(str(e), "danger")
-            return redirect(url_for("jya.get_profile", id=id)) """
     try:
         jya.edit_jya(id, **new_data)
     except ValueError as e:
         flash(str(e), "danger")
         return redirect(url_for("jya.get_profile", id=id))
-
-    """ try:
-        client = current_app.storage.client
-        archivos_a_eliminar = request.form.getlist("archivos_a_eliminar")
-        for archivo_id in archivos_a_eliminar:
-            archivo = jya.get_archivo(archivo_id)
-            client.remove_object("grupo28", f"{archivo.id}-{archivo.nombre}")
-            jya.delete_archivo(archivo_id)
-    except ValueError as e:
-        flash(str(e), "danger")
-        return redirect(url_for("jya.get_profile", id=id)) """
 
     flash("Datos guardados con exito.", "success")
     return redirect(url_for("jya.get_profile", id=id))
@@ -507,6 +515,15 @@ def save_edit(id):
 
 @bprint.get("/<id>/descargar-archivo")
 def download_archivo(id):
+    """
+    Función que permite descargar un archivo asociado a un Jinete/Amazona.
+    Parameters:
+        - id (int): ID del archivo a descargar.
+    Returns:
+        - Redirige a la URL del archivo para su descarga.
+        - Si el usuario no está autenticado o no tiene permiso, aborta con los códigos 401 o 403 respectivamente.
+        - Si ocurre un error al obtener el archivo, muestra un mensaje de error y redirige a la página del perfil del Jinete/Amazona asociado.
+    """
     if not is_authenticated(session):
         return abort(401)
 
@@ -527,6 +544,15 @@ def download_archivo(id):
 
 @bprint.get("/<id>/documentos")
 def enter_docs(id):
+    """
+    Función que permite acceder a los documentos asociados a un Jinete/Amazona.
+    Parameters:
+        - id (int): ID del Jinete/Amazona.
+    Returns:
+        - Renderiza la plantilla de documentos del perfil del Jinete/Amazona.
+        - Si el usuario no está autenticado o no tiene permiso, aborta con los códigos 401 o 403 respectivamente.
+        - Si ocurre un error al obtener los documentos, muestra un mensaje de error y redirige a la página del perfil del Jinete/Amazona asociado.
+    """
     if not is_authenticated(session):
         return abort(401)
 
@@ -579,6 +605,15 @@ def enter_docs(id):
 
 @bprint.post("/<id>/agregar-archivo")
 def add_archivo(id):
+    """
+    Función que permite agregar un archivo asociado a un Jinete/Amazona.
+    Parameters:
+        - id (int): ID del Jinete/Amazona.
+    Returns:
+        - Redirige a la página de documentos del Jinete/Amazona.
+        - Si el usuario no está autenticado o no tiene permiso, aborta con los códigos 401 o 403 respectivamente.
+        - Si se produce un error al cargar el archivo, muestra un mensaje de error.
+    """
     if not is_authenticated(session):
         return abort(401)
 
@@ -647,6 +682,15 @@ def add_archivo(id):
 
 @bprint.post("/<id>/agregar-enlace")
 def add_enlace(id):
+    """
+    Función que permite agregar un enlace asociado a un Jinete/Amazona.
+    Parameters:
+        - id (int): ID del Jinete/Amazona.
+    Returns:
+        - Redirige a la página de documentos del Jinete/Amazona.
+        - Si el usuario no está autenticado o no tiene permiso, aborta con los códigos 401 o 403 respectivamente.
+        - Si se produce un error al agregar el enlace, muestra un mensaje de error.
+    """
     if not is_authenticated(session):
         return abort(401)
 
@@ -673,11 +717,20 @@ def add_enlace(id):
     except ValueError as e:
         flash(str(e), "danger")
         return redirect(url_for("jya.enter_docs", id=id))
-    pass
 
 
 @bprint.post("/<id>/borrar-archivo/<id_archivo>")
 def delete_archivo(id, id_archivo):
+    """
+    Función que permite eliminar un archivo asociado a un Jinete/Amazona.
+    Parameters:
+        - id (int): ID del Jinete/Amazona.
+        - id_archivo (int): ID del archivo a eliminar.
+    Returns:
+        - Redirige a la página de documentos del Jinete/Amazona.
+        - Si el usuario no está autenticado o no tiene permiso, aborta con los códigos 401 o 403 respectivamente.
+        - Si se produce un error al eliminar el archivo, muestra un mensaje de error.
+    """
     if not is_authenticated(session):
         return abort(401)
 
@@ -701,6 +754,16 @@ def delete_archivo(id, id_archivo):
 
 @bprint.post("/<id>/borrar-enlace/<id_enlace>")
 def delete_enlace(id, id_enlace):
+    """
+    Función que permite eliminar un enlace asociado a un Jinete/Amazona.
+    Parameters:
+        - id (int): ID del Jinete/Amazona.
+        - id_enlace (int): ID del enlace a eliminar.
+    Returns:
+        - Redirige a la página de documentos del Jinete/Amazona.
+        - Si el usuario no está autenticado o no tiene permiso, aborta con los códigos 401 o 403 respectivamente.
+        - Si se produce un error al eliminar el enlace, muestra un mensaje de error.
+    """
     if not is_authenticated(session):
         return abort(401)
 
@@ -716,6 +779,15 @@ def delete_enlace(id, id_enlace):
 
 
 def str_to_bool(value):
+    """
+    Convierte una cadena a un valor booleano.
+    Parameters:
+        - value (str): Cadena que se desea convertir.
+    Returns:
+        - bool: Valor booleano correspondiente a la cadena.
+    Raises:
+        - ValueError: Si la cadena no representa un valor booleano.
+    """
     if isinstance(value, bool):
         return value
     if value.lower() in ("true", "1"):
