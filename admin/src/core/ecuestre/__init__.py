@@ -5,6 +5,7 @@ from core.relacion_equipo_ecuestre import equipo_ecuestre
 from core.jya import JinetesAmazonas
 from core.trabajo import Trabajo
 from .archivos import Archivo_Ecuestre
+from .docs import Docs_Ecuestre
 
 
 class Ecuestre(db.Model):
@@ -40,6 +41,7 @@ class Ecuestre(db.Model):
     def __repr__(self):
         return f'<Nombre "{self.nombre}," Fecha nacimiento "{self.fecha_nacimiento}," Sexo "{self.sexo}," Raza "{self.raza}," Pelaje "{self.pelaje}," Sede Asignada: {self.sede_asignada}>'
 
+    docs = db.relationship("Docs_Ecuestre", back_populates="ecuestre")
 
 def list_ecuestres():
     ecuestres = Ecuestre.query.all()
@@ -209,3 +211,53 @@ def contiene_miembro_equipo(ecuestre, equipo_id):
         if equipo.id == equipo_id:
             return True
     return False
+
+def get_total_docs(ecuestre_id, query, tipos):
+    if tipos:
+        total = Docs_Ecuestre.query.filter(
+            Docs_Ecuestre.nombre.like(f"%{query}%"),
+            Docs_Ecuestre.tipo.in_(tipos),
+            Docs_Ecuestre.Ecuestre_id == ecuestre_id,
+        ).count()
+    else:
+        total = Docs_Ecuestre.query.filter(
+            Docs_Ecuestre.nombre.like(f"%{query}%"),
+            Docs_Ecuestre.Ecuestre_id == ecuestre_id,
+        ).count()
+
+    return total
+
+def list_archivos_page(ecuestre_id, query, order, tipos, by, pag, amount_per_page):
+
+    chosen_ecuestre = Ecuestre.query.get(ecuestre_id)
+    if not chosen_ecuestre:
+        raise (ValueError("No se encontró el ecuestre solicitado "))
+
+    sort_column = {
+        "nombre": Docs_Ecuestre.nombre,
+        "inserted_at": Docs_Ecuestre.inserted_at,
+    }.get(by, Docs_Ecuestre.id)
+
+    order_by = asc(sort_column) if order == "asc" else desc(sort_column)
+
+    if tipos:
+        chosen_archivos = (
+            Docs_Ecuestre.query.filter(
+                Docs_Ecuestre.nombre.like(f"%{query}%"),
+                Docs_Ecuestre.tipo.in_(tipos),
+                Docs_Ecuestre.ecuestre_id == ecuestre_id,
+            )
+            .order_by(order_by)
+            .paginate(page=pag, per_page=amount_per_page)
+        )
+    else:
+        chosen_archivos = (
+            Docs_Ecuestre.query.filter(
+                Docs_Ecuestre.nombre.like(f"%{query}%"),
+                Docs_Ecuestre.ecuestre_id == ecuestre_id,
+            )
+            .order_by(order_by)
+            .paginate(page=pag, per_page=amount_per_page)
+        )
+
+    return chosen_archivos
