@@ -221,10 +221,10 @@ def delete(id):
         return abort(403)
     try:
         chosen_jinete_amazona = jya.get_jinete_amazona(id)
-        archivos_asociados = chosen_jinete_amazona.archivos
+        archivos_asociados = chosen_jinete_amazona.docs
         client = current_app.storage.client
         for archivo in archivos_asociados:
-            client.remove_object("grupo28", f"{archivo.id}-{archivo.nombre}")
+            client.remove_object("grupo28", f"/jya/{archivo.id}-{archivo.nombre}")
             jya.delete_archivo(archivo.id)
 
         situacion_previsional_asociada = chosen_jinete_amazona.situacion_previsional
@@ -266,7 +266,7 @@ def enter_edit(id):
         return render_template(
             "jya/profile_editing.html",
             info=chosen_jinete_amazona,
-            archivos=chosen_jinete_amazona.archivos,
+            archivos=chosen_jinete_amazona.docs,
             equipos=equipos,
             ecuestres=ecuestres,
         )
@@ -276,7 +276,7 @@ def enter_edit(id):
             url_for(
                 "jya/profile.html",
                 info=chosen_jinete_amazona,
-                archivos=chosen_jinete_amazona.archivos,
+                archivos=chosen_jinete_amazona.docs,
             )
         )
 
@@ -442,7 +442,14 @@ def save_edit(id):
     except ValueError as e:
         flash(str(e), "danger")
 
-    ALLOWED_MIME_TYPES = {"application/pdf", "image/png", "image/jpeg", "text/plain"}
+    """ ALLOWED_MIME_TYPES = {
+        "application/pdf",
+        "image/png",
+        "image/jpeg",
+        "text/plain",
+        "application/vnd.ms-excel",
+        "application/msword",
+    }
 
     archivo_subido = request.files["archivos_JineteAmazonas"]
 
@@ -476,14 +483,14 @@ def save_edit(id):
             )
         except ValueError as e:
             flash(str(e), "danger")
-            return redirect(url_for("jya.get_profile", id=id))
+            return redirect(url_for("jya.get_profile", id=id)) """
     try:
         jya.edit_jya(id, **new_data)
     except ValueError as e:
         flash(str(e), "danger")
         return redirect(url_for("jya.get_profile", id=id))
 
-    try:
+    """ try:
         client = current_app.storage.client
         archivos_a_eliminar = request.form.getlist("archivos_a_eliminar")
         for archivo_id in archivos_a_eliminar:
@@ -492,7 +499,7 @@ def save_edit(id):
             jya.delete_archivo(archivo_id)
     except ValueError as e:
         flash(str(e), "danger")
-        return redirect(url_for("jya.get_profile", id=id))
+        return redirect(url_for("jya.get_profile", id=id)) """
 
     flash("Datos guardados con exito.", "success")
     return redirect(url_for("jya.get_profile", id=id))
@@ -516,6 +523,172 @@ def download_archivo(id):
         return redirect(url_for("jya.get_profile", id=chosen_archivo.jya_id))
 
     return redirect(minio_url)
+
+
+@bprint.get("/<id>/documentos")
+def enter_docs(id):
+    try:
+        amount_per_page = 5
+
+        pag = int(request.args.get("pag", 1))
+        query = request.args.get("query", "")
+        order = request.args.get("order", "asc")
+        tipos = request.args.getlist("tipoarchivo")
+        by = request.args.get("by", "")
+
+        total = jya.get_total_docs(id, query, tipos)
+
+        chosen_jinete_amazona = jya.get_jinete_amazona(id)
+
+        archivos = jya.list_archivos_page(
+            id,
+            query,
+            order,
+            tipos,
+            by,
+            pag,
+            amount_per_page,
+        )
+
+        return render_template(
+            "jya/profile_docs.html",
+            info=chosen_jinete_amazona,
+            archivos=archivos,
+            by=by,
+            tipos=tipos,
+            order=order,
+            query=query,
+            pag=pag,
+            page_amount=(total + amount_per_page - 1) // amount_per_page,
+        )
+    except ValueError as e:
+        flash(str(e), "danger")
+        return redirect(
+            url_for(
+                "jya/profile.html",
+                info=chosen_jinete_amazona,
+                archivos=chosen_jinete_amazona.docs,
+            )
+        )
+
+
+@bprint.post("/<id>/agregar-archivo")
+def add_archivo(id):
+
+    try:
+
+        jinete_amazona_modificar = jya.get_jinete_amazona(id)
+
+        ALLOWED_MIME_TYPES = {
+            "application/pdf",
+            "image/png",
+            "image/jpeg",
+            "text/plain",
+            "application/vnd.ms-excel",
+            "application/msword",
+        }
+
+        archivo_subido = request.files["archivos_JineteAmazonas"]
+        archivo_tipo = request.form["tipo"]
+
+        if not archivo_subido or not archivo_tipo:
+            flash("Debe ingresar un archivo y seleccionar un tipo.", "error")
+            return redirect(url_for("jya.enter_docs", id=id))
+
+        if archivo_subido:
+            if archivo_subido.content_type not in ALLOWED_MIME_TYPES:
+                flash(
+                    "Tipo de archivo no permitido. Solo se permiten PDF, PNG, JPG, TXT, XLS o DOC.",
+                    "danger",
+                )
+                return redirect(url_for("jya.enter_docs", id=id))
+
+            size = fstat(archivo_subido.fileno()).st_size
+            if size > 5 * 1024 * 1024:
+                flash(
+                    "El archivo es demasiado grande. El tamaño máximo permitido es 5 MB.",
+                    "danger",
+                )
+                return redirect(url_for("jya.enter_docs", id=id))
+
+            try:
+                new_archivo = jya.create_archivo(
+                    nombre=archivo_subido.filename, tipo=archivo_tipo, es_archivo=True
+                )
+                jya.assign_archivo(jinete_amazona_modificar, new_archivo)
+
+                client = current_app.storage.client
+                client.put_object(
+                    "grupo28",
+                    f"/jya/{new_archivo.id}-{new_archivo.nombre}",
+                    archivo_subido,
+                    size,
+                    content_type=archivo_subido.content_type,
+                )
+            except ValueError as e:
+                flash(str(e), "danger")
+                return redirect(url_for("jya.enter_docs", id=id))
+
+        flash("Archivo subido con éxito", "success")
+        return redirect(url_for("jya.enter_docs", id=id))
+    except ValueError as e:
+        flash(str(e), "danger")
+        return redirect(url_for("jya.enter_docs", id=id))
+
+
+@bprint.post("/<id>/agregar-enlace")
+def add_enlace(id):
+    try:
+
+        jinete_amazona_modificar = jya.get_jinete_amazona(id)
+
+        nombre_enlace = request.form["nombre-enlace"]
+        tipo = request.form["tipo"]
+
+        if not nombre_enlace or not tipo:
+            flash("Debe ingresar un enlace y seleccionar un tipo.", "error")
+            return redirect(url_for("jya.enter_docs", id=id))
+
+        nuevo_enlace = jya.create_archivo(nombre=nombre_enlace, tipo=tipo)
+
+        jya.assign_archivo(jinete_amazona_modificar, nuevo_enlace)
+
+        flash("Enlace agregado con éxito", "success")
+        return redirect(url_for("jya.enter_docs", id=id))
+
+    except ValueError as e:
+        flash(str(e), "danger")
+        return redirect(url_for("jya.enter_docs", id=id))
+    pass
+
+
+@bprint.post("/<id>/borrar-archivo/<id_archivo>")
+def delete_archivo(id, id_archivo):
+    try:
+        archivo = jya.delete_archivo(id_archivo)
+
+        client = current_app.storage.client
+
+        client.remove_object(
+            "grupo28", f"/jya/{archivo.id}-{archivo.nombre}"
+        )  # Eliminar de MinIO
+
+        flash("Archivo eliminado con éxito", "danger")
+    except ValueError as e:
+        flash(str(e), "danger")
+
+    return redirect(url_for("jya.enter_docs", id=id))
+
+
+@bprint.post("/<id>/borrar-enlace/<id_enlace>")
+def delete_enlace(id, id_enlace):
+    try:
+        jya.delete_archivo(id_enlace)
+        flash("Enlace eliminado con éxito", "danger")
+    except ValueError as e:
+        flash(str(e), "danger")
+
+    return redirect(url_for("jya.enter_docs", id=id))
 
 
 def str_to_bool(value):

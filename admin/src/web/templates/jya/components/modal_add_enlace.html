@@ -1,0 +1,68 @@
+    <div
+        class="modal fade"
+        id="exampleModalEnlace"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">
+                Nuevo archivo
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form action="{{url_for('jya.add_enlace', id=info.id)}}" method="POST" id="form-enlace">
+                <input
+                  class="form-control mb-3"
+                  type="text"
+                  name="nombre-enlace"
+                  placeholder="Ingrese un enlace"
+                  required
+                />
+                <select id="tipo-id" name="tipo" class="form-control" required>
+                  <option selected hidden disabled value=""></option>
+                  <option value="Enrevista">Enrevista</option>
+                  <option value="Evaluación">Evaluación</option>
+                  <option value="Planificaciones">Planificaciones</option>
+                  <option value="Evolución">Evolución</option>
+                  <option value="Crónicas">Crónicas</option>
+                  <option value="Documental">Documental</option>
+                </select>
+              
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary mx-2"
+                data-bs-dismiss="modal"
+              >
+                Cancelar
+              </button>
+              <button type="submit" class="btn btn-primary">Guardar</button>
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+        document.getElementById("form-enlace").addEventListener("submit", function(event) {
+          const nombreEnlace = document.querySelector('input[name="nombre-enlace"]').value;
+          const tipo = document.querySelector('select[name="tipo"]').value;
+      
+          if (!nombreEnlace || !tipo) {
+            event.preventDefault();  // Evitar que se envíe el formulario
+            alert("Debe ingresar un enlace y seleccionar un tipo.");
+          }
+        });
+      </script>
+      
