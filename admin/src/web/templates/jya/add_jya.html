@@ -330,9 +330,9 @@
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
                 >Grado actual:</span
-              ><input id="institucion_escolar_grado-input" name="grado_actual" class="form-control" required>
+              ><input id="institucion_escolar_grado-input" name="grado_actual" class="form-control" required pattern="^[0-9]+$">
               <div class="invalid-feedback">
-                Ingrese un grado.
+                Ingrese un grado válido (numero).
               </div>
             </li>
             <li class="mb-2 mb-xl-3 display-28">
@@ -470,7 +470,7 @@
                 <label class="form-check-label" for="flexRadioDefault11">Trabaja</label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="lunes" id="flexRadioDefault12" value="False">
+                <input class="form-check-input" type="radio" name="lunes" id="flexRadioDefault12" value="False" checked>
                 <label class="form-check-label" for="flexRadioDefault12">No trabaja</label>
               </div>
             </li>
@@ -481,7 +481,7 @@
                 <label class="form-check-label" for="flexRadioDefault13">Trabaja</label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="martes" id="flexRadioDefault14" value="False">
+                <input class="form-check-input" type="radio" name="martes" id="flexRadioDefault14" value="False" checked>
                 <label class="form-check-label" for="flexRadioDefault14">No trabaja</label>
               </div>
             </li>
@@ -492,7 +492,7 @@
                 <label class="form-check-label" for="flexRadioDefault15">Trabaja</label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="miercoles" id="flexRadioDefault16" value="False">
+                <input class="form-check-input" type="radio" name="miercoles" id="flexRadioDefault16" value="False" checked>
                 <label class="form-check-label" for="flexRadioDefault16">No trabaja</label>
               </div>
             </li>
@@ -503,7 +503,7 @@
                 <label class="form-check-label" for="flexRadioDefault17">Trabaja</label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="jueves" id="flexRadioDefault18" value="False">
+                <input class="form-check-input" type="radio" name="jueves" id="flexRadioDefault18" value="False" checked>
                 <label class="form-check-label" for="flexRadioDefault18">No trabaja</label>
               </div>
             </li>
@@ -514,7 +514,7 @@
                 <label class="form-check-label" for="flexRadioDefault19">Trabaja</label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="viernes" id="flexRadioDefault20" value="False">
+                <input class="form-check-input" type="radio" name="viernes" id="flexRadioDefault20" value="False" checked>
                 <label class="form-check-label" for="flexRadioDefault20">No trabaja</label>
               </div>
             </li>
@@ -525,7 +525,7 @@
                 <label class="form-check-label" for="flexRadioDefault21">Trabaja</label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="sabado" id="flexRadioDefault22" value="False">
+                <input class="form-check-input" type="radio" name="sabado" id="flexRadioDefault22" value="False" checked>
                 <label class="form-check-label" for="flexRadioDefault22">No trabaja</label>
               </div>
             </li>
@@ -536,7 +536,7 @@
                 <label class="form-check-label" for="flexRadioDefault23">Trabaja</label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="domingo" id="flexRadioDefault24" value="False">
+                <input class="form-check-input" type="radio" name="domingo" id="flexRadioDefault24" value="False" checked>
                 <label class="form-check-label" for="flexRadioDefault24">No trabaja</label>
               </div>
             </li>

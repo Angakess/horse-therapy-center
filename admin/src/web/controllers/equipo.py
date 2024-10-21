@@ -11,14 +11,13 @@ from flask import (
 )
 from core import equipo
 from flask import Blueprint
-from src.web.helpers.auth import is_authenticated, check_permission
+from web.helpers.auth import is_authenticated, check_permission
 
 bprint = Blueprint("equipo", __name__, url_prefix="/equipo")
 
 
 @bprint.get("/")
 def index():
-
     """
     Función que muestra la lista paginada de equipos y permite búsqueda.
     Parameters: Ninguno (Los parámetros se obtienen de la query de la URL).
@@ -29,7 +28,6 @@ def index():
 
     if not check_permission(session, "equipo_index"):
         return abort(403)
-
 
     amount_per_page = 10
 
@@ -198,7 +196,7 @@ def save_edit(id):
             client = current_app.storage.client
             client.put_object(
                 "grupo28",
-                f"{new_archivo.id}-{new_archivo.nombre}",
+                f"/equipo/{new_archivo.id}-{new_archivo.nombre}",
                 archivo_subido,
                 size,
                 content_type=archivo_subido.content_type,
@@ -302,7 +300,7 @@ def download_archivo(id):
         chosen_archivo = equipo.get_archivo(id)
         client = current_app.storage.client
         minio_url = client.presigned_get_object(
-            "grupo28", f"{chosen_archivo.id}-{chosen_archivo.nombre}"
+            "grupo28", f"/equipo/{chosen_archivo.id}-{chosen_archivo.nombre}"
         )
     except ValueError as e:
         flash(str(e), "danger")
