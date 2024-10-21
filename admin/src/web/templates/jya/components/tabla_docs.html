@@ -1,0 +1,116 @@
+{%include "jya/components/searchbar_docs.html"%}
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead class="container-fluid">
+      <tr class="align-items-center">
+        <form
+          id="sort_form"
+          action="{{url_for('jya.enter_docs',id=info.id)}}"
+          method="get"
+        >
+          <input hidden type="checkbox" name="tipoarchivo" value="Entrevista"
+          {%if 'Entrevista' in tipos %}checked{% endif %}> <input hidden
+          type="checkbox" name="tipoarchivo" value="Evaluación" {% if
+          'Evaluación' in tipos %}checked{% endif %}> <input hidden
+          type="checkbox" name="tipoarchivo" value="Planificaciones" {% if
+          'Planificaciones' in tipos %}checked{% endif %}> <input hidden
+          type="checkbox" name="tipoarchivo" value="Evolución" {%if 'Evolución'
+          in tipos %}checked{% endif %}> <input hidden type="checkbox"
+          name="tipoarchivo" value="Crónicas" {% if 'Crónicas' in tipos
+          %}checked{% endif %}> <input hidden type="checkbox" name="tipoarchivo"
+          value="Documental" {% if 'Documental' in tipos %}checked{% endif %}>
+          <input
+            type="hidden"
+            name="order"
+            value="{% if order=='asc' %}desc{% else %}asc{% endif %}"
+          />
+          <input hidden name="by" id="sort-field" value="{{by}}" />
+          <input hidden name="query" value="{{query}}" />
+          <input hidden name="pag" id="page_field" value="{{pag}}" />
+          
+
+          <th scope="col" class="col-md-1">
+            <div
+              class="row d-flex align-items-center hover-underline"
+              onclick="document.getElementById('sort-field').value='nombre';document.getElementById('page_field').value='1';document.getElementById('sort_form').submit();"
+              style="display: flex; cursor: pointer"
+            >
+              <div id="column_name_nombre" class="col-auto">Título</div>
+              {% set sort_by = 'nombre' %} {% include
+              'equipo/components/filter_arrows.html'%}
+            </div>
+          </th>
+          <th scope="col" class="col-md-1">Tipo</th>
+          <th scope="col" class="col-md-1">
+            <div
+              class="row d-flex align-items-center hover-underline"
+              onclick="document.getElementById('sort-field').value='inserted_at';document.getElementById('page_field').value='1';document.getElementById('sort_form').submit();"
+              style="display: flex; cursor: pointer"
+            >
+              <div id="column_name_nombre" class="col-auto">
+                Fecha de subida
+              </div>
+              {% set sort_by = 'inserted_at' %} {% include
+              'equipo/components/filter_arrows.html'%}
+            </div>
+          </th>
+        </form>
+        <th scope="col" class="col-1">Acciones</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for archivo in archivos %}
+      <tr>
+        <td>{{ archivo.nombre }}</td>
+        <td>{{ archivo.tipo }}</td>
+        <td>{{ archivo.inserted_at.strftime('%d/%m/%Y') }}</td>
+        <td><button type="button" class="btn btn-outline-primary " data-bs-toggle="modal" data-bs-target="#staticBackdrop">A</button></td>
+      </tr>
+      
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{%include 'jya/components/pagination_archivos_jya.html'%}
+
+
+<form action="{{url_for('equipo.delete',id=info.id)}}" method="POST">
+  <div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">
+            Atención
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          ¿Está seguro que quiere eliminar este archivo?
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-danger">Confirmar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

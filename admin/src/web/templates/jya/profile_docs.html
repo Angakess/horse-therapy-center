@@ -1,0 +1,86 @@
+{% extends "layout.html" %} {% block title %} Perfil Jinete/Amazona {{info.id}}
+{% endblock %} {% block head %} {{ super() }} {% endblock %} {% block content %}
+
+<div class="container">
+  {% include "jya/components/messages.html" %}
+  <div class="row">
+    <div
+      class="container bg-secondary d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded"
+    >
+      <div class="col">
+        <h1 class="h2 text-white mb-0">Documentos</h1>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col d-flex align-items-center justify-content-end">
+      <a
+        class="btn btn-link mx-2 align-self-start"
+        href="{{url_for('jya.get_profile', id=info.id)}}"
+      >
+        ◄ Volver
+      </a>
+
+      <button
+        class="btn btn-outline-primary mx-2 align-self-start"
+        onclick="window.location.href"
+        ="{{ url_for('jya.enter_edit', id=info.id) }}"
+        ;
+      >
+        Editar
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-pencil"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"
+          />
+        </svg>
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModalArchivos"
+      >
+        Agregar archivo
+      </button>
+
+      <!-- Modal -->
+      {%include "jya/components/modal_add_archivos.html"%}
+
+      <button
+        type="button"
+        class="btn btn-outline-yellow mx-2"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModalEnlace"
+      >
+        Agregar enlace
+      </button>
+
+      {%include "jya/components/modal_add_enlace.html"%}
+
+      <div class="row">
+        <div class="col">
+          <h2 class="jya-profile-title text-secondary">Archivos y Enlaces</h2>
+          {% if archivos or enlaces %} {%include
+          'jya/components/tabla_docs.html'%} {%else%}
+          <span class="display-26 text-primary me-2 font-weight-600"
+            >No hay documentos asociados a este Jinete/Amazona</span
+          >
+          {%endif%}
+        </div>
+
+        <div class="row">
+          <div class="col"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endblock %}
+</div>

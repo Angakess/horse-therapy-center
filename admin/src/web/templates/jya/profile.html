@@ -291,6 +291,12 @@
           >
             ◄ Volver
             </a>
+            <a
+            class="btn btn-outline-secondary mx-2 align-self-start"
+            href="{{url_for('jya.enter_docs', id=info.id)}}"
+          >
+            Documentos
+            </a>
             <button
               class="btn btn-outline-primary mx-2 align-self-start"
               onclick=window.location.href="{{ url_for('jya.enter_edit', id=info.id) }}";

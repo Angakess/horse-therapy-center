@@ -366,7 +366,6 @@ def run():
         "cobro_delete",
         "cobro_enter_add",
         "cobro_add",
-
     ]
     PERMISSIONS = {
         "Administración": [
@@ -440,33 +439,69 @@ def run():
 
     for rol in PERMISSIONS:
         for per in PERMISSIONS[rol]:
-            user.assign_permission((find_role_by_name(rol)).id,(find_permission_by_name(per)).id)
+            user.assign_permission(
+                (find_role_by_name(rol)).id, (find_permission_by_name(per)).id
+            )
 
-    medioDePago1 = cobro.create_medio_pago(name = "Efectivo")
-    medioDePago2 = cobro.create_medio_pago(name = "Tarjeta de débito")
-    medioDePago3 = cobro.create_medio_pago(name = "Tarjeta de crédito")
+    medioDePago1 = cobro.create_medio_pago(name="Efectivo")
+    medioDePago2 = cobro.create_medio_pago(name="Tarjeta de débito")
+    medioDePago3 = cobro.create_medio_pago(name="Tarjeta de crédito")
 
     cobro1 = cobro.create_cobro(
-        monto = 100,
+        monto=100,
         fecha=datetime(2024, 3, 3),
-        observaciones = "Te observo 1",
-        medio_pago = medioDePago1,
-        jya = jya1,
-        equipo = equipo1
+        observaciones="Te observo 1",
+        medio_pago=medioDePago1,
+        jya=jya1,
+        equipo=equipo1,
     )
     cobro2 = cobro.create_cobro(
-        monto = 2000,
+        monto=2000,
         fecha=datetime(2021, 7, 3),
-        observaciones = "Te observo 2",
-        medio_pago = medioDePago2,
-        jya = jya2,
-        equipo = equipo2
+        observaciones="Te observo 2",
+        medio_pago=medioDePago2,
+        jya=jya2,
+        equipo=equipo2,
     )
     cobro3 = cobro.create_cobro(
-        monto = 100132,
+        monto=100132,
         fecha=datetime(2026, 3, 3),
-        observaciones = "Te observo 3",
-        medio_pago = medioDePago3,
-        jya = jya1,
-        equipo = equipo3
+        observaciones="Te observo 3",
+        medio_pago=medioDePago3,
+        jya=jya1,
+        equipo=equipo3,
     )
+
+    archivo_jya1 = jya.create_archivo(
+        nombre="asdf",
+        tipo="Entrevista",
+    )
+    archivo_jya2 = jya.create_archivo(
+        nombre="qwer",
+        tipo="Planificaciones",
+    )
+    archivo_jya3 = jya.create_archivo(
+        nombre="zxcv",
+        tipo="Crónicas",
+    )
+
+    jya.assign_archivo(jya1, archivo_jya1)
+    jya.assign_archivo(jya1, archivo_jya2)
+    jya.assign_archivo(jya1, archivo_jya3)
+
+    enlace_jya1 = jya.create_archivo(
+        nombre="google.com",
+        tipo="Entrevista",
+    )
+    enlace_jya2 = jya.create_archivo(
+        nombre="wikipedia.com",
+        tipo="Planificaciones",
+    )
+    enlace_jya3 = jya.create_archivo(
+        nombre="cedica.com",
+        tipo="Crónicas",
+    )
+
+    jya.assign_archivo(jya1, enlace_jya1)
+    jya.assign_archivo(jya1, enlace_jya2)
+    jya.assign_archivo(jya1, enlace_jya3)
