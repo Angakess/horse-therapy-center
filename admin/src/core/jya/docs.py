@@ -9,6 +9,7 @@ class Docs_JineteAmazonas(db.Model):
     nombre = db.Column(db.String(255), nullable=False)
     tipo = db.Column(db.Text, nullable=False)
     inserted_at = db.Column(db.DateTime, default=datetime.now, nullable=False)
+    es_archivo = db.Column(db.Boolean, default=False, nullable=False)
 
     JineteAmazonas_id = db.Column(db.Integer, db.ForeignKey("JinetesYAmazonas.id"))
     JineteAmazonas = db.relationship("JinetesAmazonas", back_populates="docs")

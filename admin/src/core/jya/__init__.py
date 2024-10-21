@@ -274,17 +274,20 @@ def delete_archivo(id):
     else:
         db.session.delete(archivo)
         db.session.commit()
+        return archivo
 
 
-def get_total_docs(query, tipos):
+def get_total_docs(jya_id, query, tipos):
     if tipos:
         total = Docs_JineteAmazonas.query.filter(
             Docs_JineteAmazonas.nombre.like(f"%{query}%"),
             Docs_JineteAmazonas.tipo.in_(tipos),
+            Docs_JineteAmazonas.JineteAmazonas_id == jya_id,
         ).count()
     else:
         total = Docs_JineteAmazonas.query.filter(
             Docs_JineteAmazonas.nombre.like(f"%{query}%"),
+            Docs_JineteAmazonas.JineteAmazonas_id == jya_id,
         ).count()
 
     return total
@@ -293,11 +296,8 @@ def get_total_docs(query, tipos):
 def list_archivos_page(jya_id, query, order, tipos, by, pag, amount_per_page):
 
     chosen_jya = JinetesAmazonas.query.get(jya_id)
-
     if not chosen_jya:
         raise (ValueError("No se encontró el Jinete/Amazona solicitado "))
-
-    chosen_archivos = chosen_jya.docs
 
     sort_column = {
         "nombre": Docs_JineteAmazonas.nombre,
@@ -311,6 +311,7 @@ def list_archivos_page(jya_id, query, order, tipos, by, pag, amount_per_page):
             Docs_JineteAmazonas.query.filter(
                 Docs_JineteAmazonas.nombre.like(f"%{query}%"),
                 Docs_JineteAmazonas.tipo.in_(tipos),
+                Docs_JineteAmazonas.JineteAmazonas_id == jya_id,
             )
             .order_by(order_by)
             .paginate(page=pag, per_page=amount_per_page)
@@ -319,6 +320,7 @@ def list_archivos_page(jya_id, query, order, tipos, by, pag, amount_per_page):
         chosen_archivos = (
             Docs_JineteAmazonas.query.filter(
                 Docs_JineteAmazonas.nombre.like(f"%{query}%"),
+                Docs_JineteAmazonas.JineteAmazonas_id == jya_id,
             )
             .order_by(order_by)
             .paginate(page=pag, per_page=amount_per_page)

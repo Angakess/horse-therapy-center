@@ -1,6 +1,7 @@
 from datetime import datetime
 from core.database import db
-from sqlalchemy import and_, asc, desc, or_
+from sqlalchemy import and_, asc, desc, or_, String, cast
+from core.equipo import Equipo
 
 
 class MedioDePago(db.Model):
@@ -95,7 +96,12 @@ def create_cobro(**kwargs):
     return cobro
 
 
-def list_cobros_page(amount, page, f_min, f_max, order):
+#def get_equipo(id):
+    #equipo = Equipo.query.filter(id = id).first()
+    #return equipo
+
+
+def list_cobros_page(amount, page, f_min, f_max, order, query):
     """
     Función que lista cobros paginados según los filtros y parámetros proporcionados.
     Parameters: amount(int), cantidad de cobros por página.
@@ -109,11 +115,43 @@ def list_cobros_page(amount, page, f_min, f_max, order):
 
     order_by_fecha = asc(Cobro.fecha) if order == "asc" else desc(Cobro.fecha)
 
+    cobros = Cobro.query
+
     cobros = (
-        Cobro.query.filter(Cobro.fecha >= f_min, Cobro.fecha <= f_max)
+        cobros.join(Equipo)
+    )
+    cobros = cobros.filter(
+        or_(
+            Equipo.nombre.ilike(f"%{query}%"),
+            Equipo.apellido.ilike(f"%{query}%")
+        )
+    )
+    cobros = cobros.filter(
+        Cobro.fecha >= f_min, Cobro.fecha <= f_max
+    )
+
+    cobros = cobros.order_by(order_by_fecha).paginate(
+        page=page, per_page=amount
+    )
+    """
+    cobros = (
+        Cobro.query
+        .join(Equipo)
+        .filter(
+            or_(
+                Cobro.fecha >= f_min, Cobro.fecha <= f_max,
+                Equipo.nombre.ilike(f"%{query}%"),
+                print("CCCCCC"),
+                print(Cobro.equipo.nombre),
+                Equipo.apellido.ilike(f"%{query}%"),
+            )
+        )
         .order_by(order_by_fecha)
         .paginate(page=page, per_page=amount)
     )
+    print("BBBBBBBBBB")
+    print(cobros)
+    """
 
     return cobros
 

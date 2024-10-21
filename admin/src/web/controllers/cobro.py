@@ -4,6 +4,7 @@ from flask import session, abort
 from core import equipo, pago, cobro, jya
 from flask import Blueprint
 from web.helpers.auth import check_permission, is_authenticated
+import unicodedata
 
 bprint = Blueprint("cobro", __name__, url_prefix="/cobro")
 
@@ -35,9 +36,11 @@ def index():
             fecha_max = datetime.strptime(fecha_max, "%Y-%m-%d")
         else:
             fecha_max = datetime.max
+        
+        query = request.args.get("query", "")
 
         cobros = cobro.list_cobros_page(
-            amount_per_page, page, fecha_min, fecha_max, order
+            amount_per_page, page, fecha_min, fecha_max, order, query
         )
         total = cobro.get_total(fecha_min, fecha_max)
     except ValueError as e:
@@ -52,6 +55,7 @@ def index():
         fecha_min=("" if fecha_min == datetime.min else fecha_min),
         fecha_max=("" if fecha_max == datetime.max else fecha_max),
         order=order,
+        query=query
     )
 
 

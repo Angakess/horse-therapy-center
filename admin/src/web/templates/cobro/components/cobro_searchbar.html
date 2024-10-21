@@ -25,6 +25,18 @@
             placeholder="Fecha maxima"
           />
         </div>
+        <div class="col">
+          <label class="">Búsqueda</label>
+          <input
+            value="{{ query or '' }}"
+            type="text"
+            name="query"
+            class="form-control"
+            placeholder="Buscar por nombre o apellido"
+            aria-label="Buscar por columna"
+            aria-describedby="button-addon2"
+          />
+        </div>
         <div class="col d-flex justify-content-around">
           <button type="submit" class="btn btn-outline-lblue">Buscar</button>
           <a
