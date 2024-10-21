@@ -1,7 +1,6 @@
 from datetime import datetime
 from core.database import db
 from core.relacion_equipo_ecuestre import equipo_ecuestre
-from core.cobro import Cobro
 
 
 class Equipo(db.Model):
