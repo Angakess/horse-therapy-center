@@ -1,0 +1,65 @@
+<div
+  class="modal fade"
+  id="exampleModalArchivos"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Nuevo archivo</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form action="{{url_for('ecuestre.add_archivo',id=info.id)}}" method="POST" enctype="multipart/form-data" id="form-archivo">
+          <input
+            class="form-control mb-3"
+            type="file"
+            id="formFile"
+            name="archivos_Ecuestre"
+            required
+          />
+          <select id="tipo-id" name="tipo" class="form-control" required>
+            <option selected hidden disabled value=""></option>
+            <option value="Ficha general del caballo">Ficha general del caballo</option>
+            <option value="Planificación de entrenamiento">Planificación de entrenamiento</option>
+            <option value="Informe de evolución">Informe de evolución</option>
+            <option value="Carga de imágenes">Carga de imágenes</option>
+            <option value="Registro veterinario">Registro veterinario</option>
+          </select>
+        
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary mx-2"
+          data-bs-dismiss="modal"
+        >
+          Cancelar
+        </button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+    document.getElementById("form-archivo").addEventListener("submit", function(event) {
+      const nombreEnlace = document.querySelector('input[name="nombre-enlace"]').value;
+      const tipo = document.querySelector('select[name="tipo"]').value;
+      const archivo = document.querySelector('input[name="archivo"]').value;
+  
+      if (!nombreEnlace || !tipo || !archivo) {
+        event.preventDefault();  // Evitar que se envíe el formulario
+        alert("Debe ingresar un enlace, seleccionar un tipo y subir un archivo.");
+      }
+    });
+  </script>

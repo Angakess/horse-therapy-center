@@ -1,0 +1,98 @@
+<form
+  action="{{ url_for('ecuestre.enter_docs', id=info.id) }}"
+  method="GET"
+  class="mb-3 container"
+>
+  <input id="order-input" type="hidden" name="order" value="{{order}}" />
+  <input id="by-input" type="hidden" name="by" value="{{by}}" />
+  <div class="row align-items-end">
+    <div class="col-auto">
+      <div class="dropdown">
+        <button
+          class="btn btn-outline-primary dropdown-toggle"
+          type="button"
+          id="dropdownMenuButton"
+          data-bs-toggle="dropdown"
+          data-bs-auto-close="outside"
+          aria-expanded="false"
+        >
+          Seleccionar Tipo
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <li class="dropdown-item">
+            <div class="form-check">
+              <input name="tipoarchivo" value="Ficha general del caballo" {% if 'Ficha general del caballo' in
+              tipos %}checked{% endif %} class="form-check-input"
+              type="checkbox" id="checkFicha_general_del_caballo" />
+              <label class="form-check-label" for="checkFicha_general_del_caballo">
+                Ficha general del caballo
+              </label>
+            </div>
+          </li>
+          <li class="dropdown-item">
+            <div class="form-check">
+              <input name="tipoarchivo" value="Planificación de entrenamiento" {% if 'Planificación de entrenamiento' in
+              tipos %}checked{% endif %} class="form-check-input"
+              type="checkbox" id="checkPlanificación_de_entrenamiento" />
+              <label class="form-check-label" for="checkPlanificación_de_entrenamiento">
+                Planificación de entrenamiento
+              </label>
+            </div>
+          </li>
+          <li class="dropdown-item">
+            <div class="form-check">
+              <input name="tipoarchivo" value="Informe de evolución" {% if
+              'Informe de evolución' in tipos %}checked{% endif %}
+              class="form-check-input" type="checkbox" id="checkInforme_de_evolución"
+              />
+              <label class="form-check-label" for="checkInforme_de_evolución">
+                Informe de evolución
+              </label>
+            </div>
+          </li>
+          <li class="dropdown-item">
+            <div class="form-check">
+              <input name="tipoarchivo" value="Carga de imágenes" {% if 'Carga de imágenes' in
+              tipos %}checked{% endif %} class="form-check-input"
+              type="checkbox" id="checkCarga_de_imágenes" />
+              <label class="form-check-label" for="checkCarga_de_imágenes">
+                Carga de imágenes
+              </label>
+            </div>
+          </li>
+          <li class="dropdown-item">
+            <div class="form-check">
+              <input name="tipoarchivo" value="Registro veterinario" {% if 'Registro veterinario' in
+              tipos %}checked{% endif %} class="form-check-input"
+              type="checkbox" id="checkRegistro_veterinario" />
+              <label class="form-check-label" for="checkRegistro_veterinario">
+                Registro veterinario
+              </label>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col">
+      <input
+        value="{{ query }}"
+        type="text"
+        name="query"
+        class="form-control"
+        placeholder="Buscar por título"
+        aria-label="Buscar por columna"
+        aria-describedby="button-addon2"
+      />
+    </div>
+    <div class="col-auto d-flex justify-content-around">
+      <button type="submit" class="btn btn-outline-lblue">Buscar</button>
+    </div>
+    <div class="col-auto d-flex justify-content-around">
+      <a
+        href="{{ url_for('ecuestre.enter_docs', id=info.id) }}"
+        class="btn btn-outline-secondary"
+        >Reset</a
+      >
+    </div>
+  </div>
+</form>
