@@ -14,6 +14,13 @@ bprint = Blueprint("ecuestre", __name__, url_prefix="/ecuestre")
 
 @bprint.get("/")
 def index():
+    """
+    Función que muestra una lista paginada de ecuestres y permite realizar una búsqueda.
+    Returns:
+        - Si el usuario no está autenticado o no tiene permiso, aborta con los códigos 401 o 403 respectivamente.
+        - Si tiene permisos, renderiza la plantilla 'ecuestre/index.html' mostrando los ecuestres filtrados y paginados.
+    """
+        
     if not is_authenticated(session):
         return abort(401)
 
@@ -44,6 +51,17 @@ def index():
 
 @bprint.get("/<id>")
 def get_profile(id):
+
+    """
+    Función que muestra el perfil de un ecuestre por su ID.
+    Parameters:
+        id (int): El ID del ecuestre a mostrar.
+    Returns:
+        - Si el usuario no está autenticado o no tiene permiso, aborta con los códigos 401 o 403 respectivamente.
+        - Si el ecuestre con el ID proporcionado no existe, muestra un mensaje de error y redirige al índice.
+        - Si tiene permisos y el ecuestre es válido, renderiza la plantilla 'ecuestre/profile.html' con la información correspondiente.
+    """
+
     if not is_authenticated(session):
         return abort(401)
 
@@ -60,6 +78,18 @@ def get_profile(id):
 
 @bprint.get("/<id>/edit")
 def enter_edit(id):
+
+    """
+    Función que permite acceder a la página de edición de un ecuestre.
+    Parameters:
+        - id (int): ID del ecuestre a editar.
+    Returns:
+        - Renderiza la plantilla de edición del perfil con los datos del ecuestre seleccionado y las listas
+          de equipos y jinetes/amazonas disponibles para su selección.
+        - Si el usuario no está autenticado o no tiene permiso, aborta con los códigos 401 o 403 respectivamente.
+        - Si ocurre un error al obtener los datos, redirige a la página de perfil con un mensaje de error.
+    """
+
     if not is_authenticated(session):
         return abort(401)
 
@@ -89,6 +119,17 @@ def enter_edit(id):
 
 @bprint.post("/<id>/edit")
 def save_edit(id):
+
+    """
+    Función que guarda los cambios realizados en el perfil de un ecuestre.
+    Parameters:
+        - id (int): ID del ecuestre a editar.
+    Returns:
+        - Redirige a la página del perfil del ecuestre editado con un mensaje de éxito si la edición fue exitosa.
+        - Si el usuario no está autenticado o no tiene permiso, aborta con los códigos 401 o 403 respectivamente.
+        - Si el ecuestre no se encuentra o se produce un error, muestra un mensaje de error y redirige a la página correspondiente.
+    """
+
     if not is_authenticated(session):
         return abort(401)
 
@@ -207,6 +248,15 @@ def save_edit(id):
 
 @bprint.get("/agregar")
 def enter_add():
+
+    """
+    Función que muestra el formulario para agregar un nuevo ecuestre.
+    Parameters: Ninguno.
+    Returns:
+        - Si el usuario no está autenticado o no tiene permiso, aborta con los códigos 401 o 403 respectivamente.
+        - Si tiene permisos, renderiza la plantilla 'ecuestre/add_ecuestre.html' con las listas de equipos y ecuestres.
+    """
+
     if not is_authenticated(session):
         return abort(401)
 
@@ -219,6 +269,16 @@ def enter_add():
 
 @bprint.post("/agregar")
 def add_ecuestre():
+
+    """
+    Función para agregar un nuevo ecuestre junto con su equipo y Jinete/Amazona el cual se utilizará su trabajo a posteriori para realizar las busquedas.
+    Parameters: Ninguno (Los parámetros se obtienen del formulario de la solicitud POST).
+    Returns:
+        - Si el usuario no está autenticado o no tiene permiso, aborta con los códigos 401 o 403 respectivamente.
+        - Si se crea exitosamente el ecuestre junto con sus relaciones, redirige al perfil del ecuestre con un mensaje de éxito.
+        - Si ocurre algún error durante la creación, muestra un mensaje de error y redirige al índice.
+    """
+
     if not is_authenticated(session):
         return abort(401)
 
@@ -259,6 +319,18 @@ def add_ecuestre():
 
 @bprint.post("/borrar/<id>")
 def delete(id):
+
+    """
+    Función para eliminar un ecuestre junto con sus archivos y todas sus asociaciones
+    (equipo y jinete/amazona).
+    Parameters:
+        - id (int): ID del ecuestre a eliminar.
+    Returns:
+        - Si el usuario no está autenticado o no tiene permiso, aborta con los códigos 401 o 403 respectivamente.
+        - Si la eliminación es exitosa, redirige al índice de ecuestres con un mensaje de éxito.
+        - Si ocurre un error durante el proceso, redirige al perfil del ecuestre con un mensaje de error.
+    """
+
     if not is_authenticated(session):
         return abort(401)
 
@@ -284,6 +356,17 @@ def delete(id):
 
 @bprint.get("/<id>/descargar-archivo")
 def download_archivo(id):
+
+    """
+    Función que permite descargar un archivo asociado a un ecuestre.
+    Parameters:
+        - id (int): ID del archivo a descargar.
+    Returns:
+        - Redirige a la URL del archivo para su descarga.
+        - Si el usuario no está autenticado o no tiene permiso, aborta con los códigos 401 o 403 respectivamente.
+        - Si ocurre un error al obtener el archivo, muestra un mensaje de error y redirige a la página del perfil del ecuestre asociado.
+    """
+
     if not is_authenticated(session):
         return abort(401)
 
@@ -303,6 +386,17 @@ def download_archivo(id):
 
 @bprint.get("/<id>/documentos")
 def enter_docs(id):
+
+    """
+    Función que permite acceder a los documentos asociados a un ecuestre.
+    Parameters:
+        - id (int): ID del ecuestre.
+    Returns:
+        - Renderiza la plantilla de documentos del perfil del ecuestre.
+        - Si el usuario no está autenticado o no tiene permiso, aborta con los códigos 401 o 403 respectivamente.
+        - Si ocurre un error al obtener los documentos, muestra un mensaje de error y redirige a la página del perfil del ecuestre asociado.
+    """
+
     if not is_authenticated(session):
         return abort(401)
 
@@ -355,6 +449,17 @@ def enter_docs(id):
 
 @bprint.post("/<id>/agregar-archivo")
 def add_archivo(id):
+
+    """
+    Función que permite agregar un archivo asociado a un ecuestre.
+    Parameters:
+        - id (int): ID del ecuestre.
+    Returns:
+        - Redirige a la página de documentos del ecuestre.
+        - Si el usuario no está autenticado o no tiene permiso, aborta con los códigos 401 o 403 respectivamente.
+        - Si se produce un error al cargar el archivo, muestra un mensaje de error.
+    """
+
     if not is_authenticated(session):
         return abort(401)
 
@@ -423,6 +528,17 @@ def add_archivo(id):
 
 @bprint.post("/<id>/agregar-enlace")
 def add_enlace(id):
+
+    """
+    Función que permite agregar un enlace asociado a un ecuestre.
+    Parameters:
+        - id (int): ID del ecuestre.
+    Returns:
+        - Redirige a la página de documentos del ecuestre.
+        - Si el usuario no está autenticado o no tiene permiso, aborta con los códigos 401 o 403 respectivamente.
+        - Si se produce un error al agregar el enlace, muestra un mensaje de error.
+    """
+
     if not is_authenticated(session):
         return abort(401)
 
@@ -454,6 +570,18 @@ def add_enlace(id):
 
 @bprint.post("/<id>/borrar-archivo/<id_archivo>")
 def delete_archivo(id, id_archivo):
+
+    """
+    Función que permite eliminar un archivo asociado a un ecuestre.
+    Parameters:
+        - id (int): ID del ecuestre.
+        - id_archivo (int): ID del archivo a eliminar.
+    Returns:
+        - Redirige a la página de documentos del ecuestre.
+        - Si el usuario no está autenticado o no tiene permiso, aborta con los códigos 401 o 403 respectivamente.
+        - Si se produce un error al eliminar el archivo, muestra un mensaje de error.
+    """
+
     if not is_authenticated(session):
         return abort(401)
 
@@ -477,6 +605,18 @@ def delete_archivo(id, id_archivo):
 
 @bprint.post("/<id>/borrar-enlace/<id_enlace>")
 def delete_enlace(id, id_enlace):
+
+    """
+    Función que permite eliminar un enlace asociado a un ecuestre.
+    Parameters:
+        - id (int): ID del ecuestre.
+        - id_enlace (int): ID del enlace a eliminar.
+    Returns:
+        - Redirige a la página de documentos del ecuestre.
+        - Si el usuario no está autenticado o no tiene permiso, aborta con los códigos 401 o 403 respectivamente.
+        - Si se produce un error al eliminar el enlace, muestra un mensaje de error.
+    """
+
     if not is_authenticated(session):
         return abort(401)
 
