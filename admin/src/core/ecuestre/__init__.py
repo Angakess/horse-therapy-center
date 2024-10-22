@@ -214,12 +214,12 @@ def get_total_docs(ecuestre_id, query, tipos):
         total = Docs_Ecuestre.query.filter(
             Docs_Ecuestre.nombre.like(f"%{query}%"),
             Docs_Ecuestre.tipo.in_(tipos),
-            Docs_Ecuestre.Ecuestre_id == ecuestre_id,
+            Docs_Ecuestre.ecuestre_id == ecuestre_id,
         ).count()
     else:
         total = Docs_Ecuestre.query.filter(
             Docs_Ecuestre.nombre.like(f"%{query}%"),
-            Docs_Ecuestre.Ecuestre_id == ecuestre_id,
+            Docs_Ecuestre.ecuestre_id == ecuestre_id,
         ).count()
 
     return total

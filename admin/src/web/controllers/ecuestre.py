@@ -444,11 +444,11 @@ def add_enlace(id):
         ecuestre.assign_archivo(ecuestre_modificar, nuevo_enlace)
 
         flash("Enlace agregado con éxito", "success")
-        return redirect(url_for("jya.enter_docs", id=id))
+        return redirect(url_for("ecuestre.enter_docs", id=id))
 
     except ValueError as e:
         flash(str(e), "danger")
-        return redirect(url_for("jya.enter_docs", id=id))
+        return redirect(url_for("ecuestre.enter_docs", id=id))
     pass
 
 
