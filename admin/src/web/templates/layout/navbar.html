@@ -36,6 +36,11 @@
             <a class="nav-link active" aria-current="page" href="{{ url_for('users.index') }}">Usuarios</a>
           </li>
           {% endif %}
+          {% if check_permission(session, "cobro_index") %}
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{{ url_for('cobro.index') }}">Cobros</a>
+          </li>
+          {% endif %}
           {% endif %}
           
         </ul>

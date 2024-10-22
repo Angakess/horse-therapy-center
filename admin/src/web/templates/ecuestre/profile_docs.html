@@ -1,0 +1,65 @@
+{% extends "layout.html" %} {% block title %} Perfil Ecuestre {{info.id}}
+{% endblock %} {% block head %} {{ super() }} {% endblock %} {% block content %}
+
+<div class="container">
+  {% include "ecuestre/components/messages.html" %}
+  <div class="row">
+    <div
+      class="container bg-secondary d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded"
+    >
+      <div class="col">
+        <h1 class="h2 text-white mb-0">Documentos</h1>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col d-flex align-items-center justify-content-end">
+      <a
+        class="btn btn-link mx-2 align-self-start"
+        href="{{url_for('ecuestre.get_profile', id=info.id)}}"
+      >
+        ◄ Volver
+      </a>
+      <button
+        type="button"
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModalArchivos"
+      >
+        Agregar archivo
+      </button>
+
+      <!-- Modal -->
+      {%include "ecuestre/components/modal_add_archivos.html"%}
+
+      <button
+        type="button"
+        class="btn btn-outline-yellow mx-2"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModalEnlace"
+      >
+        Agregar enlace
+      </button>
+
+      {%include "ecuestre/components/modal_add_enlace.html"%}
+
+      <div class="row">
+        <div class="col">
+          <h2 class="ecuestre-profile-title text-secondary">Archivos y Enlaces</h2>
+          {% if archivos or enlaces %} {%include
+          'ecuestre/components/tabla_docs.html'%} {%else%}
+          <span class="display-26 text-primary me-2 font-weight-600"
+            >No hay documentos asociados a este ecuestre</span
+          >
+          {%endif%}
+        </div>
+
+        <div class="row">
+          <div class="col"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endblock %}
+</div>

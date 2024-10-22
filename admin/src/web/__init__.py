@@ -11,6 +11,7 @@ from web.controllers.users import bprint as users_bp
 from web.controllers.ecuestre import bprint as ecuestre_bp
 from web.controllers.pago import bprint as pago_bp
 from web.controllers.jya import bprint as jya_bp
+from web.controllers.cobro import bprint as cobro_bp
 from flask_session import Session
 from core.bcrypt import bcrypt
 from web.helpers.auth import is_authenticated, check_permission
@@ -67,6 +68,7 @@ def create_app(env="development", static_folder="../../static"):
     app.register_blueprint(ecuestre_bp)
     app.register_blueprint(pago_bp)
     app.register_blueprint(jya_bp)
+    app.register_blueprint(cobro_bp)
 
     # Error handlers
     app.register_error_handler(404, handler.not_found_error)

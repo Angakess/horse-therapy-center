@@ -1,0 +1,108 @@
+<form
+  action="{{ url_for('jya.enter_docs', id=info.id) }}"
+  method="GET"
+  class="mb-3 container"
+>
+  <input id="order-input" type="hidden" name="order" value="{{order}}" />
+  <input id="by-input" type="hidden" name="by" value="{{by}}" />
+  <div class="row align-items-end">
+    <div class="col-auto">
+      <div class="dropdown">
+        <button
+          class="btn btn-outline-primary dropdown-toggle"
+          type="button"
+          id="dropdownMenuButton"
+          data-bs-toggle="dropdown"
+          data-bs-auto-close="outside"
+          aria-expanded="false"
+        >
+          Seleccionar Tipo
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <li class="dropdown-item">
+            <div class="form-check">
+              <input name="tipoarchivo" value="Entrevista" {% if 'Entrevista' in
+              tipos %}checked{% endif %} class="form-check-input"
+              type="checkbox" id="checkEntrevista" />
+              <label class="form-check-label" for="checkEntrevista">
+                Entrevista
+              </label>
+            </div>
+          </li>
+          <li class="dropdown-item">
+            <div class="form-check">
+              <input name="tipoarchivo" value="Evaluación" {% if 'Evaluación' in
+              tipos %}checked{% endif %} class="form-check-input"
+              type="checkbox" id="checkEvaluación" />
+              <label class="form-check-label" for="checkEvaluación">
+                Evaluación
+              </label>
+            </div>
+          </li>
+          <li class="dropdown-item">
+            <div class="form-check">
+              <input name="tipoarchivo" value="Planificaciones" {% if
+              'Planificaciones' in tipos %}checked{% endif %}
+              class="form-check-input" type="checkbox" id="checkPlanificaciones"
+              />
+              <label class="form-check-label" for="checkPlanificaciones">
+                Planificaciones
+              </label>
+            </div>
+          </li>
+          <li class="dropdown-item">
+            <div class="form-check">
+              <input name="tipoarchivo" value="Evolución" {% if 'Evolución' in
+              tipos %}checked{% endif %} class="form-check-input"
+              type="checkbox" id="checkEvolución" />
+              <label class="form-check-label" for="checkEvolución">
+                Evolución
+              </label>
+            </div>
+          </li>
+          <li class="dropdown-item">
+            <div class="form-check">
+              <input name="tipoarchivo" value="Crónicas" {% if 'Crónicas' in
+              tipos %}checked{% endif %} class="form-check-input"
+              type="checkbox" id="checkCrónicas" />
+              <label class="form-check-label" for="checkCrónicas">
+                Crónicas
+              </label>
+            </div>
+          </li>
+          <li class="dropdown-item">
+            <div class="form-check">
+              <input name="tipoarchivo" value="Documental" {% if 'Documental' in
+              tipos %}checked{% endif %} class="form-check-input"
+              type="checkbox" id="checkDocumental" />
+              <label class="form-check-label" for="checkDocumental">
+                Documental
+              </label>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col">
+      <input
+        value="{{ query }}"
+        type="text"
+        name="query"
+        class="form-control"
+        placeholder="Buscar por título"
+        aria-label="Buscar por columna"
+        aria-describedby="button-addon2"
+      />
+    </div>
+    <div class="col-auto d-flex justify-content-around">
+      <button type="submit" class="btn btn-outline-lblue">Buscar</button>
+    </div>
+    <div class="col-auto d-flex justify-content-around">
+      <a
+        href="{{ url_for('jya.enter_docs', id=info.id) }}"
+        class="btn btn-outline-secondary"
+        >Reset</a
+      >
+    </div>
+  </div>
+</form>

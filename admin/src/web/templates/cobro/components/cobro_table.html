@@ -1,0 +1,83 @@
+<div class="table-responsive">
+    <table class="table table-striped">
+      <thead class="container-fluid">
+        <tr class="align-items-center">
+          <th scope="col" class="col-md-2 col-pago-email">
+            <form id="sort_form" action="{{url_for('cobro.index')}}" method="get">
+              <input
+                hidden
+                type="date"
+                name="fechamin"
+                value="{% if fecha_min %}{{fecha_min.strftime('%Y-%m-%d')}}{% endif %}"
+              />
+              <input
+                hidden
+                type="date"
+                name="fechamax"
+                value="{% if fecha_max %}{{fecha_max.strftime('%Y-%m-%d')}}{% endif %}"
+              />
+              <input
+                type="hidden"
+                name="order"
+                value="{% if order=='asc' %}desc{% else %}asc{% endif %}"
+              />
+  
+              <div
+                class="row d-flex align-items-center hover-underline"
+                onclick="document.getElementById('sort_form').submit();"
+                style="display: flex; cursor: pointer"
+              >
+                <div id="column_name_nombre" class="col-auto">Fecha de cobro</div>
+                {% include 'cobro/components/filter_arrows.html'%}
+              </div>
+            </form>
+          </th>
+          <th scope="col" class="col-md-1 col-pago-dni">Monto</th>
+          <th scope="col" class="col-md-1 col-pago-dni">Cobrador</th>
+          <th scope="col" class="col-md-1 col-pago-dni">JineteYAmazonas</th>
+          <th scope="col" class="col-md-1 col-pago-acciones">
+            <div class="container">
+              <div class="row d-flex align-items-center justify-content-center">
+                <div class="col-auto">Acciones</div>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+  
+      <tbody>
+        {% for cobro in cobros %}
+        <tr>
+          <td>{{ cobro.fecha.strftime('%d/%m/%Y') }}</td>
+          <td>$ {{ cobro.monto }}</td>
+          <td>{{ cobro.equipo.nombre }} {{ cobro.equipo.apellido }}</td>
+          <td>{{ cobro.jya.nombre }} {{ cobro.jya.apellido }}</td>
+          <td>
+            <div class="container">
+              <div class="row d-flex align-items-center justify-content-center">
+                <div class="col-auto">
+                  <button class="btn btn-outline-lblue" onclick=window.location.href="{{ url_for('cobro.get_info', id=cobro.id) }}";>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-info-lg"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="m9.708 6.075-3.024.379-.108.502.595.108c.387.093.464.232.38.619l-.975 4.577c-.255 1.183.14 1.74 1.067 1.74.72 0 1.554-.332 1.933-.789l.116-.549c-.263.232-.65.325-.905.325-.363 0-.494-.255-.402-.704zm.091-2.755a1.32 1.32 0 1 1-2.64 0 1.32 1.32 0 0 1 2.64 0"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {%include "cobro/components/cobro_pagination.html"%}
+  

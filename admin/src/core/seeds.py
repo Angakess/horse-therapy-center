@@ -9,13 +9,13 @@ from core import (
     parienteTutor,
     trabajo,
     pago,
+    cobro,
 )
 from core.user import Role, RolePermission, Permission
 from datetime import datetime
 
 
 def run():
-
     pago1 = pago.create_pago(
         monto=10000,
         fecha=datetime(2022, 1, 1),
@@ -343,6 +343,11 @@ def run():
         "jya_save_edit",
         "jya_download_archivo",
         "jya_str_to_bool",
+        "jya_enter_docs",
+        "jya_add_archivo",
+        "jya_add_enlace",
+        "jya_delete_archivo",
+        "jya_delete_enlace",
         "ecuestre_index",
         "ecuestre_get_profile",
         "ecuestre_enter_edit",
@@ -351,6 +356,11 @@ def run():
         "ecuestre_add_ecuestre",
         "ecuestre_delete",
         "ecuestre_download_archivo",
+        "ecuestre_enter_docs",
+        "ecuestre_add_archivo",
+        "ecuestre_add_enlace",
+        "ecuestre_delete_archivo",
+        "ecuestre_delete_enlace",
         "issues_index",
         "pago_index",
         "pago_get_info",
@@ -359,6 +369,13 @@ def run():
         "pago_delete",
         "pago_enter_add",
         "pago_add",
+        "cobro_index",
+        "cobro_get_info",
+        "cobro_enter_edit",
+        "cobro_save_edit",
+        "cobro_delete",
+        "cobro_enter_add",
+        "cobro_add",
     ]
     PERMISSIONS = {
         "Administración": [
@@ -377,9 +394,17 @@ def run():
             "jya_add_jya",
             "jya_delete",
             "jya_enter_edit",
+            "jya_download_archivo",
             "jya_save_edit",
+            "jya_enter_docs",
+            "jya_add_archivo",
+            "jya_add_enlace",
+            "jya_delete_archivo",
+            "jya_delete_enlace",
             "ecuestre_index",
             "ecuestre_get_profile",
+            "ecuestre_enter_docs",
+            "ecuestre_download_archivo",
             "issues_index",
             "pago_index",
             "pago_get_info",
@@ -388,6 +413,13 @@ def run():
             "pago_delete",
             "pago_enter_add",
             "pago_add",
+            "cobro_index",
+            "cobro_get_info",
+            "cobro_enter_edit",
+            "cobro_save_edit",
+            "cobro_delete",
+            "cobro_enter_add",
+            "cobro_add",
         ],
         "Voluntariado": [],
         "Técnica": [
@@ -398,12 +430,22 @@ def run():
             "jya_delete",
             "jya_enter_edit",
             "jya_save_edit",
+            "jya_download_archivo",
+            "jya_enter_docs",
+            "jya_add_archivo",
+            "jya_add_enlace",
+            "jya_delete_archivo",
+            "jya_delete_enlace",
             "ecuestre_index",
             "ecuestre_get_profile",
+            "ecuestre_enter_docs",
+            "ecuestre_download_archivo",
         ],
         "Ecuestre": [
             "jya_index",
             "jya_get_profile",
+            "jya_enter_docs",
+            "jya_download_archivo",
             "ecuestre_index",
             "ecuestre_get_profile",
             "ecuestre_enter_edit",
@@ -411,6 +453,12 @@ def run():
             "ecuestre_enter_add",
             "ecuestre_add_ecuestre",
             "ecuestre_delete",
+            "ecuestre_enter_docs",
+            "ecuestre_add_archivo",
+            "ecuestre_add_enlace",
+            "ecuestre_delete_archivo",
+            "ecuestre_delete_enlace",
+            "ecuestre_download_archivo",
         ],
     }
 
@@ -428,3 +476,32 @@ def run():
             user.assign_permission(
                 (find_role_by_name(rol)).id, (find_permission_by_name(per)).id
             )
+
+    medioDePago1 = cobro.create_medio_pago(name="Efectivo")
+    medioDePago2 = cobro.create_medio_pago(name="Tarjeta de débito")
+    medioDePago3 = cobro.create_medio_pago(name="Tarjeta de crédito")
+
+    cobro1 = cobro.create_cobro(
+        monto=100,
+        fecha=datetime(2024, 3, 3),
+        observaciones="Te observo 1",
+        medio_pago=medioDePago1,
+        jya=jya1,
+        equipo=equipo1,
+    )
+    cobro2 = cobro.create_cobro(
+        monto=2000,
+        fecha=datetime(2021, 7, 3),
+        observaciones="Te observo 2",
+        medio_pago=medioDePago2,
+        jya=jya2,
+        equipo=equipo2,
+    )
+    cobro3 = cobro.create_cobro(
+        monto=100132,
+        fecha=datetime(2026, 3, 3),
+        observaciones="Te observo 3",
+        medio_pago=medioDePago3,
+        jya=jya1,
+        equipo=equipo3,
+    )

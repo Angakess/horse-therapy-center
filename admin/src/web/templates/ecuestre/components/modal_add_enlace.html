@@ -1,0 +1,68 @@
+    <div
+        class="modal fade"
+        id="exampleModalEnlace"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">
+                Nuevo archivo
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form action="{{url_for('ecuestre.add_enlace', id=info.id)}}" method="POST" id="form-enlace">
+                <input
+                  id="nombre-enlace-id"
+                  class="form-control mb-3"
+                  type="text"
+                  name="nombre-enlace"
+                  placeholder="Ingrese un enlace"
+                  required
+                />
+                <select id="tipo-enlace-id" name="tipo" class="form-control" required>
+                  <option selected hidden disabled value=""></option>
+                  <option value="Ficha general del caballo">Ficha general del caballo</option>
+                  <option value="Planificación de entrenamiento">Planificación de entrenamiento</option>
+                  <option value="Informe de evolución">Informe de evolución</option>
+                  <option value="Carga de imágenes">Carga de imágenes</option>
+                  <option value="Registro veterinario">Registro veterinario</option>
+                </select>
+              
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary mx-2"
+                data-bs-dismiss="modal"
+              >
+                Cancelar
+              </button>
+              <button type="submit" class="btn btn-primary">Guardar</button>
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+        document.getElementById("form-enlace").addEventListener("submit", function(event) {
+          const nombreEnlace = document.getElementById('nombre-enlace-id').value;
+          const tipo = document.getElementById('tipo-enlace-id').value;
+      
+          if (!nombreEnlace || !tipo) {
+            event.preventDefault();  // Evitar que se envíe el formulario
+            alert("Debe ingresar un enlace y seleccionar un tipo.");
+          }
+        });
+      </script>
+      
