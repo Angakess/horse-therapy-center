@@ -357,7 +357,7 @@ def run():
         "ecuestre_delete",
         "ecuestre_download_archivo",
         "ecuestre_enter_docs",
-        "ecuestre_add_archivo,"
+        "ecuestre_add_archivo",
         "ecuestre_add_enlace",
         "ecuestre_delete_archivo",
         "ecuestre_delete_enlace",
@@ -403,6 +403,8 @@ def run():
             "jya_delete_enlace",
             "ecuestre_index",
             "ecuestre_get_profile",
+            "ecuestre_enter_docs",
+            "ecuestre_download_archivo",
             "issues_index",
             "pago_index",
             "pago_get_info",
@@ -436,6 +438,8 @@ def run():
             "jya_delete_enlace",
             "ecuestre_index",
             "ecuestre_get_profile",
+            "ecuestre_enter_docs",
+            "ecuestre_download_archivo",
         ],
         "Ecuestre": [
             "jya_index",
@@ -450,10 +454,11 @@ def run():
             "ecuestre_add_ecuestre",
             "ecuestre_delete",
             "ecuestre_enter_docs",
-            "ecuestre_add_archivo,"
+            "ecuestre_add_archivo",
             "ecuestre_add_enlace",
             "ecuestre_delete_archivo",
             "ecuestre_delete_enlace",
+            "ecuestre_download_archivo",
         ],
     }
 
@@ -500,71 +505,3 @@ def run():
         jya=jya1,
         equipo=equipo3,
     )
-
-    archivo_jya1 = jya.create_archivo(
-        nombre="asdf",
-        tipo="Entrevista",
-    )
-    archivo_jya2 = jya.create_archivo(
-        nombre="qwer",
-        tipo="Planificaciones",
-    )
-    archivo_jya3 = jya.create_archivo(
-        nombre="zxcv",
-        tipo="Crónicas",
-    )
-
-    jya.assign_archivo(jya1, archivo_jya1)
-    jya.assign_archivo(jya1, archivo_jya2)
-    jya.assign_archivo(jya1, archivo_jya3)
-
-    enlace_jya1 = jya.create_archivo(
-        nombre="google.com",
-        tipo="Entrevista",
-    )
-    enlace_jya2 = jya.create_archivo(
-        nombre="wikipedia.com",
-        tipo="Planificaciones",
-    )
-    enlace_jya3 = jya.create_archivo(
-        nombre="cedica.com",
-        tipo="Crónicas",
-    )
-
-    jya.assign_archivo(jya1, enlace_jya1)
-    jya.assign_archivo(jya1, enlace_jya2)
-    jya.assign_archivo(jya1, enlace_jya3)
-
-    archivo_ecuestre1 = ecuestre.create_archivo(
-        nombre="Archivo ecuestre 1",
-        tipo="Ficha general del caballo",
-    )
-    archivo_ecuestre2 = ecuestre.create_archivo(
-        nombre="Archivo ecuestre 2",
-        tipo="Informe de evolución",
-    )
-    archivo_ecuestre3 = ecuestre.create_archivo(
-        nombre="Archivo ecuestre 3",
-        tipo="Registro veterinario",
-    )
-
-    ecuestre.assign_archivo(ecuestre1, archivo_ecuestre1)
-    ecuestre.assign_archivo(ecuestre1, archivo_ecuestre2)
-    ecuestre.assign_archivo(ecuestre1, archivo_ecuestre3)
-
-    enlace_ecuestre1 = ecuestre.create_archivo(
-        nombre="github.com",
-        tipo="Registro veterinario",
-    )
-    enlace_ecuestre2 = ecuestre.create_archivo(
-        nombre="minecraft.com",
-        tipo="Planificación de entrenamiento",
-    )
-    enlace_ecuestre3 = ecuestre.create_archivo(
-        nombre="marcopolo.com",
-        tipo="Carga de imágenes",
-    )
-
-    ecuestre.assign_archivo(ecuestre1, enlace_ecuestre1)
-    ecuestre.assign_archivo(ecuestre1, enlace_ecuestre2)
-    ecuestre.assign_archivo(ecuestre1, enlace_ecuestre3)

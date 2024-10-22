@@ -20,7 +20,7 @@ def index():
         - Si el usuario no está autenticado o no tiene permiso, aborta con los códigos 401 o 403 respectivamente.
         - Si tiene permisos, renderiza la plantilla 'ecuestre/index.html' mostrando los ecuestres filtrados y paginados.
     """
-        
+
     if not is_authenticated(session):
         return abort(401)
 
@@ -48,10 +48,8 @@ def index():
     )
 
 
-
 @bprint.get("/<id>")
 def get_profile(id):
-
     """
     Función que muestra el perfil de un ecuestre por su ID.
     Parameters:
@@ -78,7 +76,6 @@ def get_profile(id):
 
 @bprint.get("/<id>/edit")
 def enter_edit(id):
-
     """
     Función que permite acceder a la página de edición de un ecuestre.
     Parameters:
@@ -119,7 +116,6 @@ def enter_edit(id):
 
 @bprint.post("/<id>/edit")
 def save_edit(id):
-
     """
     Función que guarda los cambios realizados en el perfil de un ecuestre.
     Parameters:
@@ -248,7 +244,6 @@ def save_edit(id):
 
 @bprint.get("/agregar")
 def enter_add():
-
     """
     Función que muestra el formulario para agregar un nuevo ecuestre.
     Parameters: Ninguno.
@@ -269,7 +264,6 @@ def enter_add():
 
 @bprint.post("/agregar")
 def add_ecuestre():
-
     """
     Función para agregar un nuevo ecuestre junto con su equipo y Jinete/Amazona el cual se utilizará su trabajo a posteriori para realizar las busquedas.
     Parameters: Ninguno (Los parámetros se obtienen del formulario de la solicitud POST).
@@ -319,7 +313,6 @@ def add_ecuestre():
 
 @bprint.post("/borrar/<id>")
 def delete(id):
-
     """
     Función para eliminar un ecuestre junto con sus archivos y todas sus asociaciones
     (equipo y jinete/amazona).
@@ -356,7 +349,6 @@ def delete(id):
 
 @bprint.get("/<id>/descargar-archivo")
 def download_archivo(id):
-
     """
     Función que permite descargar un archivo asociado a un ecuestre.
     Parameters:
@@ -376,7 +368,7 @@ def download_archivo(id):
         chosen_archivo = ecuestre.get_archivo(id)
         client = current_app.storage.client
         minio_url = client.presigned_get_object(
-            "grupo28", f"/jya/{chosen_archivo.id}-{chosen_archivo.nombre}"
+            "grupo28", f"/ecuestre/{chosen_archivo.id}-{chosen_archivo.nombre}"
         )
     except ValueError as e:
         flash(str(e), "danger")
@@ -384,9 +376,9 @@ def download_archivo(id):
 
     return redirect(minio_url)
 
+
 @bprint.get("/<id>/documentos")
 def enter_docs(id):
-
     """
     Función que permite acceder a los documentos asociados a un ecuestre.
     Parameters:
@@ -449,7 +441,6 @@ def enter_docs(id):
 
 @bprint.post("/<id>/agregar-archivo")
 def add_archivo(id):
-
     """
     Función que permite agregar un archivo asociado a un ecuestre.
     Parameters:
@@ -528,7 +519,6 @@ def add_archivo(id):
 
 @bprint.post("/<id>/agregar-enlace")
 def add_enlace(id):
-
     """
     Función que permite agregar un enlace asociado a un ecuestre.
     Parameters:
@@ -570,7 +560,6 @@ def add_enlace(id):
 
 @bprint.post("/<id>/borrar-archivo/<id_archivo>")
 def delete_archivo(id, id_archivo):
-
     """
     Función que permite eliminar un archivo asociado a un ecuestre.
     Parameters:
@@ -592,9 +581,7 @@ def delete_archivo(id, id_archivo):
 
         client = current_app.storage.client
 
-        client.remove_object(
-            "grupo28", f"/ecuestre/{archivo.id}-{archivo.nombre}"
-        )
+        client.remove_object("grupo28", f"/ecuestre/{archivo.id}-{archivo.nombre}")
 
         flash("Archivo eliminado con éxito", "danger")
     except ValueError as e:
@@ -605,7 +592,6 @@ def delete_archivo(id, id_archivo):
 
 @bprint.post("/<id>/borrar-enlace/<id_enlace>")
 def delete_enlace(id, id_enlace):
-
     """
     Función que permite eliminar un enlace asociado a un ecuestre.
     Parameters:
