@@ -4,7 +4,6 @@ from sqlalchemy import asc, desc, or_
 from core.relacion_equipo_ecuestre import equipo_ecuestre
 from core.jya import JinetesAmazonas
 from core.trabajo import Trabajo
-from .archivos import Archivo_Ecuestre
 from .docs import Docs_Ecuestre
 
 
@@ -35,8 +34,6 @@ class Ecuestre(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
     caballo_trabajo = db.relationship("Trabajo", back_populates="caballo")
-
-    archivos = db.relationship("Archivo_Ecuestre", back_populates="ecuestre")
 
     def __repr__(self):
         return f'<Nombre "{self.nombre}," Fecha nacimiento "{self.fecha_nacimiento}," Sexo "{self.sexo}," Raza "{self.raza}," Pelaje "{self.pelaje}," Sede Asignada: {self.sede_asignada}>'
@@ -172,28 +169,28 @@ def unassing_j_y_a(ecuestre, j_y_a):
 
 
 def create_archivo(**kwargs):
-    archivo = Archivo_Ecuestre(**kwargs)
+    archivo = Docs_Ecuestre(**kwargs)
     db.session.add(archivo)
     db.session.commit()
     return archivo
 
 
 def assign_archivo(ecuestre, archivo):
-    ecuestre.archivos.append(archivo)
+    ecuestre.docs.append(archivo)
     db.session.add(ecuestre)
     db.session.commit()
     return archivo
 
 
 def get_archivo(id):
-    archivo = Archivo_Ecuestre.query.get(id)
+    archivo = Docs_Ecuestre.query.get(id)
     if not archivo:
         raise (ValueError("No se encontró el archivo solicitado"))
     return archivo
 
 
 def delete_archivo(id):
-    archivo = Archivo_Ecuestre.query.get(id)
+    archivo = Docs_Ecuestre.query.get(id)
     if not archivo:
         raise (ValueError("No se encontró el archivo solicitado para borrar"))
     else:

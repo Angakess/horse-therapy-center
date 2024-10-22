@@ -72,7 +72,7 @@ def enter_edit(id):
         return render_template(
             "ecuestre/profile_editing.html",
             info=chosen_ecuestre,
-            archivos=chosen_ecuestre.archivos,
+            archivos=chosen_ecuestre.docs,
             equipos=equipos,
             jya=jya,
         )
@@ -82,7 +82,7 @@ def enter_edit(id):
             url_for(
                 "ecuestre/profile.html",
                 info=chosen_ecuestre,
-                archivos=chosen_ecuestre.archivos,
+                archivos=chosen_ecuestre.docs,
             )
         )
 
@@ -266,7 +266,7 @@ def delete(id):
         return abort(403)
     try:
         chosen_ecuestre = ecuestre.get_ecuestre(id)
-        archivos_asociados = chosen_ecuestre.archivos
+        archivos_asociados = chosen_ecuestre.docs
         client = current_app.storage.client
         for archivo in archivos_asociados:
             client.remove_object("grupo28", f"{archivo.id}-{archivo.nombre}")
