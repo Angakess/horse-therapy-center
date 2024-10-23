@@ -101,14 +101,14 @@ def create_cobro(**kwargs):
     #return equipo
 
 
-def list_cobros_page(amount, page, f_min, f_max, order, query):
+def list_cobros_page(amount, page, f_min, f_max, order, query, medios):
     """
     Función que lista cobros paginados según los filtros y parámetros proporcionados.
     Parameters: amount(int), cantidad de cobros por página.
                 page(int), número de la página a mostrar.
                 f_min(datetime), fecha mínima del filtro.
                 f_max(datetime), fecha máxima del filtro.
-                tipos(list), lista de tipos de cobro a filtrar.
+                medios(list), lista de medios de pago a filtrar.
                 order(string "asc" o "desc"), orden del listado.
     Returns: cobros (Paginator), página de cobros.
     """
@@ -120,6 +120,10 @@ def list_cobros_page(amount, page, f_min, f_max, order, query):
     cobros = (
         cobros.join(Equipo)
     )
+    if medios:
+        cobros = (
+            cobros.join(MedioDePago)
+        )
     cobros = cobros.filter(
         or_(
             Equipo.nombre.ilike(f"%{query}%"),
@@ -129,6 +133,11 @@ def list_cobros_page(amount, page, f_min, f_max, order, query):
     cobros = cobros.filter(
         Cobro.fecha >= f_min, Cobro.fecha <= f_max
     )
+
+    if medios:
+        cobros = cobros.filter(
+            MedioDePago.name.in_(medios)
+        )
 
     cobros = cobros.order_by(order_by_fecha).paginate(
         page=page, per_page=amount

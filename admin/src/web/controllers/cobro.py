@@ -21,6 +21,10 @@ def index():
     try:
         page = int(request.args.get("pag", "1"))
         order = request.args.get("order", "desc")
+        medios = request.args.getlist("medioDePago")
+        print("AAAAAAAAAAAAA")
+        print (medios)
+        todosLosMedios = cobro.list_medio_de_pago()
 
         fecha_min = request.args.get("fechamin", "")
 
@@ -40,7 +44,7 @@ def index():
         query = request.args.get("query", "")
 
         cobros = cobro.list_cobros_page(
-            amount_per_page, page, fecha_min, fecha_max, order, query
+            amount_per_page, page, fecha_min, fecha_max, order, query, medios
         )
         total = cobro.get_total(fecha_min, fecha_max)
     except ValueError as e:
@@ -55,7 +59,9 @@ def index():
         fecha_min=("" if fecha_min == datetime.min else fecha_min),
         fecha_max=("" if fecha_max == datetime.max else fecha_max),
         order=order,
-        query=query
+        query=query,
+        medios=medios,
+        todosLosMedios=todosLosMedios
     )
 
 
