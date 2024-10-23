@@ -108,8 +108,9 @@ def list_cobros_page(amount, page, f_min, f_max, order, query, medios):
                 page(int), número de la página a mostrar.
                 f_min(datetime), fecha mínima del filtro.
                 f_max(datetime), fecha máxima del filtro.
-                medios(list), lista de medios de pago a filtrar.
                 order(string "asc" o "desc"), orden del listado.
+                medios(list), lista de medios de pago a filtrar.
+                query, string por el cual buscar coincidencias en nombre o apellido del jya del cobro.
     Returns: cobros (Paginator), página de cobros.
     """
 
@@ -142,25 +143,6 @@ def list_cobros_page(amount, page, f_min, f_max, order, query, medios):
     cobros = cobros.order_by(order_by_fecha).paginate(
         page=page, per_page=amount
     )
-    """
-    cobros = (
-        Cobro.query
-        .join(Equipo)
-        .filter(
-            or_(
-                Cobro.fecha >= f_min, Cobro.fecha <= f_max,
-                Equipo.nombre.ilike(f"%{query}%"),
-                print("CCCCCC"),
-                print(Cobro.equipo.nombre),
-                Equipo.apellido.ilike(f"%{query}%"),
-            )
-        )
-        .order_by(order_by_fecha)
-        .paginate(page=page, per_page=amount)
-    )
-    print("BBBBBBBBBB")
-    print(cobros)
-    """
 
     return cobros
 

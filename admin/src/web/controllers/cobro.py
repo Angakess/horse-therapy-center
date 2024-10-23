@@ -65,12 +65,12 @@ def index():
 
 @bprint.get("/<id>")
 def get_info(id):
+    """Muestra la información detallada de un cobro específico."""
     if not is_authenticated(session):
         return abort(401)
 
     if not check_permission(session, "cobro_get_info"):
         return abort(403)
-    """Muestra la información detallada de un cobro específico."""
     try:
         chosen_cobro = cobro.get_one(id)
     except ValueError as e:
@@ -82,12 +82,12 @@ def get_info(id):
 
 @bprint.get("<id>/edit")
 def enter_edit(id):
+    """Permite editar un cobro existente, cargando los datos actuales del cobro."""
     if not is_authenticated(session):
         return abort(401)
 
     if not check_permission(session, "cobro_enter_edit"):
         return abort(403)
-    """Permite editar un cobro existente, cargando los datos actuales del cobro."""
     try:
         chosen_cobro = cobro.get_one(id)
 
@@ -132,12 +132,12 @@ def enter_edit(id):
 
 @bprint.post("<id>/edit")
 def save_edit(id):
+    """Guarda los cambios realizados a un cobro existente."""
     if not is_authenticated(session):
         return abort(401)
 
     if not check_permission(session, "cobro_save_edit"):
         return abort(403)
-    """Guarda los cambios realizados a un cobro existente."""
     try:
         
         try:
@@ -168,12 +168,12 @@ def save_edit(id):
 
 @bprint.post("/<id>/borrar")
 def delete(id):
+    """Elimina un cobro por su ID."""
     if not is_authenticated(session):
         return abort(401)
 
     if not check_permission(session, "cobro_delete"):
         return abort(403)
-    """Elimina un cobro por su ID."""
     try:
         cobro.delete_cobro(id)
     except ValueError as e:
@@ -186,12 +186,12 @@ def delete(id):
 
 @bprint.get("/agregar")
 def enter_add():
+    """Permite agregar un nuevo cobro, mostrando un formulario para ingresar los datos."""
     if not is_authenticated(session):
         return abort(401)
 
     if not check_permission(session, "cobro_enter_add"):
         return abort(403)
-    """Permite agregar un nuevo cobro, mostrando un formulario para ingresar los datos."""
     amount_per_page = 5
 
     page = int(request.args.get("pag", "1"))
@@ -228,12 +228,12 @@ def enter_add():
 
 @bprint.post("/agregar")
 def add():
+    """Crea un nuevo cobro basado en los datos ingresados en el formulario."""
     if not is_authenticated(session):
         return abort(401)
 
     if not check_permission(session, "cobro_add"):
         return abort(403)
-    """Crea un nuevo cobro basado en los datos ingresados en el formulario."""
     try:
 
         try:
@@ -276,6 +276,12 @@ def add():
 
 @bprint.get("/<id>/<endeudado>")
 def set_endeudado(id, endeudado):
+    """
+    Esta función setea el valor de tiene_deuda del jinete y amazonas
+    del cobro con el id pasado por parámetro con el valor del parámetro endeudado
+    (solo puede ser booleano)
+    """
+
     if not is_authenticated(session):
         return abort(401)
 
