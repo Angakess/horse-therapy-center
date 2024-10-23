@@ -132,6 +132,7 @@ def run():
         beneficiario_pension_tipo="Nacional",
         discapacidad="ECNE",
         tipo_discapacidad="Mental",
+        tiene_deuda = False,
     )
     jya2 = jya.create_jinetes_amazonas(
         nombre="jya2",
@@ -150,6 +151,7 @@ def run():
         certificado_discapacidad=False,
         asignacion_familiar=False,
         beneficiario_pension=False,
+        tiene_deuda = True,
     )
     situacion_previsional1 = situacionPrevisional.create_situacion_previsional(
         obra_social="IOMA",
@@ -376,6 +378,7 @@ def run():
         "cobro_delete",
         "cobro_enter_add",
         "cobro_add",
+        "cobro_set_endeudado",
     ]
     PERMISSIONS = {
         "Administración": [
@@ -420,6 +423,7 @@ def run():
             "cobro_delete",
             "cobro_enter_add",
             "cobro_add",
+            "cobro_set_endeudado",
         ],
         "Voluntariado": [],
         "Técnica": [

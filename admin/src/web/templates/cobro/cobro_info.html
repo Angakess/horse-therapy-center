@@ -121,7 +121,39 @@
                 >Teléfono:</span
               >{{info.jya.tel}}
             </li>
-          </ul>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Tiene deuda:</span>
+                {% if info.jya.tiene_deuda %}
+                Si
+                {% else %}
+                No
+                {% endif %}
+            </li>
+            <div class="col-auto">
+              <button
+                  class="btn btn-sm btn-danger"
+                  data-mdb-ripple-init
+                  data-mdb-tooltip-init
+                  data-mdb-placement="top"
+                  onclick=window.location.href="{{ url_for('cobro.set_endeudado', id=info.id,endeudado=True) }}";  
+                >
+                Marcar como endeudado
+                
+              </button>
+            </div>
+            <div class="col-auto">
+              <button
+                class="btn btn-sm btn-success"
+                type="submit"
+                data-mdb-ripple-init
+                data-mdb-tooltip-init
+                data-mdb-placement="top"
+                onclick=window.location.href="{{ url_for('cobro.set_endeudado', id=info.id,endeudado=False) }}";  
+              >
+                Marcar como al día
+              </button>
+            </div>
         </div>
         <div class="col">
           <div class="row">

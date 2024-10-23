@@ -22,8 +22,6 @@ def index():
         page = int(request.args.get("pag", "1"))
         order = request.args.get("order", "desc")
         medios = request.args.getlist("medioDePago")
-        print("AAAAAAAAAAAAA")
-        print (medios)
         todosLosMedios = cobro.list_medio_de_pago()
 
         fecha_min = request.args.get("fechamin", "")
@@ -276,3 +274,23 @@ def add():
     flash("Operación realizada con éxito", "success")
     return render_template("cobro/cobro_info.html", info=new_cobro)
 
+@bprint.get("/<id>/<endeudado>")
+def set_endeudado(id, endeudado):
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "cobro_set_endeudado"):
+        return abort(403)
+    
+    try:
+        if (endeudado == "True"):
+            endeudado = True
+        if (endeudado == "False"):
+            endeudado = False
+        chosen_cobro = cobro.get_one(id)
+        chosen_jya = jya.set_jinete_amazona_deuda(chosen_cobro.jya.id, endeudado)
+    except ValueError as e:
+        flash(str(e), "danger")
+        return redirect(url_for("cobro.index"))
+
+    return render_template("cobro/cobro_info.html", info=chosen_cobro)
