@@ -74,7 +74,7 @@
                   <select class="form-select select2" id="jya_elegido" name="chosen-jya" required>
                     <option value="" selected disabled>Seleccionar JyA...</option>
                     {%for persona in jyas%}
-                      <option value="{{persona.id}}">{{persona.nombre}} {{persona.apellido}}</option>
+                      <option value="{{persona.id}}">{{persona.apellido}}, {{persona.nombre}}</option>
                     {%endfor%}
                   </select>
                 </div>
@@ -87,7 +87,7 @@
                   <select class="form-select select2" id="dropdown2" name="chosen-equipo" required>
                     <option value="" selected disabled>Seleccionar Empleado...</option>
                     {%for persona in empleados%}
-                      <option value="{{persona.id}}">{{persona.nombre}} {{persona.apellido}}</option>
+                      <option value="{{persona.id}}">{{persona.apellido}}, {{persona.nombre}}</option>
                     {%endfor%}
                   </select>
                 </div>
