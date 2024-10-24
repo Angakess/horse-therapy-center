@@ -202,3 +202,10 @@ def delete_equipo(id):
         db.session.commit()
 
     return chosen_equipo
+
+def list_equipos_apellido_asc():
+    """
+    Devuelve todos los equipos cargados en la base de datos ordenados por apellido
+    """
+    equipos = Equipo.query.order_by(Equipo.apellido.asc()).all()
+    return equipos

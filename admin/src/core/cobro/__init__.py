@@ -37,7 +37,9 @@ def get_total_medio():
     return total
 
 def list_medio_de_pago():
-
+    """
+    Devuelve todos los medios de pagos cargados en ka base de datos
+    """
     mediosDePago = (
         MedioDePago.query.filter()
     )
@@ -64,7 +66,7 @@ class Cobro(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     monto = db.Column(db.Numeric(10, 2), nullable=False)
     fecha = db.Column(db.DateTime, nullable=False)
-    observaciones = db.Column(db.Text, nullable=False)
+    observaciones = db.Column(db.Text, nullable=True)
 
     medio_pago_id = db.Column(db.Integer, db.ForeignKey('medios_de_pago.id'), nullable=False)
     medio_pago = db.relationship('MedioDePago', back_populates='cobros')

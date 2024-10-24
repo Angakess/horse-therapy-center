@@ -16,8 +16,6 @@ def login():
 @bp.post("/authenticate")
 def authenticate():
     params = request.form
-    print(params["usermail"])
-    print(params["password"])
 
     user = check_user(params["usermail"], params["password"])
 

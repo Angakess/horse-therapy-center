@@ -192,18 +192,10 @@ def enter_add():
 
     if not check_permission(session, "cobro_enter_add"):
         return abort(403)
-    amount_per_page = 5
 
-    page = int(request.args.get("pag", "1"))
-    empleados = equipo.list_equipos_page(page=page, amount_per_page=amount_per_page)
-    total_empleados = equipo.get_total()
-    page_amount = (total_empleados + amount_per_page - 1) // amount_per_page
+    empleados = equipo.list_equipos_apellido_asc()
 
-
-    total_jyas = jya.get_total_jinetes_amazonas()
-    page_amount_jya = (total_jyas + amount_per_page - 1) // amount_per_page
-    jyas = jya.list_jinetes_amazonas_page(query = "", page=page, amount_per_page=amount_per_page, order = "asc", by = "")
-
+    jyas = jya.list_jinetes_amazonas_apellido_asc()
 
     medios = cobro.list_medio_de_pago()
 
@@ -215,10 +207,6 @@ def enter_add():
         "cobro/cobro_adding.html",
         jyas = jyas,
         empleados=empleados,
-        pag=page,
-        page_amount=page_amount,
-        page_amount_jya=page_amount_jya,
-        other_page=(True if page > 1 else False),
         observaciones=observaciones,
         monto=monto,
         fecha=fecha,
@@ -240,19 +228,19 @@ def add():
             chosen_jya = request.form["chosen-jya"]
         except:
             flash("No se seleccionó un Jinetes y Amazonas", "danger")
-            return redirect(url_for("cobro", id=id))
+            return redirect(url_for("cobro.enter_add"))
         
         try:
             chosen_equipo = request.form["chosen-equipo"]
         except:
             flash("No se seleccionó un cobrador", "danger")
-            return redirect(url_for("cobro"))
+            return redirect(url_for("cobro.enter_add"))
         
         try:
             chosen_medio = request.form["chosen-medio"]
         except:
             flash("No se seleccionó un medio de pago", "danger")
-            return redirect(url_for("cobro"))
+            return redirect(url_for("cobro.enter_add"))
         
 
         new_data = {
