@@ -38,7 +38,7 @@ def index():
             fecha_max = datetime.strptime(fecha_max, "%Y-%m-%d")
         else:
             fecha_max = datetime.max
-        
+
         query = request.args.get("query", "")
 
         cobros = cobro.list_cobros_page(
@@ -59,7 +59,7 @@ def index():
         order=order,
         query=query,
         medios=medios,
-        todosLosMedios=todosLosMedios
+        todosLosMedios=todosLosMedios,
     )
 
 
@@ -100,15 +100,15 @@ def enter_edit(id):
         fecha = request.args.get("fecha", chosen_cobro.fecha.strftime("%Y-%m-%d"))
         page_amount = amount_per_page
 
-
         empleados = equipo.list_equipos_page(page=page, amount_per_page=amount_per_page)
         total_empleados = equipo.get_total()
         page_amount = (total_empleados + amount_per_page - 1) // amount_per_page
 
         total_jyas = jya.get_total_jinetes_amazonas()
         page_amount_jya = (total_jyas + amount_per_page - 1) // amount_per_page
-        jyas = jya.list_jinetes_amazonas_page(query = "", page=page, amount_per_page=amount_per_page, order = "asc", by = "")
-
+        jyas = jya.list_jinetes_amazonas_page(
+            query="", page=page, amount_per_page=amount_per_page, order="asc", by=""
+        )
 
         medios = cobro.list_medio_de_pago()
     except ValueError as e:
@@ -139,13 +139,13 @@ def save_edit(id):
     if not check_permission(session, "cobro_save_edit"):
         return abort(403)
     try:
-        
+
         try:
             chosen_medio = request.form["chosen-medio"]
         except:
             flash("No se seleccionó un medio de pago", "danger")
             return redirect(url_for("cobro"))
-        
+
         new_data = {
             "observaciones": request.form["observaciones"],
             "monto": request.form["monto"],
@@ -156,7 +156,6 @@ def save_edit(id):
         }
 
         edited_cobro = cobro.edit(id, new_data)
-
 
     except ValueError as e:
         flash(str(e), "danger")
@@ -199,11 +198,11 @@ def enter_add():
     total_empleados = equipo.get_total()
     page_amount = (total_empleados + amount_per_page - 1) // amount_per_page
 
-
     total_jyas = jya.get_total_jinetes_amazonas()
     page_amount_jya = (total_jyas + amount_per_page - 1) // amount_per_page
-    jyas = jya.list_jinetes_amazonas_page(query = "", page=page, amount_per_page=amount_per_page, order = "asc", by = "")
-
+    jyas = jya.list_jinetes_amazonas_page(
+        query="", page=page, amount_per_page=amount_per_page, order="asc", by=""
+    )
 
     medios = cobro.list_medio_de_pago()
 
@@ -213,7 +212,7 @@ def enter_add():
 
     return render_template(
         "cobro/cobro_adding.html",
-        jyas = jyas,
+        jyas=jyas,
         empleados=empleados,
         pag=page,
         page_amount=page_amount,
@@ -240,20 +239,19 @@ def add():
             chosen_jya = request.form["chosen-jya"]
         except:
             flash("No se seleccionó un Jinetes y Amazonas", "danger")
-            return redirect(url_for("cobro", id=id))
-        
+            return redirect(url_for("cobro.index"))
+
         try:
             chosen_equipo = request.form["chosen-equipo"]
         except:
             flash("No se seleccionó un cobrador", "danger")
-            return redirect(url_for("cobro"))
-        
+            return redirect(url_for("cobro.index"))
+
         try:
             chosen_medio = request.form["chosen-medio"]
         except:
             flash("No se seleccionó un medio de pago", "danger")
-            return redirect(url_for("cobro"))
-        
+            return redirect(url_for("cobro.index"))
 
         new_data = {
             "observaciones": request.form["observaciones"],
@@ -264,15 +262,15 @@ def add():
             "medio_pago": cobro.get_one_medio(chosen_medio),
         }
 
-
         new_cobro = cobro.create_cobro(**new_data)
-        
+
     except ValueError as e:
         flash(str(e), "danger")
         return redirect(url_for("cobro.enter_edit", id=id))
 
     flash("Operación realizada con éxito", "success")
     return render_template("cobro/cobro_info.html", info=new_cobro)
+
 
 @bprint.get("/<id>/<endeudado>")
 def set_endeudado(id, endeudado):
@@ -287,11 +285,11 @@ def set_endeudado(id, endeudado):
 
     if not check_permission(session, "cobro_set_endeudado"):
         return abort(403)
-    
+
     try:
-        if (endeudado == "True"):
+        if endeudado == "True":
             endeudado = True
-        if (endeudado == "False"):
+        if endeudado == "False":
             endeudado = False
         chosen_cobro = cobro.get_one(id)
         chosen_jya = jya.set_jinete_amazona_deuda(chosen_cobro.jya.id, endeudado)
