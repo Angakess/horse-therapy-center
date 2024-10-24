@@ -60,8 +60,8 @@
             <ul class="list-group list-unstyled container">
                 {%for persona in jyas%}
                 <div class="form-check d-flex align-items-center">
-                  <input value="{{persona.id}}" {%if info.jya.id == persona.id %}checked {%endif%} class="form-check-input" type="radio" name="chosen-jya" id="radio-{{persona.id}}">
-                  <label class="form-check-label form-control ms-2" for="radio-{{persona.id}}">
+                  <input value="{{persona.id}}" {%if info.jya.id == persona.id %}checked {%endif%} class="form-check-input" type="radio" name="chosen-jya" id="radio-jya-{{persona.id}}">
+                  <label class="form-check-label form-control ms-2" for="radio-jya-{{persona.id}}">
                     {{persona.nombre}} {{persona.apellido}}
                   </label>
                 </div>
@@ -78,8 +78,8 @@
           <ul class="list-group list-unstyled container">
               {%for persona in empleados%}
               <div class="form-check d-flex align-items-center">
-                <input value="{{persona.id}}" {%if info.equipo.id == persona.id %}checked {%endif%} class="form-check-input" type="radio" name="chosen-equipo" id="radio-{{persona.id}}">
-                <label class="form-check-label form-control ms-2" for="radio-{{persona.id}}">
+                <input value="{{persona.id}}" {%if info.equipo.id == persona.id %}checked {%endif%} class="form-check-input" type="radio" name="chosen-equipo" id="radio-equipo-{{persona.id}}">
+                <label class="form-check-label form-control ms-2" for="radio-equipo-{{persona.id}}">
                   {{persona.nombre}} {{persona.apellido}}
                 </label>
               </div>
@@ -93,8 +93,8 @@
         <ul class="list-group list-unstyled container">
             {%for medio in medios%}
             <div class="d-flex align-items-center">
-              <input value="{{medio.id}}" {%if info.medio_pago.id == medio.id %}checked {%endif%} class="" type="radio" name="chosen-medio" id="radio-{{medio.id}}">
-              <label class="form-control ms-2" for="radio-{{medio.id}}">
+              <input value="{{medio.id}}" {%if info.medio_pago.id == medio.id %}checked {%endif%} class="" type="radio" name="chosen-medio" id="radio-medio-{{medio.id}}">
+              <label class="form-control ms-2" for="radio-medio-{{medio.id}}">
                 {{medio.name}}
               </label>
             </div>

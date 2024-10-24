@@ -132,7 +132,7 @@ def run():
         beneficiario_pension_tipo="Nacional",
         discapacidad="ECNE",
         tipo_discapacidad="Mental",
-        tiene_deuda = False,
+        tiene_deuda=False,
     )
     jya2 = jya.create_jinetes_amazonas(
         nombre="jya2",
@@ -151,7 +151,7 @@ def run():
         certificado_discapacidad=False,
         asignacion_familiar=False,
         beneficiario_pension=False,
-        tiene_deuda = True,
+        tiene_deuda=True,
     )
     situacion_previsional1 = situacionPrevisional.create_situacion_previsional(
         obra_social="IOMA",
@@ -444,6 +444,8 @@ def run():
             "ecuestre_get_profile",
             "ecuestre_enter_docs",
             "ecuestre_download_archivo",
+            "cobro_index",
+            "cobro_get_info",
         ],
         "Ecuestre": [
             "jya_index",
