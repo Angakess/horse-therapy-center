@@ -57,8 +57,8 @@
             <ul class="list-group list-unstyled container">
                 {%for medio in medios%}
                 <div class="d-flex align-items-center">
-                  <input value="{{medio.id}}" class="" type="radio" name="chosen-medio" id="radio-{{medio.id}}">
-                  <label class="form-control ms-2" for="radio-{{medio.id}}">
+                  <input value="{{medio.id}}" class="" type="radio" name="chosen-medio" id="radio-medio-{{medio.id}}">
+                  <label class="form-control ms-2" for="radio-medio-{{medio.id}}">
                     {{medio.name}}
                   </label>
                 </div>
@@ -75,8 +75,8 @@
               <ul class="list-group list-unstyled container">
                   {%for persona in empleados%}
                   <div class="d-flex align-items-center">
-                    <input value="{{persona.id}}" class="" type="radio" name="chosen-equipo" id="radio-{{persona.id}}">
-                    <label class="form-control ms-2" for="radio-{{persona.id}}">
+                    <input value="{{persona.id}}" class="" type="radio" name="chosen-equipo" id="radio-equipo-{{persona.id}}">
+                    <label class="form-control ms-2" for="radio-equipo-{{persona.id}}">
                       {{persona.nombre}} {{persona.apellido}}
                     </label>
                   </div>
@@ -93,8 +93,8 @@
               <ul class="list-group list-unstyled container">
                   {%for persona in jyas%}
                   <div class="d-flex align-items-center">
-                    <input value="{{persona.id}}" class="" type="radio" name="chosen-jya" id="radio-{{persona.id}}">
-                    <label class="form-control ms-2" for="radio-{{persona.id}}">
+                    <input value="{{persona.id}}" class="" type="radio" name="chosen-jya" id="radio-jya-{{persona.id}}">
+                    <label class="form-control ms-2" for="radio-jya-{{persona.id}}">
                       {{persona.nombre}} {{persona.apellido}}
                     </label>
                   </div>

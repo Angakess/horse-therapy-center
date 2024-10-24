@@ -74,6 +74,8 @@ class JinetesAmazonas(db.Model):
         nullable=True,
     )
 
+    tiene_deuda = db.Column(db.Boolean, nullable=False)
+
     j_y_a = db.relationship("Ecuestre", back_populates="j_y_a")
 
     situacion_previsional_id = db.Column(
@@ -332,3 +334,16 @@ def list_archivos_page(jya_id, query, order, tipos, by, pag, amount_per_page):
 def get_total_jinetes_amazonas():
     total = JinetesAmazonas.query.filter().count()
     return total
+
+def set_jinete_amazona_deuda(id, endeudado):
+    """
+    Esta función setea el valor de tiene_deuda de un jinete o amazonas en específico
+    (identificado por el id) en el valor booleano que le pases en endeudado
+    """
+    jinete_amazona = JinetesAmazonas.query.get(id)
+    if not jinete_amazona:
+        raise ValueError("No se encontró al Jinete/Amazona seleccionado")
+    else:
+        jinete_amazona.tiene_deuda = endeudado
+        db.session.commit()
+    return jinete_amazona

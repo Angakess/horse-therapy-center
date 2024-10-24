@@ -21,6 +21,8 @@ def index():
     try:
         page = int(request.args.get("pag", "1"))
         order = request.args.get("order", "desc")
+        medios = request.args.getlist("medioDePago")
+        todosLosMedios = cobro.list_medio_de_pago()
 
         fecha_min = request.args.get("fechamin", "")
 
@@ -36,11 +38,11 @@ def index():
             fecha_max = datetime.strptime(fecha_max, "%Y-%m-%d")
         else:
             fecha_max = datetime.max
-        
+
         query = request.args.get("query", "")
 
         cobros = cobro.list_cobros_page(
-            amount_per_page, page, fecha_min, fecha_max, order, query
+            amount_per_page, page, fecha_min, fecha_max, order, query, medios
         )
         total = cobro.get_total(fecha_min, fecha_max)
     except ValueError as e:
@@ -55,18 +57,20 @@ def index():
         fecha_min=("" if fecha_min == datetime.min else fecha_min),
         fecha_max=("" if fecha_max == datetime.max else fecha_max),
         order=order,
-        query=query
+        query=query,
+        medios=medios,
+        todosLosMedios=todosLosMedios,
     )
 
 
 @bprint.get("/<id>")
 def get_info(id):
+    """Muestra la información detallada de un cobro específico."""
     if not is_authenticated(session):
         return abort(401)
 
     if not check_permission(session, "cobro_get_info"):
         return abort(403)
-    """Muestra la información detallada de un cobro específico."""
     try:
         chosen_cobro = cobro.get_one(id)
     except ValueError as e:
@@ -78,12 +82,12 @@ def get_info(id):
 
 @bprint.get("<id>/edit")
 def enter_edit(id):
+    """Permite editar un cobro existente, cargando los datos actuales del cobro."""
     if not is_authenticated(session):
         return abort(401)
 
     if not check_permission(session, "cobro_enter_edit"):
         return abort(403)
-    """Permite editar un cobro existente, cargando los datos actuales del cobro."""
     try:
         chosen_cobro = cobro.get_one(id)
 
@@ -96,15 +100,15 @@ def enter_edit(id):
         fecha = request.args.get("fecha", chosen_cobro.fecha.strftime("%Y-%m-%d"))
         page_amount = amount_per_page
 
-
         empleados = equipo.list_equipos_page(page=page, amount_per_page=amount_per_page)
         total_empleados = equipo.get_total()
         page_amount = (total_empleados + amount_per_page - 1) // amount_per_page
 
         total_jyas = jya.get_total_jinetes_amazonas()
         page_amount_jya = (total_jyas + amount_per_page - 1) // amount_per_page
-        jyas = jya.list_jinetes_amazonas_page(query = "", page=page, amount_per_page=amount_per_page, order = "asc", by = "")
-
+        jyas = jya.list_jinetes_amazonas_page(
+            query="", page=page, amount_per_page=amount_per_page, order="asc", by=""
+        )
 
         medios = cobro.list_medio_de_pago()
     except ValueError as e:
@@ -128,20 +132,20 @@ def enter_edit(id):
 
 @bprint.post("<id>/edit")
 def save_edit(id):
+    """Guarda los cambios realizados a un cobro existente."""
     if not is_authenticated(session):
         return abort(401)
 
     if not check_permission(session, "cobro_save_edit"):
         return abort(403)
-    """Guarda los cambios realizados a un cobro existente."""
     try:
-        
+
         try:
             chosen_medio = request.form["chosen-medio"]
         except:
             flash("No se seleccionó un medio de pago", "danger")
             return redirect(url_for("cobro"))
-        
+
         new_data = {
             "observaciones": request.form["observaciones"],
             "monto": request.form["monto"],
@@ -153,7 +157,6 @@ def save_edit(id):
 
         edited_cobro = cobro.edit(id, new_data)
 
-
     except ValueError as e:
         flash(str(e), "danger")
         return redirect(url_for("cobro.enter_edit", id=id))
@@ -164,12 +167,12 @@ def save_edit(id):
 
 @bprint.post("/<id>/borrar")
 def delete(id):
+    """Elimina un cobro por su ID."""
     if not is_authenticated(session):
         return abort(401)
 
     if not check_permission(session, "cobro_delete"):
         return abort(403)
-    """Elimina un cobro por su ID."""
     try:
         cobro.delete_cobro(id)
     except ValueError as e:
@@ -182,12 +185,12 @@ def delete(id):
 
 @bprint.get("/agregar")
 def enter_add():
+    """Permite agregar un nuevo cobro, mostrando un formulario para ingresar los datos."""
     if not is_authenticated(session):
         return abort(401)
 
     if not check_permission(session, "cobro_enter_add"):
         return abort(403)
-    """Permite agregar un nuevo cobro, mostrando un formulario para ingresar los datos."""
     amount_per_page = 5
 
     page = int(request.args.get("pag", "1"))
@@ -195,11 +198,11 @@ def enter_add():
     total_empleados = equipo.get_total()
     page_amount = (total_empleados + amount_per_page - 1) // amount_per_page
 
-
     total_jyas = jya.get_total_jinetes_amazonas()
     page_amount_jya = (total_jyas + amount_per_page - 1) // amount_per_page
-    jyas = jya.list_jinetes_amazonas_page(query = "", page=page, amount_per_page=amount_per_page, order = "asc", by = "")
-
+    jyas = jya.list_jinetes_amazonas_page(
+        query="", page=page, amount_per_page=amount_per_page, order="asc", by=""
+    )
 
     medios = cobro.list_medio_de_pago()
 
@@ -209,7 +212,7 @@ def enter_add():
 
     return render_template(
         "cobro/cobro_adding.html",
-        jyas = jyas,
+        jyas=jyas,
         empleados=empleados,
         pag=page,
         page_amount=page_amount,
@@ -224,32 +227,31 @@ def enter_add():
 
 @bprint.post("/agregar")
 def add():
+    """Crea un nuevo cobro basado en los datos ingresados en el formulario."""
     if not is_authenticated(session):
         return abort(401)
 
     if not check_permission(session, "cobro_add"):
         return abort(403)
-    """Crea un nuevo cobro basado en los datos ingresados en el formulario."""
     try:
 
         try:
             chosen_jya = request.form["chosen-jya"]
         except:
             flash("No se seleccionó un Jinetes y Amazonas", "danger")
-            return redirect(url_for("cobro", id=id))
-        
+            return redirect(url_for("cobro.index"))
+
         try:
             chosen_equipo = request.form["chosen-equipo"]
         except:
             flash("No se seleccionó un cobrador", "danger")
-            return redirect(url_for("cobro"))
-        
+            return redirect(url_for("cobro.index"))
+
         try:
             chosen_medio = request.form["chosen-medio"]
         except:
             flash("No se seleccionó un medio de pago", "danger")
-            return redirect(url_for("cobro"))
-        
+            return redirect(url_for("cobro.index"))
 
         new_data = {
             "observaciones": request.form["observaciones"],
@@ -260,9 +262,8 @@ def add():
             "medio_pago": cobro.get_one_medio(chosen_medio),
         }
 
-
         new_cobro = cobro.create_cobro(**new_data)
-        
+
     except ValueError as e:
         flash(str(e), "danger")
         return redirect(url_for("cobro.enter_edit", id=id))
@@ -270,3 +271,30 @@ def add():
     flash("Operación realizada con éxito", "success")
     return render_template("cobro/cobro_info.html", info=new_cobro)
 
+
+@bprint.get("/<id>/<endeudado>")
+def set_endeudado(id, endeudado):
+    """
+    Esta función setea el valor de tiene_deuda del jinete y amazonas
+    del cobro con el id pasado por parámetro con el valor del parámetro endeudado
+    (solo puede ser booleano)
+    """
+
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "cobro_set_endeudado"):
+        return abort(403)
+
+    try:
+        if endeudado == "True":
+            endeudado = True
+        if endeudado == "False":
+            endeudado = False
+        chosen_cobro = cobro.get_one(id)
+        chosen_jya = jya.set_jinete_amazona_deuda(chosen_cobro.jya.id, endeudado)
+    except ValueError as e:
+        flash(str(e), "danger")
+        return redirect(url_for("cobro.index"))
+
+    return render_template("cobro/cobro_info.html", info=chosen_cobro)
