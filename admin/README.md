@@ -46,7 +46,6 @@ Para activar el entorno virtual gestionado por Poetry, puedes utilizar:
 ``` bash
 poetry shell
 ```
-Si no quieres activar el entorno virtual, puedes ejecutar comandos dentro de él de esta manera:
 
 #### 5. Variables de entorno
 El proyecto requiere de variables de entorno a la hora de configurar la conexión con la base de datos y el servidor de MinIO, ya sea para producción o desarrollo. Para realizar la configuración de desarrollo deberá crearlas en un archivo `.env` dentro de la carpeta `src/` y definir las siguientes variables:
