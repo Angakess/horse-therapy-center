@@ -258,6 +258,24 @@ def run():
         enabled=True,
         inserted_at=datetime.now(),
     )
+    user4 = user.create_user(
+        alias="MarcosZ",
+        email="marcos.zapata@example.com",
+        password="passwordMarcos",
+        role_id=role_admin.id,
+        system_admin=False,  # No es system admin
+        enabled=True,
+        inserted_at=datetime.now(),
+    )
+    user5 = user.create_user(
+        alias="Rocky",
+        email="ryland.grace@hailmary.com",
+        password="astrofagos",
+        role_id=role_ec.id,
+        system_admin=False,  # No es system admin
+        enabled=True,
+        inserted_at=datetime.now(),
+    )
 
     for i in range(1, 24):
         alias = f"Usuario{i}"
@@ -291,7 +309,9 @@ def run():
     user.assign_role(user3, role_tec)
     user.assign_role(user2, role_voluntario)
 
-    user.assign_role(user1, role_admin)
+    user.assign_role(user1, role_admin)  # super admin
+    user.assign_role(user4, role_admin)  # admin normal
+    user.assign_role(user5, role_ec)
 
     ecuestre.assing_equipo(ecuestre1, equipo1)
     ecuestre.assing_equipo(ecuestre1, equipo2)
