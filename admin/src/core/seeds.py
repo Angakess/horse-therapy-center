@@ -1,5 +1,5 @@
 import random
-from admin.src.core.contacto import create_consulta
+from src.core.contacto import create_consulta
 from core import (
     equipo,
     ecuestre,
@@ -533,3 +533,12 @@ def run():
         equipo=equipo3,
     )
 
+    consulta1 = create_consulta(
+        nya="Juan Perez",
+        email="juan.perez@example.com",
+        cuerpo="Consulta sobre disponibilidad de productos.",
+        fecha=datetime(2024, 3, 3),
+        estado="Pendiente",
+        desc="Es una consulta general."
+    )
+    
