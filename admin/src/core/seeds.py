@@ -400,7 +400,10 @@ def run():
         "cobro_enter_add",
         "cobro_add",
         "cobro_set_endeudado",
-        "contacto_index"
+        "contacto_index",
+        "contacto_update",
+        "contacto_destroy",
+        "contacto_show"
     ]
     PERMISSIONS = {
         "Administración": [
@@ -446,9 +449,12 @@ def run():
             "cobro_enter_add",
             "cobro_add",
             "cobro_set_endeudado",
-            "contacto_index"
+            "contacto_index",
+            "contacto_update",
+            "contacto_destroy",
+            "contacto_show",
         ],
-        "Voluntariado": ["contacto_index"],
+        "Voluntariado": [],
         "Técnica": [
             "jya_index",
             "jya_get_profile",
