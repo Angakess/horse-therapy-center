@@ -50,6 +50,11 @@ def list_consultas():
     return consultas
 
 def search_consultas( estado=None, page=1, per_page=25, order='asc'):
+    '''
+        Función que busca consultas por el parametro estado, pagina y ordena el resultado
+        Parameters: estado(string),  page(int), per_page(int),  order(string)
+        Returns: consultas
+    '''
     consulta_query = Consulta.query
     
     if estado:
@@ -61,5 +66,18 @@ def search_consultas( estado=None, page=1, per_page=25, order='asc'):
 
     return consultas
 
-
+def delete_consulta(id):
+    '''
+        Función que realiza baja física de un usuario del sistema
+        Parameters: user_id(int)
+        Raises: ValueError si el usuario no existe o es sys_admin
+    '''
+    consulta = Consulta.query.get(id)
+    if not consulta:
+        raise ValueError("La consulta no existe")
+    if consulta.estado=="Pendiente":
+        raise ValueError("No se puede eliminar una consulta pendiente")
+    
+    db.session.delete(consulta)
+    db.session.commit()
     

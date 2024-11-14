@@ -37,7 +37,7 @@
                   </svg>
                 </a>
                
-                <form class="col-4" action="#" method="POST" onsubmit="return confirm('¿Está seguro que quiere eliminar esta consulta?')">
+                <form class="col-4" action="{{ url_for('contacto.delete_consulta') }}" method="POST" onsubmit="return confirm('¿Está seguro que quiere eliminar esta consulta?')">
                   <input type="hidden" name="id" value="{{ consulta.id }}" /> 
                   <button class="col btn btn-sm btn-outline-danger" title="Eliminar consulta" type="submit">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">

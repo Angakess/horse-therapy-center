@@ -29,3 +29,27 @@ def index():
 
 
     return render_template("contacto/contacto.html",consultas=consultas,pagination=consultas,pag=page)
+
+
+@bprint.post("/delete_consulta")
+def delete_consulta():
+    '''
+        Función que elimina fisicamente una consulta de la bd
+        Parameters: Ninguno(Depende en los parametros de la query)
+        Raise: ValueError propagado por delete_user() 
+     '''
+    if not is_authenticated(session):
+        return abort(401)
+    
+    if not check_permission(session, "destroy_consulta"):
+        return abort(403)
+    
+
+    id = request.form.get("id")  
+    try:
+        contacto.delete_consulta(id) 
+        flash("Consulta eliminada correctamente.", "success")  
+    except ValueError as e:
+        flash(str(e), "danger")
+
+    return redirect(url_for('contacto.index'))
