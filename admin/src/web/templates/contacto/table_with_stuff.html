@@ -2,10 +2,8 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Alias</th>
           <th scope="col">Email</th>
-          <th scope="col">Rol</th>
+          <th scope="col">Descripcion</th>
           <th scope="col">Estado</th>
           <th scope="col">Fecha de creación</th>
           <th scope="col">Acciones</th>
@@ -13,23 +11,20 @@
         </tr>
       </thead>
       <tbody>
-        {% for user in users %}
+        {% for consulta in consultas %}
         <tr>
-          <td>{{ user.id }}</td>
-          <td>{{ user.alias }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.role.name if user.role else 'Sin rol asignado' }}</td>
-          <td>{{ "Activo" if user.enabled else "Inactivo" }}</td>
-          <td>{{ user.inserted_at.strftime('%d/%m/%Y')  }}</td>
-
+          <td>{{ consulta.email }}</td>
+          <td>{{ consulta.descripcion if consulta.descripcion else 'Sin descripción' }}</td>
+          <td>{{ consulta.estado }}</td>
+          <td>{{ consulta.fecha.strftime('%d/%m/%Y')  }}</td>
           <td>
             <div class="container ">
               <div class="row">
 
                 <a
                   class="col-4 btn btn-sm equipo-search-btn"
-                  title="Editar usuario"
-                  href="{{ url_for('users.edit_user', user_id=user.id) }}"
+                  title="Editar consulta"
+                  href="#"
                 >
                 <svg xmlns="http://www.w3.org/2000/svg" 
                 width="16" height="16"fill="currentColor" 
@@ -41,65 +36,10 @@
                     />
                   </svg>
                 </a>
-                <form
-                  class="col-3"
-                  action="{{ url_for('users.activar_usuario') }}"
-                  method="POST"
-                >
-                  <input type="hidden" name="id" value="{{ user.id }}" />
-                  <input
-                    type="hidden"
-                    name="query"
-                    value="{{ query or '' }}"
-                  />
-                  {% if user.enabled %}
-                  <button
-                    class="btn btn-sm btn-success"
-                    type="submit"
-                    title="Desactivar"
-                    onclick="return confirm('¿Está seguro de que quiere desactivar a este usuario?');"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      class="bi bi-power"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M7.5 1v7h1V1z" />
-                      <path
-                        d="M3 8.812a5 5 0 0 1 2.578-4.375l-.485-.874A6 6 0 1 0 11 3.616l-.501.865A5 5 0 1 1 3 8.812"
-                      />
-                    </svg>
-                  </button>
-                  {% else %}
-                  <button
-                  class="btn btn-sm btn-danger"
-                  type="submit"
-                  onclick="return confirm('¿Está seguro de que quiere activar a este usuario?');"
-                  title="Activar"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      class="bi bi-power"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M7.5 1v7h1V1z" />
-                      <path
-                        d="M3 8.812a5 5 0 0 1 2.578-4.375l-.485-.874A6 6 0 1 0 11 3.616l-.501.865A5 5 0 1 1 3 8.812"
-                      />
-                    </svg>
-                  </button>
-                  {% endif %}
-                </form>
-                <!--Boton para eliminar un ususario-->
-                <form class="col-4" action="{{ url_for('users.delete_user_controller') }}" method="POST" onsubmit="return confirm('¿Está seguro que quiere eliminar este usuario?')">
-                  <input type="hidden" name="user_id" value="{{ user.id }}" /> 
-                  <button class="col btn btn-sm btn-outline-danger" title="Eliminar usuario" type="submit">
+               
+                <form class="col-4" action="#" method="POST" onsubmit="return confirm('¿Está seguro que quiere eliminar esta consulta?')">
+                  <input type="hidden" name="id" value="{{ consulta.id }}" /> 
+                  <button class="col btn btn-sm btn-outline-danger" title="Eliminar consulta" type="submit">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
                       <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
                     </svg>
@@ -115,5 +55,5 @@
     </table>
   </div>
   <div>
-   {%include "equipo/components/pagination_equipo.html"%}
+    
   </div>

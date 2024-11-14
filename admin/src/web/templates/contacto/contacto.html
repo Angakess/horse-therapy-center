@@ -18,7 +18,8 @@
     {% include "contacto/order_by.html"%}
     {%if consultas%}
     <!-- TABLA CON ELEMENTOS-->
-    <h1> Holi </h1> {% else %}
+    {% include "contacto/table_with_stuff.html"%}
+    {% else %}
     <div class="row container text-center">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -46,5 +47,8 @@
     
     </div>
 </main>
+{% include "auth/pagination.html" %}
+
 {%endblock%}
+
 

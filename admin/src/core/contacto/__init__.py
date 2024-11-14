@@ -48,3 +48,18 @@ def delete_consulta(id):
 def list_consultas():
     consultas = Consulta.query.all()
     return consultas
+
+def search_consultas( estado=None, page=1, per_page=25, order='asc'):
+    consulta_query = Consulta.query
+    
+    if estado:
+        consulta_query = consulta_query.filter(Consulta.estado == estado)
+
+    consulta_query = consulta_query.order_by(Consulta.fecha.asc() if order == 'asc' else Consulta.fecha.desc())
+
+    consultas = consulta_query.paginate(page=page, per_page=per_page)
+
+    return consultas
+
+
+    

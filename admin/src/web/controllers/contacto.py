@@ -18,6 +18,14 @@ def index():
     if not check_permission(session, "contacto_index"):
         return abort(403)
 
-    consultas = contacto.list_consultas()
+    amount_per_page = 10
+    order = request.args.get("order", "asc")
+    page = int(request.args.get("pag", "1"))
+    estado = request.args.get('estado', None)
 
-    return render_template("contacto/contacto.html",consultas=consultas)
+
+
+    consultas = contacto.search_consultas(estado=estado, page=page,order=order)
+
+
+    return render_template("contacto/contacto.html",consultas=consultas,pagination=consultas,pag=page)
