@@ -42,9 +42,12 @@
           </li>
           {% endif %}
           <!--agregarle los permisos-->
+          {% if check_permission(session, "contacto_index") %}
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="{{ url_for('contacto.index') }}">Contacto</a>
           </li>
+          {% endif %}
+
           {% endif %}
           
         </ul>

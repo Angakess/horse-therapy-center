@@ -3,6 +3,8 @@ from core.database import db
 
 class Consulta(db.Model):
     __tablename__ = "consulta"
+    __table_args__ = {'extend_existing': True}
+
     id = db.Column(db.Integer, primary_key=True)
     nya = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100),nullable=False)
@@ -43,3 +45,6 @@ def delete_consulta(id):
     db.session.delete(consulta)
     db.session.commit()
 
+def list_consultas():
+    consultas = Consulta.query.all()
+    return consultas
