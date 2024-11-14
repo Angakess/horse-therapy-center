@@ -78,6 +78,7 @@ def create_app(env="development", static_folder="../../static"):
     # Comandos personalizados
     @app.cli.command(name="reset-db")
     def reset_db():
+        print("Reset command registered")
         database.reset()
 
     @app.cli.command(name="seeds-db")

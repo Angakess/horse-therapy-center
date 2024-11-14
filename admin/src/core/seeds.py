@@ -1,4 +1,5 @@
 import random
+from admin.src.core.contacto import create_consulta
 from core import (
     equipo,
     ecuestre,
@@ -531,3 +532,4 @@ def run():
         jya=jya1,
         equipo=equipo3,
     )
+
