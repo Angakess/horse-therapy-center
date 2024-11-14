@@ -536,9 +536,25 @@ def run():
     consulta1 = create_consulta(
         nya="Juan Perez",
         email="juan.perez@example.com",
-        cuerpo="Consulta sobre disponibilidad de productos.",
+        cuerpo="Consulta sobre sedes.",
         fecha=datetime(2024, 3, 3),
         estado="Pendiente",
+        desc="Es una consulta general."
+    )
+    consulta2 = create_consulta(
+        nya="Mario Vargas",
+        email="mariovargas@example.com",
+        cuerpo="Consulta sobre equitación.",
+        fecha=datetime(2024, 3, 3),
+        estado="Pendiente",
+        desc="Es una consulta general."
+    )
+    consulta3 = create_consulta(
+        nya="Carlos Lopez",
+        email="carloslopez@example.com",
+        cuerpo="Consulta sobre disponibilidad de cupos.",
+        fecha=datetime(2024, 3, 3),
+        estado="Resuelta",
         desc="Es una consulta general."
     )
     
