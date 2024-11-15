@@ -553,7 +553,7 @@ def run():
         nya="Mario Vargas",
         email="mariovargas@example.com",
         cuerpo="Consulta sobre equitación.",
-        fecha=datetime(2024, 3, 3),
+        fecha=datetime(2024, 6, 10),
         estado="Pendiente",
         desc="Es una consulta general."
     )
@@ -561,7 +561,7 @@ def run():
         nya="Carlos Lopez",
         email="carloslopez@example.com",
         cuerpo="Consulta sobre disponibilidad de cupos.",
-        fecha=datetime(2024, 3, 3),
+        fecha=datetime(2024, 3, 5),
         estado="Resuelta",
         desc="Es una consulta general."
     )

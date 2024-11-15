@@ -53,3 +53,30 @@ def delete_consulta():
         flash(str(e), "danger")
 
     return redirect(url_for('contacto.index'))
+
+@bprint.get("/<id>/edit")
+def enter_edit(id):
+    """
+    Función que muestra el formulario para editar una consulta.
+    Parameters: id (int), ID de la consulta.
+    Returns: Renderiza la plantilla HTML para la edición de la consulta.
+    """
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "contacto_show"):
+        return abort(403)
+    try:
+        consulta = contacto.get_one(id)
+        return render_template(
+            "contacto/edit_consulta.html",
+            info=consulta,
+        )
+    except ValueError as e:
+        flash(str(e), "danger")
+        return redirect(
+            url_for(
+                "contacto/contacto.html",
+                info=consulta,
+            )
+        )

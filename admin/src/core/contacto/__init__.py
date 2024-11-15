@@ -81,3 +81,18 @@ def delete_consulta(id):
     db.session.delete(consulta)
     db.session.commit()
     
+
+
+def get_one(id):
+    """
+    Función que obtiene una Consulta por su id.
+    Parameters: id(int), id de la consulta a buscar.
+    Returns: query (objeto Consulta), consulta encontrada.
+    Raises: ValueError si el equipo no se encuentra.
+    """
+    query = Consulta.query.filter_by(id=id).first()
+
+    if not query:
+        raise ValueError("No se encontró la consulta seleccionada")
+
+    return query
