@@ -80,3 +80,56 @@ def enter_edit(id):
                 info=consulta,
             )
         )
+    
+@bprint.get("/<id>")
+def get_detail(id):
+    """
+    Función que muestra el detalle de una consulta por su ID.
+    Parameters: id (int), ID de consulta.
+    Returns: Renderiza la plantilla HTML del detalle de la consulta.
+    """
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "contacto_show"):
+        return abort(403)
+    try:
+        query = contacto.get_one(id)
+    except ValueError as e:
+        flash(str(e), "danger")
+        return redirect(url_for("contacto.index"))
+
+    return render_template(
+        "contacto/save_edit.html", info=query)
+
+
+@bprint.post("/<id>/edit")
+def save_edit(id):
+    """
+    Función que guarda los cambios realizados en el perfil de una consulta.
+    Parameters: id (int), ID de la consulta.
+    Returns: Redirige a la página de perfil de la consulta después de guardar los cambios.
+    """
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "contacto_update"):
+        return abort(403)
+
+    new_data = {
+        "estado": request.form["estado"].capitalize(),
+        "desc": request.form["desc"].capitalize(),
+    }
+
+    try:
+        contacto.edit(id, new_data)
+
+    except ValueError as e:
+        flash(str(e), "danger")
+        return redirect(url_for("contacto.get_detail", id=id)) 
+
+    flash("Datos guardados con éxito.", "success")
+    query = contacto.get_one(id)
+
+    return render_template(
+        "contacto/edit_consulta.html", info=query) 

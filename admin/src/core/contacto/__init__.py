@@ -96,3 +96,23 @@ def get_one(id):
         raise ValueError("No se encontró la consulta seleccionada")
 
     return query
+
+
+
+def edit(id, data):
+    """
+    Función que edita una Consulta existente con los datos proporcionados.
+    Parameters: id(int), id de la consulta a editar.
+                data(dict), diccionario con los nuevos valores a asignar.
+    Raises: ValueError si la consulta no se encuentra.
+    """
+    query = Consulta.query.filter_by(id=id).first()
+
+    if not query:
+        raise ValueError("No se encontró la consulta seleccionada")
+
+    for key, value in data.items():
+        if hasattr(query, key):
+            setattr(query, key, value)
+
+    db.session.commit()

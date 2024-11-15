@@ -41,8 +41,8 @@
             ◄ Ir al listado
             </a>
             <button
-              class="btn btn-outline-primary mx-2 align-self-start"
-              onclick=window.location.href="#";
+            class="btn btn-outline-primary mx-2 align-self-start"
+            onclick=window.location.href="{{ url_for('contacto.get_detail', id=info.id) }}";
             >
               Editar
               <svg

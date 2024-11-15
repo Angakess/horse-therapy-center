@@ -15,7 +15,15 @@
         <tr>
           <td>{{ consulta.email }}</td>
           <td>{{ consulta.descripcion if consulta.descripcion else 'Sin descripción' }}</td>
-          <td>{{ consulta.estado }}</td>
+          <td>
+            <span class="badge rounded-pill 
+                {% if consulta.estado == 'Pendiente' %}bg-danger
+                {% elif consulta.estado == 'Resuelta' %}bg-success
+                {% else %}bg-secondary{% endif %}">
+                {{ consulta.estado }}
+            </span>
+        </td>
+        
           <td>{{ consulta.fecha.strftime('%d/%m/%Y')  }}</td>
           <td>
             <div class="container ">
