@@ -12,6 +12,7 @@ from web.controllers.ecuestre import bprint as ecuestre_bp
 from web.controllers.pago import bprint as pago_bp
 from web.controllers.jya import bprint as jya_bp
 from web.controllers.cobro import bprint as cobro_bp
+from web.controllers.contacto import bprint as con_bp
 from flask_session import Session
 from core.bcrypt import bcrypt
 from web.helpers.auth import is_authenticated, check_permission
@@ -69,6 +70,7 @@ def create_app(env="development", static_folder="../../static"):
     app.register_blueprint(pago_bp)
     app.register_blueprint(jya_bp)
     app.register_blueprint(cobro_bp)
+    app.register_blueprint(con_bp)
 
     # Error handlers
     app.register_error_handler(404, handler.not_found_error)
@@ -78,6 +80,7 @@ def create_app(env="development", static_folder="../../static"):
     # Comandos personalizados
     @app.cli.command(name="reset-db")
     def reset_db():
+        print("Reset command registered")
         database.reset()
 
     @app.cli.command(name="seeds-db")

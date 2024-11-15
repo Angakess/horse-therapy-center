@@ -1,4 +1,5 @@
 import random
+from src.core.contacto import create_consulta
 from core import (
     equipo,
     ecuestre,
@@ -399,6 +400,10 @@ def run():
         "cobro_enter_add",
         "cobro_add",
         "cobro_set_endeudado",
+        "contacto_index",
+        "contacto_update",
+        "contacto_destroy",
+        "contacto_show"
     ]
     PERMISSIONS = {
         "Administración": [
@@ -444,6 +449,10 @@ def run():
             "cobro_enter_add",
             "cobro_add",
             "cobro_set_endeudado",
+            "contacto_index",
+            "contacto_update",
+            "contacto_destroy",
+            "contacto_show",
         ],
         "Voluntariado": [],
         "Técnica": [
@@ -531,3 +540,27 @@ def run():
         jya=jya1,
         equipo=equipo3,
     )
+
+    consulta1 = create_consulta(
+        nya="Juan Perez",
+        email="juan.perez@example.com",
+        cuerpo="Consulta sobre sedes.",
+        fecha=datetime(2024, 3, 3),
+        estado="Pendiente",
+        desc="Es una consulta general."
+    )
+    consulta2 = create_consulta(
+        nya="Mario Vargas",
+        email="mariovargas@example.com",
+        cuerpo="Consulta sobre equitación.",
+        fecha=datetime(2024, 6, 10),
+        desc="Es una consulta general."
+    )
+    consulta3 = create_consulta(
+        nya="Carlos Lopez",
+        email="carloslopez@example.com",
+        cuerpo="Consulta sobre disponibilidad de cupos.",
+        fecha=datetime(2024, 3, 5),
+        desc="Es una consulta general."
+    )
+    

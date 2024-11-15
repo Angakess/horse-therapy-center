@@ -1,0 +1,21 @@
+<form method="GET" action="{{ url_for('contacto.index') }}">
+    <div class="row mb-2">
+      
+      <div class="col-md-2">
+        <label for="order">Orden por fecha:</label>
+        <select id="order" name="order" class="form-select">
+          <option value="asc" {% if request.args.get('order') == 'asc' %}selected{% endif %}>Ascendente</option>
+          <option value="desc" {% if request.args.get('order') == 'desc' %}selected{% endif %}>Descendente</option>
+        </select>
+      </div>
+      <div class="col-md-4 d-flex align-items-end">
+        <button type="submit" class="btn btn-celeste">Aplicar</button>
+      </div>
+     
+      
+      
+  
+    </div>
+  </form>
+  
+  
