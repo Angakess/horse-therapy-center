@@ -554,7 +554,6 @@ def run():
         email="mariovargas@example.com",
         cuerpo="Consulta sobre equitación.",
         fecha=datetime(2024, 6, 10),
-        estado="Pendiente",
         desc="Es una consulta general."
     )
     consulta3 = create_consulta(
@@ -562,7 +561,6 @@ def run():
         email="carloslopez@example.com",
         cuerpo="Consulta sobre disponibilidad de cupos.",
         fecha=datetime(2024, 3, 5),
-        estado="Resuelta",
         desc="Es una consulta general."
     )
     

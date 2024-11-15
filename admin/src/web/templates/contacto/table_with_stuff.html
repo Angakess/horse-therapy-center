@@ -20,8 +20,8 @@
                 {% if consulta.estado == 'Pendiente' %}bg-danger
                 {% elif consulta.estado == 'Resuelta' %}bg-success
                 {% else %}bg-secondary{% endif %}">
-                {{ consulta.estado }}
-            </span>
+                {{ consulta.estado if consulta.estado else 'Ninguno' }}
+              </span>
         </td>
         
           <td>{{ consulta.fecha.strftime('%d/%m/%Y')  }}</td>

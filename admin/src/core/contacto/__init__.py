@@ -10,7 +10,7 @@ class Consulta(db.Model):
     email = db.Column(db.String(100),nullable=False)
     cuerpo = db.Column(db.Text,nullable=False)
     fecha = db.Column(db.DateTime,default=datetime.now, nullable=False)
-    estado = db.Column(db.Enum("Pendiente", "Resuelta", name="estado"), nullable=False)
+    estado = db.Column(db.Enum("Pendiente", "Resuelta", name="estado"), nullable=True)
     desc = db.Column(db.Text,nullable=True)
 
     def __repr__(self):
