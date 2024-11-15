@@ -10,6 +10,7 @@ from core import (
     trabajo,
     pago,
     cobro,
+    contenido,
 )
 from core.user import Role, RolePermission, Permission
 from datetime import datetime
@@ -507,6 +508,10 @@ def run():
     medioDePago2 = cobro.create_medio_pago(name="Tarjeta de débito")
     medioDePago3 = cobro.create_medio_pago(name="Tarjeta de crédito")
 
+    estado1 = contenido.create_estado(name="Borrador")
+    estado2 = contenido.create_estado(name="Publicado")
+    estado3 = contenido.create_estado(name="Archivado")
+
     cobro1 = cobro.create_cobro(
         monto=100,
         fecha=datetime(2024, 3, 3),
@@ -530,4 +535,26 @@ def run():
         medio_pago=medioDePago3,
         jya=jya1,
         equipo=equipo3,
+    )
+
+    contenido1 = contenido.create_contenido(
+        titulo = "Titulacion1",
+        copete = "Copado",
+        contenido = "Contento",
+        autor = "María Elena Walsh",
+        estado = estado1,
+    )
+    contenido2 = contenido.create_contenido(
+        titulo = "Titulacion2",
+        copete = "Compadre",
+        contenido = "Contigo",
+        autor = "Jota Ka Roulin",
+        estado = estado2,
+    )
+    contenido3 = contenido.create_contenido(
+        titulo = "Titulacion3",
+        copete = "CopaDeVino",
+        contenido = "Contumadre",
+        autor = "Tolkien papá",
+        estado = estado3,
     )
