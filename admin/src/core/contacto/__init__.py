@@ -1,5 +1,7 @@
 from datetime import datetime
 from core.database import db
+from sqlalchemy.orm import validates
+
 
 class Consulta(db.Model):
     __tablename__ = "consulta"
@@ -10,13 +12,22 @@ class Consulta(db.Model):
     email = db.Column(db.String(100),nullable=False)
     cuerpo = db.Column(db.Text,nullable=False)
     fecha = db.Column(db.DateTime,default=datetime.now, nullable=False)
+    fecha_resuelta = db.Column(db.DateTime, nullable=True)
     estado = db.Column(db.Enum("Pendiente", "Resuelta", name="estado"), nullable=True)
     desc = db.Column(db.Text,nullable=True)
 
     def __repr__(self):
         return f'<Consulta #{self.id} email="{self.email} estado {self.estado}">'
 
-    
+@validates('estado')
+def validate_estado(self, key, value):
+    """Asigna fecha de cerrado automáticamente cuando el estado es 'Resuelta'."""
+    if value == "Resuelta" and not self.fecha_resuelta:
+        self.fecha_resuelta = datetime.now() 
+    elif value != "Resuelta":
+        self.fecha_cerrado = None 
+    return value
+
 def create_consulta(**kwargs):
     """
     Función que crea una nueva consulta con los datos proporcionados.
