@@ -41,14 +41,14 @@ def get_one_estado_by_id(id):
 
     return chosen_estado
 
-def get_one_estado_by_name(name):
+def get_one_estado_by_name(estado):
     """
     Función que obtiene un estado por su nombre.
-    Parameters: name(string), nombre del estado a buscar.
+    Parameters: estado(string), nombre del estado a buscar.
     Returns: estado (objeto Estado), estado encontrado.
     Raises: ValueError si el estado no se encuentra.
     """
-    chosen_estado = EstadoDeContenido.query.get(name).first()
+    chosen_estado = EstadoDeContenido.query.filter(EstadoDeContenido.name.ilike(f"{estado}")).first()
 
     if not chosen_estado:
         raise ValueError("No se encontró el estado seleccionado")
@@ -212,3 +212,22 @@ def delete_contenido(contenido_id):
     db.session.delete(chosen_contenido)
     db.session.commit()
 
+def set_estado(id, estado):
+    """
+    Esta función setea el valor del estado de contenido
+    (identificado por el id) en el el string estado del parámetro estado
+    (Si es que existe un estado que se llame así)
+    """
+    contenido = Contenido.query.get(id)
+    if not contenido:
+        raise ValueError("No se encontró al contenido seleccionado")
+
+    chosen_estado = get_one_estado_by_name(estado)
+    if not chosen_estado:
+        raise ValueError("No existe un estado con ese nombre")
+        
+    contenido.estado = chosen_estado
+    if (estado == "Publicado") & (contenido.fecha_de_publicacion == None):
+        contenido.fecha_de_publicacion = datetime.now()
+    db.session.commit()
+    return contenido

@@ -72,12 +72,12 @@ def get_info(id):
     if not check_permission(session, "cobro_get_info"):
         return abort(403)
     try:
-        chosen_cobro = cobro.get_one(id)
+        chosen_contenido = contenido.get_one(id)
     except ValueError as e:
         flash(str(e), "danger")
-        return redirect(url_for("cobro.index"))
+        return redirect(url_for("contenido.index"))
 
-    return render_template("cobro/cobro_info.html", info=chosen_cobro)
+    return render_template("contenido/contenido_info.html", info=chosen_contenido)
 
 
 @bprint.get("<id>/edit")
@@ -261,29 +261,27 @@ def add():
     return render_template("cobro/cobro_info.html", info=new_cobro)
 
 
-@bprint.get("/<id>/<endeudado>")
-def set_endeudado(id, endeudado):
+@bprint.get("/<id>/<estado>")
+def set_estado(id, estado):
     """
-    Esta función setea el valor de tiene_deuda del jinete y amazonas
-    del cobro con el id pasado por parámetro con el valor del parámetro endeudado
-    (solo puede ser booleano)
+    Esta función setea el valor de estado del contenido
+    con el id pasado por parámetro con el valor del parámetro estado
+    (si exste un estado con ese nombre)
     """
 
     if not is_authenticated(session):
         return abort(401)
 
-    if not check_permission(session, "cobro_set_endeudado"):
+    if not check_permission(session, "contenido_set_estado"):
         return abort(403)
 
     try:
-        if endeudado == "True":
-            endeudado = True
-        if endeudado == "False":
-            endeudado = False
-        chosen_cobro = cobro.get_one(id)
-        chosen_jya = jya.set_jinete_amazona_deuda(chosen_cobro.jya.id, endeudado)
+        if estado == "":
+            flash("No se seleccionó un estado", "danger")
+            return redirect(url_for("contenido.index"))
+        chosen_contenido = contenido.set_estado(id, estado)
     except ValueError as e:
         flash(str(e), "danger")
-        return redirect(url_for("cobro.index"))
+        return redirect(url_for("contenido.index"))
 
-    return render_template("cobro/cobro_info.html", info=chosen_cobro)
+    return render_template("contenido/contenido_info.html", info=chosen_contenido)
