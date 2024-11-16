@@ -38,7 +38,7 @@ def get_total_medio():
 
 def list_medio_de_pago():
     """
-    Devuelve todos los medios de pagos cargados en ka base de datos
+    Devuelve todos los medios de pagos cargados en la base de datos
     """
     mediosDePago = (
         MedioDePago.query.filter()

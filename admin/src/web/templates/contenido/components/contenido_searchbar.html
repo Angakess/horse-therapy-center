@@ -1,0 +1,87 @@
+<form
+      action="{{ url_for('contenido.index') }}"
+      method="GET"
+      class="mb-3 container"
+    >
+      <input type="hidden" name="order" value="{{order}}">
+      <div class="row align-items-end">
+        <div class="col-auto">
+          <div class="dropdown">
+            <button
+              class="btn btn-outline-primary dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton"
+              data-bs-toggle="dropdown"
+              data-bs-auto-close="outside"
+              aria-expanded="false"
+            >
+              Seleccionar Estado
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              {% for estado in todosLosEstados %}
+              <li class="dropdown-item">
+                <div class="form-check">
+                  <input
+                    name="estado"
+                    value="{{estado.name}}"
+                    {% if estado.name in estados %}checked{% endif %}
+                    class="form-check-input"
+                    type="checkbox"
+                    id="check{{estado.name}}"
+                  />
+                  <label class="form-check-label" for="check{{estado.name}}">
+                    {{estado.name}}
+                  </label>
+                </div>
+              </li>
+              {% endfor %}
+          </div>
+        </div>
+        <div class="col">
+          <label class="">Fecha de creación mínima</label>
+          <input
+            name="fechamin"
+            value="{% if fecha_min %}{{fecha_min.strftime('%Y-%m-%d')}}{% endif %}"
+            type="date"
+            class="form-control"
+            placeholder="Fecha minima"
+          />
+        </div>
+        <div class="col">
+          <label class="">Fecha de creación máxima</label>
+          <input
+            name="fechamax"
+            value="{% if fecha_max %}{{fecha_max.strftime('%Y-%m-%d')}}{% endif %}"
+            type="date"
+            class="form-control"
+            placeholder="Fecha maxima"
+          />
+        </div>
+        <div class="col">
+          <label class="">Búsqueda por autor</label>
+          <input
+            value="{{ query or '' }}"
+            type="text"
+            name="query"
+            class="form-control"
+            placeholder="Buscar por autor"
+            aria-label="Buscar por columna"
+            aria-describedby="button-addon2"
+          />
+        </div>
+        <div class="col d-flex justify-content-around">
+          <button type="submit" class="btn btn-outline-lblue">Buscar</button>
+          <a
+            href="{{ url_for('contenido.index') }}"
+            class="btn btn-outline-secondary"
+            >Reset</a
+          >
+          <a
+            class="btn btn-outline-primary btn-outline-yellow"
+            onclick=window.location.href="{{url_for('contenido.enter_add')}}";
+          >
+            Agregar +
+          </a>
+        </div>
+      </div>
+    </form>

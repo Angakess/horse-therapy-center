@@ -1,6 +1,7 @@
 from datetime import datetime
 from core.database import db
 from sqlalchemy import and_, asc, desc, or_, String, cast
+from core.user.users import User
 
 
 class EstadoDeContenido(db.Model):
@@ -54,6 +55,16 @@ def get_one_estado_by_name(name):
 
     return chosen_estado
 
+def list_estados():
+    """
+    Devuelve todos los estados cargados en la base de datos
+    """
+    estados = (
+        EstadoDeContenido.query.filter()
+    )
+
+    return estados
+
 class Contenido(db.Model):
     __tablename__ = "contenido"
     id = db.Column(db.Integer, primary_key=True)
@@ -105,16 +116,19 @@ def list_contenidos_page(amount, page, f_min, f_max, order, query, estados):
 
     contenidos = Contenido.query
 
+    contenidos = (
+        contenidos.join(User)
+    )
+
     if estados:
-        contenido = (
-            contenido.join(EstadoDeContenido)
-        )
-    if autor:
-        contenidos = contenidos.filter(
-            autor.ilike(f"%{query}%")
+        contenidos = (
+            contenidos.join(EstadoDeContenido)
         )
     contenidos = contenidos.filter(
-        Contenido.fecha_de_creacion >= f_min, Contenido.fecha <= f_max
+        User.alias.ilike(f"%{query}%")
+    )
+    contenidos = contenidos.filter(
+        Contenido.fecha_de_creacion >= f_min, Contenido.fecha_de_creacion <= f_max
     )
 
     if estados:
@@ -136,7 +150,7 @@ def get_total(f_min, f_max):
                 f_max(datetime), fecha máxima del filtro.
     Returns: total (int), cantidad total de contenidos.
     """
-    total = Contenido.query.filter(Contenido.fecha >= f_min, Contenido.fecha <= f_max).count()
+    total = Contenido.query.filter(Contenido.fecha_de_creacion >= f_min, Contenido.fecha_de_creacion <= f_max).count()
 
     return total
 
