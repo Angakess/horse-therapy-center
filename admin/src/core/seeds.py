@@ -541,20 +541,20 @@ def run():
         titulo = "Titulacion1",
         copete = "Copado",
         contenido = "Contento",
-        autor = "María Elena Walsh",
+        autor = user2,
         estado = estado1,
     )
     contenido2 = contenido.create_contenido(
         titulo = "Titulacion2",
         copete = "Compadre",
         contenido = "Contigo",
-        autor = "Jota Ka Roulin",
+        autor = user4,
         estado = estado2,
     )
     contenido3 = contenido.create_contenido(
         titulo = "Titulacion3",
         copete = "CopaDeVino",
         contenido = "Contumadre",
-        autor = "Tolkien papá",
+        autor = user2,
         estado = estado3,
     )

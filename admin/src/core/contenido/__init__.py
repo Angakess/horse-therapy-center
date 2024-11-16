@@ -65,6 +65,9 @@ class Contenido(db.Model):
     fecha_de_creacion = db.Column(db.DateTime, nullable=False)
     fecha_de_actualizacion = db.Column(db.DateTime, nullable=False)
 
+    autor_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    autor = db.relationship('User', back_populates='contenido')
+
     estado_id = db.Column(db.Integer, db.ForeignKey('estado_de_contenido.id'), nullable=False)
     estado = db.relationship('EstadoDeContenido', back_populates='contenido')
 
