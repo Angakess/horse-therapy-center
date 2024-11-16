@@ -71,7 +71,6 @@ class Contenido(db.Model):
     titulo = db.Column(db.String(30), nullable=False)
     copete = db.Column(db.Text, nullable=False)
     contenido = db.Column(db.Text, nullable=False)
-    autor = db.Column(db.String(50), nullable=False)
     fecha_de_publicacion = db.Column(db.DateTime, nullable=True)
     fecha_de_creacion = db.Column(db.DateTime, nullable=False)
     fecha_de_actualizacion = db.Column(db.DateTime, nullable=False)

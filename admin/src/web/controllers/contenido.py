@@ -82,87 +82,62 @@ def get_info(id):
 
 @bprint.get("<id>/edit")
 def enter_edit(id):
-    """Permite editar un cobro existente, cargando los datos actuales del cobro."""
+    """Permite editar un contenido existente, cargando los datos actuales del contenido."""
     if not is_authenticated(session):
         return abort(401)
 
-    if not check_permission(session, "cobro_enter_edit"):
+    if not check_permission(session, "contenido_enter_edit"):
         return abort(403)
     try:
-        chosen_cobro = cobro.get_one(id)
+        chosen_contenido = contenido.get_one(id)
 
         amount_per_page = 5
 
         page = int(request.args.get("pag", "1"))
 
-        observaciones = request.args.get("observaciones", chosen_cobro.observaciones)
-        monto = request.args.get("monto", chosen_cobro.monto)
-        fecha = request.args.get("fecha", chosen_cobro.fecha.strftime("%Y-%m-%d"))
+        titulo = request.args.get("titulo", chosen_contenido.titulo)
+        copete = request.args.get("copete", chosen_contenido.copete)
+        conteni2 = request.args.get("contenido", chosen_contenido.contenido)
         page_amount = amount_per_page
 
-        empleados = equipo.list_equipos_page(page=page, amount_per_page=amount_per_page)
-        total_empleados = equipo.get_total()
-        page_amount = (total_empleados + amount_per_page - 1) // amount_per_page
-
-        total_jyas = jya.get_total_jinetes_amazonas()
-        page_amount_jya = (total_jyas + amount_per_page - 1) // amount_per_page
-        jyas = jya.list_jinetes_amazonas_page(
-            query="", page=page, amount_per_page=amount_per_page, order="asc", by=""
-        )
-
-        medios = cobro.list_medio_de_pago()
     except ValueError as e:
         flash(str(e), "danger")
-        return redirect(url_for("cobro.get_one", id=id))
+        return redirect(url_for("contenido.get_one", id=id))
 
     return render_template(
-        "cobro/cobro_editing.html",
-        info=chosen_cobro,
+        "contenido/contenido_editing.html",
+        info=chosen_contenido,
         pag=page,
         page_amount=page_amount,
-        page_amount_jya=page_amount_jya,
-        observaciones=observaciones,
-        monto=monto,
-        fecha=fecha,
-        jyas=jyas,
-        empleados=empleados,
-        medios=medios,
+        titulo=titulo,
+        copete=copete,
+        contenido=conteni2,
     )
 
 
 @bprint.post("<id>/edit")
 def save_edit(id):
-    """Guarda los cambios realizados a un cobro existente."""
+    """Guarda los cambios realizados a un contenido existente."""
     if not is_authenticated(session):
         return abort(401)
 
-    if not check_permission(session, "cobro_save_edit"):
+    if not check_permission(session, "contenido_save_edit"):
         return abort(403)
     try:
-
-        try:
-            chosen_medio = request.form["chosen-medio"]
-        except:
-            flash("No se seleccionó un medio de pago", "danger")
-            return redirect(url_for("cobro"))
-
         new_data = {
-            "observaciones": request.form["observaciones"],
-            "monto": request.form["monto"],
-            "fecha": request.form["fecha"],
-            "jya": jya.get_jinete_amazona(request.form["chosen-jya"]),
-            "equipo": equipo.get_one(request.form["chosen-equipo"]),
-            "medio_pago": cobro.get_one_medio(chosen_medio),
+            "titulo": request.form["titulo"],
+            "copete": request.form["copete"],
+            "contenido": request.form["contenido"],
         }
 
-        edited_cobro = cobro.edit(id, new_data)
+        edited_contenido = contenido.edit(id, new_data)
 
     except ValueError as e:
         flash(str(e), "danger")
-        return redirect(url_for("cobro.enter_edit", id=id))
+        return redirect(url_for("contenido.enter_edit", id=id))
 
     flash("Operación realizada con éxito", "success")
-    return render_template("cobro/cobro_info.html", info=edited_cobro)
+    return render_template("contenido/contenido_info.html", info=edited_contenido)
 
 
 @bprint.post("/<id>/borrar")
