@@ -167,20 +167,20 @@ def save_edit(id):
 
 @bprint.post("/<id>/borrar")
 def delete(id):
-    """Elimina un cobro por su ID."""
+    """Elimina un contenido por su ID."""
     if not is_authenticated(session):
         return abort(401)
 
-    if not check_permission(session, "cobro_delete"):
+    if not check_permission(session, "contenido_delete"):
         return abort(403)
     try:
-        cobro.delete_cobro(id)
+        contenido.delete_contenido(id)
     except ValueError as e:
         flash(str(e), "danger")
         return redirect(url_for("get_info", id=id))
 
-    flash("Cobro borrado con éxito", "success")
-    return redirect(url_for("cobro.index"))
+    flash("Contenido borrado con éxito", "success")
+    return redirect(url_for("contenido.index"))
 
 
 @bprint.get("/agregar")
