@@ -11,12 +11,3 @@ class ConsultaSchema(Schema):
     fecha_resuelta = fields.DateTime(allow_none=True)
     estado = fields.Str(validate=lambda x: x in ["Pendiente", "Resuelta"])
 
-""" 
-     @post_load
-    def make_consulta(self, data, **kwargs):
-        from .contacto import Consulta 
-
-        Convierte el diccionario de datos en un objeto Consulta
-        return Consulta(**data)
-        
-"""""
