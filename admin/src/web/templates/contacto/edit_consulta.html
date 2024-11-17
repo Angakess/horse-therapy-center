@@ -28,8 +28,13 @@
             </li>
             <li class="mb-2 mb-xl-3 display-28">
               <span class="display-26 text-primary me-2 font-weight-600"
-                >Fecha:</span
+                >Fecha de creacion:</span
               >{{info.fecha.strftime('%d/%m/%Y') }}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Fecha de cierre:</span
+              >{{info.fecha_resuelta.strftime('%d/%m/%Y') if info.fecha_resuelta else "Ninguna"}}
             </li>
           </ul>
         </div>
