@@ -1,4 +1,4 @@
-from sqlalchemy import String, asc, cast, desc, or_
+from sqlalchemy import String, asc, cast, desc, or_, func
 from core.database import db
 from .equipo import Equipo
 from .archivos import Archivo
@@ -203,9 +203,28 @@ def delete_equipo(id):
 
     return chosen_equipo
 
+
 def list_equipos_apellido_asc():
     """
     Devuelve todos los equipos cargados en la base de datos ordenados por apellido
     """
     equipos = Equipo.query.order_by(Equipo.apellido.asc()).all()
     return equipos
+
+
+def amount_per_puesto():
+    resultados = (
+        db.session.query(Equipo.puesto, func.count(Equipo.id).label("cantidad"))
+        .filter(
+            Equipo.activo == True, Equipo.borrado == False
+        )  # Excluir empleados inactivos o borrados
+        .group_by(Equipo.puesto)
+        .order_by(Equipo.puesto)  # Opcional: ordena por el nombre del puesto
+        .all()
+    )
+
+    return [{"puesto": puesto, "cant": cantidad} for puesto, cantidad in resultados]
+
+
+def get_all():
+    return Equipo.query.filter(Equipo.activo == True).all()

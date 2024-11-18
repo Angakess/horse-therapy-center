@@ -1,15 +1,203 @@
-{% extends "layout.html" %} {% block title %} Pagos {% endblock %} {% block head
-%} {{ super() }} {% endblock %} {% block content %}
+{% extends "layout.html" %} {% block title %} Gráficos y reportes {% endblock %} {% block head
+%} {{ super() }}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='scripts/graficos.js') }}"></script>
+{% endblock %} {% block content %}
 <main role="main" class="container">
-    <div class="content-body">
+  <div class="content-body">
     <!-- TITULO -->
-        <div class="row align-items-center justify-content-start">
-            <div class="col-auto">
-                <h1>Reportes</h1>
-            </div>
-        </div>
+    <div class="row align-items-center justify-content-start">
+      <div class="col-auto">
+        <h1>Gráficos y Reportes</h1>
+      </div>
     </div>
+
+    <div class="row">
+      <p class="gap-1">
+        <button
+          class="btn btn-outline-lblue btn-lg w-100 d-flex align-items-center justify-content-between"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#graficoDiscapacidades"
+          aria-expanded="false"
+          aria-controls="graficoDiscapacidades"
+        >
+          <span> Tipo de discapacidades de Jinetes y Amazonas </span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-caret-down-fill"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"
+            />
+          </svg>
+        </button>
+      </p>
+      <div class="collapse mb-3" id="graficoDiscapacidades">
+        <div class="card card-body gap-1">
+          {% include 'reportes/components/graficoDiscapacidades.html'%}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <p class="gap-1">
+        <button
+          class="btn btn-outline-lblue btn-lg w-100 d-flex align-items-center justify-content-between"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#graficoCobros"
+          aria-expanded="false"
+          aria-controls="graficoCobros"
+        >
+          <span> Monto cobrado por mes en el año </span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-caret-down-fill"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"
+            />
+          </svg>
+        </button>
+      </p>
+      <div class="collapse mb-3" id="graficoCobros">
+        <div class="card card-body gap-1">
+          {% include 'reportes/components/graficoCobros.html'%}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <p class="gap-1">
+        <button
+          class="btn btn-outline-lblue btn-lg w-100 d-flex align-items-center justify-content-between"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#graficoPuestos"
+          aria-expanded="false"
+          aria-controls="graficoPuestos"
+        >
+          <span> Cantidad de empleados activos por puesto </span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-caret-down-fill"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"
+            />
+          </svg>
+        </button>
+      </p>
+      <div class="collapse mb-3" id="graficoPuestos">
+        <div class="card card-body gap-1">
+          {% include 'reportes/components/graficoPuestos.html'%}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <p class="gap-1">
+        <button
+          class="btn btn-outline-lblue btn-lg w-100 d-flex align-items-center justify-content-between"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#reporteResponsables"
+          aria-expanded="false"
+          aria-controls="reporteResponsables"
+        >
+          <span> Caballos por profesional responsable </span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-caret-down-fill"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"
+            />
+          </svg>
+        </button>
+      </p>
+      <div class="collapse mb-3" id="reporteResponsables">
+        <div class="card card-body gap-1">
+          {% include 'reportes/components/reporteResponsables.html'%}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <p class="gap-1">
+        <button
+          class="btn btn-outline-lblue btn-lg w-100 d-flex align-items-center justify-content-between"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#reporteHistorial"
+          aria-expanded="false"
+          aria-controls="reporteHistorial"
+        >
+          <span> Historial de adquisición de caballos </span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-caret-down-fill"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"
+            />
+          </svg>
+        </button>
+      </p>
+      <div class="collapse mb-3" id="reporteHistorial">
+        <div class="card card-body gap-1">
+          {% include 'reportes/components/reporteHistorial.html'%}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <p class="gap-1">
+        <button
+          class="btn btn-outline-lblue btn-lg w-100 d-flex align-items-center justify-content-between"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#reporteAntiguedad"
+          aria-expanded="false"
+          aria-controls="reporteAntiguedad"
+        >
+          <span> Antigüedad de los empleados</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-caret-down-fill"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"
+            />
+          </svg>
+        </button>
+      </p>
+      <div class="collapse mb-3" id="reporteAntiguedad">
+        <div class="card card-body gap-1">
+          {% include 'reportes/components/reporteAntiguedad.html'%}
+        </div>
+      </div>
+    </div>
+  </div>
 </main>
-
-
 {% endblock %}

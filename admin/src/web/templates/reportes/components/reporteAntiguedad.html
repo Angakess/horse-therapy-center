@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="row">
+    <ul class="list-unstyled">
+      {% for empleado in data_antiguedad %}
+      <li class="mb-3">
+        <span class="display-20 text-primary me-2 font-weight-600">
+          <button
+            class="btn btn-md btn-outline-yellow"
+            onclick=window.location.href="{{ url_for('equipo.get_profile', id=empleado.info.id) }}";
+          >
+            {{empleado.info.nombre}} {{empleado.info.apellido}}
+          </button>
+          - {{empleado.antiguedad}} años de antigüedad (fecha de ingreso:
+          {{empleado.info.fecha_inicio.strftime("%d/%m/%Y")}})
+        </span>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>

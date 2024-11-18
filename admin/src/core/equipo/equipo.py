@@ -25,7 +25,9 @@ class Equipo(db.Model):
     activo = db.Column(db.Boolean, nullable=False, default=True)
     borrado = db.Column(db.Boolean, nullable=False, default=False)
 
-    ecuestres = db.relationship("Ecuestre",secondary=equipo_ecuestre,back_populates="equipos",lazy='dynamic')
+    ecuestres = db.relationship(
+        "Ecuestre", secondary=equipo_ecuestre, back_populates="equipos", lazy="dynamic"
+    )
 
     profesor_terapeuta_trabajo = db.relationship(
         "Trabajo",
@@ -47,8 +49,7 @@ class Equipo(db.Model):
 
     pagos = db.relationship("Pago", back_populates="beneficiario")
 
-
-    cobros = db.relationship("Cobro", back_populates='equipo')
+    cobros = db.relationship("Cobro", back_populates="equipo")
 
     def __repr__(self):
         return f'<Equipo #{self.id} nombre="{self.nombre} {self.apellido}">'
