@@ -1,5 +1,5 @@
 from core.database import db
-from sqlalchemy import Enum, String, cast, or_
+from sqlalchemy import Enum, String, case, cast, func, or_
 from sqlalchemy import asc
 from sqlalchemy import desc
 from datetime import datetime
@@ -335,6 +335,7 @@ def get_total_jinetes_amazonas():
     total = JinetesAmazonas.query.filter().count()
     return total
 
+
 def set_jinete_amazona_deuda(id, endeudado):
     """
     Esta función setea el valor de tiene_deuda de un jinete o amazonas en específico
@@ -347,3 +348,25 @@ def set_jinete_amazona_deuda(id, endeudado):
         jinete_amazona.tiene_deuda = endeudado
         db.session.commit()
     return jinete_amazona
+
+
+def count_edad(minEdad, maxEdad):
+
+    fecha_actual = datetime.now()
+
+    cant = JinetesAmazonas.query.filter(
+        (
+            func.extract("year", fecha_actual)
+            - func.extract("year", JinetesAmazonas.fecha_nacimiento)
+        ).between(minEdad, maxEdad)
+    ).count()
+
+    return cant
+
+
+def count_discapacidad(discapacidad):
+    cant = JinetesAmazonas.query.filter(
+        JinetesAmazonas.tipo_discapacidad == discapacidad
+    ).count()
+
+    return cant

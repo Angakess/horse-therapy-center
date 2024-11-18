@@ -12,6 +12,7 @@ from web.controllers.ecuestre import bprint as ecuestre_bp
 from web.controllers.pago import bprint as pago_bp
 from web.controllers.jya import bprint as jya_bp
 from web.controllers.cobro import bprint as cobro_bp
+from web.controllers.reporte import bprint as reporte_bp
 from web.controllers.contacto import bprint as con_bp
 from web.api.contacto import bprint as contacto_api
 from web.controllers.contenido import bprint as contenido_bp
@@ -26,6 +27,7 @@ from core import seeds
 
 logging.basicConfig()
 logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
+
 
 def create_app(env="development", static_folder="../../static"):
     app = Flask(__name__, static_folder=static_folder)
@@ -72,8 +74,9 @@ def create_app(env="development", static_folder="../../static"):
     app.register_blueprint(pago_bp)
     app.register_blueprint(jya_bp)
     app.register_blueprint(cobro_bp)
+    app.register_blueprint(reporte_bp)
     app.register_blueprint(con_bp)
-    #apis
+    # apis
     app.register_blueprint(contacto_api)
     app.register_blueprint(contenido_bp)
 

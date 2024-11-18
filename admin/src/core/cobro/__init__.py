@@ -1,6 +1,6 @@
 from datetime import datetime
 from core.database import db
-from sqlalchemy import and_, asc, desc, or_, String, cast
+from sqlalchemy import and_, asc, desc, or_, String, cast, func
 from core.equipo import Equipo
 
 
@@ -8,12 +8,12 @@ class MedioDePago(db.Model):
     __tablename__ = "medios_de_pago"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False, unique=True)
-    #cobro = db.relationship("Cobro", back_populates="mediosDePago", lazy = 'dynamic')
-    cobros = db.relationship('Cobro', back_populates='medio_pago')
+    # cobro = db.relationship("Cobro", back_populates="mediosDePago", lazy = 'dynamic')
+    cobros = db.relationship("Cobro", back_populates="medio_pago")
 
     def __repr__(self):
-        return f'<Cobro #{self.id} - Medio: {self.medio_pago.name}>'
-    
+        return f"<Cobro #{self.id} - Medio: {self.medio_pago.name}>"
+
 
 def create_medio_pago(**kwargs):
     """
@@ -28,6 +28,7 @@ def create_medio_pago(**kwargs):
 
     return medio_pago
 
+
 def get_total_medio():
     """
     Función que obtiene el total de medios de pago
@@ -36,13 +37,12 @@ def get_total_medio():
 
     return total
 
+
 def list_medio_de_pago():
     """
     Devuelve todos los medios de pagos cargados en la base de datos
     """
-    mediosDePago = (
-        MedioDePago.query.filter()
-    )
+    mediosDePago = MedioDePago.query.filter()
 
     return mediosDePago
 
@@ -61,6 +61,7 @@ def get_one_medio(id):
 
     return chosen_medio
 
+
 class Cobro(db.Model):
     __tablename__ = "cobros"
     id = db.Column(db.Integer, primary_key=True)
@@ -68,18 +69,18 @@ class Cobro(db.Model):
     fecha = db.Column(db.DateTime, nullable=False)
     observaciones = db.Column(db.Text, nullable=True)
 
-    medio_pago_id = db.Column(db.Integer, db.ForeignKey('medios_de_pago.id'), nullable=False)
-    medio_pago = db.relationship('MedioDePago', back_populates='cobros')
+    medio_pago_id = db.Column(
+        db.Integer, db.ForeignKey("medios_de_pago.id"), nullable=False
+    )
+    medio_pago = db.relationship("MedioDePago", back_populates="cobros")
 
-    #jya que paga
+    # jya que paga
     jya_id = db.Column(db.Integer, db.ForeignKey("JinetesYAmazonas.id"), nullable=False)
-    jya = db.relationship('JinetesAmazonas', back_populates='cobros')
+    jya = db.relationship("JinetesAmazonas", back_populates="cobros")
 
-    #Miembro del equipo que recibe el dinero
+    # Miembro del equipo que recibe el dinero
     equipo_id = db.Column(db.Integer, db.ForeignKey("equipos.id"), nullable=False)
-    equipo = db.relationship('Equipo', back_populates='cobros')
-
-
+    equipo = db.relationship("Equipo", back_populates="cobros")
 
 
 def create_cobro(**kwargs):
@@ -98,9 +99,9 @@ def create_cobro(**kwargs):
     return cobro
 
 
-#def get_equipo(id):
-    #equipo = Equipo.query.filter(id = id).first()
-    #return equipo
+# def get_equipo(id):
+# equipo = Equipo.query.filter(id = id).first()
+# return equipo
 
 
 def list_cobros_page(amount, page, f_min, f_max, order, query, medios):
@@ -120,31 +121,18 @@ def list_cobros_page(amount, page, f_min, f_max, order, query, medios):
 
     cobros = Cobro.query
 
-    cobros = (
-        cobros.join(Equipo)
-    )
+    cobros = cobros.join(Equipo)
     if medios:
-        cobros = (
-            cobros.join(MedioDePago)
-        )
+        cobros = cobros.join(MedioDePago)
     cobros = cobros.filter(
-        or_(
-            Equipo.nombre.ilike(f"%{query}%"),
-            Equipo.apellido.ilike(f"%{query}%")
-        )
+        or_(Equipo.nombre.ilike(f"%{query}%"), Equipo.apellido.ilike(f"%{query}%"))
     )
-    cobros = cobros.filter(
-        Cobro.fecha >= f_min, Cobro.fecha <= f_max
-    )
+    cobros = cobros.filter(Cobro.fecha >= f_min, Cobro.fecha <= f_max)
 
     if medios:
-        cobros = cobros.filter(
-            MedioDePago.name.in_(medios)
-        )
+        cobros = cobros.filter(MedioDePago.name.in_(medios))
 
-    cobros = cobros.order_by(order_by_fecha).paginate(
-        page=page, per_page=amount
-    )
+    cobros = cobros.order_by(order_by_fecha).paginate(page=page, per_page=amount)
 
     return cobros
 
@@ -174,7 +162,6 @@ def get_one(id):
         raise ValueError("No se encontró el cobro seleccionado")
 
     return chosen_cobro
-
 
 
 def edit(id, data):
@@ -215,3 +202,22 @@ def delete_cobro(cobro_id):
     db.session.delete(chosen_cobro)
     db.session.commit()
 
+
+def amount_per_month():
+    año_actual = datetime.now().year
+    resultados = (
+        db.session.query(
+            func.date_part("month", Cobro.fecha).label(
+                "mes"
+            ),  # Agrupar por semana en formato Año-Semana
+            func.sum(Cobro.monto).label("total"),
+        )
+        .filter(
+            func.extract("year", Cobro.fecha) == año_actual
+        )  # Filtrar por el año actual
+        .group_by(func.date_part("month", Cobro.fecha))  # Agrupar por semana
+        .order_by(func.date_part("month", Cobro.fecha))  # Ordenar por semana
+        .all()
+    )
+
+    return [{"mes": mes, "total": float(total)} for mes, total in resultados]

@@ -404,7 +404,8 @@ def run():
         "contacto_index",
         "contacto_update",
         "contacto_destroy",
-        "contacto_show"
+        "contacto_show",
+        "reporte_index",
     ]
     PERMISSIONS = {
         "Administración": [
@@ -454,6 +455,7 @@ def run():
             "contacto_update",
             "contacto_destroy",
             "contacto_show",
+            "reporte_index",
         ],
         "Voluntariado": [],
         "Técnica": [
@@ -476,6 +478,7 @@ def run():
             "ecuestre_download_archivo",
             "cobro_index",
             "cobro_get_info",
+            "reporte_index",
         ],
         "Ecuestre": [
             "jya_index",
@@ -552,41 +555,41 @@ def run():
         cuerpo="Consulta sobre sedes.",
         fecha=datetime(2024, 3, 3),
         estado="Pendiente",
-        desc="Es una consulta general."
+        desc="Es una consulta general.",
     )
     consulta2 = create_consulta(
         nya="Mario Vargas",
         email="mariovargas@example.com",
         cuerpo="Consulta sobre equitación.",
         fecha=datetime(2024, 6, 10),
-        desc="Es una consulta general."
+        desc="Es una consulta general.",
     )
     consulta3 = create_consulta(
         nya="Carlos Lopez",
         email="carloslopez@example.com",
         cuerpo="Consulta sobre disponibilidad de cupos.",
         fecha=datetime(2024, 3, 5),
-        desc="Es una consulta general."
+        desc="Es una consulta general.",
     )
-    
+
     contenido1 = contenido.create_contenido(
-        titulo = "Titulacion1",
-        copete = "Copado",
-        contenido = "Contento",
-        autor = user2,
-        estado = estado1,
+        titulo="Titulacion1",
+        copete="Copado",
+        contenido="Contento",
+        autor=user2,
+        estado=estado1,
     )
     contenido2 = contenido.create_contenido(
-        titulo = "Titulacion2",
-        copete = "Compadre",
-        contenido = "Contigo",
-        autor = user4,
-        estado = estado2,
+        titulo="Titulacion2",
+        copete="Compadre",
+        contenido="Contigo",
+        autor=user4,
+        estado=estado2,
     )
     contenido3 = contenido.create_contenido(
-        titulo = "Titulacion3",
-        copete = "CopaDeVino",
-        contenido = "Contumadre",
-        autor = user2,
-        estado = estado3,
+        titulo="Titulacion3",
+        copete="CopaDeVino",
+        contenido="Contumadre",
+        autor=user2,
+        estado=estado3,
     )

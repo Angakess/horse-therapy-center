@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="row">
+    <ul class="list-unstyled mb-1-9">
+      {% for profesional in data_responsables %}
+      <li class="mb-2 mb-xl-3 display-28">
+        <button class="btn btn-outline-yellow" onclick=window.location.href="{{ url_for('equipo.get_profile', id=profesional.id) }}";>
+          {{profesional.nombre}} {{profesional.apellido}}
+        </button>
+        <span class="display-20 text-primary me-2 font-weight-600">
+            - Cantidad de caballos asignados: {{profesional.ecuestres.count()}}
+        </span>
+        <ul class="list-unstyled m-3">
+          {% if profesional.ecuestres.count() > 0 %}
+          {% for caballo in profesional.ecuestres %}
+          <li class="m-2">
+            <button class="btn btn-sm btn-outline-lblue" onclick=window.location.href="{{ url_for('ecuestre.get_profile', id=caballo.id) }}";>
+                {{caballo.nombre}}
+          </button></li>
+          {% endfor %}
+          {% endif %}
+        </ul>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
