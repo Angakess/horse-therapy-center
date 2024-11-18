@@ -41,6 +41,18 @@
             <a class="nav-link active" aria-current="page" href="{{ url_for('cobro.index') }}">Cobros</a>
           </li>
           {% endif %}
+          <!--agregarle los permisos-->
+          {% if check_permission(session, "contacto_index") %}
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{{ url_for('contacto.index') }}">Contacto</a>
+          </li>
+          {% endif %}
+          {% if check_permission(session, "contenido_index") %}
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{{ url_for('contenido.index') }}">Contenidos</a>
+          </li>
+          {% endif %}
+
           {% endif %}
           
           <li class="nav-item">
