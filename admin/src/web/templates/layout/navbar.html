@@ -52,12 +52,15 @@
             <a class="nav-link active" aria-current="page" href="{{ url_for('contenido.index') }}">Contenidos</a>
           </li>
           {% endif %}
-
-          {% endif %}
-          
+          {% if check_permission(session, "reporte_index") %}
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="{{ url_for('reporte.index') }}">Reportes</a>
           </li>
+          {% endif %}
+
+          {% endif %}
+          
+          
  
         </ul>
 

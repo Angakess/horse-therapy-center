@@ -14,6 +14,12 @@ bprint = Blueprint("reporte", __name__, url_prefix="/reporte")
 
 @bprint.get("/")
 def index():
+    if not is_authenticated(session):
+        return abort(401)
+
+    if not check_permission(session, "reporte_index"):
+        return abort(403)
+
     data_discapacidades = get_data_discapacidades()
     data_cobros = get_data_cobros()
     data_puestos = get_data_puestos()
