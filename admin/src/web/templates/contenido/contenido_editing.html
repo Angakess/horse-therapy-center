@@ -15,12 +15,12 @@
       <div class="col">
         <div class="row mb-5">
           <h2 class="equipo-profile-title text-secondary">
-            Titulo
+            Titulo (máx 30 caracteres)
           </h2>
           <div class="input-group">
-            <textarea class="form-control" name="titulo" id="titulo-id" aria-label="With textarea" required>{{titulo}}</textarea>
+            <textarea class="form-control" name="titulo" id="titulo-id" aria-label="With textarea" maxlength="30" required>{{titulo}}</textarea>
             <div class="invalid-feedback">
-              Ingrese titulo
+              Ingrese un Título (máximo 30 caracteres)
             </div>
           </div>
         </div>
@@ -30,7 +30,7 @@
           Copete
         </h2>
         <div class="input-group">
-          <textarea class="form-control" name="copete" id="copete-id" aria-label="With textarea" required>{{copete}}</textarea>
+          <textarea class="form-control" name="copete" id="copete-id" aria-label="With textarea" rows="5" required>{{copete}}</textarea>
           <div class="invalid-feedback">
             Ingrese copete
           </div>
@@ -41,7 +41,7 @@
           Contenido
         </h2>
         <div class="input-group">
-          <textarea class="form-control" name="contenido" id="contenido-id" aria-label="With textarea" required>{{contenido}}</textarea>
+          <textarea class="form-control" name="contenido" id="contenido-id" aria-label="With textarea" rows="10" required>{{contenido}}</textarea>
           <div class="invalid-feedback">
             Ingrese contenido
           </div>

@@ -4,6 +4,7 @@ from flask import session, abort
 from core import contenido
 from flask import Blueprint
 from web.helpers.auth import check_permission, is_authenticated
+from web.controllers import find_user_by_email
 import unicodedata
 
 bprint = Blueprint("contenido", __name__, url_prefix="/contenido")
@@ -65,11 +66,11 @@ def index():
 
 @bprint.get("/<id>")
 def get_info(id):
-    """Muestra la información detallada de un cobro específico."""
+    """Muestra la información detallada de un contenido específico."""
     if not is_authenticated(session):
         return abort(401)
 
-    if not check_permission(session, "cobro_get_info"):
+    if not check_permission(session, "contenido_get_info"):
         return abort(403)
     try:
         chosen_contenido = contenido.get_one(id)
@@ -124,6 +125,10 @@ def save_edit(id):
     if not check_permission(session, "contenido_save_edit"):
         return abort(403)
     try:
+        titulo = request.form['titulo']
+        if len(titulo) > 30:
+            flash("El título excede los 30 caracteres", "danger")
+            return redirect(url_for("contenido.enter_edit", id=id))
         new_data = {
             "titulo": request.form["titulo"],
             "copete": request.form["copete"],
@@ -160,80 +165,64 @@ def delete(id):
 
 @bprint.get("/agregar")
 def enter_add():
-    """Permite agregar un nuevo cobro, mostrando un formulario para ingresar los datos."""
+    """Permite agregar un nuevo contenido, mostrando un formulario para ingresar los datos."""
     if not is_authenticated(session):
         return abort(401)
 
-    if not check_permission(session, "cobro_enter_add"):
+    if not check_permission(session, "contenido_enter_add"):
         return abort(403)
 
-    empleados = equipo.list_equipos_apellido_asc()
-
-    jyas = jya.list_jinetes_amazonas_apellido_asc()
-
-    medios = cobro.list_medio_de_pago()
-
-    observaciones = request.args.get("observaciones", "")
-    monto = request.args.get("monto", "")
-    fecha = request.args.get("fecha", "")
+    publicarAhora = request.args.get("publicarAhora", "false")
+    if publicarAhora == "True":
+        publicarAhora = True
+    else:
+        publicarAhora = False
+    titulo = request.args.get("titulo", "")
+    copete = request.args.get("copete", "")
+    contenido = request.args.get("contenido", "")
 
     return render_template(
-        "cobro/cobro_adding.html",
-        jyas=jyas,
-        empleados=empleados,
-        observaciones=observaciones,
-        monto=monto,
-        fecha=fecha,
-        medios=medios,
+        "contenido/contenido_adding.html",
+        titulo=titulo,
+        copete=copete,
+        contenido=contenido,
+        publicarAhora=publicarAhora,
     )
 
 
 @bprint.post("/agregar")
 def add():
-    """Crea un nuevo cobro basado en los datos ingresados en el formulario."""
+    """Crea un nuevo cntenido basado en los datos ingresados en el formulario."""
     if not is_authenticated(session):
         return abort(401)
 
-    if not check_permission(session, "cobro_add"):
+    if not check_permission(session, "contenido_add"):
         return abort(403)
     try:
-
-        try:
-            chosen_jya = request.form["chosen-jya"]
-        except:
-            flash("No se seleccionó un Jinetes y Amazonas", "danger")
-            return redirect(url_for("cobro.enter_add"))
-        
-        try:
-            chosen_equipo = request.form["chosen-equipo"]
-        except:
-            flash("No se seleccionó un cobrador", "danger")
-            return redirect(url_for("cobro.enter_add"))
-        
-        try:
-            chosen_medio = request.form["chosen-medio"]
-        except:
-            flash("No se seleccionó un medio de pago", "danger")
-            return redirect(url_for("cobro.enter_add"))
-        
-
+        titulo = request.form['titulo']
+        if len(titulo) > 30:
+            flash("El título excede los 30 caracteres", "danger")
+            return redirect(url_for("contenido.enter_add", id=id))
         new_data = {
-            "observaciones": request.form["observaciones"],
-            "monto": request.form["monto"],
-            "fecha": request.form["fecha"],
-            "jya": jya.get_jinete_amazona(chosen_jya),
-            "equipo": equipo.get_one(chosen_equipo),
-            "medio_pago": cobro.get_one_medio(chosen_medio),
+            "titulo": request.form["titulo"],
+            "copete": request.form["copete"],
+            "contenido": request.form["contenido"],
+            "autor": find_user_by_email(session.get("user"))
         }
+        if request.form["publicarAhora"] == "True":
+            new_data["fecha_de_publicacion"] = datetime.now()
+            new_data["estado"] = contenido.get_one_estado_by_name("Publicado")
+        else:
+            new_data["estado"] = contenido.get_one_estado_by_name("Borrador")
 
-        new_cobro = cobro.create_cobro(**new_data)
+        new_contenido = contenido.create_contenido(**new_data)
 
     except ValueError as e:
         flash(str(e), "danger")
-        return redirect(url_for("cobro.enter_edit", id=id))
+        return redirect(url_for("contenido.enter_edit", id=id))
 
     flash("Operación realizada con éxito", "success")
-    return render_template("cobro/cobro_info.html", info=new_cobro)
+    return render_template("contenido/contenido_info.html", info=new_contenido)
 
 
 @bprint.get("/<id>/<estado>")
