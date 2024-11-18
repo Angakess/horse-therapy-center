@@ -12,8 +12,11 @@ class User(db.Model):
     system_admin = db.Column(db.Boolean, default=False, nullable=False)
     inserted_at =db.Column(db.DateTime, default=datetime.now, nullable=False)
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'), nullable=False)
     role = db.relationship("Role", back_populates="users")
+
+    contenido = db.relationship('Contenido', back_populates='autor')
     
     def __repr__(self):
         return f'<User #{self.id} email="{self.email}">'
