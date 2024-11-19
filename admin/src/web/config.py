@@ -8,12 +8,15 @@ load_dotenv()
 
 class Config(object):
     """BaseConfiguration."""
+
     SECRET_KEY = "proyecto2024"
     TESTING = False
     SESSION_TYPE = "filesystem"
 
+
 class ProductionConfig(Config):
     """Production configuration."""
+
     MINIO_SERVER = environ.get("MINIO_SERVER")
     MINIO_ACCESS_KEY = environ.get("MINIO_ACCESS_KEY")
     MINIO_SECRET_KEY = environ.get("MINIO_SECRET_KEY")
@@ -28,6 +31,7 @@ class ProductionConfig(Config):
 
 class DevelopmentConfig(Config):
     """Development configuration."""
+
     # Agrego variables de entorno (junto con algunos valores default por si no las encuentra)
     MINIO_SERVER = os.getenv("MINIO_SERVER_DEV", "127.0.0.1:9000")
     MINIO_ACCESS_KEY = os.getenv("MINIO_ACCESS_KEY_DEV")
@@ -43,12 +47,21 @@ class DevelopmentConfig(Config):
         f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     )
 
+    GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", None)
+    GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET", None)
+    GOOGLE_DISCOVERY_URL = (
+        "https://accounts.google.com/.well-known/openid-configuration"
+    )
+
+
 class TestingConfig(Config):
     """Testing configuration."""
+
     TESTING = False
+
 
 config = {
     "production": ProductionConfig,
     "development": DevelopmentConfig,
-    "test": TestingConfig
+    "test": TestingConfig,
 }
