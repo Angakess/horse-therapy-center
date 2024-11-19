@@ -51,7 +51,13 @@
           <td>{{ contenido.fecha_de_creacion.strftime('%d/%m/%Y') }}</td>
           <td>{{ contenido.titulo }}</td>
           <td>{{ contenido.autor.alias }}</td>
-          <td>{{ contenido.estado.name }}</td>
+          <td>
+            <span class="badge rounded-pill 
+                {% if contenido.estado.name == 'Archivado' %}bg-danger
+                {% elif contenido.estado.name == 'Publicado' %}bg-success
+                {% else %}bg-secondary{% endif %}">
+                  {{ contenido.estado.name }}</td>
+            </span>
           <td>
             <div class="container">
               <div class="row d-flex align-items-center justify-content-center">
