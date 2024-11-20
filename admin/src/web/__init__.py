@@ -23,6 +23,7 @@ from web.helpers.auth import is_authenticated, check_permission
 from web.storage import storage
 from oauthlib.oauth2 import WebApplicationClient
 from web.oauth import oauth
+from flask_cors import CORS
 
 session = Session()
 from core import database
@@ -101,4 +102,6 @@ def create_app(env="development", static_folder="../../static"):
     def seeds_db():
         seeds.run()
 
+    #Enable CORS
+    CORS(app, resources={r"/api/*": {"origins": "*"}})
     return app

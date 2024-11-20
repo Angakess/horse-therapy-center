@@ -1,0 +1,25 @@
+import { createRouter, createWebHistory } from 'vue-router'
+import HomeView from '../views/HomeView.vue'
+
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: HomeView,
+    },
+    {
+      path: '/contacto',
+      name: 'contacto',
+      component: () => import('../views/ContactoView.vue'),
+    },
+    {
+      path: '/noticias',
+      name: 'noticias',
+      component: () => import('../views/NoticiasView.vue'),
+    },
+  ],
+})
+
+export default router

@@ -18,6 +18,6 @@ def create_message():
         result = consulta_schema.dump(consulta_data)
         return jsonify(result), 201
     except Exception as e:
-        return jsonify({"error": str(e)}), 400
+        return jsonify({"error": "Parámetros inválidos o faltantes en la solicitud."}), 400
 
 
