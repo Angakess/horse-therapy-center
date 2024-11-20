@@ -21,12 +21,19 @@ class ProductionConfig(Config):
     MINIO_ACCESS_KEY = environ.get("MINIO_ACCESS_KEY")
     MINIO_SECRET_KEY = environ.get("MINIO_SECRET_KEY")
     MINIO_SECURE = True
+
     SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL")
     SQLALCHEMY_ENGINE_OPTIONS = {
         "pool_size": 10,
         "pool_recycle": 60,
         "pool_pre_ping": True,
     }
+
+    GOOGLE_CLIENT_ID = environ.get("GOOGLE_CLIENT_ID")
+    GOOGLE_CLIENT_SECRET = environ.get("GOOGLE_CLIENT_SECRET")
+    GOOGLE_DISCOVERY_URL = (
+        "https://accounts.google.com/.well-known/openid-configuration"
+    )
 
 
 class DevelopmentConfig(Config):
