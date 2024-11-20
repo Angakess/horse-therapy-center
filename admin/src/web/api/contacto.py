@@ -19,5 +19,3 @@ def create_message():
         return jsonify(result), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
-
-
