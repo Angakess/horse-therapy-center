@@ -20,6 +20,8 @@ from flask_session import Session
 from core.bcrypt import bcrypt
 from web.helpers.auth import is_authenticated, check_permission
 from web.storage import storage
+from oauthlib.oauth2 import WebApplicationClient
+from web.oauth import oauth
 
 session = Session()
 from core import database
@@ -41,6 +43,8 @@ def create_app(env="development", static_folder="../../static"):
     database.init_app(app)
 
     storage.init_app(app)
+
+    oauth.init_app(app)
 
     @app.route("/")
     def home():

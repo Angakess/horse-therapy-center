@@ -222,12 +222,13 @@ def run():
         sabado=True,
         domingo=False,
     )
-    #    VALID_ROLES = {"Técnica", "Ecuestre", "Voluntariado", "Administración"}
+    #    VALID_ROLES = {"Técnica", "Ecuestre", "Voluntariado", "Administración", "Pendiente"}
 
     role_admin = user.create_role(name="Administración")
     role_voluntario = user.create_role(name="Voluntariado")
     role_tec = user.create_role(name="Técnica")
     role_ec = user.create_role(name="Ecuestre")
+    role_p = user.create_role(name="Pendiente")
 
     # superadmin
     user1 = user.create_user(

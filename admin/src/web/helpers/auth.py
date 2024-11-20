@@ -1,5 +1,7 @@
 from core import user
 from web.controllers import find_user_by_email
+import requests
+from web.oauth import oauth
 
 
 def is_authenticated(session):
@@ -14,3 +16,7 @@ def check_permission(session, permission):
     permissions = user.get_permissions(usuario)
 
     return usuario is not None and permission in permissions
+
+
+def get_google_provider_cfg():
+    return requests.get(oauth._google_discovery_url).json()
