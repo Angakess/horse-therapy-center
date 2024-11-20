@@ -16,6 +16,7 @@ from web.controllers.reporte import bprint as reporte_bp
 from web.controllers.contacto import bprint as con_bp
 from web.api.contacto import bprint as contacto_api
 from web.controllers.contenido import bprint as contenido_bp
+from web.api.contenido import bprint as contenido_api
 from flask_session import Session
 from core.bcrypt import bcrypt
 from web.helpers.auth import is_authenticated, check_permission
@@ -80,9 +81,10 @@ def create_app(env="development", static_folder="../../static"):
     app.register_blueprint(cobro_bp)
     app.register_blueprint(reporte_bp)
     app.register_blueprint(con_bp)
+    app.register_blueprint(contenido_bp)
     # apis
     app.register_blueprint(contacto_api)
-    app.register_blueprint(contenido_bp)
+    app.register_blueprint(contenido_api)
 
     # Error handlers
     app.register_error_handler(404, handler.not_found_error)
