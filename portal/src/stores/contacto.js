@@ -1,6 +1,8 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export const useContactoStore = defineStore("contacto", {
   state: () => ({
     contacto: [],
@@ -23,7 +25,7 @@ export const useContactoStore = defineStore("contacto", {
           return;
         }
 
-        const response = await axios.post("http://localhost:5000/api/contacto/messages",formData);
+        const response = await axios.post(`${API_BASE_URL}/api/contacto/messages`,formData);
         // Agregar el nuevo mensaje a la lista
         this.contacto.push(response.data);
 
