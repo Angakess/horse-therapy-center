@@ -142,15 +142,38 @@ def list_contenidos_page(amount, page, f_min, f_max, order, query, estados):
     return contenidos
 
 
-def get_total(f_min, f_max):
+def get_total(f_min, f_max, query, estados):
     """
     Función que obtiene el total de contenidos que cumplen con los filtros proporcionados.
     Parameters: f_min(datetime), fecha mínima del filtro.
                 f_max(datetime), fecha máxima del filtro.
+                query, string por el cual buscar coincidencias en el nombre del autor del contenido.
+                medios(list), lista de estados a filtrar.
     Returns: total (int), cantidad total de contenidos.
     """
-    total = Contenido.query.filter(Contenido.fecha_de_creacion >= f_min, Contenido.fecha_de_creacion <= f_max).count()
+    contenidos = Contenido.query
+    
+    contenidos = (
+        contenidos.join(User)
+    )
 
+    if estados:
+        contenidos = (
+            contenidos.join(EstadoDeContenido)
+        )
+    contenidos = contenidos.filter(
+        User.alias.ilike(f"%{query}%")
+    )
+
+    contenidos = contenidos.filter(
+        Contenido.fecha_de_creacion >= f_min, Contenido.fecha_de_creacion <= f_max)
+    
+    if estados:
+        contenidos = contenidos.filter(
+            EstadoDeContenido.name.in_(estados)
+        )
+    
+    total = contenidos.count()
     return total
 
 

@@ -42,10 +42,11 @@ def index():
 
         query = request.args.get("query", "")
 
+        total = contenido.get_total(fecha_min, fecha_max, query, estados)
+
         contenidos = contenido.list_contenidos_page(
             amount_per_page, page, fecha_min, fecha_max, order, query, estados
         )
-        total = contenido.get_total(fecha_min, fecha_max)
     except ValueError as e:
         flash(str(e), "danger")
         return redirect("/")
