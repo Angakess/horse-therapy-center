@@ -618,7 +618,7 @@ def run():
         titulo="Martín fierro",
         copete="Tipazo",
         contenido="Yo primero sembré trigo y después hice un corral, corté adobe pa un tapial, hice un quincho, corté paja... ¡La pucha, que se trabaja sin que le larguen ni un rial! Y es lo pior de aquel enriedo que si uno anda hinchando el lomo ya se le apean como plomo... ¡Quién aguanta aquel infierno!",
-        autor=user6,
+        autor=user5,
         estado=estado2,
         fecha_de_publicacion=datetime.now()
     )
