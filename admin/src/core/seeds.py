@@ -229,6 +229,7 @@ def run():
     role_tec = user.create_role(name="Técnica")
     role_ec = user.create_role(name="Ecuestre")
     role_p = user.create_role(name="Pendiente")
+    role_editor = user.create_role(name="Editor")
 
     # superadmin
     user1 = user.create_user(
@@ -407,6 +408,14 @@ def run():
         "contacto_destroy",
         "contacto_show",
         "reporte_index",
+        "contenido_index",
+        "contenido_get_info",
+        "contenido_enter_edit",
+        "contenido_save_edit",
+        "contenido_delete",
+        "contenido_enter_add",
+        "contenido_add",
+        "contenido_set_estado",
     ]
     PERMISSIONS = {
         "Administración": [
@@ -457,6 +466,14 @@ def run():
             "contacto_destroy",
             "contacto_show",
             "reporte_index",
+            "contenido_index",
+            "contenido_get_info",
+            "contenido_enter_edit",
+            "contenido_save_edit",
+            "contenido_delete",
+            "contenido_enter_add",
+            "contenido_add",
+            "contenido_set_estado",
         ],
         "Voluntariado": [],
         "Técnica": [
@@ -500,6 +517,15 @@ def run():
             "ecuestre_delete_enlace",
             "ecuestre_download_archivo",
         ],
+        "Editor": [
+            "contenido_index",
+            "contenido_get_info",
+            "contenido_enter_edit",
+            "contenido_save_edit",
+            "contenido_enter_add",
+            "contenido_add",
+            "contenido_set_estado",
+        ]
     }
 
     def find_permission_by_name(permiso):
@@ -581,11 +607,28 @@ def run():
         estado=estado1,
     )
     contenido2 = contenido.create_contenido(
-        titulo="Titulacion2",
-        copete="Compadre",
-        contenido="Contigo",
+        titulo="Dorime",
+        copete="Amigum",
+        contenido="Lorem ipsum odor amet, consectetuer adipiscing elit. Consectetur vitae pharetra sed vehicula; euismod hac. Maecenas magnis per aptent arcu feugiat leo. Morbi vivamus litora imperdiet congue adipiscing dis nisi suscipit. Sem in morbi velit metus pretium consectetur montes sed taciti. Per gravida at nam maecenas curabitur. Urna iaculis fringilla semper rutrum tortor habitant arcu sem. Natoque nec duis fermentum sem tellus. Nam facilisi ac, vel aenean non pretium ornare mi commodo. Urna integer facilisis erat aptent dui aenean. Mauris metus faucibus erat fringilla tempor mattis ridiculus tincidunt. Dolor porttitor parturient libero tempus eget in elementum auctor penatibus. Purus efficitur suspendisse erat iaculis sagittis consequat eleifend ad cras. Morbi ac odio tellus torquent vulputate a. Et nisl inceptos turpis auctor faucibus amet. Lectus dapibus potenti ligula sodales augue felis tempus odio. Lacinia a in viverra lacinia dis. Curae lobortis enim vitae penatibus ipsum; commodo tellus eros. Per congue fermentum vulputate nullam enim ad pellentesque urna tempor. Dui curae amet penatibus enim montes. At hendrerit neque felis velit pharetra condimentum sit proin nostra. Montes orci conubia orci; praesent rhoncus eget. Vehicula suspendisse curae ex purus lacus platea justo. Sem dis eleifend magna class parturient. Facilisi ad suspendisse, condimentum lacus ut aliquam morbi vulputate. Nullam parturient netus scelerisque tempus aptent; pharetra nostra.",
         autor=user4,
         estado=estado2,
+        fecha_de_publicacion=datetime.now()
+    )
+    contenido4 = contenido.create_contenido(
+        titulo="Martín fierro",
+        copete="Tipazo",
+        contenido="Yo primero sembré trigo y después hice un corral, corté adobe pa un tapial, hice un quincho, corté paja... ¡La pucha, que se trabaja sin que le larguen ni un rial! Y es lo pior de aquel enriedo que si uno anda hinchando el lomo ya se le apean como plomo... ¡Quién aguanta aquel infierno!",
+        autor=user6,
+        estado=estado2,
+        fecha_de_publicacion=datetime.now()
+    )
+    contenido5 = contenido.create_contenido(
+        titulo="Don Quijote",
+        copete="Colega",
+        contenido="En algún lugar de la Mancha, de cuyo nombre no quiero acordarme, no ha mucho tiempo que vivía un hidalgo de los de lanza en astillero, adarga antigua, rocín flaco y galgo corredor.",
+        autor=user4,
+        estado=estado2,
+        fecha_de_publicacion=datetime.now()
     )
     contenido3 = contenido.create_contenido(
         titulo="Titulacion3",
