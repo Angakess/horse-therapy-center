@@ -37,6 +37,7 @@ h3 {
   .greetings h1,
   .greetings h3 {
     text-align: left;
+
   }
 }
 </style>
