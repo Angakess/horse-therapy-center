@@ -173,7 +173,7 @@ def enter_add():
     if not check_permission(session, "contenido_enter_add"):
         return abort(403)
 
-    publicarAhora = request.args.get("publicarAhora", "false")
+    publicarAhora = request.args.get("publicarAhora")
     if publicarAhora == "True":
         publicarAhora = True
     else:
