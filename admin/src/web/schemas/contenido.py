@@ -20,4 +20,4 @@ class ContenidoSchema(Schema):
     #Me trae el nombre del estado, así no me da el estado completo y rraduce el estado o deja el original si no hay traducción
     status = fields.Function(lambda obj: estado_traducciones.get(obj.estado.name) if obj.estado else "unknown")
     
-
+contenidos_schema = ContenidoSchema(many=True)
