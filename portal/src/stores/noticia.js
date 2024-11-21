@@ -18,7 +18,7 @@ export const useNoticiaStore = defineStore("noticia", {
                 this.error = null
     
                 const response = await axios.get(`${API_BASE_URL}/api/contenido`)
-                this.noticias = response.data
+                this.noticias = response.data.data
             }
             catch(error){
                 this.error = "Error al obtener las noticias."

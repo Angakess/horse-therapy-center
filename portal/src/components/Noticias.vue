@@ -1,6 +1,6 @@
 <template>
     <div class="noticias-list">
-      <h1>Listado de Noticias</h1>
+      <h1>Noticias</h1>
   
       <div v-if="loading">
         <p>Cargando noticias...</p>
@@ -11,10 +11,11 @@
       </div>
   
       <div v-if="!loading && noticias.length">
-        <div v-for="article in noticias" :key="article.id">
-          <div class="noticias-fecha">{{ formatDate(article.fecha_de_publicacion) }}</div>
-          <h2 class="noticias-titulo">{{ article.titulo }}</h2>
-          <p class="noticias-copete">{{ article.copete }}</p>
+        <div v-for="article in noticias">
+          <h2 class="noticias-titulo">{{ article.title }}</h2>
+          <h3 class="noticias-fecha">{{ formatDate(article.published_at) }}</h3>
+          <p class="noticias-copete">{{ article.summary }}</p>
+          <router-link :to="`/contenido/${article.content}`" class="read-more">Leer más...</router-link>
         </div>
       </div>
 
@@ -25,6 +26,13 @@
     import { useNoticiaStore } from "../stores/noticia";
     import { storeToRefs } from "pinia";
     import { onMounted } from "vue";
+
+    const formatDate = (dateString) => {
+      console.log(dateString);
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      const date = new Date(dateString);
+      return date.toLocaleDateString("es-ES", options);
+    };
 
     const store = useNoticiaStore();
     const  {noticias, loading, error} = storeToRefs(store)
