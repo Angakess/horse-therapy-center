@@ -1,8 +1,3 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
   <header>
     <img alt="Cedica logo" class="logo" src="@/assets/cedica.png" width="125" height="125" />
@@ -14,12 +9,25 @@ import HelloWorld from './components/HelloWorld.vue'
         <RouterLink to="/">Inicio</RouterLink>
         <RouterLink to="/contacto">Contacto</RouterLink>
         <RouterLink to="/noticias">Noticias</RouterLink>
+
+        <div class="social-media">
+          <a href="https://www.instagram.com/cedica.equitacionparatodos/" target="_blank" rel="noopener">
+            <img alt="Instagram" class="social-logo" src="@/assets/ig.png" width="24" height="24" />
+          </a>
+          <a href="https://www.facebook.com/cedica.equitacionparatodos/?locale=es_LA" target="_blank" rel="noopener">
+            <img alt="Facebook" class="social-logo" src="@/assets/fc.png" width="24" height="24" />
+          </a>
+          <a href="https://x.com/CEDICA_" target="_blank" rel="noopener">
+            <img alt="Facebook" class="social-logo" src="@/assets/tw.png" width="24" height="24" />
+          </a>
+        </div>
       </nav>
     </div>
   </header>
 
   <RouterView />
 </template>
+
 
 <style scoped>
 header {
@@ -65,6 +73,24 @@ nav a:first-of-type {
 
 }
 
+/* Redes sociales */
+.social-media {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem; /* Espaciado entre íconos */
+}
+
+.social-logo {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.social-logo:hover {
+  opacity: 0.8; /* Efecto al pasar el cursor */
+}
+
 @media (min-width: 1024px) {
   header {
     display: flex;
@@ -91,6 +117,10 @@ nav a:first-of-type {
 
     padding: 1rem 0;
     margin-top: 1rem;
+  }
+
+  .social-media {
+    margin-top: 0.5rem;
   }
 }
 </style>
