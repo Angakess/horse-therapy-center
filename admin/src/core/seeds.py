@@ -1,4 +1,5 @@
 import random
+from src.core.contacto import create_consulta
 from core import (
     equipo,
     ecuestre,
@@ -10,6 +11,7 @@ from core import (
     trabajo,
     pago,
     cobro,
+    contenido,
 )
 from core.user import Role, RolePermission, Permission
 from datetime import datetime
@@ -220,12 +222,14 @@ def run():
         sabado=True,
         domingo=False,
     )
-    #    VALID_ROLES = {"Técnica", "Ecuestre", "Voluntariado", "Administración"}
+    #    VALID_ROLES = {"Técnica", "Ecuestre", "Voluntariado", "Administración", "Pendiente"}
 
     role_admin = user.create_role(name="Administración")
     role_voluntario = user.create_role(name="Voluntariado")
     role_tec = user.create_role(name="Técnica")
     role_ec = user.create_role(name="Ecuestre")
+    role_p = user.create_role(name="Pendiente")
+    role_editor = user.create_role(name="Editor")
 
     # superadmin
     user1 = user.create_user(
@@ -399,6 +403,19 @@ def run():
         "cobro_enter_add",
         "cobro_add",
         "cobro_set_endeudado",
+        "contacto_index",
+        "contacto_update",
+        "contacto_destroy",
+        "contacto_show",
+        "reporte_index",
+        "contenido_index",
+        "contenido_get_info",
+        "contenido_enter_edit",
+        "contenido_save_edit",
+        "contenido_delete",
+        "contenido_enter_add",
+        "contenido_add",
+        "contenido_set_estado",
     ]
     PERMISSIONS = {
         "Administración": [
@@ -444,6 +461,19 @@ def run():
             "cobro_enter_add",
             "cobro_add",
             "cobro_set_endeudado",
+            "contacto_index",
+            "contacto_update",
+            "contacto_destroy",
+            "contacto_show",
+            "reporte_index",
+            "contenido_index",
+            "contenido_get_info",
+            "contenido_enter_edit",
+            "contenido_save_edit",
+            "contenido_delete",
+            "contenido_enter_add",
+            "contenido_add",
+            "contenido_set_estado",
         ],
         "Voluntariado": [],
         "Técnica": [
@@ -466,6 +496,7 @@ def run():
             "ecuestre_download_archivo",
             "cobro_index",
             "cobro_get_info",
+            "reporte_index",
         ],
         "Ecuestre": [
             "jya_index",
@@ -486,6 +517,15 @@ def run():
             "ecuestre_delete_enlace",
             "ecuestre_download_archivo",
         ],
+        "Editor": [
+            "contenido_index",
+            "contenido_get_info",
+            "contenido_enter_edit",
+            "contenido_save_edit",
+            "contenido_enter_add",
+            "contenido_add",
+            "contenido_set_estado",
+        ]
     }
 
     def find_permission_by_name(permiso):
@@ -506,6 +546,10 @@ def run():
     medioDePago1 = cobro.create_medio_pago(name="Efectivo")
     medioDePago2 = cobro.create_medio_pago(name="Tarjeta de débito")
     medioDePago3 = cobro.create_medio_pago(name="Tarjeta de crédito")
+
+    estado1 = contenido.create_estado(name="Borrador")
+    estado2 = contenido.create_estado(name="Publicado")
+    estado3 = contenido.create_estado(name="Archivado")
 
     cobro1 = cobro.create_cobro(
         monto=100,
@@ -530,4 +574,66 @@ def run():
         medio_pago=medioDePago3,
         jya=jya1,
         equipo=equipo3,
+    )
+
+    consulta1 = create_consulta(
+        nya="Juan Perez",
+        email="juan.perez@example.com",
+        cuerpo="Consulta sobre sedes.",
+        fecha=datetime(2024, 3, 3),
+        estado="Pendiente",
+        desc="Es una consulta general.",
+    )
+    consulta2 = create_consulta(
+        nya="Mario Vargas",
+        email="mariovargas@example.com",
+        cuerpo="Consulta sobre equitación.",
+        fecha=datetime(2024, 6, 10),
+        desc="Es una consulta general.",
+    )
+    consulta3 = create_consulta(
+        nya="Carlos Lopez",
+        email="carloslopez@example.com",
+        cuerpo="Consulta sobre disponibilidad de cupos.",
+        fecha=datetime(2024, 3, 5),
+        desc="Es una consulta general.",
+    )
+
+    contenido1 = contenido.create_contenido(
+        titulo="Titulacion1",
+        copete="Copado",
+        contenido="Contento",
+        autor=user2,
+        estado=estado1,
+    )
+    contenido2 = contenido.create_contenido(
+        titulo="Dorime",
+        copete="Amigum",
+        contenido="Lorem ipsum odor amet, consectetuer adipiscing elit. Consectetur vitae pharetra sed vehicula; euismod hac. Maecenas magnis per aptent arcu feugiat leo. Morbi vivamus litora imperdiet congue adipiscing dis nisi suscipit. Sem in morbi velit metus pretium consectetur montes sed taciti. Per gravida at nam maecenas curabitur. Urna iaculis fringilla semper rutrum tortor habitant arcu sem. Natoque nec duis fermentum sem tellus. Nam facilisi ac, vel aenean non pretium ornare mi commodo. Urna integer facilisis erat aptent dui aenean. Mauris metus faucibus erat fringilla tempor mattis ridiculus tincidunt. Dolor porttitor parturient libero tempus eget in elementum auctor penatibus. Purus efficitur suspendisse erat iaculis sagittis consequat eleifend ad cras. Morbi ac odio tellus torquent vulputate a. Et nisl inceptos turpis auctor faucibus amet. Lectus dapibus potenti ligula sodales augue felis tempus odio. Lacinia a in viverra lacinia dis. Curae lobortis enim vitae penatibus ipsum; commodo tellus eros. Per congue fermentum vulputate nullam enim ad pellentesque urna tempor. Dui curae amet penatibus enim montes. At hendrerit neque felis velit pharetra condimentum sit proin nostra. Montes orci conubia orci; praesent rhoncus eget. Vehicula suspendisse curae ex purus lacus platea justo. Sem dis eleifend magna class parturient. Facilisi ad suspendisse, condimentum lacus ut aliquam morbi vulputate. Nullam parturient netus scelerisque tempus aptent; pharetra nostra.",
+        autor=user4,
+        estado=estado2,
+        fecha_de_publicacion=datetime.now()
+    )
+    contenido4 = contenido.create_contenido(
+        titulo="Martín fierro",
+        copete="Tipazo",
+        contenido="Yo primero sembré trigo y después hice un corral, corté adobe pa un tapial, hice un quincho, corté paja... ¡La pucha, que se trabaja sin que le larguen ni un rial! Y es lo pior de aquel enriedo que si uno anda hinchando el lomo ya se le apean como plomo... ¡Quién aguanta aquel infierno!",
+        autor=user5,
+        estado=estado2,
+        fecha_de_publicacion=datetime.now()
+    )
+    contenido5 = contenido.create_contenido(
+        titulo="Don Quijote",
+        copete="Colega",
+        contenido="En algún lugar de la Mancha, de cuyo nombre no quiero acordarme, no ha mucho tiempo que vivía un hidalgo de los de lanza en astillero, adarga antigua, rocín flaco y galgo corredor.",
+        autor=user4,
+        estado=estado2,
+        fecha_de_publicacion=datetime.now()
+    )
+    contenido3 = contenido.create_contenido(
+        titulo="Titulacion3",
+        copete="CopaDeVino",
+        contenido="Contumadre",
+        autor=user2,
+        estado=estado3,
     )

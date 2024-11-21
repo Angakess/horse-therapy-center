@@ -5,12 +5,19 @@
 
 {% block content %}
 
-{% include "auth/messages.html"%}
+{% include "components/messages.html"%}
 
 <main role="main" class="container">
   <div class="content-body">
     <!-- TITULO -->
+    <div class="row align-items-center justify-content-start">
+    <div class="col-auto">
     <h1>Lista de usuarios</h1>
+   </div>
+    <div class="col-auto">
+      <button title="Crear usuario" class="btn btn-outline-primary equipo-add-btn" type="button"
+              onclick="window.location.href='{{ url_for('users.register_user') }}';">Crear usuario</button>
+    </div>
 
     <!-- BARRA DE BUSQUEDA -->
     {% include "auth/searchbar_user.html"%}

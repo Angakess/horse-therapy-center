@@ -12,10 +12,18 @@ from web.controllers.ecuestre import bprint as ecuestre_bp
 from web.controllers.pago import bprint as pago_bp
 from web.controllers.jya import bprint as jya_bp
 from web.controllers.cobro import bprint as cobro_bp
+from web.controllers.reporte import bprint as reporte_bp
+from web.controllers.contacto import bprint as con_bp
+from web.api.contacto import bprint as contacto_api
+from web.controllers.contenido import bprint as contenido_bp
+from web.api.contenido import bprint as contenido_api
 from flask_session import Session
 from core.bcrypt import bcrypt
 from web.helpers.auth import is_authenticated, check_permission
 from web.storage import storage
+from oauthlib.oauth2 import WebApplicationClient
+from web.oauth import oauth
+from flask_cors import CORS
 
 session = Session()
 from core import database
@@ -23,6 +31,7 @@ from core import seeds
 
 logging.basicConfig()
 logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
+
 
 def create_app(env="development", static_folder="../../static"):
     app = Flask(__name__, static_folder=static_folder)
@@ -36,6 +45,8 @@ def create_app(env="development", static_folder="../../static"):
     database.init_app(app)
 
     storage.init_app(app)
+
+    oauth.init_app(app)
 
     @app.route("/")
     def home():
@@ -69,6 +80,12 @@ def create_app(env="development", static_folder="../../static"):
     app.register_blueprint(pago_bp)
     app.register_blueprint(jya_bp)
     app.register_blueprint(cobro_bp)
+    app.register_blueprint(reporte_bp)
+    app.register_blueprint(con_bp)
+    app.register_blueprint(contenido_bp)
+    # apis
+    app.register_blueprint(contacto_api)
+    app.register_blueprint(contenido_api)
 
     # Error handlers
     app.register_error_handler(404, handler.not_found_error)
@@ -78,10 +95,13 @@ def create_app(env="development", static_folder="../../static"):
     # Comandos personalizados
     @app.cli.command(name="reset-db")
     def reset_db():
+        print("Reset command registered")
         database.reset()
 
     @app.cli.command(name="seeds-db")
     def seeds_db():
         seeds.run()
 
+    #Enable CORS
+    CORS(app, resources={r"/api/*": {"origins": "*"}})
     return app

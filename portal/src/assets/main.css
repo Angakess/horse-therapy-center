@@ -1,0 +1,46 @@
+@import './base.css';
+
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-weight: normal;
+  background-color: hsla(0, 0%, 0%, 0.377);
+
+}
+
+a,
+.blue {
+  text-decoration: none;
+  color: #6bb4d3;
+  transition: 0.4s;
+  padding: 3px;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+    
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    display: flex;
+    place-items: center;
+    background-image: url('@/assets/background.jpg'); 
+    backdrop-filter: blur(3px);
+    background-size: cover; 
+    background-position: center;
+    background-repeat: no-repeat; 
+    color: #f3f1f1; 
+    
+  }
+
+  #app {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 2rem;
+    
+  }
+}

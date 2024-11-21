@@ -1,0 +1,94 @@
+{% extends "layout.html" %} {% block title %} Consulta {% endblock %}
+{% block head %} {{ super() }} {% endblock %} {% block content %}
+
+<div class="container">
+  {% include "components/messages.html" %}
+  <div class="row">
+    <div class="col">
+      <div class="row">
+        <div class="col">
+          <h2 class="equipo-profile-title text-secondary">
+            Información Consulta
+          </h2>
+          <ul class="list-unstyled mb-1-9">
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Nombre completo:</span
+              >{{info.nya}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Email:</span
+              >{{info.email}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Cuerpo:</span
+              >{{info.cuerpo}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Fecha de creacion:</span
+              >{{info.fecha.strftime('%d/%m/%Y') }}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Fecha de cierre:</span
+              >{{info.fecha_resuelta.strftime('%d/%m/%Y') if info.fecha_resuelta else "Ninguna"}}
+            </li>
+          </ul>
+        </div>
+        <div class="col d-flex align-items-center justify-content-end">
+          <a
+            class="btn btn-link mx-2 align-self-start"
+            href="{{url_for('contacto.index')}}"
+          >
+            ◄ Ir al listado
+            </a>
+            <button
+            class="btn btn-outline-primary mx-2 align-self-start"
+            onclick=window.location.href="{{ url_for('contacto.get_detail', id=info.id) }}";
+            >
+              Editar
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-pencil"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"
+                />
+              </svg>
+            </button>
+            
+           
+            
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h2 class="equipo-profile-title text-secondary">Info Adicional</h2>
+          <ul class="list-unstyled mb-1-9">
+            <li class="mb-2 mb-xl-3 display-28">
+              <span class="display-26 text-primary me-2 font-weight-600"
+                >Estado:</span
+              >{{info.estado}}
+            </li>
+            <li class="mb-2 mb-xl-3 display-28">
+                <span class="display-26 text-primary me-2 font-weight-600"
+                  >Descripcion:</span
+                >{{info.desc}}
+              </li>
+          </ul>
+        </div>
+       
+    
+  </div>
+</div>
+
+
+{% endblock %}
+

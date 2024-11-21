@@ -167,7 +167,7 @@ def save_edit(id):
 
         j_y_a_id = request.form.get("j_y_a_id")
         if j_y_a_id:
-            j_y_a_designado = jya.get_ecuestre(j_y_a_id)
+            j_y_a_designado = jya.get_jinete_amazona(j_y_a_id)
             if j_y_a_designado:
                 ecuestre.assing_j_y_a(ecuestre_modificar, j_y_a_designado)
             else:
@@ -178,7 +178,7 @@ def save_edit(id):
     try:
         j_y_a_id_a_borrar = request.form.get("j_y_a_id")
         if j_y_a_id_a_borrar:
-            j_y_a_designado_borrar = jya.get_ecuestre(j_y_a_id_a_borrar)
+            j_y_a_designado_borrar = jya.get_jinete_amazona(j_y_a_id_a_borrar)
             if j_y_a_designado_borrar:
                 ecuestre.unassing_j_y_a(ecuestre_modificar, j_y_a_designado_borrar)
             else:
@@ -300,7 +300,7 @@ def add_ecuestre():
 
         j_y_a_id = request.form.get("j_y_a")
         if j_y_a_id:
-            j_y_a_designado = jya.get_ecuestre(j_y_a_id)
+            j_y_a_designado = jya.get_jinete_amazona(j_y_a_id)
             if j_y_a_designado:
                 ecuestre.assing_j_y_a(new_ecuestre, j_y_a_designado)
 
