@@ -17,11 +17,6 @@ export const useContactoStore = defineStore("contacto", {
         this.loading = true;
         this.error = null;
 
-        const captchaResponse = grecaptcha.getResponse();
-        if (!captchaResponse.lenght){
-          throw new Error ("Captcha no resuelto")
-        }
-
         const response = await axios.post(`${API_BASE_URL}/api/contacto/messages`,formData);
         // Agregar el nuevo mensaje a la lista
         this.contacto.push(response.data);

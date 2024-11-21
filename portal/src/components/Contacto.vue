@@ -4,7 +4,7 @@
     <form @submit.prevent="sendMessage">
       <div>
         <label for="nombre">Nombre completo:</label>
-        <input type="text" id="nombre" v-model="formData.nombre" required />
+        <input type="text" id="nombre" v-model="formData.nya" required />
       </div>
       <div>
         <label for="email">Correo electrónico:</label>
@@ -12,31 +12,29 @@
       </div>
       <div>
         <label for="mensaje">Mensaje:</label>
-        <textarea id="mensaje" v-model="formData.mensaje" required></textarea>
+        <textarea id="cuerpo" v-model="formData.cuerpo" required></textarea>
       </div>
 
       <div id="recaptcha-container" class="g-recaptcha" style="margin: 10px 0;"></div>
 
       <button type="submit" :disabled="contactoStore.loading">Enviar</button>
       <p v-if="contactoStore.error" class="error">{{ contactoStore.error }}</p>
-      <p v-if="success" class="success">{{ success }}</p>
     </form>
   </div>
 </template>
 
 <script>
-import { reactive, ref, onMounted } from "vue";
+import { reactive, onMounted } from "vue";
 import { useContactoStore } from "../stores/contacto";
 
 export default {
   setup() {
     const contactoStore = useContactoStore();
     const formData = reactive({
-      nombre: "",
+      nya: "",
       email: "",
-      mensaje: "",
+      cuerpo: "",
     });
-    const success = ref("");
 
     const renderCaptcha = () => {
       if (typeof grecaptcha !== "undefined") {
@@ -46,7 +44,7 @@ export default {
           });
         }
       } else {
-        setTimeout(renderCaptcha, 500); // Reintentar si grecaptcha aún no está disponible
+        setTimeout(renderCaptcha, 500);
       }
     };
 
@@ -69,28 +67,23 @@ export default {
     });
 
     const sendMessage = async () => {
+
       const captchaResponse = grecaptcha.getResponse();
       if (!captchaResponse || captchaResponse.length === 0) {
         contactoStore.error = "Captcha no resuelto.";
         return;
       }
 
-      try {
-        await contactoStore.sendMensaje({
-          ...formData,
-          captchaResponse,
-        });
-        success.value = "Mensaje enviado exitosamente.";
-        formData.nombre = "";
-        formData.email = "";
-        formData.mensaje = "";
-        grecaptcha.reset();
-      } catch (error) {
-        success.value = "";
-      }
+      await contactoStore.sendMensaje({
+        ...formData,
+      });
+      formData.nya = "";
+      formData.email = "";
+      formData.cuerpo = "";
+      grecaptcha.reset();
     };
 
-    return { contactoStore, formData, success, sendMessage };
+    return { contactoStore, formData, sendMessage};
   },
 };
 </script>
