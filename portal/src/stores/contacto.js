@@ -18,11 +18,8 @@ export const useContactoStore = defineStore("contacto", {
         this.error = null;
 
         const captchaResponse = grecaptcha.getResponse();
-
-        if (captchaResponse.lenght === 0){
-          this.error = "Captcha no resuelto";
-          this.loading = false;
-          return;
+        if (!captchaResponse.lenght){
+          throw new Error ("Captcha no resuelto")
         }
 
         const response = await axios.post(`${API_BASE_URL}/api/contacto/messages`,formData);

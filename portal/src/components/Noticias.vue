@@ -1,5 +1,5 @@
 <template>
-    <div class="news-list">
+    <div class="noticias-list">
       <h1>Listado de Noticias</h1>
   
       <div v-if="loading">
@@ -12,15 +12,12 @@
   
       <div v-if="!loading && noticias.length">
         <div v-for="article in noticias" :key="article.id">
-          <div class="news-date">{{ formatDate(article.fecha_de_publicacion) }}</div>
-          <h2 class="news-title">{{ article.titulo }}</h2>
-          <p class="news-summary">{{ article.copete }}</p>
+          <div class="noticias-fecha">{{ formatDate(article.fecha_de_publicacion) }}</div>
+          <h2 class="noticias-titulo">{{ article.titulo }}</h2>
+          <p class="noticias-copete">{{ article.copete }}</p>
         </div>
       </div>
-  
-      <div v-if="error" class="error">
-        {{ error }}
-      </div>
+
     </div>
   </template>
   

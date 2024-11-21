@@ -15,7 +15,7 @@
         <textarea id="mensaje" v-model="formData.mensaje" required></textarea>
       </div>
 
-      <div id="recaptcha-container" class="g-recaptcha" data-sitekey="6LewOIUqAAAAAManxF2SdXH5Aqw-6gdARGvJ4zVv" style="margin: 10px 0;"></div>
+      <div id="recaptcha-container" class="g-recaptcha" style="margin: 10px 0;"></div>
 
       <button type="submit" :disabled="contactoStore.loading">Enviar</button>
       <p v-if="contactoStore.error" class="error">{{ contactoStore.error }}</p>
@@ -25,66 +25,77 @@
 </template>
 
 <script>
-import { useContactoStore } from "@/stores/contacto";
+import { reactive, ref, onMounted } from "vue";
+import { useContactoStore } from "../stores/contacto";
 
 export default {
-  data() {
-    return {
-      formData: {
-        nombre: "",
-        email: "",
-        mensaje: "",
-        captcha: "",
-      },
-      success: null,
-    };
-  },
   setup() {
     const contactoStore = useContactoStore();
-    return { contactoStore };
-  },
-  mounted() {
-    this.loadRecaptchaScript();
-    this.reloadCaptcha();
-  },
-  methods: {
-      loadRecaptchaScript() {
-      if (!document.getElementById('recaptcha-script')) {
-        const script = document.createElement('script');
-        script.id = 'recaptcha-script';
-        script.src = 'https://www.google.com/recaptcha/api.js';
+    const formData = reactive({
+      nombre: "",
+      email: "",
+      mensaje: "",
+    });
+    const success = ref("");
+
+    const renderCaptcha = () => {
+      if (typeof grecaptcha !== "undefined") {
+        if (document.getElementById("recaptcha-container").children.length === 0) {
+          grecaptcha.render("recaptcha-container", {
+            sitekey: "6LewOIUqAAAAAManxF2SdXH5Aqw-6gdARGvJ4zVv",
+          });
+        }
+      } else {
+        setTimeout(renderCaptcha, 500); // Reintentar si grecaptcha aún no está disponible
+      }
+    };
+
+    const loadRecaptchaScript = () => {
+      if (!document.getElementById("recaptcha-script")) {
+        const script = document.createElement("script");
+        script.id = "recaptcha-script";
+        script.src = "https://www.google.com/recaptcha/api.js";
         script.async = true;
         script.defer = true;
+        script.onload = renderCaptcha();
         document.head.appendChild(script);
+      } else {
+        renderCaptcha();
       }
-    },
-    async sendMessage() {
-      this.success = null;
+    };
+
+    onMounted(() => {
+      loadRecaptchaScript();
+    });
+
+    const sendMessage = async () => {
+      const captchaResponse = grecaptcha.getResponse();
+      if (!captchaResponse || captchaResponse.length === 0) {
+        contactoStore.error = "Captcha no resuelto.";
+        return;
+      }
+
       try {
-        await this.contactoStore.sendMensaje(this.formData);
-        this.success = "Mensaje enviado con éxito.";
-        // Reiniciar formulario
-        this.formData = {
-          nombre: "",
-          email: "",
-          mensaje: "",
-          captcha: "",
-        };
-      } catch (error) {
-        // El error se gestiona desde el store
-      }
-    },
-    reloadCaptcha() {
-      if (typeof grecaptcha !== 'undefined') {
-        grecaptcha.reset();
-        grecaptcha.render('recaptcha-container', {
-          sitekey: '6LewOIUqAAAAAManxF2SdXH5Aqw-6gdARGvJ4zVv'
+        await contactoStore.sendMensaje({
+          ...formData,
+          captchaResponse,
         });
+        success.value = "Mensaje enviado exitosamente.";
+        formData.nombre = "";
+        formData.email = "";
+        formData.mensaje = "";
+        grecaptcha.reset();
+      } catch (error) {
+        success.value = "";
       }
-    },
+    };
+
+    return { contactoStore, formData, success, sendMessage };
   },
 };
 </script>
+
+
 
 <style>
   input[type="text"],
