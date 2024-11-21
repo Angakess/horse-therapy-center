@@ -1,94 +1,115 @@
 <template>
-    <div class="noticias-list">
-      <h1>Noticias</h1>
-  
-      <div v-if="loading">
-        <p>Cargando noticias...</p>
-      </div>
-  
-      <div v-if="!loading && !noticias.length">
-        <p>No hay noticias disponibles en este momento.</p>
-      </div>
-  
-      <div v-if="!loading && noticias.length">
-        <div v-for="article in noticias">
-          <h2 class="noticias-titulo">{{ article.title }}</h2>
-          <h3 class="noticias-fecha">{{ formatDate(article.published_at) }}</h3>
-          <p class="noticias-copete">{{ article.summary }}</p>
-          <router-link :to="`/contenido/${article.content}`" class="read-more">Leer más...</router-link>
-        </div>
-      </div>
+  <div class="noticias-list">
+    <h1>Noticias</h1>
 
+    <div v-if="loading">
+      <p>Cargando noticias...</p>
     </div>
-  </template>
-  
-  <script setup>
-    import { useNoticiaStore } from "../stores/noticia";
-    import { storeToRefs } from "pinia";
-    import { onMounted } from "vue";
 
-    const formatDate = (dateString) => {
-      console.log(dateString);
-      const options = { year: "numeric", month: "long", day: "numeric" };
-      const date = new Date(dateString);
-      return date.toLocaleDateString("es-ES", options);
-    };
+    <div v-if="!loading && !noticias.length">
+      <p>No hay noticias disponibles en este momento.</p>
+    </div>
 
-    const store = useNoticiaStore();
-    const  {noticias, loading, error} = storeToRefs(store)
+    <div v-if="!loading && noticias.length">
+      <div v-for="(article, index) in noticias" :key="article.id" class="noticia">
+        <h2 class="noticias-titulo">{{ article.title }}</h2>
+        <h3 class="noticias-fecha">{{ formatDate(article.published_at) }}</h3>
+        <p class="noticias-copete">{{ article.summary }}</p>
 
-    const fetchNoticias = async () => {
-        await store.fetchNoticias();
-    };
+        <div v-if="isExpanded === index" class="noticias-contenido">
+          <p>{{ article.content }}</p>
+        </div>
 
-    onMounted(() => {
-        if (!noticias.value.length) {
-            fetchNoticias();
-        }
-    });
+        <!-- Botón para alternar la visibilidad del contenido completo -->
+        <button @click="toggleContent(index)" class="read-more-btn">
+          {{ isExpanded === index ? "Mostrar menos" : "Leer más" }}
+        </button>
 
-  </script>
-  
-  <style scoped>
-  .news-list {
-    padding: 20px;
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { useNoticiaStore } from "../stores/noticia";
+import { storeToRefs } from "pinia";
+import { onMounted, ref } from "vue";
+
+const isExpanded = ref(null);
+
+const formatDate = (dateString) => {
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  const date = new Date(dateString);
+  return date.toLocaleDateString("es-ES", options);
+};
+
+const store = useNoticiaStore();
+const { noticias, loading, error } = storeToRefs(store);
+
+const fetchNoticias = async () => {
+  await store.fetchNoticias();
+};
+
+// Función para alternar el contenido expandido de cada noticia
+const toggleContent = (index) => {
+  // Si ya está expandido, lo colapsamos. Si no, expandimos la nueva noticia.
+  isExpanded.value = isExpanded.value === index ? null : index;
+};
+
+onMounted(() => {
+  if (!noticias.value.length) {
+    fetchNoticias();
   }
-  
-  .news-item {
-    margin-bottom: 20px;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 10px;
-  }
-  
-  .news-date {
-    font-size: 0.9em;
-    color: #777;
-  }
-  
-  .news-title {
-    font-size: 1.5em;
-    margin: 10px 0;
-  }
-  
-  .news-summary {
-    font-size: 1em;
-    color: #444;
-  }
-  
-  .read-more {
-    display: inline-block;
-    margin-top: 10px;
-    font-weight: bold;
-    color: #007bff;
-  }
-  
-  .read-more:hover {
-    text-decoration: underline;
-  }
-  
-  .error {
-    color: red;
-    font-weight: bold;
-  }
-  </style>
-  
+});
+</script>
+
+<style scoped>
+.news-list {
+  padding: 20px;
+}
+
+.news-item {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+
+.news-date {
+  font-size: 0.9em;
+  color: #777;
+}
+
+.news-title {
+  font-size: 1.5em;
+  margin: 10px 0;
+}
+
+.news-summary {
+  font-size: 1em;
+  color: #444;
+}
+
+.read-more-btn {
+  display: inline-block;
+  margin-top: 10px;
+  font-weight: bold;
+  color: #007bff;
+  z-index: 1;
+  position: relative;
+}
+
+.read-more-btn:hover {
+  text-decoration: underline;
+}
+
+.noticias-contenido {
+  margin-top: 10px;
+  position: relative;
+  z-index: 2;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+}
+</style>
