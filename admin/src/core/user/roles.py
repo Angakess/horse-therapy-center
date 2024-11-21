@@ -12,7 +12,7 @@ class Role(db.Model):
     def __repr__(self):
         return f'<Role #{self.id} name="{self.name}">'
 
-    VALID_ROLES = {"Técnica", "Ecuestre", "Voluntariado", "Administración", "Pendiente"}
+    VALID_ROLES = {"Técnica", "Ecuestre", "Voluntariado", "Administración", "Pendiente", "Editor"}
 
     @staticmethod
     def validate_role_name(name):
