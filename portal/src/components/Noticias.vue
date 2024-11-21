@@ -89,18 +89,16 @@ onMounted(() => {
   color: #444;
 }
 
-.read-more-btn {
-  display: inline-block;
-  margin-top: 10px;
-  font-weight: bold;
-  color: #007bff;
-  z-index: 1;
-  position: relative;
-}
+button {
+    background: #0b6dff;
+    border: 0;
+    padding: 10px 20px;
+    margin-top: 20px;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+  }
 
-.read-more-btn:hover {
-  text-decoration: underline;
-}
 
 .noticias-contenido {
   margin-top: 10px;
