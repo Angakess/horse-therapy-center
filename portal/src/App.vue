@@ -33,7 +33,6 @@
 header {
   line-height: 1.5;
   max-height: 100vh;
-  background: ff0062;
 
 }
 
@@ -47,7 +46,9 @@ nav {
   width: 100%;
   font-size: 12px;
   text-align: center;
+  display: center;
   margin-top: 2rem;
+  
 
 }
 
@@ -78,7 +79,7 @@ nav a:first-of-type {
   margin-top: 1rem;
   display: flex;
   justify-content: center;
-  gap: 1rem; /* Espaciado entre íconos */
+  gap: 1rem; 
 }
 
 .social-logo {
@@ -110,8 +111,8 @@ nav a:first-of-type {
   }
 
   nav {
-    text-align: left;
-    margin-left: -1rem;
+    text-align: center;
+    margin-left: 1rem;
     font-size: 1rem;
 
 
@@ -123,4 +124,5 @@ nav a:first-of-type {
     margin-top: 0.5rem;
   }
 }
+
 </style>
