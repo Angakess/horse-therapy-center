@@ -4,15 +4,15 @@
     <form @submit.prevent="sendMessage">
       <div>
         <label for="nombre">Nombre completo:</label>
-        <input type="text" id="nombre" v-model="formData.nya" required />
+        <input type="text" id="nombre" v-model="formData.nya"/>
       </div>
       <div>
         <label for="email">Correo electrónico:</label>
-        <input type="email" id="email" v-model="formData.email" required />
+        <input type="email" id="email" v-model="formData.email" />
       </div>
       <div>
         <label for="mensaje">Mensaje:</label>
-        <textarea id="cuerpo" v-model="formData.cuerpo" required></textarea>
+        <textarea id="cuerpo" v-model="formData.cuerpo"></textarea>
       </div>
 
       <div id="recaptcha-container" class="g-recaptcha" style="margin: 10px 0;"></div>
@@ -66,7 +66,27 @@ export default {
       loadRecaptchaScript();
     });
 
+    const checkForm = () => {
+      if (!formData.nya.length){
+        contactoStore.error = "Nombre y apellido no ingresado.";
+        return false;
+      }
+      if (!formData.email.length){
+        contactoStore.error = "Correo no ingresado.";
+        return false;
+      }
+      if (!formData.cuerpo.length){
+        contactoStore.error = "Cuerpo del mensaje vacío.";
+        return false;
+      }
+      return true;
+    }
+
     const sendMessage = async () => {
+
+      if (!checkForm()){
+        return;
+      }
 
       const captchaResponse = grecaptcha.getResponse();
       if (!captchaResponse || captchaResponse.length === 0) {
