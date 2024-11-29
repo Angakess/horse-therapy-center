@@ -370,3 +370,9 @@ def count_discapacidad(discapacidad):
     ).count()
 
     return cant
+
+
+def list_jinete_amazona_deuda():
+    jinetes_amazonas = JinetesAmazonas.query.filter(JinetesAmazonas.tiene_deuda).all()
+
+    return jinetes_amazonas
