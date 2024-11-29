@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+        <button  class="btn btn-outline-yellow" {%if data_deudas|length == 0 %}disabled{%endif%} onclick="window.location.href='{{url_for("reporte.download_adeudados")}}'">Descargar CSV</button>
+    </div>
+  </div>
+  <div class="row">
+    {% if data_deudas|length == 0 %}
+    <div class="col justify-content-center">
+        <p class="display-20 me-2 font-weight-600 text-center">No hay personas que adeuden pagos</p>
+    </div>    
+    {% else %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Nombre</th>
+          <th scope="col">Teléfono</th>
+          <th scope="col">Domicilio</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for adeudado in data_deudas %}
+        <tr>
+          <td>{{adeudado.nombre}} {{adeudado.apellido}}</td>
+          <td>{{adeudado.telefono_actual}}</td>
+          <td>{{adeudado.domicilio_actual}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+  </div>
+</div>

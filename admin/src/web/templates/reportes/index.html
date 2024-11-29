@@ -1,5 +1,5 @@
-{% extends "layout.html" %} {% block title %} Gráficos y reportes {% endblock %} {% block head
-%} {{ super() }}
+{% extends "layout.html" %} {% block title %} Gráficos y reportes {% endblock %}
+{% block head %} {{ super() }}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{ url_for('static', filename='scripts/graficos.js') }}"></script>
 {% endblock %} {% block content %}
@@ -195,6 +195,68 @@
       <div class="collapse mb-3" id="reporteAntiguedad">
         <div class="card card-body gap-1">
           {% include 'reportes/components/reporteAntiguedad.html'%}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <p class="gap-1">
+        <button
+          class="btn btn-outline-lblue btn-lg w-100 d-flex align-items-center justify-content-between"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#reporteDeudas"
+          aria-expanded="false"
+          aria-controls="reporteDeudas"
+        >
+          <span> Personas que adeudan pagos </span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-caret-down-fill"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"
+            />
+          </svg>
+        </button>
+      </p>
+      <div class="collapse mb-3" id="reporteDeudas">
+        <div class="card card-body gap-1">
+          {% include 'reportes/components/reporteDeudas.html'%}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <p class="gap-1">
+        <button
+          class="btn btn-outline-lblue btn-lg w-100 d-flex align-items-center justify-content-between"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#reportePropuestas"
+          aria-expanded="false"
+          aria-controls="reportePropuestas"
+        >
+          <span> Ranking de las propuestas de trabajos más solicitadas  </span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-caret-down-fill"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"
+            />
+          </svg>
+        </button>
+      </p>
+      <div class="collapse mb-3" id="reportePropuestas">
+        <div class="card card-body gap-1">
+          {% include 'reportes/components/reportePropuestas.html'%}
         </div>
       </div>
     </div>
