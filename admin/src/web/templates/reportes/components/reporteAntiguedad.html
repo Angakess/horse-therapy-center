@@ -1,5 +1,10 @@
 <div class="container">
   <div class="row">
+  <div class="col mb-2">
+        <button  class="btn btn-outline-yellow" {%if data_antiguedad|length == 0 %}disabled{%endif%} onclick="window.location.href='{{url_for("reporte.download_antiguedad")}}'">Descargar CSV</button>
+    </div>
+  </div>
+  <div class="row">
     <ul class="list-unstyled">
       {% for empleado in data_antiguedad %}
       <li class="mb-3">

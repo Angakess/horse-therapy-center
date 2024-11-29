@@ -166,3 +166,9 @@ cython_debug/
 
 flask_session/
 .DS_store
+
+
+ranking-propuestas.csv
+adeudados.csv
+antiguedad-empleados.csv
+historial-caballos.csv

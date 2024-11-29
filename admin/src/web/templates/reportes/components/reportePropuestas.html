@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+        <button  class="btn btn-outline-yellow" onclick="window.location.href='{{url_for("reporte.download_propuestas")}}'">Descargar CSV</button>
+    </div>
+  </div>
+  <div class="row">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Ranking</th>
+          <th scope="col">Propuesta</th>
+          <th scope="col">Cantidad de jinetes/amazonas</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for prop in data_propuestas|sort(attribute='cant', reverse=True) %}
+        <tr>
+          <td>{{loop.index}}</td>
+          <td>{{prop.nombre}}</td>
+          <td>{{prop.cant}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>

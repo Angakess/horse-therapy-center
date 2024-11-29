@@ -1,13 +1,23 @@
 from datetime import datetime
 import math
-from flask import flash, redirect, render_template, request, url_for
+from flask import (
+    flash,
+    redirect,
+    render_template,
+    request,
+    url_for,
+    send_file,
+    current_app,
+)
 from flask import session, abort
 from core import jya
 from core import cobro
 from core import equipo
 from core import ecuestre
+from core import trabajo
 from flask import Blueprint
 from web.helpers.auth import check_permission, is_authenticated
+import os
 
 bprint = Blueprint("reporte", __name__, url_prefix="/reporte")
 
@@ -26,6 +36,8 @@ def index():
     data_responsables = get_data_responsables()
     data_historial = get_data_historial()
     data_antiguedad = get_data_antiguedad()
+    data_deudas = get_data_deudas()
+    data_propuestas = get_data_propuestas()
 
     return render_template(
         "reportes/index.html",
@@ -35,6 +47,8 @@ def index():
         data_responsables=data_responsables,
         data_historial=data_historial,
         data_antiguedad=data_antiguedad,
+        data_deudas=data_deudas,
+        data_propuestas=data_propuestas,
     )
 
 
@@ -128,3 +142,100 @@ def get_data_antiguedad():
         }
         for e in empleados
     ]
+
+
+def get_data_deudas():
+    adeudados = jya.list_jinete_amazona_deuda()
+
+    return adeudados
+
+
+def get_data_propuestas():
+    ranking_propuestas = [
+        {"nombre": "Hipoterapia", "cant": 0},
+        {"nombre": "Monta terapéutica", "cant": 0},
+        {"nombre": "Deporte Ecuestre Adaptado", "cant": 0},
+        {"nombre": "Actividades recreativas", "cant": 0},
+        {"nombre": "Equitación", "cant": 0},
+    ]
+
+    for prop in ranking_propuestas:
+        prop["cant"] = trabajo.get_propuestas_cant_solicitadas(prop["nombre"])
+
+    return ranking_propuestas
+
+
+@bprint.get("/download-adeudados")
+def download_adeudados():
+    adeudados = jya.list_jinete_amazona_deuda()
+
+    if len(adeudados) == 0:
+        return "No data to download."
+
+    csv_data = "Nombre,Teléfono,Domicilio\n"
+    for adeudado in adeudados:
+        csv_data += f'"{adeudado.nombre} {adeudado.apellido}","{adeudado.telefono_actual}","{adeudado.domicilio_actual}"\n'
+
+    file_path = os.path.join(current_app.static_folder, "adeudados.csv")
+    with open(file_path, "w") as csv_file:
+        csv_file.write(csv_data)
+
+    return send_file(file_path, as_attachment=True, download_name="adeudados.csv")
+
+
+@bprint.get("/download-propuestas")
+def download_propuestas():
+    ranking_propuestas = get_data_propuestas()
+
+    csv_data = "Ranking,Propuesta,Cantidad de jinetes/amazonas\n"
+
+    ranking_propuestas.sort(key=lambda x: x["cant"], reverse=True)
+
+    for index, prop in enumerate(ranking_propuestas, start=1):
+        csv_data += f'{index},"{prop["nombre"]}",{prop["cant"]}\n'
+
+    file_path = os.path.join(current_app.static_folder, "ranking-propuestas.csv")
+    with open(file_path, "w") as csv_file:
+        csv_file.write(csv_data)
+
+    return send_file(
+        file_path, as_attachment=True, download_name="ranking-propuestas.csv"
+    )
+
+
+@bprint.get("/download-historial")
+def download_historial():
+    caballos = get_data_historial()
+
+    csv_data = "Nombre,Fecha,Sede,Tipo de adquisición\n"
+
+    caballos.sort(key=lambda c: c.fecha_ingreso, reverse=True)
+
+    for caballo in caballos:
+        csv_data += f'"{caballo.nombre}","{caballo.fecha_ingreso.strftime('%d/%m/%Y')}","{caballo.sede_asignada}","{caballo.tipo_adquisicion}"\n'
+
+    file_path = os.path.join(current_app.static_folder, "historial-caballos.csv")
+    with open(file_path, "w") as csv_file:
+        csv_file.write(csv_data)
+
+    return send_file(
+        file_path, as_attachment=True, download_name="historial-caballos.csv"
+    )
+
+
+@bprint.get("/download-antiguedad")
+def download_antiguedad():
+    empleados = get_data_antiguedad()
+
+    csv_data = "Nombre,Cantidad de años,Fecha de ingreso\n"
+
+    for empleado in empleados:
+        csv_data += f'"{empleado["info"].nombre} {empleado["info"].apellido}",{empleado["antiguedad"]},"{empleado["info"].fecha_inicio.strftime("%d/%m/%Y")}"\n'
+
+    file_path = os.path.join(current_app.static_folder, "antiguedad-empleados.csv")
+    with open(file_path, "w") as csv_file:
+        csv_file.write(csv_data)
+
+    return send_file(
+        file_path, as_attachment=True, download_name="aniguedad-empleados.csv"
+    )

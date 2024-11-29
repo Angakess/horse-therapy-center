@@ -1,5 +1,12 @@
 <div class="container">
   <div class="row">
+  <div class="col">
+        <button  class="btn btn-outline-yellow" {%if data_historial|length == 0 %}disabled{%endif%} onclick="window.location.href='{{url_for("reporte.download_historial")}}'">Descargar CSV</button>
+    </div>
+  </div>
+
+  <div class="row">
+    
     <div class="col-md-6">
       <ul class="timeline">
         {% for caballo in data_historial %}
