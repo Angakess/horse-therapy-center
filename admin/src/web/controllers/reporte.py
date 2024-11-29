@@ -176,7 +176,8 @@ def download_adeudados():
     for adeudado in adeudados:
         csv_data += f'"{adeudado.nombre} {adeudado.apellido}","{adeudado.telefono_actual}","{adeudado.domicilio_actual}"\n'
 
-    file_path = os.path.join(current_app.static_folder, "adeudados.csv")
+    base_path = os.path.abspath(os.path.join(current_app.root_path, "../../"))
+    file_path = os.path.join(base_path, "static", "adeudados.csv")
     with open(file_path, "w") as csv_file:
         csv_file.write(csv_data)
 
@@ -194,7 +195,8 @@ def download_propuestas():
     for index, prop in enumerate(ranking_propuestas, start=1):
         csv_data += f'{index},"{prop["nombre"]}",{prop["cant"]}\n'
 
-    file_path = os.path.join(current_app.static_folder, "ranking-propuestas.csv")
+    base_path = os.path.abspath(os.path.join(current_app.root_path, "../../"))
+    file_path = os.path.join(base_path, "static", "ranking-propuestas.csv")
     with open(file_path, "w") as csv_file:
         csv_file.write(csv_data)
 
@@ -214,7 +216,9 @@ def download_historial():
     for caballo in caballos:
         csv_data += f'"{caballo.nombre}","{caballo.fecha_ingreso.strftime('%d/%m/%Y')}","{caballo.sede_asignada}","{caballo.tipo_adquisicion}"\n'
 
-    file_path = os.path.join(current_app.static_folder, "historial-caballos.csv")
+    base_path = os.path.abspath(os.path.join(current_app.root_path, "../../"))
+    file_path = os.path.join(base_path, "static", "historial-caballos.csv")
+
     with open(file_path, "w") as csv_file:
         csv_file.write(csv_data)
 
@@ -232,7 +236,8 @@ def download_antiguedad():
     for empleado in empleados:
         csv_data += f'"{empleado["info"].nombre} {empleado["info"].apellido}",{empleado["antiguedad"]},"{empleado["info"].fecha_inicio.strftime("%d/%m/%Y")}"\n'
 
-    file_path = os.path.join(current_app.static_folder, "antiguedad-empleados.csv")
+    base_path = os.path.abspath(os.path.join(current_app.root_path, "../../"))
+    file_path = os.path.join(base_path, "static", "antiguedad-empleados.csv")
     with open(file_path, "w") as csv_file:
         csv_file.write(csv_data)
 
