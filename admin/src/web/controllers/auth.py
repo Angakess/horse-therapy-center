@@ -101,9 +101,12 @@ def google_login_callback():
 
 
 def get_google_request_uri():
+    # Obtener la configuración del proveedor de Google
+    # "https://accounts.google.com/o/oauth2/v2/auth"
     google_provider_cfg = get_google_provider_cfg()
     authorization_endpoint = google_provider_cfg["authorization_endpoint"]
 
+    # Generar la URL de autorización
     return oauth.client.prepare_request_uri(
         authorization_endpoint,
         redirect_uri=request.base_url + "/callback",
@@ -112,11 +115,15 @@ def get_google_request_uri():
 
 
 def get_google_user_info():
+    # Obtener el código de autorización
     code = request.args.get("code")
 
+    # Obtener la configuración del proveedor de Google
+    # "https://oauth2.googleapis.com/token"
     google_provider_cfg = get_google_provider_cfg()
     token_endpoint = google_provider_cfg["token_endpoint"]
 
+    # Preparar la solicitud de intercambio de tokens
     token_url, headers, body = oauth.client.prepare_token_request(
         token_endpoint,
         authorization_response=request.url,
@@ -124,6 +131,7 @@ def get_google_user_info():
         code=code,
     )
 
+    # Realizar la solicitud de token
     token_response = requests.post(
         token_url,
         headers=headers,
@@ -131,12 +139,18 @@ def get_google_user_info():
         auth=(oauth.google_client_id, oauth.google_client_secret),
     )
 
+    # Parsear la respuesta del token
     oauth.client.parse_request_body_response(json.dumps(token_response.json()))
 
+    # Obtener el endpoint de información del usuario
+    # "https://openidconnect.googleapis.com/v1/userinfo"
     userinfo_endpoint = google_provider_cfg["userinfo_endpoint"]
     uri, headers, body = oauth.client.add_token(userinfo_endpoint)
+
+    # Solicitar la información del usuario
     userinfo_response = requests.get(uri, headers=headers, data=body)
 
+    # Procesar la respuesta
     if userinfo_response.json().get("email_verified"):
         return {
             "user_email": userinfo_response.json()["email"],
