@@ -22,7 +22,7 @@ This is a user-facing web application built with Vue.js, allowing clients and vi
 - **Backend (Admin Panel):** Python, Flask, SQLAlchemy, Marshmallow
 - **Frontend (Admin Panel):** Bootstrap, Chart.js
 - **Client-Side App:** Vue.js, JavaScript
-- **Database:** SQLAlchemy
+- **Database:** PostgreSQL
 
 ## Contribution
 * Agustina Cabello
